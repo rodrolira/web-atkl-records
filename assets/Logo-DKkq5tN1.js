@@ -1,0 +1,1 @@
+import{j as m}from"./main-BOLHcn9O.js";function e(){return m.jsx("a",{className:"rtl:space-x-reverse max-[320px]:mx-0 mx-24 md:mx-2 md:block sm:hidden sm:mx-auto",href:"/",children:m.jsx("img",{alt:"ATKL Records logo",className:"invert h-full",src:"/img/logo.png"})})}export{e as default};

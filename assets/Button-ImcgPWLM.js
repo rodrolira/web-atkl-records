@@ -1,0 +1,1 @@
+import{j as e}from"./main-BOLHcn9O.js";const o=({href:t,onClick:r,children:n,className:s})=>e.jsx("div",{className:"h-full",children:e.jsx("a",{href:t,target:"_blank",rel:"noopener noreferrer",onClick:r,className:`h-full text-white font-medium rounded-lg text-sm inline-flex items-center ${s}`,children:n})});export{o as B};
