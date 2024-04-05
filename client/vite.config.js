@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     flowbite()
   ],
-  base: "/web-atkl-records/",
+
   css: {
     postcss: {
       plugins: [
@@ -24,11 +24,8 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:5173',
         changeOrigin: true,
-      },
-      '/': {
-        target: 'http://localhost:5173',
-        changeOrigin: true,
-      },
+      }
+
     },
   },
   build: {
