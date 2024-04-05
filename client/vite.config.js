@@ -9,6 +9,7 @@ export default defineConfig({
     react(),
     flowbite()
   ],
+  base: "/web-atkl-records/",
   css: {
     postcss: {
       plugins: [
