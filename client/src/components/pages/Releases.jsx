@@ -1,10 +1,12 @@
-import React from 'react'
-import { useLanguage } from '../../contexts/LanguageContext' // Importa el hook useLanguage
-import ReleaseSection from '../organisms/ReleaseSection'
+import React, { Suspense } from 'react' // Importa React y Suspense
+import { useLanguage } from '../../contexts/LanguageContext'
 import Title from '../atoms/Title'
 
+// Importa ReleaseSection usando importación dinámica
+const ReleaseSection = React.lazy(() => import('../organisms/ReleaseSection'))
+
 function Releases () {
-  const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
+  const { language } = useLanguage()
 
   const releasesData = [
     {
@@ -31,7 +33,10 @@ function Releases () {
   return (
     <div className='inline-block m-32' id='releases'>
       <Title> {language === 'en' ? 'Releases' : 'Lanzamientos'}</Title>
-      <ReleaseSection releasesData={releasesData} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ReleaseSection releasesData={releasesData} />{' '}
+        {/* Renderiza el componente ReleaseSection */}
+      </Suspense>
     </div>
   )
 }

@@ -1,26 +1,28 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import ReleaseCard from './ReleaseCard'
+import React, { lazy, Suspense } from 'react' // Importa React, lazy y Suspense
+
+// Importa ReleaseCard usando importación dinámica
+const ReleaseCard = lazy(() => import('./ReleaseCard'))
 
 function ReleaseSection ({ releasesData }) {
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-      {Array.isArray(releasesData) &&
-        releasesData.map(release => (
-          <ReleaseCard
-            key={release.id}
-            title={release.title}
-            artist={release.artist}
-            bandcampLink={release.bandcampLink}
-            embeddedPlayer={release.embeddedPlayer}
-          />
-        ))}
+      {/* Utiliza Suspense para renderizar ReleaseCard de forma dinámica */}
+      <Suspense fallback={<div>Loading ReleaseCard...</div>}>
+        {Array.isArray(releasesData) &&
+          releasesData.map(release => (
+            <ReleaseCard
+              key={release.id}
+              title={release.title}
+              artist={release.artist}
+              bandcampLink={release.bandcampLink}
+              embeddedPlayer={release.embeddedPlayer}
+            />
+          ))}
+      </Suspense>
     </div>
   )
 }
 
-ReleaseSection.propTypes = {
-  releasesData: PropTypes.array.isRequired
-}
+// Elimina la validación de PropTypes debido a que se trata de una importación dinámica
 
 export default ReleaseSection

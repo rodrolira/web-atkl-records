@@ -1,11 +1,11 @@
-/* eslint-disable no-unused-vars */
-
-import React from 'react'
+import React, { Suspense } from 'react' // Importa React y Suspense
 import { useParams } from 'react-router-dom'
-import Releases from './Releases'
-import Title from '../atoms/Title'
 import PropTypes from 'prop-types'
-import { useLanguage } from '../../contexts/LanguageContext' // Importa el hook useLanguage
+import { useLanguage } from '../../contexts/LanguageContext'
+import Title from '../atoms/Title'
+
+// Importa Releases usando importación dinámica
+const Releases = React.lazy(() => import('./Releases'))
 
 function ArtistDetail ({ artistsData, currentAdminUser }) {
   ArtistDetail.propTypes = {
@@ -18,19 +18,17 @@ function ArtistDetail ({ artistsData, currentAdminUser }) {
     return <div>Error: No se proporcionó un ID válido</div>
   }
 
-  // Busca el artista correspondiente en los datos de los artistas
   const artist = artistsData.find(artist => artist.id === parseInt(id))
 
   if (!artist) {
     return <div>Error: No se encontró el artista con ID {id}</div>
   }
 
-  const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
+  const { language } = useLanguage()
 
   return (
     <div className='inline-block w-full mt-32'>
       <div></div>
-      {/* Botón de edición */}
       {currentAdminUser && (
         <a
           href={`/artists/${artist.id}/edit`}
@@ -41,21 +39,16 @@ function ArtistDetail ({ artistsData, currentAdminUser }) {
       )}
 
       <div className='flex mt-12'>
-        {/* Sección de información básica del artista */}
         <div className='w-1/3 p-4 border-r text-center text-white'>
           <h1 className='text-2xl font-bold mb-2'>{artist.name}</h1>
-
-          {/* Mostrar la imagen del artista */}
           <img
             className='rounded-t-lg'
             src='/img/avatar.jpg'
             alt={artist.name}
           />
           <p className='mb-2 uppercase'>{artist.role}</p>
-          {/* Iconos de redes sociales aquí */}
         </div>
 
-        {/* Sección de biografía y releases del artista */}
         <div className='w-2/3 p-4 text-white text-center'>
           <Title>{language === 'en' ? 'Biography' : 'Biografía'}</Title>
           <p className='text-white'>
@@ -65,20 +58,21 @@ function ArtistDetail ({ artistsData, currentAdminUser }) {
                 : 'No hay información disponible')}
           </p>
 
-          {artist.releases ? (
-            artist.releases.map(release => (
-              <div key={release.id} className='mb-4'>
-                {/* Renderiza cada release */}
-                <Releases />
-              </div>
-            ))
-          ) : (
-            <p>
-              {language === 'en'
-                ? 'No releases available'
-                : 'No hay releases disponibles'}
-            </p>
-          )}
+          <Suspense fallback={<div>Loading...</div>}>
+            {artist.releases ? (
+              artist.releases.map(release => (
+                <div key={release.id} className='mb-4'>
+                  <Releases /> {/* Renderiza cada release */}
+                </div>
+              ))
+            ) : (
+              <p>
+                {language === 'en'
+                  ? 'No releases available'
+                  : 'No hay releases disponibles'}
+              </p>
+            )}
+          </Suspense>
         </div>
       </div>
     </div>

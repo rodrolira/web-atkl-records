@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import LoginButton from './LoginButton'
 import LanguageMenu from './LanguageMenu'
-import { HomeNavbarLinks, OtherPagesNavbarLinks } from './NavbarLinks'
 import { useLocation } from 'react-router-dom'
 import DemoButton from '../organisms/DemoButton'
 import { useLanguage } from '../../contexts/LanguageContext'
+
+// Importa HomeNavbarLinks y OtherPagesNavbarLinks de forma dinámica
+const HomeNavbarLinks = lazy(() => import('./HomeNavbarLinks'))
+const OtherPagesNavbarLinks = lazy(() => import('./OtherPagesNavbarLinks'))
 
 function NavbarMenu () {
   const location = useLocation()
@@ -48,12 +51,14 @@ function NavbarMenu () {
         <LanguageMenu />
       </div>
       <div className='h-[50%] px-5'>
-        {/* Renderiza HomeNavbarLinks solo en la página de inicio */}
-        {location.pathname === '/' ? (
-          <HomeNavbarLinks />
-        ) : (
-          <OtherPagesNavbarLinks />
-        )}
+        {/* Renderiza HomeNavbarLinks y OtherPagesNavbarLinks dentro de Suspense */}
+        <Suspense fallback={<div>Loading...</div>}>
+          {location.pathname === '/' ? (
+            <HomeNavbarLinks />
+          ) : (
+            <OtherPagesNavbarLinks />
+          )}
+        </Suspense>
       </div>
     </div>
   )

@@ -1,16 +1,17 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Navbar from './components/organisms/Navbar'
-import Home from './components/pages/Home'
-import Artists from './components/pages/Artists'
-import ArtistDetail from './components/pages/ArtistDetail'
-import Releases from './components/pages/Releases'
-import Login from './components/organisms/Login'
-import AdminPanel from './components/organisms/AdminPanel'
 import { LanguageProvider } from './contexts/LanguageContext'
 import LanguageSelector from './components/atoms/LanguageSelector'
 import AdminLoginForm from './components/organisms/AdminLoginForm'
+
+// Importa Home, Artists, ArtistDetail y Releases de forma dinámica usando lazy
+const Home = lazy(() => import('./components/pages/Home'))
+const Artists = lazy(() => import('./components/pages/Artists'))
+const ArtistDetail = lazy(() => import('./components/pages/ArtistDetail'))
+const Releases = lazy(() => import('./components/pages/Releases'))
+const Login = lazy(() => import('./components/organisms/Login'))
+
 function App () {
   const [apiResponse, setAPIResponse] = useState('')
 
@@ -53,31 +54,34 @@ function App () {
 
   return (
     <LanguageProvider>
-      <div className='App bg-slate-950 h-full'></div>
-      <Router>
-        <Navbar />
-        <Routes>
-          {/* Define las rutas de tu aplicación */}
-          <Route path='/' element={<Home />} />{' '}
-          {/* Ruta para la página de inicio */}
-          <Route path='/artists' element={<Artists />} />{' '}
-          {/* Ruta para la página de artistas */}
-          <Route
-            path='/artists/:id'
-            element={
-              <ArtistDetail
-                artistsData={artistsData}
-                currentAdminUser={undefined}
+      <div className='App bg-slate-950 h-full'>
+        <Router>
+          <Navbar />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Routes>
+              {/* Define las rutas de tu aplicación */}
+              <Route path='/' element={<Home />} />{' '}
+              {/* Ruta para la página de inicio */}
+              <Route path='/artists' element={<Artists />} />{' '}
+              {/* Ruta para la página de artistas */}
+              <Route
+                path='/artists/:id'
+                element={
+                  <ArtistDetail
+                    artistsData={artistsData}
+                    currentAdminUser={undefined}
+                  />
+                }
               />
-            }
-          />
-          <Route path='/releases' element={<Releases />} />{' '}
-          {/*Ruta para la pagina de lanzamientos*/}
-          <Route path='/login' element={<Login />} />
-          <Route path='/admin/login' element={<AdminLoginForm />} />
-          {/* Agrega más rutas según sea necesario */}
-        </Routes>
-      </Router>
+              <Route path='/releases' element={<Releases />} />{' '}
+              {/*Ruta para la pagina de lanzamientos*/}
+              <Route path='/login' element={<Login />} />
+              <Route path='/admin/login' element={<AdminLoginForm />} />
+              {/* Agrega más rutas según sea necesario */}
+            </Routes>
+          </Suspense>
+        </Router>
+      </div>
     </LanguageProvider>
   )
 }

@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import './Home.css'
-import Artists from './Artists'
-import Releases from './Releases'
-import AboutSection from './AboutSection'
-import DemosSection from './DemoSection'
-import Footer from './Footer'
-import ContactSection from './ContactSection'
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage } from '../../contexts/LanguageContext'
+
+const Artists = lazy(() => import('./Artists'))
+const Releases = lazy(() => import('./Releases'))
+const AboutSection = lazy(() => import('./AboutSection'))
+const DemosSection = lazy(() => import('./DemoSection'))
+const Footer = lazy(() => import('./Footer'))
+const ContactSection = lazy(() => import('./ContactSection'))
 
 function Home () {
   const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
@@ -39,12 +40,29 @@ function Home () {
           </div>
         </div>
       </div>
-      <Artists />
-      <Releases />
-      <AboutSection />
-      <DemosSection />
-      <ContactSection />
-      <Footer />
+      <Suspense fallback={<div>Loading Artists...</div>}>
+        <Artists />
+      </Suspense>
+      ;
+      <Suspense fallback={<div>Loading Releases...</div>}>
+        <Releases />
+      </Suspense>
+      ;
+      <Suspense fallback={<div>Loading AboutSection...</div>}>
+        <AboutSection />
+      </Suspense>
+      ;
+      <Suspense fallback={<div>Loading DemosSection...</div>}>
+        <DemosSection />
+      </Suspense>
+      ;
+      <Suspense fallback={<div>Loading ContactSection...</div>}>
+        <ContactSection />
+      </Suspense>
+      ;
+      <Suspense fallback={<div>Loading Footer...</div>}>
+        <Footer />
+      </Suspense>
     </div>
   )
 }
