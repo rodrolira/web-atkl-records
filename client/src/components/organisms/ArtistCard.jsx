@@ -6,11 +6,11 @@ import PropTypes from 'prop-types'
 function ArtistCard ({ id, name, role, image }) {
   return (
     <div className='max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-black dark:border-gray-700'>
-      <Link to={`/artists/${id}`} className='block'>
+      <Link to={`/artists/${name}`} className='block'>
         <img className='rounded-t-lg' src={image} alt={name} />
       </Link>
       <div className='p-5'>
-        <Link to={`/artists/${id}`} className='block'>
+        <Link to={`/artists/${name}`} className='block'>
           <h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-800 text-center '>
             {name}
           </h5>

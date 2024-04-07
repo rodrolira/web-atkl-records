@@ -65,7 +65,7 @@ function App () {
               <Route path='/artists' element={<Artists />} />{' '}
               {/* Ruta para la página de artistas */}
               <Route
-                path='/artists/:id'
+                path='/artists/:name'
                 element={
                   <ArtistDetail
                     artistsData={artistsData}
