@@ -8,9 +8,15 @@ const OtherPagesNavbarLinks = () => {
   const { language } = useLanguage()
   const [isNavbarOpen, setNavbarOpen] = useState(false)
   const location = useLocation()
+  const [activeItem, setActiveItem] = useState('/')
 
-  const handleItemClick = page => {
+  const handleItemClick = to => {
     setNavbarOpen(false)
+    setActiveItem(to) // Actualiza el estado activo con la nueva ruta
+    const section = document.getElementById(to.replace('/', ''))
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   return (
@@ -24,13 +30,16 @@ const OtherPagesNavbarLinks = () => {
           >
             <div className='max-w-screen-xl mx-auto w-full'>
               <div className='flex items-center justify-center w-full'>
-                <ul className='space-y-1 items-center md:bg-transparent bg-gray-700 bg-opacity-75 font-semibold flex flex-col md:p-0 w-full z-10 sm:border md:space-x-4 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 border-gray-700'>
-                  {links.map((link, index) => (
+                <ul className='items-center md:bg-transparent bg-gray-700 bg-opacity-75 font-semibold flex flex-col md:p-0 w-full z-10 sm:border md:space-x-4 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 border-gray-700'>
+                  {links.map(link => (
                     <NavItem
-                      key={index}
+                      key={link.to}
                       to={link.to}
                       text={link.text}
-                      isActive={location.pathname === link.to}
+                      isActive={
+                        activeItem === link.to ||
+                        (link.to === '/' && activeItem === '')
+                      }
                       onClick={() => handleItemClick(link.to)}
                     />
                   ))}

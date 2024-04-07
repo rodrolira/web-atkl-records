@@ -1,17 +1,18 @@
 import React, { useEffect, useState, lazy, Suspense } from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import Navbar from './components/organisms/Navbar'
 import { LanguageProvider } from './contexts/LanguageContext'
 import LanguageSelector from './components/atoms/LanguageSelector'
 import AdminLoginForm from './components/organisms/AdminLoginForm'
 import './App.css'
+import ArtistDetail from './components/pages/ArtistDetail'
 
 // Importa Home, Artists, ArtistDetail y Releases de forma dinámica usando lazy
 const Home = lazy(() => import('./components/pages/Home'))
 const Artists = lazy(() => import('./components/pages/Artists'))
-const ArtistDetail = lazy(() => import('./components/pages/ArtistDetail'))
 const Releases = lazy(() => import('./components/pages/Releases'))
 const Login = lazy(() => import('./components/organisms/Login'))
+import AdminPanel from './components/organisms/AdminPanel';
 
 function App () {
   const [apiResponse, setAPIResponse] = useState('')
@@ -30,7 +31,6 @@ function App () {
       bio: "Dj and Music Producer from Rancagua, Chile. He started as a music producer in the early 2020's producing Techno. Then he took a DJ course at South Waves Studios in the same city in 2020, finishing the course he entered as a resident of the collective Rancagua Rave. During this journey he has been able to find the sound and style he is most passionate about, Hard Techno, with its distorted, hard, fast and industrial sounds. In his sets we can find musical styles like neorave, acid, industrial, hardgroove and hard techno, adding screamo and gutturals to give a darker and under touch, his mixes generally turn between 140 to 155bpm.",
       releases: [
         { title: 'Release 1', catalog: 'Catalog 1' },
-        { title: 'Release 2', catalog: 'Catalog 2' }
       ],
       socialMedia: [
         { name: 'Twitter', link: 'https://twitter.com/rodro' },
@@ -62,11 +62,12 @@ function App () {
             <Routes>
               {/* Define las rutas de tu aplicación */}
               <Route path='/' element={<Home />} />{' '}
+              <Route path='/home' element={<Navigate to='/' />} />{' '}
               {/* Ruta para la página de inicio */}
               <Route path='/artists' element={<Artists />} />{' '}
               {/* Ruta para la página de artistas */}
               <Route
-                path='/artists/:name'
+                path='/artists/:id'
                 element={
                   <ArtistDetail
                     artistsData={artistsData}
@@ -78,6 +79,7 @@ function App () {
               {/*Ruta para la pagina de lanzamientos*/}
               <Route path='/login' element={<Login />} />
               <Route path='/admin/login' element={<AdminLoginForm />} />
+              <Route path='/admin' element={<AdminPanel/>} />
               {/* Agrega más rutas según sea necesario */}
             </Routes>
           </Suspense>

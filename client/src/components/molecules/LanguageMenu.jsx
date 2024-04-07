@@ -3,12 +3,13 @@ import ReactCountryFlag from 'react-country-flag'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 const LanguageMenu = () => {
-  const { changeLanguage } = useLanguage()
-  const { language } = useLanguage()
+  const { changeLanguage, language } = useLanguage()
   const [isMenuVisible, setMenuVisibility] = useState(false)
+  const [selectedLanguage, setSelectedLanguage] = useState(language) // Estado para almacenar el idioma seleccionado
 
   const handleChangeLanguage = languageCode => {
     changeLanguage(languageCode)
+    setSelectedLanguage(languageCode) // Actualizar el idioma seleccionado
     setMenuVisibility(false)
   }
 
@@ -26,17 +27,17 @@ const LanguageMenu = () => {
           {/* Language icon here */}
           <ReactCountryFlag
             className='max-[320px]:ms-[0.5rem]'
-            countryCode={language === 'en' ? 'US' : 'ES'}
+            countryCode={selectedLanguage === 'en' ? 'US' : 'ES'}
             svg
             style={{
               width: '1.5em',
               height: '1.5em',
               marginInlineEnd: '0.5rem'
             }}
-            title={language === 'en' ? 'US' : 'ES'}
+            title={selectedLanguage === 'en' ? 'US' : 'ES'}
           />
           <span className='max-[320px]:hidden inline-block'>
-            {language === 'en' ? 'English (US)' : 'Español (ES)'}
+            {selectedLanguage === 'en' ? 'English (US)' : 'Español (ES)'}
           </span>
         </button>
 
@@ -52,7 +53,9 @@ const LanguageMenu = () => {
             <li>
               <button
                 type='button'
-                className='block px-2 py-2 text-sm w-full bg-gray-100 text-gray-600 hover:bg-gray-600 hover:text-white '
+                className={`block px-2 py-2 text-sm w-full text-white hover:rounded-b-xl  hover:bg-gray-600 ${
+                  selectedLanguage === 'en' ? '!bg-gray-600' : '' // Agregar clase condicional si el idioma es inglés o español
+                }`}
                 onClick={() => handleChangeLanguage('en')}
               >
                 <div className='inline-flex items-center'>
@@ -74,10 +77,12 @@ const LanguageMenu = () => {
             <li>
               <button
                 type='button'
-                className='block px-2 py-2 text-sm w-full text-white hover:rounded-b-xl  hover:bg-gray-600 '
+               className={`block px-2 py-2 text-sm w-full text-white hover:rounded-b-xl  hover:bg-gray-600 ${
+                  selectedLanguage === 'ES' ? '!bg-gray-600' : '' // Agregar clase condicional si el idioma es español
+                }`}
                 onClick={() => handleChangeLanguage('ES')}
               >
-                <div className='flex items-center'>
+                <div className='inline-flex items-center'>
                   <ReactCountryFlag
                     className='max-[320px]:!me-0 '
                     countryCode='ES'

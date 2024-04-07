@@ -118,21 +118,12 @@ const AdminSignin = () => {
                   : 'Ingrese su nombre de usuario...'
               }
               name='username'
+              type='text'
               value={username}
               onChange={e => setUsername(e.target.value)}
               isIconActive={false}
               text-align='center'
               mx='auto'
-            />
-
-            <CustomInput
-              label={language === 'en' ? 'Email' : 'Email'}
-              placeholder={
-                language === 'en'
-                  ? 'Enter your email...'
-                  : 'Ingrese su email...'
-              }
-              isIconActive={true}
             />
 
             <CustomInput
@@ -142,6 +133,7 @@ const AdminSignin = () => {
                   ? 'Enter your password...'
                   : 'Ingrese su contraseña...'
               }
+              type='password'
               value={password}
               onChange={e => setPassword(e.target.value)}
               isIconActive={true}

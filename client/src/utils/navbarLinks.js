@@ -1,6 +1,6 @@
 // navbarLinks.js
 const links = [
-    { to: '/', text: 'Home', id: 'home' },
+    { to: '/home', text: 'Home', id: 'home' },
     { to: '/artists', text: 'Artists', id: 'artists' },
     { to: '/releases', text: 'Releases', id: 'releases' },
     { to: '/about', text: 'About', id: 'about' },

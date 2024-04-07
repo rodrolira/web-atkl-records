@@ -26,14 +26,18 @@ const AdminLoginForm = () => {
         }}
       >
         {/* GRID SYSTEM */}
-        <Grid container height='90vh'>
+        <Grid
+          container
+          height='90vh'
+          justifyContent='center'
+          alignItems='center'
+        >
           {/* Utiliza Suspense para mostrar un indicador de carga mientras se carga AdminSignin */}
           <Suspense fallback={<div>Loading...</div>}>
             <AdminSignin />
           </Suspense>
 
           {/* Reemplaza el formulario por el componente Login */}
-          <TitleBox />
         </Grid>
         {/* GRID SYSTEM END */}
       </Box>

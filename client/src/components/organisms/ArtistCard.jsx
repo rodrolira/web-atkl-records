@@ -23,11 +23,11 @@ function ArtistCard ({
 }) {
   return (
     <div className='max-w-sm bg-black border border-gray-200 rounded-lg shadow dark:border-purple-500'>
-      <Link to={`/artists/${name}`} className='block'>
+      <Link to={`/artists/${id}`} className='block'>
         <img className='rounded-t-lg' src={image} alt={name} />
       </Link>
       <div className='p-5'>
-        <Link to={`/artists/${name}`} className='block'>
+        <Link to={`/artists/${id}`} className='block'>
           <h5 className='mb-2 text-2xl font-bold tracking-tight text-white text-center '>
             {name}
           </h5>

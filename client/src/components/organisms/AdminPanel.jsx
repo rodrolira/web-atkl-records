@@ -1,11 +1,8 @@
-import React from 'react';
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
-function AdminPanel() {
-  return (
-    <div>
-      AdminPanel
-    </div>
-  );
+function AdminPanel () {
+  return <div>AdminPanel</div>
 }
 
-export default AdminPanel;
+export default AdminPanel

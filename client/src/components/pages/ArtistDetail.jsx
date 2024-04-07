@@ -10,7 +10,7 @@ const Releases = React.lazy(() => import('./Releases'))
 function ArtistDetail ({ artistsData, currentAdminUser }) {
   ArtistDetail.propTypes = {
     artistsData: PropTypes.array.isRequired,
-    currentAdminUser: PropTypes.object.isRequired
+    currentAdminUser: PropTypes.object
   }
 
   const { id } = useParams()
