@@ -1,14 +1,17 @@
 import React from 'react'
 import OtherPagesNavbarLinks from './OtherPagesNavbarLinks'
-import HomeNavbarLinks from './HomeNavbarLinks'
+import links from '../../utils/navbarLinks';
+import HomeNavbarLinks from './HomeNavbarLinks';
 
 const NavbarLinks = () => {
   return (
-    <div>
-      {/* Otro contenido */}
-      <OtherPagesNavbarLinks />
-      <HomeNavbarLinks />
-      {/* Otro contenido */}
+    <div className='h-[50%] px-5'>
+      {/* Renderiza HomeNavbarLinks solo en la página de inicio */}
+      {location.pathname === '/' ? (
+        <HomeNavbarLinks   />
+      ) : (
+        <OtherPagesNavbarLinks links={links} />
+      )}
     </div>
   )
 }

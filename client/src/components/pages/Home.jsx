@@ -13,7 +13,7 @@ function Home () {
   const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
 
   return (
-    <div id='home' className='home bg-slate-950'>
+    <div id='home' className='home'>
       <div className='parallax-container flex'>
         <div className='parallax-content flex w-full'>
           {/* Contenido del encabezado aquí */}

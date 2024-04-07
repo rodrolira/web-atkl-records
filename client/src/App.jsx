@@ -4,6 +4,7 @@ import Navbar from './components/organisms/Navbar'
 import { LanguageProvider } from './contexts/LanguageContext'
 import LanguageSelector from './components/atoms/LanguageSelector'
 import AdminLoginForm from './components/organisms/AdminLoginForm'
+import './App.css'
 
 // Importa Home, Artists, ArtistDetail y Releases de forma dinámica usando lazy
 const Home = lazy(() => import('./components/pages/Home'))
@@ -54,7 +55,7 @@ function App () {
 
   return (
     <LanguageProvider>
-      <div className='App bg-slate-950 h-full'>
+      <div className='App h-full'>
         <Router>
           <Navbar />
           <Suspense fallback={<div>Loading...</div>}>

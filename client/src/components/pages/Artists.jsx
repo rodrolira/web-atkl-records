@@ -15,28 +15,46 @@ function Artists () {
         <Suspense fallback={<div>Loading...</div>}>
           {/* Renderiza ArtistCard dentro del componente Suspense */}
           <ArtistCard
-            id={1}
             name={language === 'en' ? 'RODRO' : 'RODRO'}
             role={language === 'en' ? 'DJ' : 'DJ'}
             image='/img/avatar.jpg'
+            twitterUrl='https://twitter.com/'
+            instagramUrl='https://www.instagram.com/'
+            facebookUrl='https://www.facebook.com/'
+            soundcloudUrl='https://soundcloud.com/'
+            bandcampUrl='https://bandcamp.com/'
           />
           <ArtistCard
-            id={2}
             name={language === 'en' ? 'Sweet_Hate' : 'Sweet_Hate'}
             role={language === 'en' ? 'DJ' : 'DJ'}
             image='/img/avatar.jpg'
+            twitterUrl='https://twitter.com/'
+            instagramUrl='https://www.instagram.com/'
+            facebookUrl='https://www.facebook.com/'
+            soundcloudUrl='https://soundcloud.com/'
+            bandcampUrl='https://bandcamp.com'
           />
           <ArtistCard
             id={3}
             name={language === 'en' ? 'Abstracto' : 'Abstracto'}
             role={language === 'en' ? 'Producer' : 'Productor'}
             image='/img/avatar.jpg'
+            twitterUrl='https://twitter.com/'
+            instagramUrl='https://www.instagram.com/'
+            facebookUrl='https://www.facebook.com/'
+            soundcloudUrl='https://soundcloud.com/'
+            bandcampUrl='https://bandcamp.com'
           />
           <ArtistCard
             id={4}
             name={language === 'en' ? 'DARKNOISE' : 'DARKNOISE'}
             role={language === 'en' ? 'Producer' : 'Productor'}
             image='/img/avatar.jpg'
+            twitterUrl='https://twitter.com/'
+            instagramUrl='https://www.instagram.com/'
+            facebookUrl='https://www.facebook.com/'
+            soundcloudUrl='https://soundcloud.com/'
+            bandcampUrl='https://bandcamp.com'
           />
         </Suspense>
       </div>
