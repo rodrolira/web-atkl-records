@@ -22,7 +22,7 @@ function ArtistCard ({
   bandcampUrl
 }) {
   return (
-    <div className='max-w-sm bg-black border border-gray-200 rounded-lg shadow dark:border-gray-700'>
+    <div className='max-w-sm bg-black border border-gray-200 rounded-lg shadow dark:border-purple-500'>
       <Link to={`/artists/${name}`} className='block'>
         <img className='rounded-t-lg' src={image} alt={name} />
       </Link>
@@ -39,6 +39,9 @@ function ArtistCard ({
           {twitterUrl && (
             <a
               href={twitterUrl}
+              target='_blank'
+              rel='noopener noreferrer'
+              aria-label='View Twitter Profile'
               className='text-gray-400 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-300'
             >
               <FontAwesomeIcon icon={faTwitter} />
@@ -47,6 +50,9 @@ function ArtistCard ({
           {instagramUrl && (
             <a
               href={instagramUrl}
+              target='_blank'
+              rel='noopener noreferrer'
+              aria-label='View Twitter Profile'
               className='text-gray-400 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-300'
             >
               <FontAwesomeIcon icon={faInstagram} />
@@ -55,6 +61,9 @@ function ArtistCard ({
           {facebookUrl && (
             <a
               href={facebookUrl}
+              target='_blank'
+              rel='noopener noreferrer'
+              aria-label='View Twitter Profile'
               className='text-gray-400 dark:text-gray-400 hover:text-blue-800 dark:hover:text-blue-600'
             >
               <FontAwesomeIcon icon={faFacebook} />
@@ -63,6 +72,9 @@ function ArtistCard ({
           {soundcloudUrl && (
             <a
               href={soundcloudUrl}
+              target='_blank'
+              rel='noopener noreferrer'
+              aria-label='View Twitter Profile'
               className='text-gray-400 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400'
             >
               <FontAwesomeIcon icon={faSoundcloud} />
@@ -71,6 +83,9 @@ function ArtistCard ({
           {bandcampUrl && (
             <a
               href={bandcampUrl}
+              target='_blank'
+              rel='noopener noreferrer'
+              aria-label='View Twitter Profile'
               className='text-gray-400 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-500'
             >
               <FontAwesomeIcon icon={faBandcamp} />
