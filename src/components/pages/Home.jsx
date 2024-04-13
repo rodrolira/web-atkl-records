@@ -5,8 +5,8 @@ import Artists from './Artists'
 import Releases from './Releases'
 import DemosSection from './DemoSection'
 import ContactSection from './ContactSection'
-import { Footer } from 'flowbite-react'
 import AboutSection from './AboutSection';
+import Footer from './Footer';
 
 function Home () {
   const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
