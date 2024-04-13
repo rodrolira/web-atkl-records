@@ -10,8 +10,9 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist",
+    "deploy": "gh-pages -d dist --repo https://github.com/rodrolira/web-atkl-records",
     "predeploy": "npm run build"
+
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -25,6 +26,7 @@
     "@mui/icons-material": "^5.15.14",
     "@mui/material": "^5.15.14",
     "@neiderruiz/translate-files": "^1.1.6",
+    "axios": "^1.6.8",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
@@ -33,6 +35,8 @@
     "foo-bar": "^0.0.1",
     "i18next": "^23.10.1",
     "nodemailer": "^6.9.13",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
     "postcss-plugin": "^1.0.0",
     "react": "^18.2.0",
     "react-country-flag": "^3.1.0",

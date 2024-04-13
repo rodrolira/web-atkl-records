@@ -5,38 +5,43 @@ import { useLanguage } from '../../contexts/LanguageContext'
 const SITEMAP_EN = [
   {
     title: 'Label',
-    links: ['About Us', 'Artists', 'Releases', 'Services']
+    links: ['About Us', 'Artists', 'Releases', 'Send Demo']
   },
   {
     title: 'Links',
-    links: ['Instagram', 'Soundcloud', 'Beatport', 'BandCamp']
+    links: ['Instagram', 'Soundcloud', 'Beatport', 'Bandcamp']
   },
   {
-    title: 'Resources',
-    links: ['Blog', 'Newsletter', 'Free Products', 'Affiliate Program']
+    title: 'Services',
+    links: ['Booking', 'Mastering', 'Free Releaases', 'Affiliate Program']
   },
   {
     title: 'Products',
-    links: ['Templates', 'UI Kits', 'Icons', 'Mockups']
+    links: ['Events', 'Discography', 'Merchandising', 'Sample Packs']
   }
 ]
 
 const SITEMAP_ES = [
   {
-    title: 'Empresa',
-    links: ['Sobre nosotros', 'Carreras', 'Nuestro Equipo', 'Proyectos']
+    title: 'Sello Discografico',
+    links: ['Sobre nosotros', 'Artistas', 'Lanzamientos', 'Envía tu Demo']
   },
   {
-    title: 'Centro de ayuda',
-    links: ['Discord', 'Twitter', 'GitHub', 'Contáctenos']
+    title: 'Redes Sociales',
+    links: ['Instagram', 'Soundcloud', 'Beatport', 'Bandcamp']
   },
   {
-    title: 'Recursos',
-    links: ['Blog', 'Boletín', 'Productos gratuitos', 'Programa de afiliados']
+    title: 'Servicios',
+    links: [
+      'Booking',
+      'Mastering',
+      'Lanzamientos gratuitos',
+      'Programa de afiliados'
+    ]
   },
   {
     title: 'Productos',
-    links: ['Plantillas', 'Kits de UI', 'Iconos', 'Maquetas']
+    links: ['Eventos', 'Discografía', 'Merchandising', 'Pack de Samples']
   }
 ]
 
@@ -85,8 +90,10 @@ function Footer () {
             className='mb-4 text-center font-normal text-white md:mb-0'
           >
             &copy; {currentYear}{' '}
-            <a href='https://material-tailwind.com/'>ATKL Records</a>. All
-            Rights Reserved.
+            <a href='https://material-tailwind.com/'>ATKL Records</a>.{' '}
+            {language === 'en'
+              ? 'All Rights Reserved.'
+              : 'Todos los Derechos Reservados.'}{' '}
           </Typography>
           <div className='flex gap-4 text-white sm:justify-center'>
             <Typography

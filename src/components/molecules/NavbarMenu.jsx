@@ -5,12 +5,14 @@ import { useLocation } from 'react-router-dom'
 import DemoButton from './DemoButton'
 import { useLanguage } from '../../contexts/LanguageContext'
 import NavbarLinks from './NavbarLinks'
+
+
 function NavbarMenu () {
   const location = useLocation()
   const { language } = useLanguage()
 
   return (
-    <div className='flex flex-col h-full w-full'>
+    <div className='w-full'>
       <div className='flex items-center justify-end h-[50%]'>
         {/* Dropdown menu */}
         <div
