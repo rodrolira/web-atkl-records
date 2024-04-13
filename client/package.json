@@ -12,7 +12,6 @@
     "preview": "vite preview",
     "deploy": "gh-pages -d dist --repo https://github.com/rodrolira/web-atkl-records",
     "predeploy": "npm run build"
-
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
