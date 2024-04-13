@@ -1,13 +1,12 @@
-import React, { lazy, Suspense } from 'react'
+import React from 'react'
 import './Home.css'
 import { useLanguage } from '../../contexts/LanguageContext'
-
-const Artists = lazy(() => import('./Artists'))
-const Releases = lazy(() => import('./Releases'))
-const AboutSection = lazy(() => import('./AboutSection'))
-const DemosSection = lazy(() => import('./DemoSection'))
-const Footer = lazy(() => import('./Footer'))
-const ContactSection = lazy(() => import('./ContactSection'))
+import Artists from './Artists'
+import Releases from './Releases'
+import DemosSection from './DemoSection'
+import ContactSection from './ContactSection'
+import { Footer } from 'flowbite-react'
+import AboutSection from './AboutSection';
 
 function Home () {
   const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
@@ -40,29 +39,18 @@ function Home () {
           </div>
         </div>
       </div>
-      <Suspense fallback={<div>Loading Artists...</div>}>
-        <Artists />
-      </Suspense>
-      ;
-      <Suspense fallback={<div>Loading Releases...</div>}>
-        <Releases />
-      </Suspense>
-      ;
-      <Suspense fallback={<div>Loading AboutSection...</div>}>
-        <AboutSection />
-      </Suspense>
-      ;
-      <Suspense fallback={<div>Loading DemosSection...</div>}>
-        <DemosSection />
-      </Suspense>
-      ;
-      <Suspense fallback={<div>Loading ContactSection...</div>}>
-        <ContactSection />
-      </Suspense>
-      ;
-      <Suspense fallback={<div>Loading Footer...</div>}>
-        <Footer />
-      </Suspense>
+
+      <Artists />
+
+      <Releases />
+
+      <AboutSection />
+
+      <DemosSection />
+
+      <ContactSection />
+
+      <Footer />
     </div>
   )
 }

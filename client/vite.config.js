@@ -19,8 +19,8 @@ export default defineConfig({
 
   server: {
     proxy: {
-      // Proxy todas las solicitudes que comiencen con '/api' al servidor Express en el puerto 9000
-      '/api': ' http://localhost:9000',
+      // Proxy todas las solicitudes que comiencen con '/auth' al servidor Express en el puerto 9000
+      '/auth': ' http://localhost:9000',
 
     },
   },
