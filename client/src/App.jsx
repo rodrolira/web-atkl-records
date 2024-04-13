@@ -1,4 +1,4 @@
-import React, { useEffect, useState, lazy, Suspense } from 'react'
+import React, { useEffect } from 'react'
 import {
   BrowserRouter as Router,
   Route,
@@ -9,16 +9,15 @@ import axios from 'axios'
 
 import Navbar from './components/organisms/Navbar'
 import { LanguageProvider } from './contexts/LanguageContext'
-import LanguageSelector from './components/atoms/LanguageSelector'
 import AdminLoginForm from './components/organisms/AdminLoginForm'
 import './App.css'
 import ArtistDetail from './components/pages/ArtistDetail'
-
-const Home = lazy(() => import('./components/pages/Home'))
-const Artists = lazy(() => import('./components/pages/Artists'))
-const Releases = lazy(() => import('./components/pages/Releases'))
-const Login = lazy(() => import('./components/organisms/Login'))
+import Home from './components/pages/Home.jsx'
+import Artists from './components/pages/Artists.jsx'
+import Releases from './components/pages/Releases.jsx'
+import Login from './components/organisms/Login.jsx'
 import AdminPanel from './components/organisms/AdminPanel'
+import Footer from './components/pages/Footer';
 
 const App = () => {
   const artistsData = [
@@ -67,28 +66,26 @@ const App = () => {
       <div className='App h-full'>
         <Router>
           <Navbar />
-
-          <Suspense fallback={<div>Loading...</div>}>
-            <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='/home' element={<Navigate to='/' />} />
-              <Route path='/artists' element={<Artists />} />
-              <Route
-                path='/artists/:id'
-                element={
-                  <ArtistDetail
-                    artistsData={artistsData}
-                    currentAdminUser={undefined}
-                  />
-                }
-              />
-              <Route path='/releases' element={<Releases />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/admin/login' element={<AdminLoginForm />} />
-              <Route path='/admin' element={<AdminPanel />} />
-            </Routes>
-          </Suspense>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/home' element={<Navigate to='/' />} />
+            <Route path='/artists' element={<Artists />} />
+            <Route
+              path='/artists/:id'
+              element={
+                <ArtistDetail
+                  artistsData={artistsData}
+                  currentAdminUser={undefined}
+                />
+              }
+            />
+            <Route path='/releases' element={<Releases />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/admin/login' element={<AdminLoginForm />} />
+            <Route path='/admin' element={<AdminPanel />} />
+          </Routes>
         </Router>
+        <Footer />
       </div>
     </LanguageProvider>
   )

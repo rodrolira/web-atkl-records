@@ -53,7 +53,7 @@ function Footer () {
 
   return (
     <footer className='relative w-full'>
-      <div className='mx-auto w-full max-w-7xl px-8'>
+      <div className='mx-auto w-full max-w-7xl px-8 border-t border-blue-gray-50'>
         <div className='mx-auto grid w-full grid-cols-1 gap-8 py-12 md:grid-cols-2 lg:grid-cols-4'>
           {sitemap.map(({ title, links }, key) => (
             <div key={key} className='w-full'>

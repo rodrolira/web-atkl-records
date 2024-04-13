@@ -6,7 +6,6 @@ import Releases from './Releases'
 import DemosSection from './DemoSection'
 import ContactSection from './ContactSection'
 import AboutSection from './AboutSection';
-import Footer from './Footer';
 
 function Home () {
   const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
@@ -50,7 +49,6 @@ function Home () {
 
       <ContactSection />
 
-      <Footer />
     </div>
   )
 }
