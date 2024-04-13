@@ -5,6 +5,7 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2'
 import CustomInput from '../atoms/CustomInput'
 import Logo from '../atoms/Logo'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 const AdminSignin = () => {
   const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
@@ -12,26 +13,30 @@ const AdminSignin = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSubmit = async e => {
-    e.preventDefault()
-
+  const handleSubmit = async event => {
+    event.preventDefault()
     try {
-      const response = await fetch('http://localhost:5174/admin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-      })
+      // Enviar credenciales al servidor
+      const response = await axios.post(
+        'http://localhost:9000/auth/admin/login',
+        {
+          username: username,
+          password: password
+        }
+      )
 
-      if (!response.ok) {
-        throw new Error('Error de inicio de sesión')
+      // Manejar la respuesta del servidor
+      if (response.data.success) {
+        // Redirigir al usuario a la página principal de administrador
+        navigate('/admin/dashboard')
+      } else {
+        // Mostrar mensaje de error al usuario
+        alert('Usuario o contraseña incorrectos')
       }
-
-      // Redirige al usuario a la página de inicio
-      navigate('/')
     } catch (error) {
-      console.error('Error during login:', error)
+      console.error('Error al iniciar sesión:', error)
+      // Mostrar mensaje de error genérico al usuario
+      alert('Error al iniciar sesión')
     }
   }
 

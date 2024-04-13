@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import nodemailer from 'nodemailer';
+import process from 'process';
 
 import dotenv from 'dotenv';
 dotenv.config(); // Load environment variables from .env file

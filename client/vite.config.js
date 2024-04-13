@@ -9,7 +9,6 @@ export default defineConfig({
     react(),
     flowbite()
   ],
-  base: './',
   css: {
     postcss: {
       plugins: [
@@ -21,10 +20,7 @@ export default defineConfig({
   server: {
     proxy: {
       // Proxy todas las solicitudes que comiencen con '/api' al servidor Express en el puerto 9000
-      '/api': {
-        target: 'http://localhost:5173',
-        changeOrigin: true,
-      }
+      '/api': ' http://localhost:9000',
 
     },
   },

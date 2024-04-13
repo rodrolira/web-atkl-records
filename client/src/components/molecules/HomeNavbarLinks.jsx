@@ -4,7 +4,6 @@ import NavItem from '../atoms/NavItem'
 import { useLocation } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
 import links from '../../utils/navbarLinks'
-
 const HomeNavbarLinks = () => {
   const { language } = useLanguage()
   const location = useLocation()
