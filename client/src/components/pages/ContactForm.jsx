@@ -18,7 +18,7 @@ const ContactForm = () => {
     e.preventDefault()
 
     // Enviar los datos del formulario al backend
-    fetch('http://localhost:9000/auth/submit-form', {
+    fetch('http://localhost:5050/auth/submit-form', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -93,10 +93,7 @@ const ContactForm = () => {
         </p>
         <form onSubmit={handleSubmit} className='text-white'>
           <div className='mb-4'>
-            <label
-              className='block  text-sm font-bold mb-2'
-              htmlFor='name'
-            >
+            <label className='block  text-sm font-bold mb-2' htmlFor='name'>
               {language === 'en' ? 'Name:' : 'Nombre:'}
             </label>
             <input
@@ -110,10 +107,7 @@ const ContactForm = () => {
             />
           </div>
           <div className='mb-4'>
-            <label
-              className='block  text-sm font-bold mb-2'
-              htmlFor='email'
-            >
+            <label className='block  text-sm font-bold mb-2' htmlFor='email'>
               {language === 'en' ? 'Email:' : 'Correo electrónico:'}
             </label>
             <input
