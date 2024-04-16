@@ -18,7 +18,7 @@ const ContactForm = () => {
     e.preventDefault()
 
     // Enviar los datos del formulario al backend
-    fetch('http://localhost:9000/auth/submit-form', {
+    fetch('http://localhost:5050/auth/submit-form', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
