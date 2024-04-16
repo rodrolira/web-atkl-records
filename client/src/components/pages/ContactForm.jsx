@@ -18,7 +18,7 @@ const ContactForm = () => {
     e.preventDefault()
 
     // Enviar los datos del formulario al backend
-    fetch('http://localhost:5050/auth/submit-form', {
+    fetch('http://localhost:9000/auth/submit-form', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -82,7 +82,7 @@ const ContactForm = () => {
 
   return (
     <div>
-      <div className='max-w-md mx-auto bg-white rounded px-8 pt-6 pb-8 mb-4 '>
+      <div className='max-w-md mx-auto text-white rounded px-8 pt-6 pb-8 mb-4 '>
         <h2 className='text-2xl font-bold mb-4 text-center'>
           {language === 'en' ? 'Subscribe' : 'Suscribirse'}
         </h2>
@@ -91,10 +91,10 @@ const ContactForm = () => {
             ? 'Subscribe to receive the latest releases for free by email'
             : 'Suscríbete para recibir los últimos lanzamientos de forma gratuita por correo electrónico'}
         </p>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='text-white'>
           <div className='mb-4'>
             <label
-              className='block text-gray-700 text-sm font-bold mb-2'
+              className='block  text-sm font-bold mb-2'
               htmlFor='name'
             >
               {language === 'en' ? 'Name:' : 'Nombre:'}
@@ -111,7 +111,7 @@ const ContactForm = () => {
           </div>
           <div className='mb-4'>
             <label
-              className='block text-gray-700 text-sm font-bold mb-2'
+              className='block  text-sm font-bold mb-2'
               htmlFor='email'
             >
               {language === 'en' ? 'Email:' : 'Correo electrónico:'}
@@ -128,7 +128,7 @@ const ContactForm = () => {
           </div>
           <div className='mb-4'>
             <label
-              className='block text-gray-700 text-sm font-bold mb-2'
+              className='block  text-sm font-bold mb-2'
               htmlFor='description'
             >
               {language === 'en'

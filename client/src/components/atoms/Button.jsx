@@ -3,7 +3,7 @@ import './Button.css'
 
 const Button = ({ href, onClick, children, className }) => {
   return (
-    <div className='h-full'>
+    <div className='h-full mx-2'>
       <a
         href={href}
         target='_blank'
