@@ -8,35 +8,29 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const AdminSignin = () => {
-  const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
-  const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const { language } = useLanguage() // Usa el hook para obtener language
 
-  const handleSubmit = async event => {
-    event.preventDefault()
+  const handleSubmit = async e => {
+    e.preventDefault()
+
     try {
-      // Enviar credenciales al servidor
       const response = await axios.post(
-        'http://localhost:9000/auth/admin/login',
+        'http://localhost:5050/auth/admin-login',
         {
-          username: username,
-          password: password
+          username,
+          password
         }
       )
 
-      // Manejar la respuesta del servidor
-      if (response.data.success) {
-        // Redirigir al usuario a la página principal de administrador
-        navigate('/admin/dashboard')
-      } else {
-        // Mostrar mensaje de error al usuario
-        alert('Usuario o contraseña incorrectos')
-      }
+      // Guarda el token en el almacenamiento local o de sesión
+      localStorage.setItem('token', response.data.token)
+
+      // Redirige al usuario a la página de administrador
+      window.location.href = '/admin'
     } catch (error) {
-      console.error('Error al iniciar sesión:', error)
-      // Mostrar mensaje de error genérico al usuario
-      alert('Error al iniciar sesión')
+      console.error('Error de inicio de sesión:', error)
     }
   }
 
@@ -126,6 +120,7 @@ const AdminSignin = () => {
               type='text'
               value={username}
               onChange={e => setUsername(e.target.value)}
+              required
               isIconActive={false}
               text-align='center'
               mx='auto'
@@ -141,6 +136,7 @@ const AdminSignin = () => {
               type='password'
               value={password}
               onChange={e => setPassword(e.target.value)}
+              required
               isIconActive={true}
             />
 

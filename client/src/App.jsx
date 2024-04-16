@@ -51,7 +51,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:9000/auth') // Reemplaza la URL con la ruta de tu backend
+        const response = await axios.get('http://localhost:5050/auth') // Reemplaza la URL con la ruta de tu backend
         console.log(response.data) // Muestra los datos recibidos del backend en la consola
       } catch (error) {
         console.error('Error al obtener datos:', error)

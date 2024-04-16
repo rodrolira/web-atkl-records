@@ -7,11 +7,7 @@ export default {
     "./node_modules/tw-elements-react/dist/js/**/*.js"
   ],
   theme: {
-    extend: {
-      height:{
-        'inherit': 'inherit'
-      }
-    }
+    extend: {}
   },
   plugins: [
     // eslint-disable-next-line no-undef

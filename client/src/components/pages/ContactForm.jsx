@@ -93,7 +93,10 @@ const ContactForm = () => {
         </p>
         <form onSubmit={handleSubmit} className='text-white'>
           <div className='mb-4'>
-            <label className='block  text-sm font-bold mb-2' htmlFor='name'>
+            <label
+              className='block text-sm font-bold mb-2'
+              htmlFor='name'
+            >
               {language === 'en' ? 'Name:' : 'Nombre:'}
             </label>
             <input
@@ -107,7 +110,10 @@ const ContactForm = () => {
             />
           </div>
           <div className='mb-4'>
-            <label className='block  text-sm font-bold mb-2' htmlFor='email'>
+            <label
+              className='block text-sm font-bold mb-2'
+              htmlFor='email'
+            >
               {language === 'en' ? 'Email:' : 'Correo electrónico:'}
             </label>
             <input
@@ -122,7 +128,7 @@ const ContactForm = () => {
           </div>
           <div className='mb-4'>
             <label
-              className='block  text-sm font-bold mb-2'
+              className='block text-sm font-bold mb-2'
               htmlFor='description'
             >
               {language === 'en'

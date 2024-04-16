@@ -33,7 +33,7 @@ const HomeNavbarLinks = () => {
 
   return (
     <div className='bg-transparent border-gray-200 w-full h-full relative'>
-      <div className='Ñ flex flex-1 h-full justify-between mx-auto w-full items-center'>
+      <div className='flex flex-1 h-full justify-between mx-auto w-full items-center'>
         <div className='flex items-center h-full w-full justify-end '>
           <div className='hidden lg:flex md:block md:w-auto md:order-1'>
             <div className='max-w-screen-xl mx-auto w-full'>

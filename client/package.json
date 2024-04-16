@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "deploy": "gh-pages -d dist --repo https://github.com/rodrolira/web-atkl-records",
     "predeploy": "npm run build"
+
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -59,7 +60,7 @@
     "postcss-cli": "^11.0.0",
     "postcss-load-config": "^5.0.3",
     "tailwindcss": "^3.4.3",
-    "vite": "^5.2.9",
+    "vite": "^5.2.0",
     "vitest": "^1.4.0"
   },
   "eslintConfig": {
