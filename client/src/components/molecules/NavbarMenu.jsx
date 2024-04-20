@@ -6,13 +6,12 @@ import DemoButton from './DemoButton'
 import { useLanguage } from '../../contexts/LanguageContext'
 import NavbarLinks from './NavbarLinks'
 
-
 function NavbarMenu () {
   const location = useLocation()
   const { language } = useLanguage()
 
   return (
-    <div className='w-full'>
+    <div className='md:flex lg:block md:flex-row-reverse md:justify-around md:items-center  w-full'>
       <div className='flex items-center justify-end h-[50%]'>
         {/* Dropdown menu */}
         <div

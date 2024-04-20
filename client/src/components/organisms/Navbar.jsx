@@ -5,8 +5,8 @@ import './Navbar.css'
 
 function Navbar () {
   return (
-    <nav className='shadow-lg navbar-wrapper bg-transparent !border-gray-200  fixed w-full lg:h-auto'>
-      <div className='flex justify-between px-2 pt-2'>
+    <nav className='shadow-lg navbar-wrapper lg:bg-transparent !border-gray-200  fixed w-full md:h-[10vh] lg:h-[20vh] md:bg-neutral-800 md:!bg-opacity-50'>
+      <div className='flex lg:flex-row h-full justify-between px-2 pt-2 md:pt-0 md:flex-col'>
         <Logo />
         <NavbarMenu />
       </div>

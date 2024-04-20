@@ -17,7 +17,7 @@ import Artists from './components/pages/Artists.jsx'
 import Releases from './components/pages/Releases.jsx'
 import Login from './components/organisms/Login.jsx'
 import AdminPanel from './components/organisms/AdminPanel'
-import Footer from './components/pages/Footer';
+import Footer from './components/pages/Footer'
 
 const App = () => {
   const artistsData = [
@@ -51,7 +51,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5050/auth') // Reemplaza la URL con la ruta de tu backend
+        const response = await axios.get('http://localhost:5050/') // Reemplaza la URL con la ruta de tu backend
         console.log(response.data) // Muestra los datos recibidos del backend en la consola
       } catch (error) {
         console.error('Error al obtener datos:', error)

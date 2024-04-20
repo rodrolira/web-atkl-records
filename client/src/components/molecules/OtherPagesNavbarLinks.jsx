@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import NavItem from '../atoms/NavItem'
 import { useLocation } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
@@ -8,7 +8,7 @@ const OtherPagesNavbarLinks = () => {
   const { language } = useLanguage()
   const [isNavbarOpen, setNavbarOpen] = useState(false)
   const location = useLocation()
-  const [activeItem, setActiveItem] = useState('/')
+  const [activeItem, setActiveItem] = useState(location.pathname)
 
   const handleItemClick = to => {
     setNavbarOpen(false)
@@ -18,6 +18,11 @@ const OtherPagesNavbarLinks = () => {
       section.scrollIntoView({ behavior: 'smooth' })
     }
   }
+
+  // Actualiza el activeItem cuando cambia la location
+  useEffect(() => {
+    setActiveItem(location.pathname)
+  }, [location.pathname])
 
   return (
     <div className='bg-transparent border-gray-200 w-full h-full relative'>

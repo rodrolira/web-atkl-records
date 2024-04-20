@@ -13,7 +13,7 @@ const NavItem = ({ to, text, isActive, onClick }) => {
   return (
     <li>
       <Link
-        className={`block xl:text-xl lg:text-md md:text-sm rounded ${
+        className={`block xl:text-xl lg:text-[100%] md:text-xs rounded ${
           isActive ? 'text-red-700' : 'text-white'
         } hover:bg-gray-700 hover:text-red-600 md:hover:bg-transparent border-gray-700`}
         aria-current={isActive ? 'page' : undefined}

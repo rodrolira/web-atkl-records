@@ -1,16 +1,15 @@
 import React from 'react'
 
-function Logo () {
-  return (
-    <a
-className =
-  'rtl:space-x-reverse max-[320px]:mx-0 mx-24 md:mx-2 md:block sm:hidden md:h[10%] md:w[10%] sm:mx-auto'
-href = '/'
+function Logo ({ isAdminSignin }) {
+  const logoClass = isAdminSignin
+    ? 'rtl:space-x-reverse max-[320px]:mx-0 lg:block sm:hidden md:hidden sm:mx-auto'
+    : 'rtl:space-x-reverse max-[320px]:mx-0 lg:ml-12 lg:block sm:hidden md:hidden sm:mx-auto'
 
-    >
+  return (
+    <a className={logoClass} href='/'>
       <img
         alt='ATKL Records logo'
-        className='invert h-full w-48'
+        className='invert lg:h-full w-48'
         src='/img/logo.png'
       />
     </a>

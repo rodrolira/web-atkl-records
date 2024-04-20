@@ -47,12 +47,14 @@ const SITEMAP_ES = [
 
 const currentYear = new Date().getFullYear()
 
-function Footer () {
+function Footer (isAdminLogin) {
   const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
   const sitemap = language === 'en' ? SITEMAP_EN : SITEMAP_ES // Selecciona el sitemap según el idioma
 
+  const footerClass = isAdminLogin ? 'admin-login-footer' : ''
+
   return (
-    <footer className='relative w-full'>
+    <footer className={`relative w-full ${footerClass}`}>
       <div className='mx-auto w-full max-w-7xl px-8 border-t border-blue-gray-50'>
         <div className='mx-auto grid w-full grid-cols-1 gap-8 py-12 md:grid-cols-2 lg:grid-cols-4'>
           {sitemap.map(({ title, links }, key) => (

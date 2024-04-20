@@ -16,13 +16,10 @@ const AdminSignin = () => {
     e.preventDefault()
 
     try {
-      const response = await axios.post(
-        'http://localhost:5050/auth/admin-login',
-        {
-          username,
-          password
-        }
-      )
+      const response = await axios.post('http://localhost:5050/admin-login', {
+        username,
+        password
+      })
 
       // Guarda el token en el almacenamiento local o de sesión
       localStorage.setItem('token', response.data.token)
@@ -90,7 +87,7 @@ const AdminSignin = () => {
                 justifyContent: 'center'
               }}
             >
-              <Logo />
+              <Logo isAdminSignin   />
             </Box>
             {/* LOGO END */}
 

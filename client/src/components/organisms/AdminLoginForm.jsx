@@ -1,11 +1,9 @@
-import React, { useState, lazy, Suspense } from 'react' // Importa lazy y Suspense
+import React, { lazy, Suspense } from 'react' // Importa lazy y Suspense
 import { Box } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
-import TitleBox from '../TitleBox'
 import MainLayout from '../../layouts/MainLayout'
-
-// Importa AdminSignin de forma dinámica usando lazy
-const AdminSignin = lazy(() => import('../templates/AdminSignin'))
+import Footer from '../pages/Footer';
+import AdminSignin from '../templates/AdminSignin';
 
 const AdminLoginForm = () => {
   return (
@@ -32,15 +30,13 @@ const AdminLoginForm = () => {
           justifyContent='center'
           alignItems='center'
         >
-          {/* Utiliza Suspense para mostrar un indicador de carga mientras se carga AdminSignin */}
-          <Suspense fallback={<div>Loading...</div>}>
             <AdminSignin />
-          </Suspense>
 
           {/* Reemplaza el formulario por el componente Login */}
         </Grid>
         {/* GRID SYSTEM END */}
       </Box>
+
     </MainLayout>
   )
 }

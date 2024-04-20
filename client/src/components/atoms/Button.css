@@ -7,3 +7,12 @@
     cursor: pointer;
 
 }
+
+.btn-add {
+    background-color: #595557 !important;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

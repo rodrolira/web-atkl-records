@@ -2,6 +2,7 @@ import React from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import Title from '../atoms/Title'
 import ArtistCard from '../organisms/ArtistCard'
+import Button from '../atoms/Button'
 
 // Importa ArtistCard de forma dinámica usando lazy
 
@@ -10,9 +11,15 @@ function Artists () {
 
   return (
     <div className='m-32 inline-block' id='artists'>
-      <a href='/artists'>
-        <Title>{language === 'en' ? 'Artists' : 'Artistas'}</Title>
-      </a>
+      <div className='flex items-center justify-between'>
+        <a href='/artists' className='mx-auto'>
+          <Title>{language === 'en' ? 'Artists' : 'Artistas'}</Title>
+        </a>
+        <Button
+          className='btn-add'
+          children={language === 'en' ? 'Add Artist' : 'Anadir Artista'}
+        />
+      </div>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         <ArtistCard
           id={1}

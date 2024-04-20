@@ -1,5 +1,5 @@
-import React from 'react'
-import { VisibilityOff } from '@mui/icons-material'
+import React, { useState } from 'react'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 import {
   Box,
   IconButton,
@@ -12,6 +12,13 @@ import { colors } from '/src/theme'
 import PropTypes from 'prop-types'
 
 const CustomInput = ({ isIconActive, label, placeholder }) => {
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(prev => !prev)
+  }
+
   return (
     <Box
       display='flex'
@@ -33,6 +40,9 @@ const CustomInput = ({ isIconActive, label, placeholder }) => {
           <InputBase
             placeholder={placeholder}
             fullWidth
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={e => setPassword(e.target.value)}
             sx={{
               bgcolor: colors.input[500],
               p: 1,
@@ -41,8 +51,8 @@ const CustomInput = ({ isIconActive, label, placeholder }) => {
             endAdornment={
               isIconActive && (
                 <InputAdornment position='end' sx={{ pr: 1 }}>
-                  <IconButton edge='end'>
-                    <VisibilityOff />
+                  <IconButton edge='end' onClick={togglePasswordVisibility}>
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               )

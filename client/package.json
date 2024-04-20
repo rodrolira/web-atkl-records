@@ -7,12 +7,13 @@
   "scripts": {
     "dev": "vite",
     "test": "vitest",
-    "build": "vite build",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build --ssrManifest --outDir dist/client",
+    "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist --repo https://github.com/rodrolira/web-atkl-records",
     "predeploy": "npm run build"
-
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -26,9 +27,11 @@
     "@mui/icons-material": "^5.15.14",
     "@mui/material": "^5.15.14",
     "@neiderruiz/translate-files": "^1.1.6",
+    "@vitejs/plugin-react": "^4.2.1",
     "axios": "^1.6.8",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+    "esm": "^3.2.25",
     "express": "^4.19.2",
     "express-validator": "^7.0.1",
     "flowbite-react": "^0.7.5",
@@ -49,7 +52,8 @@
   "devDependencies": {
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
-    "@vitejs/plugin-react-swc": "^3.5.0",
+    "@vitejs/plugin-react-refresh": "^1.3.6",
+    "@vitejs/plugin-react-swc": "^3.6.0",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",
@@ -59,6 +63,7 @@
     "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
     "postcss-load-config": "^5.0.3",
+    "react-refresh": "^0.14.0",
     "tailwindcss": "^3.4.3",
     "vite": "^5.2.0",
     "vitest": "^1.4.0"

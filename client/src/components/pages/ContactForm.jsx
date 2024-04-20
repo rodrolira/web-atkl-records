@@ -1,84 +1,44 @@
-import React, { useState } from 'react'
-import { useLanguage } from '../../contexts/LanguageContext'
+import React, { useState } from 'react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const ContactForm = () => {
-  const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
-
+  const { language } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     description: ''
-  })
+  });
 
   const handleChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  const handleSubmit = e => {
-    e.preventDefault()
+  const handleSubmit = async e => {
+    e.preventDefault();
 
-    // Enviar los datos del formulario al backend
-    fetch('http://localhost:5050/auth/submit-form', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to submit form')
-        }
-        return response.json()
-      })
-      .then(data => {
-        console.log('Form submitted successfully:', data)
-        // Llamar a la función para enviar el correo con los nuevos lanzamientos
-        sendEmailWithNewReleases(formData.email)
-      })
-      .catch(error => {
-        console.error('Error submitting form:', error)
-      })
-  }
+    try {
+      const response = await fetch('http://localhost:5050/submit-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
 
-  const sendEmailWithNewReleases = recipientEmail => {
-    // Aquí puedes agregar la lógica para enviar el correo electrónico utilizando Nodemailer u otro servicio de correo electrónico
-    // Ejemplo de uso de Nodemailer:
-    const nodemailer = require('nodemailer')
-
-    // Configurar transporte SMTP
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.example.com',
-      port: 587,
-      secure: false, // true para el puerto 465, false para otros puertos
-      auth: {
-        user: 'tu-correo@example.com',
-        pass: 'tu-contraseña'
+      if (!response.ok) {
+        throw new Error('Error al enviar el formulario');
       }
-    })
 
-    // Configurar opciones del correo electrónico
-    const mailOptions = {
-      from: 'atkl.records@gmail.com',
-      to: recipientEmail, // Utiliza la dirección de correo electrónico del destinatario del formulario
-      subject:
-        language === 'en' ? 'New Contact Form' : 'Nuevo formulario de contacto',
-      text: `${language === 'en' ? 'Name' : 'Nombre'}: ${formData.name}\n${
-        language === 'en' ? 'Email' : 'Correo electrónico'
-      }: ${formData.email}\n${
-        language === 'en' ? 'Description' : 'Descripción'
-      }: ${formData.description}`
+      setFormData({
+        name: '',
+        email: '',
+        description: ''
+      });
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error);
     }
+  };
 
-    // Enviar correo electrónico
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error('Error sending email:', error)
-      } else {
-        console.log('Email sent:', info.response)
-      }
-    })
-  }
 
   return (
     <div>
@@ -93,10 +53,7 @@ const ContactForm = () => {
         </p>
         <form onSubmit={handleSubmit} className='text-white'>
           <div className='mb-4'>
-            <label
-              className='block text-sm font-bold mb-2'
-              htmlFor='name'
-            >
+            <label className='block text-sm font-bold mb-2' htmlFor='name'>
               {language === 'en' ? 'Name:' : 'Nombre:'}
             </label>
             <input
@@ -110,10 +67,7 @@ const ContactForm = () => {
             />
           </div>
           <div className='mb-4'>
-            <label
-              className='block text-sm font-bold mb-2'
-              htmlFor='email'
-            >
+            <label className='block text-sm font-bold mb-2' htmlFor='email'>
               {language === 'en' ? 'Email:' : 'Correo electrónico:'}
             </label>
             <input
