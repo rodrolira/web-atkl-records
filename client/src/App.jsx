@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   BrowserRouter as Router,
   Route,
@@ -20,6 +20,8 @@ import AdminPanel from './components/organisms/AdminPanel'
 import Footer from './components/pages/Footer'
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false) // Estado para verificar si el usuario está conectado
+
   const artistsData = [
     {
       id: 1,
@@ -51,10 +53,14 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5050/') // Reemplaza la URL con la ruta de tu backend
-        console.log(response.data) // Muestra los datos recibidos del backend en la consola
+        const response = await axios.get('http://localhost:5050/')
+        console.log(response.data)
+
+        // Suponiendo que el backend devuelve un token o algún indicador de que el usuario está conectado
+        setIsLoggedIn(true)
       } catch (error) {
         console.error('Error al obtener datos:', error)
+        setIsLoggedIn(false) // Si hay un error, asumimos que el usuario no está conectado
       }
     }
 
@@ -82,7 +88,7 @@ const App = () => {
             <Route path='/releases' element={<Releases />} />
             <Route path='/login' element={<Login />} />
             <Route path='/admin/login' element={<AdminLoginForm />} />
-            <Route path='/admin' element={<AdminPanel />} />
+            <Route path='/admin' element={<Navigate to='/admin/login' />}/>
           </Routes>
         </Router>
         <Footer />
