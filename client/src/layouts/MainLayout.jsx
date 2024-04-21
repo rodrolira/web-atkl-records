@@ -20,7 +20,7 @@ const MainLayout = ({ children }) => {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           overflow: 'hidden',
-          height: '150vh',
+          height: '180vh',
           display: 'flex',
           justifyContent: 'center'
         }}

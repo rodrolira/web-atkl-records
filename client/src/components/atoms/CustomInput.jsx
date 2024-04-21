@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, forwardRef } from 'react'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import {
   Box,
@@ -11,7 +11,10 @@ import {
 import { colors } from '/src/theme'
 import PropTypes from 'prop-types'
 
-const CustomInput = ({ isIconActive, label, placeholder }) => {
+const CustomInput = React.forwardRef((
+  { isIconActive, label, placeholder, type, id, name, value, ...props },
+  ref
+) => {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
@@ -28,7 +31,7 @@ const CustomInput = ({ isIconActive, label, placeholder }) => {
       mb={2}
     >
       <Box display='flex' flexDirection='column' justifyContent='flex-center'>
-        <Typography color='white' pb={1} textAlign={'center'}>
+        <Typography color='white' pb={1} textalign={'center'}>
           {label}
         </Typography>
         <Paper
@@ -38,10 +41,14 @@ const CustomInput = ({ isIconActive, label, placeholder }) => {
           }}
         >
           <InputBase
+            {...props}
+            ref={ref}
+            id={id}
+            name={name}
             placeholder={placeholder}
             fullWidth
-            type={showPassword ? 'text' : 'password'}
-            value={password}
+            type={showPassword ? 'text' : type}
+            value={value}
             onChange={e => setPassword(e.target.value)}
             sx={{
               bgcolor: colors.input[500],
@@ -62,12 +69,21 @@ const CustomInput = ({ isIconActive, label, placeholder }) => {
       </Box>
     </Box>
   )
-}
+})
 
 CustomInput.propTypes = {
   isIconActive: PropTypes.bool,
   label: PropTypes.string.isRequired,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  type: PropTypes.oneOf(['text', 'password', 'email']).isRequired,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired
+}
+
+CustomInput.defaultProps = {
+  type: 'text',
+  id: '',
+  name: ''
 }
 
 export default CustomInput

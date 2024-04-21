@@ -21,6 +21,7 @@ import Footer from './components/pages/Footer'
 import RegisterPage from './components/pages/RegisterPage.jsx'
 import LoginAdminPage from './components/pages/LoginAdminPage.jsx'
 import LoginArtistPage from './components/pages/LoginArtistPage.jsx'
+import AuthProvider from './contexts/AuthContext.jsx'
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false) // Estado para verificar si el usuario está conectado
@@ -71,38 +72,39 @@ const App = () => {
   }, [])
 
   return (
-    <LanguageProvider>
-      <div className='App h-full'>
-        <Router>
-          <Navbar />
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/home' element={<Navigate to='/' />} />
-            <Route path='/artists' element={<Artists />} />
-            <Route
-              path='/artists/:id'
-              element={
-                <ArtistDetail
-                  artistsData={artistsData}
-                  currentAdminUser={undefined}
-                />
-              }
-            />
-            <Route path='/releases' element={<Releases />} />
-            <Route path='/login' element={<LoginArtistPage />} />
-            <Route path='/admin/login' element={<LoginAdminPage />} />
-            <Route path='/admin' element={<Navigate to='/admin/login' />} />
-            <Route path='/register' element={<RegisterPage/>} />
-            <Route path='/tasks' element={<h1> Tasks Page </h1>} />
-            <Route path='/add-task' element={<h1> New Task </h1>} />
-            <Route path='/tasks/:id' element={<h1> Update Page </h1>} />
-            <Route path='/profile' element={<h1> Profile Page </h1>} />
-
-          </Routes>
-        </Router>
-        <Footer />
-      </div>
-    </LanguageProvider>
+    <AuthProvider>
+      <LanguageProvider>
+        <div className='App h-full'>
+          <Router>
+            <Navbar />
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/home' element={<Navigate to='/' />} />
+              <Route path='/artists' element={<Artists />} />
+              <Route
+                path='/artists/:id'
+                element={
+                  <ArtistDetail
+                    artistsData={artistsData}
+                    currentAdminUser={undefined}
+                  />
+                }
+              />
+              <Route path='/releases' element={<Releases />} />
+              <Route path='/login' element={<LoginArtistPage />} />
+              <Route path='/admin/login' element={<LoginAdminPage />} />
+              <Route path='/admin' element={<Navigate to='/admin/login' />} />
+              <Route path='/register' element={<RegisterPage />} />
+              <Route path='/tasks' element={<h1> Tasks Page </h1>} />
+              <Route path='/add-task' element={<h1> New Task </h1>} />
+              <Route path='/tasks/:id' element={<h1> Update Page </h1>} />
+              <Route path='/profile' element={<h1> Profile Page </h1>} />
+            </Routes>
+          </Router>
+          <Footer />
+        </div>
+      </LanguageProvider>
+    </AuthProvider>
   )
 }
 
