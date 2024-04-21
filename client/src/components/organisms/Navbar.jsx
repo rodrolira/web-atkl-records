@@ -7,7 +7,9 @@ function Navbar () {
   return (
     <nav className='shadow-lg navbar-wrapper lg:bg-transparent !border-gray-200  fixed w-full md:h-[10vh] lg:h-[20vh] md:bg-neutral-800 md:!bg-opacity-50'>
       <div className='flex lg:flex-row h-full justify-between px-2 pt-2 md:pt-0 md:flex-col'>
-        <Logo />
+        <div className='my-auto lg:ml-12'>
+          <Logo />
+        </div>
         <NavbarMenu />
       </div>
     </nav>

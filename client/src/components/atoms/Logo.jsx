@@ -3,7 +3,7 @@ import React from 'react'
 function Logo ({ isAdminSignin }) {
   const logoClass = isAdminSignin
     ? 'rtl:space-x-reverse max-[320px]:mx-0 lg:block sm:hidden md:hidden sm:mx-auto'
-    : 'rtl:space-x-reverse max-[320px]:mx-0 lg:ml-12 lg:block sm:hidden md:hidden sm:mx-auto'
+    : 'rtl:space-x-reverse max-[320px]:mx-0 lg:block sm:hidden md:hidden sm:mx-auto'
 
   return (
     <a className={logoClass} href='/'>

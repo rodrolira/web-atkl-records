@@ -18,6 +18,9 @@ import Releases from './components/pages/Releases.jsx'
 import Login from './components/organisms/Login.jsx'
 import AdminPanel from './components/organisms/AdminPanel'
 import Footer from './components/pages/Footer'
+import RegisterPage from './components/pages/RegisterPage.jsx'
+import LoginAdminPage from './components/pages/LoginAdminPage.jsx'
+import LoginArtistPage from './components/pages/LoginArtistPage.jsx'
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false) // Estado para verificar si el usuario está conectado
@@ -86,9 +89,15 @@ const App = () => {
               }
             />
             <Route path='/releases' element={<Releases />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/admin/login' element={<AdminLoginForm />} />
-            <Route path='/admin' element={<Navigate to='/admin/login' />}/>
+            <Route path='/login' element={<LoginArtistPage />} />
+            <Route path='/admin/login' element={<LoginAdminPage />} />
+            <Route path='/admin' element={<Navigate to='/admin/login' />} />
+            <Route path='/register' element={<RegisterPage/>} />
+            <Route path='/tasks' element={<h1> Tasks Page </h1>} />
+            <Route path='/add-task' element={<h1> New Task </h1>} />
+            <Route path='/tasks/:id' element={<h1> Update Page </h1>} />
+            <Route path='/profile' element={<h1> Profile Page </h1>} />
+
           </Routes>
         </Router>
         <Footer />
