@@ -76,7 +76,7 @@ export const logoutAdmin = (req, res) => {
 }
 
 export const profileAdmin = async (req, res) => {
-    const userFound = await User.findById(req.user.id)
+    const userFound = await Admin.findById(req.user.id)
     if (!userFound) return res.status(400).json({ message: 'User not found' })
     return res.json({
         id: userFound._id,
@@ -96,7 +96,7 @@ export const verifyToken = async (req, res) => {
     jwt.verify(token, TOKEN_SECRET, async (err, user) => {
         if (err) return res.status(401).json({ message: 'Unauthorized' })
 
-        const userFound = await User.findById(user.id)
+        const userFound = await Admin.findById(user.id)
         if (!userFound) return res.status(401).json({ message: 'Unauthorized' })
 
         return res.json({
