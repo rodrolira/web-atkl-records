@@ -37,7 +37,8 @@ export const AdminAuthProvider = ({ children }) => {
   const signin = async adminUser => {
     try {
       const res = await adminLoginRequest(adminUser)
-      console.log(res)
+      const authToken = res.data.token
+      Cookies.set('token', authToken,)
       setIsAuthenticated(true)
       setAdminUser(res.data)
     } catch (error) {

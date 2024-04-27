@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { registerAdmin, loginAdmin, logoutAdmin, profileAdmin, verifyTokenAdmin } from '../controllers/admin.controller.js';
+import { registerAdmin, loginAdmin, logoutAdmin, profileAdmin, verifyToken } from '../controllers/admin.controller.js';
 import { adminAuthRequired } from '../middlewares/validateToken.js';
 import { validateSchema } from '../middlewares/validator.middleware.js';
 import { adminRegisterSchema, adminLoginSchema } from '../schemas/admin.schema.js';
@@ -10,8 +10,8 @@ router.post('/admin/register', validateSchema(adminRegisterSchema), registerAdmi
 router.post('/admin/login', validateSchema(adminLoginSchema), loginAdmin);
 router.post('/admin/logout', logoutAdmin);
 
-router.get('/admin/verify', verifyTokenAdmin);
-router.get('/profile', adminAuthRequired, profileAdmin);
+router.get('/verify', verifyToken);
+router.get('/admin/profile', adminAuthRequired, profileAdmin);
 
 // Agrega más rutas según tus necesidades aquí...
 
