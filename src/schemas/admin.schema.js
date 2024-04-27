@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const registerSchema = z.object({
+export const adminRegisterSchema = z.object({
     username: z.string({
         required_error: 'Username is required',
     }),
@@ -11,19 +11,16 @@ export const registerSchema = z.object({
     }),
     password: z.string({
         required_error: 'Password is required',
-    }).min(6, {
-        message: 'Password must be at least 6 characters'
     })
 })
 
-
-export const loginSchema = z.object({
+export const adminLoginSchema = z.object({
     username: z.string({
         required_error: 'Username is required',
     }),
     password: z.string({
         required_error: 'Password is required',
-    }).min(6, {
-        message: 'Password must be at least 6 characters'
     })
 })
+
+// Agrega más esquemas según tus necesidades aquí...
