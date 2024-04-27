@@ -1,35 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext' // Importa el hook useLanguage
 import { Box, Button, Checkbox, colors, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
 import CustomInput from '../atoms/CustomInput'
 import Logo from '../atoms/Logo'
+import { useAdminAuth } from '../../contexts/AdminAuthContext'
+import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 
 const AdminSignin = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const { language } = useLanguage() // Usa el hook para obtener language
 
-  const handleSubmit = async e => {
-    e.preventDefault()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm()
+  const { signin, isAuthenticated, errors: signinErrors } = useAdminAuth()
+  const navigate = useNavigate()
 
-    try {
-      const response = await axios.post('http://localhost:5050/admin-login', {
-        username,
-        password
-      })
+  useEffect(() => {
+    if (isAuthenticated) navigate('/')
+  }, [isAuthenticated])
 
-      // Guarda el token en el almacenamiento local o de sesión
-      localStorage.setItem('token', response.data.token)
-
-      // Redirige al usuario a la página de administrador
-      window.location.href = '/admin'
-    } catch (error) {
-      console.error('Error de inicio de sesión:', error)
-    }
-  }
+  const onSubmit = handleSubmit(data => {
+    signin(data)
+  })
 
   return (
     <Grid
@@ -87,7 +83,7 @@ const AdminSignin = () => {
                 justifyContent: 'center'
               }}
             >
-              <Logo isAdminSignin   />
+              <Logo isAdminSignin />
             </Box>
             {/* LOGO END */}
 
@@ -104,75 +100,118 @@ const AdminSignin = () => {
             </Typography>
           </Box>
 
-          {/* FORM */}
-          <form onSubmit={handleSubmit}>
-            <CustomInput
-              label={language === 'en' ? 'Username' : 'Nombre de usuario'}
-              placeholder={
-                language === 'en'
-                  ? 'Enter your username...'
-                  : 'Ingrese su nombre de usuario...'
-              }
-              name='username'
-              type='text'
-              value={username}
-              onChange={e => setUsername(e.target.value)}
-              required
-              isIconActive={false}
-              text-align='center'
-              mx='auto'
-            />
-
-            <CustomInput
-              label={language === 'en' ? 'Password' : 'Contraseña'}
-              placeholder={
-                language === 'en'
-                  ? 'Enter your password...'
-                  : 'Ingrese su contraseña...'
-              }
-              type='password'
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-              isIconActive={true}
-            />
-
-            <Box
-              display='flex'
-              flexDirection='row'
-              justifyContent='space-between'
-              mt={2}
-              width='100%'
-              color='white'
-            >
-              <div style={{ display: 'flex' }}>
-                <Checkbox disableRipple sx={{ p: 0, pr: 1 }} />
-                <Typography>
-                  {language === 'en' ? 'Remember me' : 'Recuérdame'}
-                </Typography>
+          <div>
+            {signinErrors.map((error, i) => (
+              <div
+                className='bg-red-500 p-2 mb-2 text-white rounded-md'
+                key={i}
+              >
+                {error}
               </div>
-              <a
-                href='#yoyo'
-                style={{
-                  color: colors.green[500],
-                  textDecoration: 'none'
+            ))}
+
+            {/* FORM */}
+            <form onSubmit={onSubmit}>
+              <CustomInput
+                type='text'
+                label={language === 'en' ? 'Username' : 'Nombre de usuario'}
+                placeholder={
+                  language === 'en'
+                    ? 'Enter your username...'
+                    : 'Ingrese su nombre de usuario...'
+                }
+                {...register('username', {
+                  required: true
+                })}
+                isIconActive={false}
+                text-align='center'
+                mx='auto'
+              />
+
+              {errors.username && (
+                <Typography
+                  color='red'
+                  fontSize='14px'
+                  fontWeight='bold'
+                  mt={2}
+                  mb={2}
+                  textAlign='center'
+                >
+                  {language === 'en'
+                    ? 'Username is required'
+                    : 'Se requiere nombre de usuario'}
+                </Typography>
+              )}
+
+              <CustomInput
+                label={language === 'en' ? 'Password' : 'Contraseña'}
+                placeholder={
+                  language === 'en'
+                    ? 'Enter your password...'
+                    : 'Ingrese su contraseña...'
+                }
+                type='password'
+                isIconActive={true}
+                {...register('password', { required: true })}
+              />
+
+              {errors.password && (
+                <Typography
+                  color='red'
+                  fontSize='14px'
+                  fontWeight='bold'
+                  mt={2}
+                  mb={2}
+                  textAlign='center'
+                >
+                  {language === 'en'
+                    ? 'Password is required'
+                    : 'Se requiere contraseña'}
+                </Typography>
+              )}
+
+              {/* BUTTON */}
+              <Box
+                display='flex'
+                flexDirection='row'
+                justifyContent='space-between'
+                mt={2}
+                width='100%'
+                color='white'
+              >
+                <div style={{ display: 'flex' }}>
+                  <Checkbox disableRipple sx={{ p: 0, pr: 1 }} />
+                  <Typography>
+                    {language === 'en' ? 'Remember me' : 'Recuérdame'}
+                  </Typography>
+                </div>
+                <a
+                  href='#yoyo'
+                  style={{
+                    color: colors.green[500],
+                    textDecoration: 'none'
+                  }}
+                >
+                  {language === 'en'
+                    ? 'Forget password?'
+                    : '¿Olvidó su contraseña?'}
+                </a>
+              </Box>
+              <Button
+                type='submit'
+                variant='contained'
+                fullWidth
+                sx={{
+                  mt: 4,
+                  mb: 4,
+                  boxShadow: `0 0 20px ${colors.green[500]}`
                 }}
               >
-                {language === 'en'
-                  ? 'Forget password?'
-                  : '¿Olvidó su contraseña?'}
-              </a>
-            </Box>
-            <Button
-              type='submit'
-              variant='contained'
-              fullWidth
-              sx={{ mt: 4, mb: 4, boxShadow: `0 0 20px ${colors.green[500]}` }}
-            >
-              {language === 'en' ? 'Login' : 'Iniciar Sesión'}
-            </Button>
-          </form>
-          {/* FORM END */}
+                {language === 'en' ? 'Login' : 'Iniciar Sesión'}
+              </Button>
+            </form>
+            {/* FORM END */}
+          </div>
 
           {/* Mostrar error si existe */}
         </Box>

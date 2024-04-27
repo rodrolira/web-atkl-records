@@ -4,9 +4,23 @@ import { Box, Button, Checkbox, colors, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
 import CustomInput from '../atoms/CustomInput'
 import Logo from '../atoms/Logo'
+import { useForm } from 'react-hook-form'
+import { useAuth } from '../../contexts/AuthContext'
 
 const SigninPage = () => {
   const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm()
+
+  const { signin, errors: signinErrors } = useAuth()
+
+  const onSubmit = handleSubmit(data => {
+    signin(data)
+  })
 
   return (
     <Grid
@@ -79,63 +93,113 @@ const SigninPage = () => {
             </Typography>
           </Box>
 
-          {/* INPUTS */}
-          <CustomInput
-            label={language === 'en' ? 'Username' : 'Nombre de usuario'}
-            placeholder={
-              language === 'en'
-                ? 'Enter your username...'
-                : 'Ingrese su nombre de usuario...'
-            }
-            isIconActive={false}
-            text-align='center'
-            mx='auto'
-          />
-          <CustomInput
-            label={language === 'en' ? 'Password' : 'Contraseña'}
-            placeholder={
-              language === 'en'
-                ? 'Enter your password...'
-                : 'Ingrese su contraseña...'
-            }
-            isIconActive={true}
-          />
+          <div>
+            {signinErrors.map((error, i) => (
+              <div
+                className='bg-red-500 p-2 mb-2 text-white rounded-md'
+                key={i}
+              >
+                {error}
+              </div>
+            ))}
 
-          {/* INPUT END */}
+            <form onSubmit={onSubmit}>
+              {/* INPUTS */}
+              <CustomInput
+                type='text'
+                label={language === 'en' ? 'Username' : 'Nombre de usuario'}
+                placeholder={
+                  language === 'en'
+                    ? 'Enter your username...'
+                    : 'Ingrese su nombre de usuario...'
+                }
+                {...register('username', { required: true })}
+                isIconActive={false}
+                text-align='center'
+                mx='auto'
+              />
+              {errors.username && (
+                <Typography
+                  color='red'
+                  fontSize='12px'
+                  fontWeight='bold'
+                  mt={2}
+                  mb={2}
+                >
+                  {language === 'en'
+                    ? 'Username is required'
+                    : 'El usuario es requerido'}
+                </Typography>
+              )}
 
-          <Box
-            display='flex'
-            flexDirection='row'
-            justifyContent='space-between'
-            mt={2}
-            width='100%'
-            color='white'
-          >
-            <div style={{ display: 'flex' }}>
-              <Checkbox disableRipple sx={{ p: 0, pr: 1 }} />
-              <Typography>
-                {language === 'en' ? 'Remember me' : 'Recuérdame'}
-              </Typography>
-            </div>
-            <a
-              href='#yoyo'
-              style={{
-                color: colors.green[500],
-                textDecoration: 'none'
-              }}
-            >
-              {language === 'en'
-                ? 'Forget password?'
-                : '¿Olvidó su contraseña?'}
-            </a>
-          </Box>
-          <Button
-            variant='contained'
-            fullWidth
-            sx={{ mt: 4, mb: 4, boxShadow: `0 0 20px ${colors.green[500]}` }}
-          >
-            {language === 'en' ? 'Login' : 'Iniciar Sesión'}
-          </Button>
+              <CustomInput
+                type='password'
+                label={language === 'en' ? 'Password' : 'Contraseña'}
+                placeholder={
+                  language === 'en'
+                    ? 'Enter your password...'
+                    : 'Ingrese su contraseña...'
+                }
+                isIconActive={true}
+                {...register('password', { required: true })}
+              />
+
+              {errors.password && (
+                <Typography
+                  color='red'
+                  fontSize='12px'
+                  fontWeight='bold'
+                  mt={2}
+                  mb={2}
+                >
+                  {language === 'en'
+                    ? 'Password is required'
+                    : 'La contraseña es requerida'}
+                </Typography>
+              )}
+
+              {/* INPUT END */}
+
+              <Box
+                display='flex'
+                flexDirection='row'
+                justifyContent='space-between'
+                mt={2}
+                width='100%'
+                color='white'
+              >
+                <div style={{ display: 'flex' }}>
+                  <Checkbox disableRipple sx={{ p: 0, pr: 1 }} />
+                  <Typography>
+                    {language === 'en' ? 'Remember me' : 'Recuérdame'}
+                  </Typography>
+                </div>
+                <a
+                  href='#yoyo'
+                  style={{
+                    color: colors.green[500],
+                    textDecoration: 'none'
+                  }}
+                >
+                  {language === 'en'
+                    ? 'Forget password?'
+                    : '¿Olvidó su contraseña?'}
+                </a>
+              </Box>
+              <Button
+                variant='contained'
+                fullWidth
+                sx={{
+                  mt: 4,
+                  mb: 4,
+                  boxShadow: `0 0 20px ${colors.green[500]}`
+                }}
+                type='submit'
+              >
+                {language === 'en' ? 'Login' : 'Iniciar Sesión'}
+              </Button>
+            </form>
+          </div>
         </Box>
       </Box>
     </Grid>
