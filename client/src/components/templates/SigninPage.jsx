@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext' // Importa el hook useLanguage
 import { Box, Button, Checkbox, colors, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
@@ -6,6 +6,7 @@ import CustomInput from '../atoms/CustomInput'
 import Logo from '../atoms/Logo'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '../../contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const SigninPage = () => {
   const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
@@ -16,7 +17,12 @@ const SigninPage = () => {
     formState: { errors }
   } = useForm()
 
-  const { signin, errors: signinErrors } = useAuth()
+  const { signin, isAuthenticated, errors: signinErrors } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isAuthenticated) navigate('/')
+  }, [isAuthenticated])
 
   const onSubmit = handleSubmit(data => {
     signin(data)

@@ -20,7 +20,7 @@ const AdminSignin = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (isAuthenticated) navigate('/')
+    if (isAuthenticated) navigate('/admin')
   }, [isAuthenticated])
 
   const onSubmit = handleSubmit(data => {

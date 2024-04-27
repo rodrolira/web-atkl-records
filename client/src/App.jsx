@@ -24,6 +24,7 @@ import ProfilePage from './components/pages/ProfilePage.jsx'
 import DiscographyPage from './components/pages/DiscographyPage.jsx'
 import ProtectedRoute from './ProtectedRoute.jsx'
 import { AdminAuthProvider } from './contexts/AdminAuthContext.jsx'
+import AdminDashboard from './admin/AdminDashboard.jsx'
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -65,7 +66,7 @@ const App = () => {
                 <Route path='/releases' element={<ReleasesPage />} />
                 <Route path='/login' element={<LoginArtistPage />} />
                 <Route path='/admin/login' element={<LoginAdminPage />} />
-                <Route path='/admin' element={<Navigate to='/admin/login' />} />
+                <Route path='/admin' element={<AdminDashboard />} />
                 <Route path='/register' element={<RegisterPage />} />
                 <Route path='/tasks' element={<h1> Tasks Page </h1>} />
                 <Route path='/add-task' element={<h1> New Task </h1>} />
