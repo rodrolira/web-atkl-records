@@ -5,7 +5,7 @@ const ReleaseCard = lazy(() => import('./ReleaseCard'))
 
 function ReleaseSection ({ releasesData }) {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+    <div className='grid gap-4'>
       {/* Utiliza Suspense para renderizar ReleaseCard de forma dinámica */}
       <Suspense fallback={<div>Loading ReleaseCard...</div>}>
         {Array.isArray(releasesData) &&

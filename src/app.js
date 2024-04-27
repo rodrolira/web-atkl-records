@@ -24,6 +24,6 @@ app.use("/api", authRoutes);
 app.use("/api", taskRoutes);
 app.use('/api', artistsRoutes);
 app.use('/api', releasesRoutes);
-app.use('/api', adminRoutes);
+app.use('/api/admin', adminRoutes);
 
 export default app

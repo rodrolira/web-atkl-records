@@ -43,7 +43,7 @@ const HomeNavbarLinks = () => {
                     <NavItem
                       key={link.to}
                       to={`#${link.to}`} // Agregar un '#' para crear el selector de ID correcto
-                      text={language === 'en' ? link.text : link.text}
+                      text={language === 'en' ? link.text_en : link.text_es} // Usa el estado del idioma para determinar el texto del enlace
                       isActive={
                         activeItem === link.to ||
                         (link.to === '/' && activeItem === '')

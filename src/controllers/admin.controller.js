@@ -88,7 +88,7 @@ export const profileAdmin = async (req, res) => {
     res.send('profile')
 }
 
-export const verifyToken = async (req, res) => {
+export const verifyAdminToken = async (req, res) => {
     const { token } = req.cookies
 
     if (!token) return res.status(401).json({ message: 'Unauthorized' })

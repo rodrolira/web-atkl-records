@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import {
-  adminRegisterRequest,
-  adminLoginRequest,
-  adminVerityTokenRequest
+  registerRequest,
+  loginRequest,
+  verityTokenRequest
 } from '../api/adminAuth'
+
 
 export const AdminAuthContext = createContext()
 
@@ -17,16 +18,16 @@ export const useAdminAuth = () => {
 }
 
 export const AdminAuthProvider = ({ children }) => {
-  const [adminUser, setAdminUser] = useState(null)
+  const [user, setUser] = useState(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [errors, setErrors] = useState([])
   const [loading, setLoading] = useState(true)
 
-  const signup = async adminUser => {
+  const signup = async user => {
     try {
-      const res = await adminRegisterRequest(adminUser)
+      const res = await registerRequest(user)
       console.log(res.data)
-      setAdminUser(res.data)
+      setUser(res.data)
       setIsAuthenticated(true)
     } catch (error) {
       console.log(error.response)
@@ -34,13 +35,11 @@ export const AdminAuthProvider = ({ children }) => {
     }
   }
 
-  const signin = async adminUser => {
+  const signin = async user => {
     try {
-      const res = await adminLoginRequest(adminUser)
-      const authToken = res.data.token
-      Cookies.set('token', authToken,)
+      const res = await loginRequest(user)
       setIsAuthenticated(true)
-      setAdminUser(res.data)
+      setUser(res.data)
     } catch (error) {
       if (Array.isArray(error.response.data)) {
         return setErrors(error.response.data)
@@ -49,6 +48,13 @@ export const AdminAuthProvider = ({ children }) => {
       setErrors([error.response.data.message])
     }
   }
+
+  const logout = () => {
+  Cookies.remove('token')
+  setIsAuthenticated(false)
+  setUser(null)
+}
+
 
   useEffect(() => {
     if (errors.length > 0) {
@@ -60,17 +66,17 @@ export const AdminAuthProvider = ({ children }) => {
   }, [errors])
 
   useEffect(() => {
-    async function checkLogin () {
+    async function checkAdminLogin () {
       const cookies = Cookies.get()
 
       if (!cookies.token) {
         setIsAuthenticated(false)
         setLoading(false)
-        return setAdminUser(null)
+        return setUser(null)
       }
 
       try {
-        const res = await adminVerityTokenRequest(cookies.token)
+        const res = await verityTokenRequest(cookies.token)
         if (!res.data) {
           setIsAuthenticated(false)
           setLoading(false)
@@ -78,15 +84,15 @@ export const AdminAuthProvider = ({ children }) => {
         }
 
         setIsAuthenticated(true)
-        setAdminUser(res.data)
+        setUser(res.data)
         setLoading(false)
       } catch (error) {
         setIsAuthenticated(false)
-        setAdminUser(null)
+        setUser(null)
         setLoading(false)
       }
     }
-    checkLogin()
+    checkAdminLogin()
   }, [])
 
   return (
@@ -94,8 +100,9 @@ export const AdminAuthProvider = ({ children }) => {
       value={{
         signup,
         signin,
+        logout,
         loading,
-        adminUser,
+        user,
         isAuthenticated,
         errors
       }}

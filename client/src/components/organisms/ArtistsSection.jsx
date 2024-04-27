@@ -3,11 +3,13 @@ import { useLanguage } from '../../contexts/LanguageContext'
 import Title from '../atoms/Title'
 import ArtistCard from './ArtistCard'
 import Button from '../atoms/Button'
+import { useAdminAuth } from '../../contexts/AdminAuthContext'
 
 // Importa ArtistCard de forma dinámica usando lazy
 
 function ArtistsSection () {
   const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
+  const { isAuthenticated: adminAuthenticated } = useAdminAuth()
 
   return (
     <div className='m-32 inline-block' id='artists'>
@@ -15,10 +17,12 @@ function ArtistsSection () {
         <a href='/artists' className='mx-auto'>
           <Title>{language === 'en' ? 'Artists' : 'Artistas'}</Title>
         </a>
-        <Button
-          className='btn-add'
-          children={language === 'en' ? 'Add Artist' : 'Anadir Artista'}
-        />
+        {adminAuthenticated && (
+          <Button
+            className='btn-add'
+            children={language === 'en' ? 'Add Artist' : 'Añadir Artista'}
+          />
+        )}
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         <ArtistCard

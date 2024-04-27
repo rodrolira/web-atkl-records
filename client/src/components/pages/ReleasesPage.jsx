@@ -2,12 +2,15 @@ import React, { Suspense } from 'react' // Importa React y Suspense
 import { useLanguage } from '../../contexts/LanguageContext'
 import Title from '../atoms/Title'
 import Button from '../atoms/Button'
+import { useAdminAuth } from '../../contexts/AdminAuthContext'
 
 // Importa ReleaseSection usando importación dinámica
 const ReleaseSection = React.lazy(() => import('../organisms/ReleaseSection'))
 
 function ReleasesPage () {
   const { language } = useLanguage()
+  const { isAuthenticated: adminAuthenticated } = useAdminAuth()
+
 
   const releasesData = [
     {
@@ -37,10 +40,12 @@ function ReleasesPage () {
         <a href='/releases' className='mx-auto'>
           <Title> {language === 'en' ? 'Releases' : 'Lanzamientos'}</Title>
         </a>
+        {adminAuthenticated && (
         <Button
           className='btn-add'
           children={language === 'en' ? 'Add Release' : 'Añadir Lanzamiento'}
         />
+        )}
       </div>
       <Suspense fallback={<div>Loading...</div>}>
         <ReleaseSection releasesData={releasesData} />{' '}

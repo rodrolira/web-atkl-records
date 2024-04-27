@@ -17,8 +17,8 @@ function ReleaseCard ({ title, artist, bandcampLink, embeddedPlayer }) {
         >
           BUY
         </Button>
+        </div>
       </div>
-    </div>
   )
 }
 

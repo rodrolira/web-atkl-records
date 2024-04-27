@@ -16,13 +16,13 @@ const LanguageMenu = () => {
   return (
     <div className='relative max-[320px]:hidden '>
       {/* Language dropdown button */}
-      <div
+      <div className='h-full'
         onMouseEnter={() => setMenuVisibility(true)}
         onMouseLeave={() => setMenuVisibility(false)}
       >
         <button
           type='button'
-          className='max-[320px]:ms-2 md:text-xs inline-flex items-center font-medium justify-center  px-4 py-2 lg:text-sm text-white rounded-t-lg cursor-pointer hover:bg-gray-700 hover:text-white'
+          className='max-[320px]:ms-2 md:text-xs inline-flex items-center font-medium justify-center h-full px-4 py-2 lg:text-sm text-white rounded-t-lg cursor-pointer hover:bg-gray-700 hover:text-white'
         >
           {/* Language icon here */}
           <ReactCountryFlag

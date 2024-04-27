@@ -8,6 +8,7 @@ import NavbarLinks from './NavbarLinks'
 import { useAdminAuth } from '../../contexts/AdminAuthContext'
 import { useAuth } from '../../contexts/AuthContext'
 import LogoutButton from './LogoutButton'
+import Button from '../atoms/Button'
 
 function NavbarMenu () {
   const location = useLocation()
@@ -18,40 +19,44 @@ function NavbarMenu () {
   return (
     <div className='md:flex lg:block md:flex-row-reverse md:justify-around md:items-center  w-full'>
       <div className='flex items-center justify-end h-[50%]'>
-        {/* Dropdown menu */}
-        <div
-          id='dropdownHover'
-          className='z-10 hidden h-full bg-white divide-y rounded-lg shadow w-44 text-center dark:bg-red-900'
-        >
+        <div className='z-10 flex divide-y rounded-lg text-center '>
           <ul
-            className='py-2 text-sm text-white dark:text-white sm:font-normal'
+            className='py-2 text-sm flex text-white dark:text-white sm:font-normal'
             aria-labelledby='dropdownHoverButton'
           >
-            <li>
-              <a
-                className='block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white divide-gray-900'
-                data-remote='true'
-                href='/artists/new'
-              >
-                {language === 'en' ? 'Add Artist' : 'Agregar Artista'}
-              </a>
-            </li>
-            <li>
-              <a
-                className='block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white divide-gray-900'
-                data-remote='true'
-                href='/releases/new'
-              >
-                {language === 'en' ? 'Add Release' : 'Agregar Lanzamiento'}
-              </a>
-            </li>
+            {adminAuthenticated && (
+              <li>
+                <Button className='btn-add'>
+                  {language === 'en' ? 'Add Artist' : 'Agregar Artista'}
+                </Button>
+              </li>
+            )}
+            {adminAuthenticated && (
+              <li>
+                <Button className='btn-add'>
+                  {language === 'en' ? 'Add Release' : 'Agregar Lanzamiento'}
+                </Button>
+              </li>
+            )}
+            {adminAuthenticated && (
+              <li>
+                <Button className='btn-dashboard' href='/admin'>
+                  {language === 'en'
+                    ? 'Admin Dashboard'
+                    : 'Panel de Administrador'}
+                </Button>
+              </li>
+            )}
+
+            {!adminAuthenticated && <DemoButton />}
+            {/* user login button */}
+            {!adminAuthenticated && !userAuthenticated && <LoginButton />}
+            <LanguageMenu />
+
+            {userAuthenticated && <LogoutButton />}
+            {adminAuthenticated && <LogoutButton />}
           </ul>
         </div>
-        <DemoButton />
-        {/* user login button */}
-        {!adminAuthenticated && !userAuthenticated && <LoginButton />}
-        <LanguageMenu />
-        {adminAuthenticated || (userAuthenticated && <LogoutButton />)}
       </div>
       <NavbarLinks />
     </div>
