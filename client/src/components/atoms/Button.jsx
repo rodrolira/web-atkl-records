@@ -6,7 +6,6 @@ const Button = ({ href, onClick, children, className }) => {
     <div className='h-full mx-2'>
       <a
         href={href}
-        target='_blank'
         rel='noopener noreferrer'
         onClick={onClick}
         className={`h-full text-white font-medium rounded-lg text-sm inline-flex items-center ${className}`}

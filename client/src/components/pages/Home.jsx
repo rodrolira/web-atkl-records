@@ -1,11 +1,11 @@
 import React from 'react'
 import './Home.css'
 import { useLanguage } from '../../contexts/LanguageContext'
-import Artists from './Artists'
-import Releases from './Releases'
-import DemosSection from './DemoSection'
-import ContactSection from './ContactSection'
-import AboutSection from './AboutSection';
+import Artists from '../organisms/ArtistsSection'
+import Releases from './ReleasesPage'
+import DemosSection from '../organisms/DemoSection'
+import ContactSection from '../organisms/ContactSection'
+import AboutSection from '../organisms/AboutSection'
 
 function Home () {
   const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
@@ -48,7 +48,6 @@ function Home () {
       <DemosSection />
 
       <ContactSection />
-
     </div>
   )
 }

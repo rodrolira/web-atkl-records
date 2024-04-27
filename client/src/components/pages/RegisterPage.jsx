@@ -9,12 +9,12 @@ function RegisterPage () {
     handleSubmit,
     formState: { errors }
   } = useForm()
-  const { signup, IsAuthenticated, errors: RegisterErrors } = useAuth()
+  const { signup, isAuthenticated, errors: registerErrors } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (IsAuthenticated) navigate('/home')
-  }, [IsAuthenticated])
+    if (isAuthenticated) navigate('/')
+  }, [isAuthenticated])
 
   const onSubmit = handleSubmit(async values => {
     signup(values)
@@ -22,9 +22,11 @@ function RegisterPage () {
 
   return (
     <div className='flex flex-col space-y-4 m-32'>
-      {
-        RegisterErrors && RegisterErrors.map((error, index) => <p key={index} className='text-red-500'>{error}</p>)
-      }
+      {registerErrors.map((error, i) => (
+        <div className='bg-red-500 p-2 mb-2 rounded-md text-white' key={i}>
+          {error}
+        </div>
+      ))}
       <form onSubmit={onSubmit} className='flex flex-col space-y-4'>
         <input
           type='text'

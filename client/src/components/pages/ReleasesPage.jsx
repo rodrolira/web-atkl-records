@@ -1,82 +1,53 @@
 import React, { Suspense } from 'react' // Importa React y Suspense
-import { useParams } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import { useLanguage } from '../../contexts/LanguageContext'
 import Title from '../atoms/Title'
+import Button from '../atoms/Button'
 
-// Importa Releases usando importación dinámica
-const Releases = React.lazy(() => import('./Releases'))
+// Importa ReleaseSection usando importación dinámica
+const ReleaseSection = React.lazy(() => import('../organisms/ReleaseSection'))
 
-function ReleasesPage ({ artistsData, currentAdminUser }) {
-  ArtistDetail.propTypes = {
-    artistsData: PropTypes.array.isRequired,
-    currentAdminUser: PropTypes.object
-  }
-
-  const { id } = useParams()
-  if (id === undefined) {
-    return <div>Error: No se proporcionó un ID válido</div>
-  }
-
-  const artist = artistsData.find(artist => artist.id === parseInt(id))
-
-  if (!artist) {
-    return <div>Error: No se encontró el artista con ID {id}</div>
-  }
-
+function ReleasesPage () {
   const { language } = useLanguage()
 
-  return (
-    <div className='inline-block w-full mt-32'>
-      <div></div>
-      {currentAdminUser && (
-        <a
-          href={`/artists/${artist.id}/edit`}
-          className='mx-auto text-white bg-blue-600 rounded-full py-2 px-4 mt-4 inline-block font-medium cursor-pointer'
+  const releasesData = [
+    {
+      id: 1,
+      title: 'INSANITY',
+      artist: 'RODRO',
+      bandcampLink:
+        'https://atklrecords.bandcamp.com/track/insanity-free-download-hpn002',
+      embeddedPlayer: (
+        <iframe
+          style={{ border: '0', width: 'auto', height: '442px' }}
+          src='https://bandcamp.com/EmbeddedPlayer/track=1762528373/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/'
         >
-          {language === 'en' ? 'Edit Artist' : 'Editar Artista'}
+          <a href='https://atklrecords.bandcamp.com/track/insanity-free-download-hpn002'>
+            INSANITY - (FREE DOWNLOAD) de RODRO
+          </a>
+        </iframe>
+      )
+    }
+    // Otros datos de lanzamientos...
+  ]
+  console.log(releasesData) // Imprimir releasesData en la consola del navegador
+
+  return (
+    <div className='sm:m-0 inline-block lg:m-32 sm:mx-auto' id='releases'>
+      <div className='flex items-center justify-between'>
+        <a href='/releases' className='mx-auto'>
+          <Title> {language === 'en' ? 'Releases' : 'Lanzamientos'}</Title>
         </a>
-      )}
-
-      <div className='flex mt-12'>
-        <div className='w-1/3 p-4 border-r text-center text-white'>
-          <h1 className='text-2xl font-bold mb-2'>{artist.name}</h1>
-          <img
-            className='rounded-t-lg'
-            src='/img/avatar.jpg'
-            alt={artist.name}
-          />
-          <p className='mb-2 uppercase'>{artist.role}</p>
-        </div>
-
-        <div className='w-2/3 p-4 text-white text-center'>
-          <Title>{language === 'en' ? 'Biography' : 'Biografía'}</Title>
-          <p className='text-white'>
-            {artist.bio ||
-              (language === 'en'
-                ? 'No information available'
-                : 'No hay información disponible')}
-          </p>
-
-          <Suspense fallback={<div>Loading...</div>}>
-            {artist.releases ? (
-              artist.releases.map(release => (
-                <div key={release.id} className='mb-4'>
-                  <Releases /> {/* Renderiza cada release */}
-                </div>
-              ))
-            ) : (
-              <p>
-                {language === 'en'
-                  ? 'No releases available'
-                  : 'No hay releases disponibles'}
-              </p>
-            )}
-          </Suspense>
-        </div>
+        <Button
+          className='btn-add'
+          children={language === 'en' ? 'Add Release' : 'Añadir Lanzamiento'}
+        />
       </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ReleaseSection releasesData={releasesData} />{' '}
+        {/* Renderiza el componente ReleaseSection */}
+      </Suspense>
     </div>
   )
 }
 
-export default ArtistDetail
+export default ReleasesPage
