@@ -9,6 +9,7 @@ import { useAdminAuth } from '../../contexts/AdminAuthContext'
 import { useAuth } from '../../contexts/AuthContext'
 import LogoutButton from './LogoutButton'
 import Button from '../atoms/Button'
+import AddArtistButton from './AddArtistButton'
 
 function NavbarMenu () {
   const location = useLocation()
@@ -26,9 +27,9 @@ function NavbarMenu () {
           >
             {adminAuthenticated && (
               <li>
-                <Button className='btn-add'>
+                <AddArtistButton className='btn-add'>
                   {language === 'en' ? 'Add Artist' : 'Agregar Artista'}
-                </Button>
+                </AddArtistButton>
               </li>
             )}
             {adminAuthenticated && (
