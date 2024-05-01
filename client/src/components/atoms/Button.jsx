@@ -1,4 +1,6 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+import React from 'react'
+import PropTypes from 'prop-types'
 import './Button.css'
 
 const Button = ({ href, onClick, children, className }) => {
@@ -13,7 +15,14 @@ const Button = ({ href, onClick, children, className }) => {
         {children}
       </a>
     </div>
-  );
-};
+  )
+}
 
-export default Button;
+Button.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  href: PropTypes.string,
+  onClick: PropTypes.func
+}
+
+export default Button

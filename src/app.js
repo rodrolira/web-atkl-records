@@ -8,6 +8,7 @@ import taskRoutes from './routes/tasks.routes.js';
 import artistsRoutes from './routes/artists.routes.js';
 import releasesRoutes from './routes/releases.routes.js';
 import adminRoutes from './routes/admin.routes.js';
+import contactFormRoutes from './routes/contact-form.routes.js'
 
 const app = express();
 
@@ -25,5 +26,6 @@ app.use("/api", taskRoutes);
 app.use('/api', artistsRoutes);
 app.use('/api', releasesRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api', contactFormRoutes);
 
 export default app

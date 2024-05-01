@@ -34,8 +34,10 @@
     "esm": "^3.2.25",
     "express": "^4.19.2",
     "express-validator": "^7.0.1",
-    "flowbite-react": "^0.7.5",
+    "flowbite": "^2.3.0",
+    "flowbite-react": "^0.7.8",
     "foo-bar": "^0.0.1",
+    "formik": "^2.4.6",
     "i18next": "^23.10.1",
     "js-cookie": "^3.0.5",
     "nodemailer": "^6.9.13",
@@ -49,7 +51,8 @@
     "react-i18next": "^14.1.0",
     "react-router-dom": "^6.22.3",
     "tw-elements-react": "^1.0.0-alpha2",
-    "vite3-plugin-express": "^0.1.5"
+    "vite3-plugin-express": "^0.1.5",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

@@ -1,9 +1,10 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import Title from '../atoms/Title'
 import ArtistCard from './ArtistCard'
-import Button from '../atoms/Button'
 import { useAdminAuth } from '../../contexts/AdminAuthContext'
+import AddArtistButton from '../molecules/AddArtistButton'
 
 // Importa ArtistCard de forma dinámica usando lazy
 
@@ -17,12 +18,16 @@ function ArtistsSection () {
         <a href='/artists' className='mx-auto'>
           <Title>{language === 'en' ? 'Artists' : 'Artistas'}</Title>
         </a>
-        {adminAuthenticated && (
-          <Button
-            className='btn-add'
-            children={language === 'en' ? 'Add Artist' : 'Añadir Artista'}
-          />
-        )}
+{
+  adminAuthenticated && (
+    <li>
+      <AddArtistButton className='btn-add'>
+        {language === 'en' ? 'Add Artist' : 'Agregar Artista'}
+      </AddArtistButton>
+    </li>
+  )
+}
+
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         <ArtistCard

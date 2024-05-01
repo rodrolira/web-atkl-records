@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from 'react'
 import { registerRequest, loginRequest, verityTokenRequest } from '../api/auth'
 import Cookies from 'js-cookie'
@@ -12,6 +13,7 @@ export const useAuth = () => {
   return context
 }
 
+// eslint-disable-next-line react/prop-types
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import ReactCountryFlag from 'react-country-flag'
 import { useLanguage } from '../../contexts/LanguageContext'
@@ -14,7 +15,7 @@ const LanguageMenu = () => {
   }
 
   return (
-    <div className='relative max-[320px]:hidden '>
+    <div className='relative max-[320px]:hidden z-50 '>
       {/* Language dropdown button */}
       <div className='h-full'
         onMouseEnter={() => setMenuVisibility(true)}

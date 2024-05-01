@@ -1,8 +1,10 @@
+// eslint-disable-next-line no-unused-vars
 import React, { createContext, useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 
 const LanguageContext = createContext()
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useLanguage = () => useContext(LanguageContext)
 
 export const LanguageProvider = ({ children }) => {

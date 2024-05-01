@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react'
 import OtherPagesNavbarLinks from './OtherPagesNavbarLinks'
 import links from '../../utils/navbarLinks';

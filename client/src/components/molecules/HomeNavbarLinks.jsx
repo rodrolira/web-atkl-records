@@ -1,13 +1,11 @@
 // HomeNavbarLinks.jsx
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react'
 import NavItem from '../atoms/NavItem'
-import { useLocation } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
 import links from '../../utils/navbarLinks'
 const HomeNavbarLinks = () => {
   const { language } = useLanguage()
-  const location = useLocation()
-  const [isNavbarOpen, setNavbarOpen] = useState(false)
   const [activeItem, setActiveItem] = useState('/') // Inicialmente ningún ítem está activo
 
   const handleItemClick = to => {

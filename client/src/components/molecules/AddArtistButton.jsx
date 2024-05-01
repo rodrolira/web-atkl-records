@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Button from '../atoms/Button'
-import AddArtistForm from './AddArtistForm';
+import AddArtistForm from '../molecules/AddArtistForm' // Importa el formulario de agregar artista
 
 const AddArtistButton = () => {
-  const [isFormOpen, setIsFormOpen] = useState(false) // Estado para controlar la visibilidad del formulario
-
-  const handleButtonClick = () => {
-    setIsFormOpen(true) // Cuando se hace clic en el botón, abre el formulario
+  const [open, openChange] = useState(false)
+  const functionOpenPopup = () => {
+    openChange(true)
+  }
+  const closePopup = () => {
+    openChange(false)
   }
 
   return (
-    <div>
-      <Button className='btn-add' onClick={handleButtonClick}>
-        Add Artist
+    <>
+      <Button onClick={functionOpenPopup} color='primary' variant='contained'>
+        <AddArtistForm open={open} closePopup={closePopup} />
       </Button>
-      {isFormOpen && <AddArtistForm />}{' '}
-      {/* Renderiza el formulario solo si isFormOpen es true */}
-    </div>
+    </>
   )
 }
 

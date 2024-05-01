@@ -1,9 +1,18 @@
 // routes/artists.routes.js
-import express from 'express';
-const router = express.Router();
-import { getAllArtists, getArtistById } from '../controllers/artists.controller.js';
+import express from 'express'
+const router = express.Router()
+import {
+  getAllArtists,
+  getArtistById,
+  addArtist
+} from '../controllers/artists.controller.js'
+import multer from 'multer'
 
-router.get('/artists', getAllArtists);
-router.get('/artists/:id', getArtistById);
+const upload = multer({ dest: 'uploads/' })
 
-export default router;
+router.get('/artists', getAllArtists)
+router.get('/artists/:id', getArtistById)
+
+router.post('/artists', upload.single('profileImage'), addArtist)
+
+export default router

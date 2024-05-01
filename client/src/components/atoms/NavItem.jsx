@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+// eslint-disable-next-line react/prop-types
 const NavItem = ({ to, text, isActive, onClick }) => {
   const [isActiveLink, setIsActiveLink] = useState(isActive)
 

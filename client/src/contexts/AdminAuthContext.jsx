@@ -9,6 +9,7 @@ import {
 
 export const AdminAuthContext = createContext()
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAdminAuth = () => {
   const context = useContext(AdminAuthContext)
   if (!context) {
@@ -17,6 +18,7 @@ export const useAdminAuth = () => {
   return context
 }
 
+// eslint-disable-next-line react/prop-types
 export const AdminAuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)

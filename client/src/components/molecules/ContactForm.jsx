@@ -1,47 +1,54 @@
-import React, { useState } from 'react';
-import { useLanguage } from '../../contexts/LanguageContext';
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react'
+import { useLanguage } from '../../contexts/LanguageContext'
 
 const ContactForm = () => {
-  const { language } = useLanguage();
+  const { language } = useLanguage()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     description: ''
-  });
+  })
+  const [formSubmitted, setFormSubmitted] = useState(false)
 
   const handleChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
 
   const handleSubmit = async e => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      const response = await fetch('http://localhost:5050/submit-form', {
+      const response = await fetch('http://localhost:3000/api/submit-form', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
-      });
+      })
 
       if (!response.ok) {
-        throw new Error('Error al enviar el formulario');
+        throw new Error('Error al enviar el formulario')
       }
 
       setFormData({
         name: '',
         email: '',
         description: ''
-      });
+      })
+      setFormSubmitted(true)
+      console.log('Formulario enviado exitosamente')
     } catch (error) {
-      console.error('Error al enviar el formulario:', error);
+      console.error('Error al enviar el formulario:', error)
     }
-  };
-
+  }
 
   return (
     <div>
+      {formSubmitted && (
+        <div className='text-green-500'>Formulario enviado con éxito</div>
+      )}
+
       <div className='max-w-md mx-auto text-white rounded px-8 pt-6 pb-8 mb-4 '>
         <h2 className='text-2xl font-bold mb-4 text-center'>
           {language === 'en' ? 'Subscribe' : 'Suscribirse'}

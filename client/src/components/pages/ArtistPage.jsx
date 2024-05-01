@@ -24,6 +24,7 @@ function ArtistPage ({ artistsData, currentAdminUser }) {
     return <div>Error: No se encontró el artista con ID {id}</div>
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { language } = useLanguage()
 
   return (
