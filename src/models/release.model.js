@@ -7,8 +7,8 @@ const releaseSchema = new Schema({
   title: { type: String, required: true },
   releaseYear: { type: Number },
   artist: { type: mongoose.Schema.Types.ObjectId, ref: 'Artist' }, // Referencia al artista
-  spotifyLink: { type: String } // Enlace de Spotify u otro servicio de streaming
-  
+  bandacampLink: { type: String }, // Enlace de Bandcamp
+  beatportLink: { type: String }, // Enlace de Beatport
 
   // Otros campos como lista de canciones, enlaces, etc.
 })
