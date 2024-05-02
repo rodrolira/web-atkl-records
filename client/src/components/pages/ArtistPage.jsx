@@ -3,16 +3,11 @@ import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useLanguage } from '../../contexts/LanguageContext'
 import Title from '../atoms/Title'
+import ReleasesPage from './ReleasesPage'
 
 // Importa Releases usando importación dinámica
-const Releases = React.lazy(() => import('./ReleasesPage'))
 
 function ArtistPage ({ artistsData, currentAdminUser }) {
-  ArtistPage.propTypes = {
-    artistsData: PropTypes.array.isRequired,
-    currentAdminUser: PropTypes.object
-  }
-
   const { id } = useParams()
   if (id === undefined) {
     return <div>Error: No se proporcionó un ID válido</div>
@@ -58,26 +53,28 @@ function ArtistPage ({ artistsData, currentAdminUser }) {
                 ? 'No information available'
                 : 'No hay información disponible')}
           </p>
-
-          <Suspense fallback={<div>Loading...</div>}>
-            {artist.releases ? (
-              artist.releases.map(release => (
-                <div key={release.id} className='mb-4'>
-                  <Releases /> {/* Renderiza cada release */}
-                </div>
-              ))
-            ) : (
-              <p>
-                {language === 'en'
-                  ? 'No releases available'
-                  : 'No hay releases disponibles'}
-              </p>
-            )}
-          </Suspense>
+          {artist.releases ? (
+            artist.releases.map(release => (
+              <div key={release.id} className='mb-4'>
+                <ReleasesPage release={release} />{' '}
+                {/* Pasa los datos del lanzamiento como propiedades */}
+              </div>
+            ))
+          ) : (
+            <p>
+              {language === 'en'
+                ? 'No releases available'
+                : 'No hay releases disponibles'}
+            </p>
+          )}
         </div>
       </div>
     </div>
   )
+}
+ArtistPage.propTypes = {
+  artistsData: PropTypes.array.isRequired,
+  currentAdminUser: PropTypes.object
 }
 
 export default ArtistPage

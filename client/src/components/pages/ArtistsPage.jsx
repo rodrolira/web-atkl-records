@@ -1,8 +1,8 @@
 import ArtistsSection from '../organisms/ArtistsSection'
-function ArtistsPage () {
+function ArtistsPage ({ artistsData }) {
   return (
     <div>
-      <ArtistsSection />
+      <ArtistsSection artistsData={artistsData} />
     </div>
   )
 }

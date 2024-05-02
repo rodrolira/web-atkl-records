@@ -13,7 +13,7 @@ export const addArtist = async (req, res) => {
       email,
       password,
       bio,
-      profileImage,
+      image,
       bandcampLink,
       facebookLink,
       instagramLink,
@@ -46,11 +46,11 @@ export const addArtist = async (req, res) => {
     // Generar token de acceso
     const token = await createAccessToken({ id: userSaved._id })
 
-    // Guardar al artista asociado al nuevo usuario
+    // Crear nuevo artista asociado al usuario
     const newArtist = new Artist({
       artistName,
       bio,
-      profileImage,
+      image,
       bandcampLink,
       facebookLink,
       instagramLink,
@@ -60,6 +60,7 @@ export const addArtist = async (req, res) => {
       spotifyLink,
       user: userSaved._id // Asignar el ID del usuario al campo 'user' del artista
     })
+
     // Guardar el nuevo artista en la base de datos
     await newArtist.save()
 
@@ -70,9 +71,6 @@ export const addArtist = async (req, res) => {
       username: userSaved.username,
       email: userSaved.email
     })
-
-    // Ahora, puedes guardar al artista después de registrar al usuario si es necesario
-    // y luego enviar la respuesta al cliente.
   } catch (error) {
     console.error('Error al agregar el artista:', error)
     res.status(500).json({ error: 'Error interno del servidor.' })
@@ -81,21 +79,24 @@ export const addArtist = async (req, res) => {
 
 export const getAllArtists = async (req, res) => {
   try {
-    const artists = await Artist.find()
-    res.json(artists)
+    const artists = await Artist.find() // Obtener todos los artistas de la base de datos
+    res.json(artists) // Devolver los artistas como respuesta JSON
   } catch (error) {
+    console.error('Error fetching artists:', error)
     res.status(500).json({ error: 'Error fetching artists' })
   }
 }
 
-
-export const getArtistById = (req, res) => {
-  const artistId = parseInt(req.params.id)
-  const artist = artistsData.find(artist => artist.id === artistId)
-
-  if (!artist) {
-    res.status(404).json({ error: 'Artista no encontrado' })
-  } else {
-    res.json(artist)
+export const getArtistById = async (req, res) => {
+  try {
+    const artist = await Artist.findById(req.params.id) // Buscar el artista por su ID
+    if (!artist) {
+      res.status(404).json({ error: 'Artista no encontrado' })
+    } else {
+      res.json(artist) // Devolver el artista como respuesta JSON
+    }
+  } catch (error) {
+    console.error('Error fetching artist by ID:', error)
+    res.status(500).json({ error: 'Error fetching artist by ID' })
   }
 }

@@ -183,6 +183,8 @@ const AddArtistForm = () => {
                   <TextField
                     helperText='Upload Profile Image'
                     type='file'
+                    name='image'
+                    id='image'
                     variant='outlined'
                     style={{ marginTop: '0px' }}
                   ></TextField>

@@ -85,19 +85,20 @@ export const verifyToken = async (req, res) => {
 
   if (!token) return res.status(401).json({ message: 'Unauthorized' })
 
-  jwt.verify(token, TOKEN_SECRET, async (err, user) => {
-    if (err) return res.status(401).json({ message: 'Unauthorized' })
-
+  try {
+    const user = await jwt.verify(token, TOKEN_SECRET)
     const userFound = await User.findById(user.id)
-    if (!userFound) return res.status(401).json({ message: 'Unauthorized' })
 
-    return {
+    if (!userFound) {
+      return res.status(401).json({ message: 'Unauthorized' })
+    }
+
+    res.json({
       id: userFound._id,
       username: userFound.username,
       email: userFound.email
-    }
-  })
-  // Maneja la respuesta fuera de jwt.verify()
-  const userData = await jwt.verify(token, TOKEN_SECRET)
-  res.json(userData)
+    })
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
 }

@@ -14,7 +14,7 @@ const artistSchema = mongoose.Schema(
     bio: {
       type: String
     },
-    profileImage: {
+    image: {
       type: String // Almacena la URL o la ruta de la imagen de perfil
     },
     bandcampLink: {
