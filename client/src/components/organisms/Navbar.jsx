@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react'
 import Logo from '../atoms/Logo'
 import NavbarMenu from '../molecules/NavbarMenu'

@@ -21,7 +21,7 @@ const AdminSignin = () => {
 
   useEffect(() => {
     if (isAuthenticated) navigate('/admin')
-  }, [isAuthenticated])
+  }, [isAuthenticated, navigate])
 
   const onSubmit = handleSubmit(data => {
     signin(data)

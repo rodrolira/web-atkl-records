@@ -1,15 +1,9 @@
 .App {
   text-align: center;
-  background-image: radial-gradient(circle, #a21741, #a30051, #9f0065, #95007b, #810092, #740088, #67007d, #5a0073, #50004c, #3c042d, #240716, #000000);
-}
-
-.admin-login-footer {
-  background-image: url(/src/bg.png);
+  background-image: url(/img/bg.jpg);
   background-repeat: no-repeat;
   background-blend-mode: darken;
   background-position: center;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-size: cover;
 }
+

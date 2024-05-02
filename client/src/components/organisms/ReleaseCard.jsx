@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 // ReleaseCard.jsx
 import React from 'react'
 import Button from '../atoms/Button'
 import '../atoms/Button.css'
+import { PropTypes } from 'prop-types';
 
 function ReleaseCard ({ title, artist, bandcampLink, embeddedPlayer }) {
   return (
@@ -20,6 +22,14 @@ function ReleaseCard ({ title, artist, bandcampLink, embeddedPlayer }) {
         </div>
       </div>
   )
+}
+
+
+ReleaseCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  artist: PropTypes.string.isRequired,
+  bandcampLink: PropTypes.string.isRequired,
+  embeddedPlayer: PropTypes.element.isRequired
 }
 
 export default ReleaseCard

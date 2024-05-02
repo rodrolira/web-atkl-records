@@ -71,9 +71,9 @@ const App = () => {
                 <Route path='/tasks' element={<h1> Tasks Page </h1>} />
                 <Route path='/add-task' element={<h1> New Task </h1>} />
                 <Route path='/tasks/:id' element={<h1> Update Page </h1>} />
+                <Route path='/discography' element={<DiscographyPage />} />
 
                 <Route element={<ProtectedRoute />}>
-                  <Route path='/discography' element={<DiscographyPage />} />
                   <Route path='/profile' element={<ProfilePage />} />
                 </Route>
               </Routes>

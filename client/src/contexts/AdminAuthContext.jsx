@@ -6,7 +6,6 @@ import {
   verityTokenRequest
 } from '../api/adminAuth'
 
-
 export const AdminAuthContext = createContext()
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -40,23 +39,23 @@ export const AdminAuthProvider = ({ children }) => {
   const signin = async user => {
     try {
       const res = await loginRequest(user)
-      setIsAuthenticated(true)
       setUser(res.data)
+      setIsAuthenticated(true)
+      setErrors([]) // Reset errors on successful login
     } catch (error) {
       if (Array.isArray(error.response.data)) {
-        return setErrors(error.response.data)
+        setErrors(error.response.data)
+      } else {
+        setErrors([error.response.data.message])
       }
-
-      setErrors([error.response.data.message])
     }
   }
 
   const logout = () => {
-  Cookies.remove('token')
-  setIsAuthenticated(false)
-  setUser(null)
-}
-
+    Cookies.remove('token')
+    setIsAuthenticated(false)
+    setUser(null)
+  }
 
   useEffect(() => {
     if (errors.length > 0) {

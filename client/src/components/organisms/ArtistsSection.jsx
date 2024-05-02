@@ -19,12 +19,14 @@ function ArtistsSection () {
           <Title>{language === 'en' ? 'Artists' : 'Artistas'}</Title>
         </a>
 {
-  adminAuthenticated && (
+          adminAuthenticated && (
+            <ul>
     <li>
       <AddArtistButton className='btn-add'>
         {language === 'en' ? 'Add Artist' : 'Agregar Artista'}
       </AddArtistButton>
     </li>
+    </ul>
   )
 }
 

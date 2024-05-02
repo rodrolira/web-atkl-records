@@ -11,6 +11,7 @@ import {
 import { colors } from '/src/theme'
 import PropTypes from 'prop-types'
 
+// eslint-disable-next-line react/display-name
 const CustomInput = React.forwardRef(
   (
     { isIconActive, label, placeholder, type, id, name, value, ...props },
@@ -18,6 +19,7 @@ const CustomInput = React.forwardRef(
   ) => {
     const [showPassword, setShowPassword] = useState(false)
 
+    // eslint-disable-next-line no-unused-vars
     const [password, setPassword] = useState('')
 
     const togglePasswordVisibility = () => {
@@ -81,12 +83,13 @@ const CustomInput = React.forwardRef(
 )
 
 CustomInput.propTypes = {
+  id: PropTypes.string.isRequired,
   isIconActive: PropTypes.bool,
   label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   type: PropTypes.oneOf(['text', 'password']).isRequired,
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired
+  value: PropTypes.string
 }
 
 CustomInput.defaultProps = {
