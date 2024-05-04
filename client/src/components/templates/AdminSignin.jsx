@@ -4,7 +4,7 @@ import { Box, Button, Checkbox, colors, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
 import CustomInput from '../atoms/CustomInput'
 import Logo from '../atoms/Logo'
-import { useAdminAuth } from '../../contexts/AdminAuthContext'
+import { useAdminAuth } from '../../contexts/AuthContext'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
@@ -16,12 +16,13 @@ const AdminSignin = () => {
     handleSubmit,
     formState: { errors }
   } = useForm()
+
   const { signin, isAuthenticated, errors: signinErrors } = useAdminAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (isAuthenticated) navigate('/admin')
-  }, [isAuthenticated, navigate])
+    if (isAuthenticated) navigate('/')
+  }, [isAuthenticated])
 
   const onSubmit = handleSubmit(data => {
     signin(data)
@@ -154,20 +155,21 @@ const AdminSignin = () => {
                 isIconActive={true}
                 {...register('password', { required: true })}
               />
-
               {errors.password && (
-                <Typography
-                  color='red'
-                  fontSize='14px'
-                  fontWeight='bold'
-                  mt={2}
-                  mb={2}
-                  textAlign='center'
+                <p
+                  style={{
+                    color: 'red',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    marginTop: '2px',
+                    marginBottom: '2px',
+                    textAlign: 'center'
+                  }}
                 >
                   {language === 'en'
                     ? 'Password is required'
                     : 'Se requiere contraseña'}
-                </Typography>
+                </p>
               )}
 
               {/* BUTTON */}
