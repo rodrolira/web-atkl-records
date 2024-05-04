@@ -1,14 +1,17 @@
 import React from 'react'
 import Button from '../atoms/Button'
 import { useLanguage } from '../../contexts/LanguageContext'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth, useAdminAuth } from '../../contexts/AuthContext'
 
 const LogoutButton = () => {
   const { language } = useLanguage()
 
   const { logout } = useAuth()
+  const { logout: logoutAdmin } = useAdminAuth()
   const handleLogout = () => {
     logout()
+    logoutAdmin()
+
   }
   return (
     <div className='sm:h-full lg:h-[60%] xl:h-auto mb-2 cursor-pointer '>
