@@ -119,23 +119,20 @@ const SigninPage = () => {
                     ? 'Enter your username...'
                     : 'Ingrese su nombre de usuario...'
                 }
-                {...register('username', { required: true })}
+                {...register('username', {
+                  required: true
+                })}
                 isIconActive={false}
                 text-align='center'
                 mx='auto'
               />
               {errors.username && (
-                <Typography
-                  color='red'
-                  fontSize='12px'
-                  fontWeight='bold'
-                  mt={2}
-                  mb={2}
-                >
+                <p
+                  color='red' fontSize='12px' fontWeight='bold' mt={2} mb={2}>
                   {language === 'en'
                     ? 'Username is required'
                     : 'El usuario es requerido'}
-                </Typography>
+                </p>
               )}
 
               <CustomInput
@@ -151,17 +148,19 @@ const SigninPage = () => {
               />
 
               {errors.password && (
-                <Typography
-                  color='red'
-                  fontSize='12px'
-                  fontWeight='bold'
-                  mt={2}
-                  mb={2}
+                <p
+                  style={{
+                    color: 'red',
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    marginTop: '2px',
+                    marginBottom: '2px'
+                  }}
                 >
                   {language === 'en'
                     ? 'Password is required'
                     : 'La contraseña es requerida'}
-                </Typography>
+                </p>
               )}
 
               {/* INPUT END */}
