@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useAdminAuth } from '../contexts/AdminAuthContext'
+import { useAdminAuth } from '../contexts/AuthContext'
 import { useEffect } from 'react'
 
 function AdminDashboard () {
