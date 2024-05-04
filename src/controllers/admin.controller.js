@@ -15,16 +15,16 @@ export const registerAdmin = async (req, res) => {
 
         const passwordHash = await bcrypt.hash(password, 10)
 
-        const newUser = new User({
+        const newUser = new Admin({
             username,
             email,
             password: passwordHash
         })
 
         const userSaved = await newUser.save()
-        const token = await createAccessToken({ id: userSaved._id })
+        const adminToken = await createAccessToken({ id: userSaved._id })
 
-        res.cookie('token', token)
+        res.cookie('adminToken', adminToken)
 
 
         res.json({
@@ -51,9 +51,9 @@ export const loginAdmin = async (req, res) => {
 
         if (!isMatch) return res.status(400).json({ message: 'Wrong password' })
 
-        const token = await createAccessToken({ id: userFound._id })
+        const adminToken = await createAccessToken({ id: userFound._id })
 
-        res.cookie('token', token)
+        res.cookie('adminToken', adminToken)
 
 
         res.json({
@@ -69,7 +69,7 @@ export const loginAdmin = async (req, res) => {
 }
 
 export const logoutAdmin = (req, res) => {
-    res.cookie('token', "", {
+    res.cookie('adminToken', "", {
         expires: new Date(0),
     })
     return res.sendStatus(200)
@@ -85,15 +85,14 @@ export const profileAdmin = async (req, res) => {
         createdAt: userFound.createdAt,
         updatedAt: userFound.updatedAt
     })
-    res.send('profile')
 }
 
 export const verifyAdminToken = async (req, res) => {
-    const { token } = req.cookies
+    const { adminToken } = req.cookies
 
-    if (!token) return res.status(401).json({ message: 'Unauthorized' })
+    if (!adminToken) return res.status(401).json({ message: 'Unauthorized' })
 
-    jwt.verify(token, TOKEN_SECRET, async (err, user) => {
+    jwt.verify(adminToken, TOKEN_SECRET, async (err, user) => {
         if (err) return res.status(401).json({ message: 'Unauthorized' })
 
         const userFound = await Admin.findById(user.id)
