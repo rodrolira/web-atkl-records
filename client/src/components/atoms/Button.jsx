@@ -2,18 +2,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import './Button.css'
+import { Link } from 'react-router-dom'
 
 const Button = ({ href, onClick, children, className }) => {
   return (
     <div className='h-full mx-2'>
-      <a
-        href={href}
+      <Link
+        to={href}
         rel='noopener noreferrer'
         onClick={onClick}
         className={`h-full text-white font-medium rounded-lg text-sm inline-flex items-center ${className}`}
       >
         {children}
-      </a>
+      </Link>
     </div>
   )
 }

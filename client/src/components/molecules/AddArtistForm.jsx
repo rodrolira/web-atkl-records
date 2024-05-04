@@ -15,6 +15,7 @@ import { IconButton } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 
+
 const validationSchema = Yup.object().shape({
   artistName: Yup.string().required('El nombre del artista es requerido'),
   username: Yup.string().required('El nombre de usuario es requerido'),

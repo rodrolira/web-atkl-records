@@ -4,8 +4,7 @@ import React, { useEffect, useState } from 'react'
 import NavItem from '../atoms/NavItem'
 import { useLanguage } from '../../contexts/LanguageContext'
 import links from '../../utils/navbarLinks'
-import { useAuth } from '../../contexts/AuthContext'
-import { useAdminAuth } from '../../contexts/AdminAuthContext'
+import { useAuth, useAdminAuth } from '../../contexts/AuthContext'
 
 const HomeNavbarLinks = () => {
   const { language } = useLanguage()
