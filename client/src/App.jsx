@@ -16,14 +16,13 @@ import Footer from './components/organisms/Footer.jsx'
 import RegisterPage from './components/pages/RegisterPage.jsx'
 import LoginAdminPage from './components/pages/LoginAdminPage.jsx'
 import LoginArtistPage from './components/pages/LoginArtistPage.jsx'
-import { AuthProvider } from './contexts/AuthContext'
+import { AuthProvider, AdminAuthProvider } from './contexts/AuthContext'
 
 import ReleasesPage from './components/pages/ReleasesPage'
 import ArtistsPage from './components/pages/ArtistsPage'
 import ProfilePage from './components/pages/ProfilePage.jsx'
 import DiscographyPage from './components/pages/DiscographyPage.jsx'
 import ProtectedRoute from './ProtectedRoute.jsx'
-import { AdminAuthProvider } from './contexts/AdminAuthContext.jsx'
 import AdminDashboard from './admin/AdminDashboard.jsx'
 
 const App = () => {
@@ -46,8 +45,8 @@ const App = () => {
   }, [])
 
   return (
-    <AdminAuthProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <AdminAuthProvider>
         <LanguageProvider>
           <div className='App h-full'>
             <Router>
@@ -81,8 +80,8 @@ const App = () => {
             <Footer />
           </div>
         </LanguageProvider>
+      </AdminAuthProvider>
       </AuthProvider>
-    </AdminAuthProvider>
   )
 }
 
