@@ -6,13 +6,11 @@ import { useLocation } from 'react-router-dom'
 import DemoButton from './DemoButton'
 import { useLanguage } from '../../contexts/LanguageContext'
 import NavbarLinks from './NavbarLinks'
-import { useAdminAuth } from '../../contexts/AdminAuthContext'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth, useAdminAuth } from '../../contexts/AuthContext'
 import LogoutButton from './LogoutButton'
 import Button from '../atoms/Button'
 import AddArtistButton from './AddArtistButton'
-import AddReleaseButton from './AddReleaseButton';
-
+import AddReleaseButton from './AddReleaseButton'
 
 function NavbarMenu () {
   const location = useLocation()
@@ -21,7 +19,6 @@ function NavbarMenu () {
   const { isAuthenticated: adminAuthenticated } = useAdminAuth()
 
   return (
-
     <div className='md:flex lg:block md:flex-row-reverse md:justify-around md:items-center  w-full'>
       <div className='flex items-center justify-end h-[50%]'>
         <div className='z-10 flex divide-y rounded-lg text-center '>
