@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import Title from '../atoms/Title'
 import ArtistCard from './ArtistCard'
-import { useAdminAuth } from '../../contexts/AdminAuthContext'
+import { useAdminAuth } from '../../contexts/AuthContext'
 import AddArtistButton from '../molecules/AddArtistButton'
 import axios from 'axios'
 import { PropTypes } from 'prop-types'
@@ -46,7 +46,6 @@ function ArtistsSection () {
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {artists.map(artist => (
           <ArtistCard
-            key={artist.id}
             id={artist.id}
             name={artist.name}
             image={artist.image}
