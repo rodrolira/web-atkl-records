@@ -1,5 +1,4 @@
 import { useAuth } from './contexts/AuthContext'
-import { useAdminAuth } from './contexts/AdminAuthContext'
 import { Navigate, Outlet } from 'react-router-dom'
 
 function ProtectedRoute () {
