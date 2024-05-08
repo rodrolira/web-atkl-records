@@ -11,7 +11,6 @@
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist --repo https://github.com/rodrolira/web-atkl-records",
-    "start": "serve dist -s -n -L -p $PORT",
     "predeploy": "npm run build"
   },
   "dependencies": {
