@@ -10,21 +10,28 @@ import axios from 'axios'
 import Navbar from './components/organisms/Navbar'
 import { LanguageProvider } from './contexts/LanguageContext'
 import './App.css'
-import ArtistPage from './components/pages/ArtistPage.jsx'
 import Home from './components/pages/Home.jsx'
 import Footer from './components/organisms/Footer.jsx'
-import RegisterPage from './components/pages/RegisterPage.jsx'
-import LoginAdminPage from './components/pages/LoginAdminPage.jsx'
-import LoginArtistPage from './components/pages/LoginArtistPage.jsx'
 import { AuthProvider, AdminAuthProvider } from './contexts/AuthContext'
-
-import ReleasesPage from './components/pages/ReleasesPage'
-import ArtistsPage from './components/pages/ArtistsPage'
-import ProfilePage from './components/pages/ProfilePage.jsx'
-import DiscographyPage from './components/pages/DiscographyPage.jsx'
-import ProtectedRoute from './ProtectedRoute.jsx'
-import AdminDashboard from './admin/AdminDashboard.jsx'
 import { ArtistProvider } from './contexts/ArtistContext.jsx'
+import ProtectedRoute from './ProtectedRoute.jsx'
+
+const ArtistsPage = React.lazy(() => import('./components/pages/ArtistsPage'))
+const ArtistPage = React.lazy(() => import('./components/pages/ArtistPage'))
+const ReleasesPage = React.lazy(() => import('./components/pages/ReleasesPage'))
+const LoginArtistPage = React.lazy(() =>
+  import('./components/pages/LoginArtistPage')
+)
+const LoginAdminPage = React.lazy(() =>
+  import('./components/pages/LoginAdminPage')
+)
+const AdminDashboard = React.lazy(() => import('./admin/AdminDashboard'))
+const RegisterPage = React.lazy(() => import('./components/pages/RegisterPage'))
+const ProfilePage = React.lazy(() => import('./components/pages/ProfilePage'))
+const DiscographyPage = React.lazy(() =>
+  import('./components/pages/DiscographyPage')
+)
+
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
