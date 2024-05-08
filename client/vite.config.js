@@ -19,12 +19,11 @@ export default defineConfig({
       // Proxy todas las solicitudes que comiencen con '/auth' al servidor Express en el puerto 9000
       '/auth': ' http://localhost:3000'
     }
-  }
-  // build: {
-  //   rollupOptions: {
-  //     input: '../src/main.jsx'
-  //   },
+  },
 
-  //   outDir: 'dist'
-  // }
+  build: {
+    rollupOptions: {
+      input: '../src/main.jsx'
+    }
+  }
 })
