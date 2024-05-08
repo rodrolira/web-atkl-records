@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/",
+      "source": "/src/main.jsx",
       "destination": "/"
     }
   ]
