@@ -205,7 +205,6 @@ export const AdminAuthProvider = ({ children }) => {
         user,
         isAuthenticated,
         errors,
-        loading
       }}
     >
       {children}

@@ -24,6 +24,7 @@ import ProfilePage from './components/pages/ProfilePage.jsx'
 import DiscographyPage from './components/pages/DiscographyPage.jsx'
 import ProtectedRoute from './ProtectedRoute.jsx'
 import AdminDashboard from './admin/AdminDashboard.jsx'
+import { ArtistProvider } from './contexts/ArtistContext.jsx'
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -47,8 +48,9 @@ const App = () => {
   return (
     <AuthProvider>
       <AdminAuthProvider>
-        <LanguageProvider>
-          <div className='App h-full'>
+        <ArtistProvider>
+          ;
+          <LanguageProvider>
             <Router>
               <Navbar />
               <Routes>
@@ -78,10 +80,10 @@ const App = () => {
               </Routes>
             </Router>
             <Footer />
-          </div>
-        </LanguageProvider>
+          </LanguageProvider>
+        </ArtistProvider>
       </AdminAuthProvider>
-      </AuthProvider>
+    </AuthProvider>
   )
 }
 
