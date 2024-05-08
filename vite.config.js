@@ -25,6 +25,11 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: '',
     sourcemap: false,
-    minify: true
+    minify: true,
+    rollupOptions: {
+      input: {
+        main: (__dirname, './index.html')
+      }
+    }
   }
 })
