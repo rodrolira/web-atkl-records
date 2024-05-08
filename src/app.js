@@ -17,7 +17,7 @@ const upload = multer({ dest: './uploads/' })
 
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: 'https://atkl-react2-fzwl-70fejj4uw-rodroliras-projects.vercel.app',
     credentials: true
   })
 )
@@ -34,12 +34,12 @@ app.use(
 app.use(express.static('uploads'))
 
 app.post('/api/releases', upload.array('file'), (req, res) => {
-    const file = req
-    if (!file) {
-      res.status(500).json({ error: 'File is required' })
-      return
-    }
-  res.status(200).json({data:[], message: 'File uploaded successfully'})
+  const file = req
+  if (!file) {
+    res.status(500).json({ error: 'File is required' })
+    return
+  }
+  res.status(200).json({ data: [], message: 'File uploaded successfully' })
 })
 
 app.use('/api', authRoutes)
@@ -60,7 +60,5 @@ app.use((err, req, res, next) => {
 app.use((req, res) => {
   res.status(404).json({ error: 'Page not found' })
 })
-
-
 
 export default app

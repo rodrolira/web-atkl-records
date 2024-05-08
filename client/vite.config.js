@@ -22,10 +22,13 @@ export default defineConfig({
   },
 
   build: {
+    outDir: 'dist',
+    assetsDir: '',
+    sourcemap: false,
+    minify: true,
     rollupOptions: {
       input: {
-        main: './src/main.jsx',
-        client: './index.html'
+        main: (__dirname, './index.html')
       }
     }
   }
