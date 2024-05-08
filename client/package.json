@@ -50,11 +50,14 @@
     "serve": "^14.2.3",
     "tw-elements-react": "^1.0.0-alpha2",
     "vite3-plugin-express": "^0.1.5",
+    "webidl-conversions": "^7.0.0",
     "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
+    "@types/webidl-conversions": "^7.0.3",
+    "@types/whatwg-url": "^11.0.4",
     "@vitejs/plugin-react": "^4.2.1",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "autoprefixer": "^10.4.19",
