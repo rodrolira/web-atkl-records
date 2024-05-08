@@ -15,7 +15,6 @@ import { IconButton } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 
-
 const validationSchema = Yup.object().shape({
   artistName: Yup.string().required('El nombre del artista es requerido'),
   username: Yup.string().required('El nombre de usuario es requerido'),
@@ -127,7 +126,6 @@ const AddArtistForm = () => {
                       />
                     )}
                   </Field>
-                  <ErrorMessage name='artistName' component='div' />
                   <Field name='username'>
                     {({ field, form }) => (
                       <TextField
@@ -143,7 +141,6 @@ const AddArtistForm = () => {
                       />
                     )}
                   </Field>
-                  <ErrorMessage name='username' component='div' />
 
                   <Field name='email'>
                     {({ field, form }) => (
@@ -161,7 +158,6 @@ const AddArtistForm = () => {
                     )}
                   </Field>
 
-                  <ErrorMessage name='email' component='div' />
 
                   <Field name='password'>
                     {({ field, form }) => (
@@ -179,7 +175,6 @@ const AddArtistForm = () => {
                       />
                     )}
                   </Field>
-                  <ErrorMessage name='password' component='div' />
                   <InputLabel> Upload Profile Image </InputLabel>
                   <TextField
                     helperText='Upload Profile Image'
