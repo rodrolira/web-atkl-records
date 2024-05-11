@@ -12,13 +12,14 @@ import { LanguageProvider } from './contexts/LanguageContext'
 import './App.css'
 import Home from './components/pages/Home.jsx'
 import Footer from './components/organisms/Footer.jsx'
+import ReleasesPage from './components/pages/ReleasesPage'
+
 import { AuthProvider, AdminAuthProvider } from './contexts/AuthContext'
 import { ArtistProvider } from './contexts/ArtistContext.jsx'
 import ProtectedRoute from './ProtectedRoute.jsx'
 
 const ArtistsPage = React.lazy(() => import('./components/pages/ArtistsPage'))
 const ArtistPage = React.lazy(() => import('./components/pages/ArtistPage'))
-const ReleasesPage = React.lazy(() => import('./components/pages/ReleasesPage'))
 const LoginArtistPage = React.lazy(() =>
   import('./components/pages/LoginArtistPage')
 )
@@ -31,7 +32,6 @@ const ProfilePage = React.lazy(() => import('./components/pages/ProfilePage'))
 const DiscographyPage = React.lazy(() =>
   import('./components/pages/DiscographyPage')
 )
-
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -56,7 +56,6 @@ const App = () => {
     <AuthProvider>
       <AdminAuthProvider>
         <ArtistProvider>
-          ;
           <LanguageProvider>
             <Router>
               <Navbar />

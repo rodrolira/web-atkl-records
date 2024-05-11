@@ -1,10 +1,10 @@
 import React from 'react'
 import './Home.css'
 import { useLanguage } from '../../contexts/LanguageContext'
-import Artists from '../organisms/ArtistsSection'
-import Releases from './ReleasesPage'
-import DemosSection from '../organisms/DemoSection'
-import ContactSection from '../organisms/ContactSection'
+const Artists = React.lazy(() => import('../organisms/ArtistsSection'))
+const Releases = React.lazy(() => import('./ReleasesPage'))
+const DemosSection = React.lazy(() => import('../organisms/DemoSection'))
+const ContactSection = React.lazy(() => import('../organisms/ContactSection'))
 import AboutSection from '../organisms/AboutSection'
 
 function Home () {
@@ -38,16 +38,22 @@ function Home () {
           </div>
         </div>
       </div>
-
-      <Artists />
-
-      <Releases />
-
-      <AboutSection />
-
-      <DemosSection />
-
-      <ContactSection />
+      ;
+      <React.Suspense fallback={<div>Loading...</div>}>
+        <Artists />
+      </React.Suspense>
+      ;
+      <React.Suspense fallback={<div>Loading...</div>}>
+        <Releases />
+      </React.Suspense>
+      <AboutSection />;
+      <React.Suspense fallback={<div>Loading...</div>}>
+        <DemosSection />
+      </React.Suspense>
+      ;
+      <React.Suspense fallback={<div>Loading...</div>}>
+        <ContactSection />
+      </React.Suspense>
     </div>
   )
 }
