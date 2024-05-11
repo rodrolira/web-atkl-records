@@ -2,5 +2,6 @@
     "liveshare.accessibility.soundsEnabled": false,
     "liveshare.accessibility.soundVolume": 10,
     "accessibility.signals.sounds.volume": 10,
-    "liveshare.accessibility.voiceVolume": 10
+    "liveshare.accessibility.voiceVolume": 10,
+    "codium.codeCompletion.enable": true
 }
