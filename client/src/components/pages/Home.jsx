@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import './Home.css'
 import { useLanguage } from '../../contexts/LanguageContext'
 const Artists = React.lazy(() => import('../organisms/ArtistsSection'))
@@ -39,21 +39,21 @@ function Home () {
         </div>
       </div>
       ;
-      <React.Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>Loading...</div>}>
         <Artists />
-      </React.Suspense>
+      </Suspense>
       ;
-      <React.Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>Loading...</div>}>
         <Releases />
-      </React.Suspense>
+      </Suspense>
       <AboutSection />;
-      <React.Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>Loading...</div>}>
         <DemosSection />
-      </React.Suspense>
+      </Suspense>
       ;
-      <React.Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>Loading...</div>}>
         <ContactSection />
-      </React.Suspense>
+      </Suspense>
     </div>
   )
 }

@@ -1,8 +1,14 @@
-import ArtistsSection from '../organisms/ArtistsSection'
+import React, { Suspense } from 'react'
 function ArtistsPage ({ artistsData }) {
+  // Importa ArtistsSection usando importación dinámica
+  const ArtistsSection = React.lazy(() => import('../organisms/ArtistsSection'))
+
   return (
     <div>
-      <ArtistsSection artistsData={artistsData} />
+      {/* Envuelve ArtistsSection en Suspense */}
+      <Suspense fallback={<div>Loading...</div>}>
+        <ArtistsSection artistsData={artistsData} />
+      </Suspense>
     </div>
   )
 }

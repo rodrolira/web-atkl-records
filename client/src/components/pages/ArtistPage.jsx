@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useLanguage } from '../../contexts/LanguageContext'
 import Title from '../atoms/Title'
-import ReleasesPage from './ReleasesPage'
+const ReleasesPage = React.lazy(() => import('./ReleasesPage'))
 
 // Importa Releases usando importación dinámica
 
@@ -56,7 +56,10 @@ function ArtistPage ({ artistsData, currentAdminUser }) {
           {artist.releases ? (
             artist.releases.map(release => (
               <div key={release.id} className='mb-4'>
-                <ReleasesPage release={release} />{' '}
+                ;
+                <Suspense fallback={<div>Loading...</div>}>
+                  <ReleasesPage release={release} />
+                </Suspense>
                 {/* Pasa los datos del lanzamiento como propiedades */}
               </div>
             ))
