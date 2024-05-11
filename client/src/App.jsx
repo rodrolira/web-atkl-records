@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Suspense } from 'react'
 import {
   BrowserRouter as Router,
   Route,
@@ -12,8 +12,6 @@ import { LanguageProvider } from './contexts/LanguageContext'
 import './App.css'
 import Home from './components/pages/Home.jsx'
 import Footer from './components/organisms/Footer.jsx'
-import ReleasesPage from './components/pages/ReleasesPage'
-
 import { AuthProvider, AdminAuthProvider } from './contexts/AuthContext'
 import { ArtistProvider } from './contexts/ArtistContext.jsx'
 import ProtectedRoute from './ProtectedRoute.jsx'
@@ -23,6 +21,8 @@ const ArtistPage = React.lazy(() => import('./components/pages/ArtistPage'))
 const LoginArtistPage = React.lazy(() =>
   import('./components/pages/LoginArtistPage')
 )
+const ReleasesPage = React.lazy(() => import('./components/pages/ReleasesPage'))
+
 const LoginAdminPage = React.lazy(() =>
   import('./components/pages/LoginAdminPage')
 )
@@ -70,7 +70,14 @@ const App = () => {
                   path='/artists/:id'
                   element={<ArtistPage artistsData={artistsData} />}
                 />
-                <Route path='/releases' element={<ReleasesPage />} />
+                <Route
+                  path='/releases'
+                  element={
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <ReleasesPage />{' '}
+                    </Suspense>
+                  }
+                />
                 <Route path='/login' element={<LoginArtistPage />} />
                 <Route path='/admin/login' element={<LoginAdminPage />} />
                 <Route path='/admin' element={<AdminDashboard />} />
