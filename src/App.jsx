@@ -19,9 +19,7 @@ import ProtectedRoute from './ProtectedRoute.jsx'
 
 const ArtistsPage = React.lazy(() => import('./components/pages/ArtistsPage'))
 const ArtistPage = React.lazy(() => import('./components/pages/ArtistPage'))
-const LoginArtistPage = React.lazy(() =>
-  import('./components/pages/LoginArtistPage')
-)
+
 const ReleasesPage = React.lazy(() => import('./components/pages/ReleasesPage'))
 
 const LoginAdminPage = React.lazy(() =>
@@ -33,6 +31,7 @@ const ProfilePage = React.lazy(() => import('./components/pages/ProfilePage'))
 const DiscographyPage = React.lazy(() =>
   import('./components/pages/DiscographyPage')
 )
+import LoginArtistPage from './components/pages/LoginArtistPage'
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
