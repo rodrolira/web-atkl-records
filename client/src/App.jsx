@@ -6,6 +6,8 @@ import {
   Navigate
 } from 'react-router-dom'
 import axios from 'axios'
+import { SpeedInsights } from '@vercel/speed-insights/react'
+import 'vite/modulepreload-polyfill'
 
 import Navbar from './components/organisms/Navbar'
 import { LanguageProvider } from './contexts/LanguageContext'
@@ -18,9 +20,7 @@ import ProtectedRoute from './ProtectedRoute.jsx'
 
 const ArtistsPage = React.lazy(() => import('./components/pages/ArtistsPage'))
 const ArtistPage = React.lazy(() => import('./components/pages/ArtistPage'))
-const LoginArtistPage = React.lazy(() =>
-  import('./components/pages/LoginArtistPage')
-)
+
 const ReleasesPage = React.lazy(() => import('./components/pages/ReleasesPage'))
 
 const LoginAdminPage = React.lazy(() =>
@@ -32,6 +32,7 @@ const ProfilePage = React.lazy(() => import('./components/pages/ProfilePage'))
 const DiscographyPage = React.lazy(() =>
   import('./components/pages/DiscographyPage')
 )
+import LoginArtistPage from './components/pages/LoginArtistPage'
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -54,49 +55,50 @@ const App = () => {
 
   return (
     <div className='App'>
-    <AuthProvider>
-      <AdminAuthProvider>
-        <ArtistProvider>
-          <LanguageProvider>
-            <Router>
-              <Navbar />
-              <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/home' element={<Navigate to='/' />} />
-                <Route
-                  path='/artists'
-                  element={<ArtistsPage artistsData={artistsData} />}
-                />
-                <Route
-                  path='/artists/:id'
-                  element={<ArtistPage artistsData={artistsData} />}
-                />
-                <Route
-                  path='/releases'
-                  element={
-                    <Suspense fallback={<div>Loading...</div>}>
-                      <ReleasesPage />{' '}
-                    </Suspense>
-                  }
-                />
-                <Route path='/login' element={<LoginArtistPage />} />
-                <Route path='/admin/login' element={<LoginAdminPage />} />
-                <Route path='/admin' element={<AdminDashboard />} />
-                <Route path='/register' element={<RegisterPage />} />
-                <Route path='/tasks' element={<h1> Tasks Page </h1>} />
-                <Route path='/add-task' element={<h1> New Task </h1>} />
-                <Route path='/tasks/:id' element={<h1> Update Page </h1>} />
-                <Route path='/discography' element={<DiscographyPage />} />
+      <AuthProvider>
+        <AdminAuthProvider>
+          <ArtistProvider>
+            <LanguageProvider>
+              <SpeedInsights />
+              <Router>
+                <Navbar />
+                <Routes>
+                  <Route path='/' element={<Home />} />
+                  <Route path='/home' element={<Navigate to='/' />} />
+                  <Route
+                    path='/artists'
+                    element={<ArtistsPage artistsData={artistsData} />}
+                  />
+                  <Route
+                    path='/artists/:id'
+                    element={<ArtistPage artistsData={artistsData} />}
+                  />
+                  <Route
+                    path='/releases'
+                    element={
+                      <Suspense fallback={<div>Loading...</div>}>
+                        <ReleasesPage />{' '}
+                      </Suspense>
+                    }
+                  />
+                  <Route path='/login' element={<LoginArtistPage />} />
+                  <Route path='/admin/login' element={<LoginAdminPage />} />
+                  <Route path='/admin' element={<AdminDashboard />} />
+                  <Route path='/register' element={<RegisterPage />} />
+                  <Route path='/tasks' element={<h1> Tasks Page </h1>} />
+                  <Route path='/add-task' element={<h1> New Task </h1>} />
+                  <Route path='/tasks/:id' element={<h1> Update Page </h1>} />
+                  <Route path='/discography' element={<DiscographyPage />} />
 
-                <Route element={<ProtectedRoute />}>
-                  <Route path='/profile' element={<ProfilePage />} />
-                </Route>
-              </Routes>
-            </Router>
-            <Footer />
-          </LanguageProvider>
-        </ArtistProvider>
-      </AdminAuthProvider>
+                  <Route element={<ProtectedRoute />}>
+                    <Route path='/profile' element={<ProfilePage />} />
+                  </Route>
+                </Routes>
+              </Router>
+              <Footer />
+            </LanguageProvider>
+          </ArtistProvider>
+        </AdminAuthProvider>
       </AuthProvider>
     </div>
   )

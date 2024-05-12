@@ -15,15 +15,27 @@ import fileUpload from 'express-fileupload'
 const app = express()
 const upload = multer({ dest: './uploads/' })
 
+// app.use(
+//   cors({
+//     origin: 'https://atkl-react2-fzwl.vercel.app',
+//     credentials: true
+//   })
+// )
 app.use(
   cors({
-    origin: 'https://atkl-react2-fzwl-70fejj4uw-rodroliras-projects.vercel.app',
+    origin: 'http://localhost:5173',
     credentials: true
   })
 )
+
 app.use(morgan('dev'))
 app.use(express.json())
-app.use(cookieParser())
+app.use(
+  cookieParser(null, {
+    sameSite: 'None',
+    secure: true
+  })
+)
 app.use(
   fileUpload({
     useTempFiles: true,
