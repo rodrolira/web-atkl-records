@@ -53,6 +53,7 @@ const App = () => {
   }, [])
 
   return (
+    <div className='App'>
     <AuthProvider>
       <AdminAuthProvider>
         <ArtistProvider>
@@ -96,7 +97,8 @@ const App = () => {
           </LanguageProvider>
         </ArtistProvider>
       </AdminAuthProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </div>
   )
 }
 
