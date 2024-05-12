@@ -12,7 +12,7 @@ function Logo ({ isAdminSignin }) {
       <img
         alt='ATKL Records logo'
         className='invert lg:h-full w-48'
-        src='/img/logo.png'
+        src='/img/main.png'
       />
     </a>
   )
