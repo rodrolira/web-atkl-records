@@ -5,7 +5,7 @@ export const registerRequest = user => {
   return axios.post('/register', { username })
 }
 export const loginRequest = user => {
-  const { username } = user
+  const { username, password } = user
   return axios.post('/login', { username })
 }
 export const verityTokenRequest = () => axios.get('/verify')
