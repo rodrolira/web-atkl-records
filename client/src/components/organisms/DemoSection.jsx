@@ -4,7 +4,7 @@ import Title from '../atoms/Title'
 
 function DemosSection () {
   return (
-    <section id='demos' className='py-16 lg:mx-64 block h-full sm:hidden'>
+    <section id='demos' className='py-16 lg:mx-64 lg:block h-full sm:hidden'>
       <div className='container mx-auto'>
         <Title children={'Demos'} />
         <div className='iframe-container h-full sm:h-[20%]'>
