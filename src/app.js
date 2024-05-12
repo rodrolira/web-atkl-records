@@ -18,7 +18,8 @@ const upload = multer({ dest: './uploads/' })
 // app.use(
 //   cors({
 //     origin: 'https://atkl-react2-fzwl.vercel.app',
-//     credentials: true
+//     credentials: true,
+//     exposedHeaders: 'Access-Control-Allow-Origin' // Agrega esta línea
 //   })
 // )
 app.use(
@@ -27,12 +28,11 @@ app.use(
     credentials: true
   })
 )
-
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(
   cookieParser(null, {
-    sameSite: 'None',
+    sameSite: 'none',
     secure: true
   })
 )
