@@ -6,6 +6,7 @@ import {
   Navigate
 } from 'react-router-dom'
 import axios from 'axios'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 
 import Navbar from './components/organisms/Navbar'
 import { LanguageProvider } from './contexts/LanguageContext'
@@ -54,49 +55,50 @@ const App = () => {
 
   return (
     <div className='App'>
-    <AuthProvider>
-      <AdminAuthProvider>
-        <ArtistProvider>
-          <LanguageProvider>
-            <Router>
-              <Navbar />
-              <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/home' element={<Navigate to='/' />} />
-                <Route
-                  path='/artists'
-                  element={<ArtistsPage artistsData={artistsData} />}
-                />
-                <Route
-                  path='/artists/:id'
-                  element={<ArtistPage artistsData={artistsData} />}
-                />
-                <Route
-                  path='/releases'
-                  element={
-                    <Suspense fallback={<div>Loading...</div>}>
-                      <ReleasesPage />{' '}
-                    </Suspense>
-                  }
-                />
-                <Route path='/login' element={<LoginArtistPage />} />
-                <Route path='/admin/login' element={<LoginAdminPage />} />
-                <Route path='/admin' element={<AdminDashboard />} />
-                <Route path='/register' element={<RegisterPage />} />
-                <Route path='/tasks' element={<h1> Tasks Page </h1>} />
-                <Route path='/add-task' element={<h1> New Task </h1>} />
-                <Route path='/tasks/:id' element={<h1> Update Page </h1>} />
-                <Route path='/discography' element={<DiscographyPage />} />
+      <AuthProvider>
+        <AdminAuthProvider>
+          <ArtistProvider>
+            <LanguageProvider>
+              <SpeedInsights />
+              <Router>
+                <Navbar />
+                <Routes>
+                  <Route path='/' element={<Home />} />
+                  <Route path='/home' element={<Navigate to='/' />} />
+                  <Route
+                    path='/artists'
+                    element={<ArtistsPage artistsData={artistsData} />}
+                  />
+                  <Route
+                    path='/artists/:id'
+                    element={<ArtistPage artistsData={artistsData} />}
+                  />
+                  <Route
+                    path='/releases'
+                    element={
+                      <Suspense fallback={<div>Loading...</div>}>
+                        <ReleasesPage />{' '}
+                      </Suspense>
+                    }
+                  />
+                  <Route path='/login' element={<LoginArtistPage />} />
+                  <Route path='/admin/login' element={<LoginAdminPage />} />
+                  <Route path='/admin' element={<AdminDashboard />} />
+                  <Route path='/register' element={<RegisterPage />} />
+                  <Route path='/tasks' element={<h1> Tasks Page </h1>} />
+                  <Route path='/add-task' element={<h1> New Task </h1>} />
+                  <Route path='/tasks/:id' element={<h1> Update Page </h1>} />
+                  <Route path='/discography' element={<DiscographyPage />} />
 
-                <Route element={<ProtectedRoute />}>
-                  <Route path='/profile' element={<ProfilePage />} />
-                </Route>
-              </Routes>
-            </Router>
-            <Footer />
-          </LanguageProvider>
-        </ArtistProvider>
-      </AdminAuthProvider>
+                  <Route element={<ProtectedRoute />}>
+                    <Route path='/profile' element={<ProfilePage />} />
+                  </Route>
+                </Routes>
+              </Router>
+              <Footer />
+            </LanguageProvider>
+          </ArtistProvider>
+        </AdminAuthProvider>
       </AuthProvider>
     </div>
   )

@@ -25,6 +25,7 @@
     "@mui/icons-material": "^5.15.14",
     "@mui/material": "^5.15.14",
     "@neiderruiz/translate-files": "^1.1.6",
+    "@vercel/speed-insights": "^1.0.10",
     "axios": "^1.6.8",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
