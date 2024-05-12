@@ -81,7 +81,7 @@ const SignupPage = () => {
             </Typography>
           </Box>
 
-          <form onSubmit={onSubmit}>
+          <Box component="form" onSubmit={onSubmit}>
             {/* INPUTS */}
             <CustomInput
               {...register('email')}
@@ -158,13 +158,13 @@ const SignupPage = () => {
             </Box>
             <Button
               size='large'
-              
+
               fullWidth
               sx={{ mt: 4, mb: 4, boxShadow: `0 0 20px ${colors.green[500]}` }}
             >
               {language === 'en' ? 'Sign up' : 'Registrarse'}
             </Button>
-          </form>
+          </Box>
         </Box>
       </Box>
     </Grid>
