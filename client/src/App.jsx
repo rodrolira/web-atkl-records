@@ -8,6 +8,8 @@ import {
 import axios from 'axios'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import 'vite/modulepreload-polyfill'
+// Import everything needed to use the `useQuery` hook
+import { useQuery, gql } from '@apollo/client';
 
 import Navbar from './components/organisms/Navbar'
 import { LanguageProvider } from './contexts/LanguageContext'
@@ -33,6 +35,29 @@ const DiscographyPage = React.lazy(() =>
   import('./components/pages/DiscographyPage')
 )
 import LoginArtistPage from './components/pages/LoginArtistPage'
+
+const GET_ARTISTS = gql`
+  query GetArtists {
+    artists {
+      id
+      name
+      image
+    }
+  }
+`
+function DisplayArtists() {
+    const { loading, error, data } = useQuery(GET_ARTISTS)
+
+    if (loading) return <p>Loading...</p>
+    if (error) return <p>Error :{error.message} </p>
+
+    return data.artists.map(({ id, name, image }) => (
+        <div key={id}>
+            <h1>{name}</h1>
+            <img src={`${image}`} alt={name} />
+        </div>
+    ))
+}
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
