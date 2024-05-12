@@ -113,7 +113,7 @@ const SigninPage = () => {
                 </div>
               ))}
 
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={onSubmit}>
                 {/* INPUTS */}
                 <CustomInput
                   type='text'
@@ -132,7 +132,7 @@ const SigninPage = () => {
                 />
                 {errors.username && (
                   <p
-                   style={{
+                  style={{
                       color: 'red',
                       fontSize: '12px',
                       fontWeight: 'bold',
