@@ -28,6 +28,7 @@
     "@vercel/speed-insights": "^1.0.10",
     "axios": "^1.6.8",
     "cors": "^2.8.5",
+    "debug": "^4.3.4",
     "dotenv": "^16.4.5",
     "esm": "^3.2.25",
     "express": "^4.19.2",
@@ -50,6 +51,7 @@
     "react-router-dom": "^6.22.3",
     "serve": "^14.2.3",
     "tw-elements-react": "^1.0.0-alpha2",
+    "uuid": "^9.0.1",
     "vite3-plugin-express": "^0.1.5",
     "webidl-conversions": "^7.0.0",
     "yup": "^1.4.0"
