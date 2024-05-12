@@ -1,8 +1,19 @@
 {
-    "rewrites": [
-        {
-            "source": "/(.*)",
-            "destination": "/"
-        }
-    ]
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/[^.]+",
+      "dest": "/",
+      "status": 200
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "http://localhost:3000/api/$1"
+    }
+  ]
 }
