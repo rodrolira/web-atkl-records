@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import axios from 'axios'
 import { SpeedInsights } from '@vercel/speed-insights/react'
+import 'vite/modulepreload-polyfill'
 
 import Navbar from './components/organisms/Navbar'
 import { LanguageProvider } from './contexts/LanguageContext'
