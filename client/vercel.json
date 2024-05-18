@@ -3,10 +3,8 @@
     {
       "source": "/(.*)",
       "destination": "/"
-    },
-    {
-      "src": "/[^.]+",
-      "dest": "/"
     }
-  ]
+  ],
+  "cleanUrls": true,
+  "framework": "vite"
 }
