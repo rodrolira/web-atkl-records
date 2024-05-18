@@ -1,7 +1,9 @@
 import React from 'react'
 import { Box, Typography } from '@mui/material'
-import Grid from '@mui/material/Unstable_Grid2'
 import { useLanguage } from '../contexts/LanguageContext' // Importa el hook useLanguage
+
+// Importa Grid usando importación dinámica
+const Grid = lazy(() => import('@mui/material/Unstable_Grid2/Grid2'))
 
 const TitleBox = () => {
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
