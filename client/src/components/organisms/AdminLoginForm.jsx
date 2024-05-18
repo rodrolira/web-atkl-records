@@ -1,9 +1,8 @@
 import React, { lazy, Suspense } from 'react' // Importa lazy y Suspense
 import { Box } from '@mui/material'
-import Grid from '@mui/material/Unstable_Grid2/Grid2'
 import MainLayout from '../../layouts/MainLayout'
-import Footer from './Footer'
 import AdminSignin from '../templates/AdminSignin'
+import Grid from '@mui/material/Unstable_Grid2/Grid2'
 
 const AdminLoginForm = () => {
   return (
