@@ -1,7 +1,7 @@
 
 function DiscographyPage() {
   return (
-    <div>
+    <div className="m-32">
 
     </div>
   )

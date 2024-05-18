@@ -26,9 +26,9 @@ client.query({
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <ApolloProvider client={client}>
-      <StrictMode>
-          <App />
-      </StrictMode>
-    </ApolloProvider>,
+    <StrictMode>
+        <ApolloProvider client={client}>
+            <App />
+        </ApolloProvider>
+    </StrictMode>
 )
