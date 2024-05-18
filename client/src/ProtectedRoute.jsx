@@ -5,7 +5,7 @@ function ProtectedRoute () {
   const { loading, isAuthenticated } = useAuth()
   console.log(loading, isAuthenticated)
 
-  if (loading) return <h1>Cargando...</h1>
+  if (loading) return <div className="loader mx-auto"></div>
 
   if (!loading && !isAuthenticated) return <Navigate to='/login' replace />
 
