@@ -9,7 +9,7 @@ import axios from 'axios'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import 'vite/modulepreload-polyfill'
 import { useQuery, gql } from '@apollo/client'
-
+import { Analytics } from '@vercel/analytics/react'
 import Navbar from './components/organisms/Navbar'
 import { LanguageProvider } from './contexts/LanguageContext'
 import './App.css'
@@ -85,6 +85,7 @@ const App = () => {
                     <ArtistProvider>
                         <LanguageProvider>
                             <SpeedInsights />
+                            <Analytics />
                             <Router>
                                 <Navbar />
                                 <Routes>
