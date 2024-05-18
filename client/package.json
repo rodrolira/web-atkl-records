@@ -8,7 +8,6 @@
     "dev": "vite",
     "test": "vitest",
     "build": "vite build",
-    "build:client": "vite build --ssrManifest --outDir dist/client",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist --repo https://github.com/rodrolira/web-atkl-records",
     "predeploy": "npm run build"
