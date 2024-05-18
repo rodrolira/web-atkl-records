@@ -8,12 +8,7 @@
   "routes": [
     {
       "src": "/[^.]+",
-      "dest": "/",
-      "status": 200
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "http://localhost:3000/api/$1"
+      "dest": "/"
     }
   ]
 }
