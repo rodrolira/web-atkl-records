@@ -8,7 +8,6 @@ import {
 import axios from 'axios'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import 'vite/modulepreload-polyfill'
-import { useQuery, gql } from '@apollo/client'
 import { Analytics } from '@vercel/analytics/react'
 import Navbar from './components/organisms/Navbar'
 import { LanguageProvider } from './contexts/LanguageContext'
@@ -33,30 +32,6 @@ const DiscographyPage = React.lazy(
 )
 import LoginArtistPage from './components/pages/LoginArtistPage'
 
-const GET_ARTISTS = gql`
-    query GetArtists {
-        artists {
-            id
-            name
-            image
-        }
-    }
-`
-
-function DisplayArtists() {
-    const { loading, error, data } = useQuery(GET_ARTISTS)
-
-    if (loading) return <p>Loading...</p>
-    if (error) return <p>Error :{error.message} </p>
-
-    return data.artists.map(({ id, name, image }) => (
-        <div key={id}>
-            <h1>{name}</h1>
-            <img src={`${image}`} alt={name} />
-        </div>
-    ))
-}
-
 const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [artistsData, setArtistsData] = useState([])
@@ -78,150 +53,55 @@ const App = () => {
         fetchData()
     }, [])
 
-    return (
-        <div className="App">
-            <AuthProvider>
-                <AdminAuthProvider>
-                    <ArtistProvider>
-                        <LanguageProvider>
-                            <SpeedInsights />
-                            <Analytics />
-                            <Router>
-                                <Navbar />
-                                <Routes>
-                                    <Route path="/" element={<Home />} />
-                                    <Route
-                                        path="/home"
-                                        element={<Navigate to="/" />}
-                                    />
-                                    <Route
-                                        path="/artists"
-                                        element={
-                                            <Suspense
-                                                fallback={
-                                                    <div className="loader"></div>
-                                                }
-                                            >
-                                                <ArtistsPage
-                                                    artistsData={artistsData}
-                                                />
-                                            </Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/artists/:id"
-                                        element={
-                                            <Suspense
-                                                fallback={
-                                                    <div className="loader"></div>
-                                                }
-                                            >
-                                                <ArtistPage
-                                                    artistsData={artistsData}
-                                                />
-                                            </Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/releases"
-                                        element={
-                                            <Suspense
-                                                fallback={
-                                                    <div className="loader"></div>
-                                                }
-                                            >
-                                                <ReleasesPage />
-                                            </Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/login"
-                                        element={<LoginArtistPage />}
-                                    />
-                                    <Route
-                                        path="/admin/login"
-                                        element={
-                                            <Suspense
-                                                fallback={
-                                                    <div className="loader"></div>
-                                                }
-                                            >
-                                                <LoginAdminPage />
-                                            </Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/admin"
-                                        element={
-                                            <Suspense
-                                                fallback={
-                                                    <div className="loader"></div>
-                                                }
-                                            >
-                                                <AdminDashboard />
-                                            </Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/register"
-                                        element={
-                                            <Suspense
-                                                fallback={
-                                                    <div className="loader"></div>
-                                                }
-                                            >
-                                                <RegisterPage />
-                                            </Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/tasks"
-                                        element={<h1> Tasks Page </h1>}
-                                    />
-                                    <Route
-                                        path="/add-task"
-                                        element={<h1> New Task </h1>}
-                                    />
-                                    <Route
-                                        path="/tasks/:id"
-                                        element={<h1> Update Page </h1>}
-                                    />
+  return (
+    <div className='App'>
+      <AuthProvider>
+        <AdminAuthProvider>
+          <ArtistProvider>
+            <LanguageProvider>
+              <SpeedInsights />
+              <Router>
+                <Navbar />
+                <Routes>
+                  <Route path='/' element={<Home />} />
+                  <Route path='/home' element={<Navigate to='/' />} />
+                  <Route
+                    path='/artists'
+                    element={<ArtistsPage artistsData={artistsData} />}
+                  />
+                  <Route
+                    path='/artists/:id'
+                    element={<ArtistPage artistsData={artistsData} />}
+                  />
+                  <Route
+                    path='/releases'
+                    element={
+                      <Suspense fallback={<div>Loading...</div>}>
+                        <ReleasesPage />{' '}
+                      </Suspense>
+                    }
+                  />
+                  <Route path='/login' element={<LoginArtistPage />} />
+                  <Route path='/admin/login' element={<LoginAdminPage />} />
+                  <Route path='/admin' element={<AdminDashboard />} />
+                  <Route path='/register' element={<RegisterPage />} />
+                  <Route path='/tasks' element={<h1> Tasks Page </h1>} />
+                  <Route path='/add-task' element={<h1> New Task </h1>} />
+                  <Route path='/tasks/:id' element={<h1> Update Page </h1>} />
+                  <Route path='/discography' element={<DiscographyPage />} />
 
-                                    <Route element={<ProtectedRoute />}>
-                                        <Route
-                                            path="/profile"
-                                            element={
-                                                <Suspense
-                                                    fallback={
-                                                        <div className="loader"></div>
-                                                    }
-                                                >
-                                                    <ProfilePage />
-                                                </Suspense>
-                                            }
-                                        />
-                                        <Route
-                                            path="/discography"
-                                            element={
-                                                <Suspense
-                                                    fallback={
-                                                        <div className="loader"></div>
-                                                    }
-                                                >
-                                                    <DiscographyPage />
-                                                </Suspense>
-                                            }
-                                        />
-                                    </Route>
-                                </Routes>
-                            </Router>
-                            <Footer />
-                        </LanguageProvider>
-                    </ArtistProvider>
-                </AdminAuthProvider>
-            </AuthProvider>
-        </div>
-    )
+                  <Route element={<ProtectedRoute />}>
+                    <Route path='/profile' element={<ProfilePage />} />
+                  </Route>
+                </Routes>
+              </Router>
+              <Footer />
+            </LanguageProvider>
+          </ArtistProvider>
+        </AdminAuthProvider>
+      </AuthProvider>
+    </div>
+  )
 }
 
 export default App

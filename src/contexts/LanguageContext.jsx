@@ -8,19 +8,19 @@ const LanguageContext = createContext()
 export const useLanguage = () => useContext(LanguageContext)
 
 export const LanguageProvider = ({ children }) => {
-  const [language, setLanguage] = useState('en')
+    const [language, setLanguage] = useState('en')
 
-  const changeLanguage = newLanguage => {
-    setLanguage(newLanguage)
-  }
+    const changeLanguage = (newLanguage) => {
+        setLanguage(newLanguage)
+    }
 
-  return (
-    <LanguageContext.Provider value={{ language, changeLanguage }}>
-      {children}
-    </LanguageContext.Provider>
-  )
+    return (
+        <LanguageContext.Provider value={{ language, changeLanguage }}>
+            {children}
+        </LanguageContext.Provider>
+    )
 }
 
 LanguageProvider.propTypes = {
-  children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
 }
