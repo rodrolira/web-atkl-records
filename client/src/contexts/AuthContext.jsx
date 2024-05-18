@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import {
@@ -123,6 +122,13 @@ export const AuthProvider = ({ children }) => {
       }}
     >
       {children}
+      {errors.length > 0 && (
+        <div className="error-container">
+          {errors.map((error, index) => (
+            <p key={index} className="error-message">{error}</p>
+          ))}
+        </div>
+      )}
     </AuthContext.Provider>
   )
 }
@@ -208,6 +214,13 @@ export const AdminAuthProvider = ({ children }) => {
       }}
     >
       {children}
+      {errors.length > 0 && (
+        <div className="error-container">
+          {errors.map((error, index) => (
+            <p key={index} className="error-message">{error}</p>
+          ))}
+        </div>
+      )}
     </AdminAuthContext.Provider>
   )
 }
