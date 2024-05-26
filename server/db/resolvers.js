@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import Admin from "../models/admin.model.js";
 import Artist from "../models/artist.model.js";
 import Release from "../models/release.model.js";
 import bcryptjs from "bcryptjs";
@@ -7,13 +8,11 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const createToken = (user, secret, expiration) => {
-  console.log(user);
-  const { id, username, password, email } = user;
+const createToken = (user, secret, expiresIn) => {
+  // console.log(user);
+  const { id, username, email } = user;
 
-  return jwt.sign({ id, email, username, password }, secret, {
-    expiresIn: expiration,
-  });
+  return jwt.sign({ id, email, username }, secret, { expiresIn });
 };
 
 // Resolvers
@@ -23,6 +22,12 @@ const resolvers = {
     getUser: async (_, { token }) => {
       const userId = await jwt.verify(token, process.env.SECRET);
       return userId;
+    },
+
+    // Admin
+    getAdmin: async (_, { token }) => {
+      const adminId = await jwt.verify(token, process.env.SECRET);
+      return adminId;
     },
 
     // Artists
@@ -112,6 +117,55 @@ const resolvers = {
       // Crear token
       return {
         token: createToken(userFound, process.env.SECRET, "24h"),
+      };
+    },
+
+    // Admin
+    newAdmin: async (_, { input }) => {
+      const { email, password } = input;
+
+      // Revisar si existe el usuario
+      const adminFound = await Admin.findOne({ email });
+
+      if (adminFound) {
+        throw new Error("Admin already exists");
+      }
+
+      //Hashear password
+      const salt = await bcryptjs.genSalt(10);
+      input.password = await bcryptjs.hash(password, salt);
+
+      try {
+        const admin = new Admin(input);
+        admin.save();
+        return admin;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    authAdmin: async (_, { input }) => {
+      const { username, password } = input;
+
+      // Revisar si existe el admin
+      const adminFound = await Admin.findOne({ username });
+
+      if (!adminFound) {
+        throw new Error("Admin not found");
+      }
+
+      // Revisar si el password es correcto
+      const correctPassword = await bcryptjs.compare(
+        password,
+        adminFound.password
+      );
+
+      if (!correctPassword) {
+        throw new Error("Wrong password");
+      }
+
+      // Crear token
+      return {
+        token: createToken(adminFound, process.env.SECRET, "24h"),
       };
     },
 

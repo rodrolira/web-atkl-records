@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon server/index.js"
   },
   "keywords": [],
   "author": "",

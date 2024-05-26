@@ -1,16 +1,16 @@
 import { useNavigate } from 'react-router-dom'
-import { useAdminAuth } from '../contexts/AuthContext'
+import { authAdmin } from '../contexts/AuthContext'
 import { useEffect } from 'react'
 
-function AdminDashboard () {
-  const { isAuthenticated } = useAdminAuth()
-  const navigate = useNavigate()
+function AdminDashboard() {
+    const { isAuthenticated } = authAdmin()
+    const navigate = useNavigate()
 
-  useEffect(() => {
-    if (!isAuthenticated) navigate('/admin/login')
-  }, [isAuthenticated])
+    useEffect(() => {
+        if (!isAuthenticated) navigate('/admin/login')
+    }, [isAuthenticated])
 
-  return <div></div>
+    return <div></div>
 }
 
 export default AdminDashboard

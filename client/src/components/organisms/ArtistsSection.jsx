@@ -6,8 +6,7 @@ import ArtistCard from './ArtistCard'
 import { useAdminAuth } from '../../contexts/AuthContext'
 import AddArtistButton from '../molecules/AddArtistButton'
 import axios from 'axios'
-import { PropTypes } from 'prop-types'
-// Importa ArtistCard de forma dinámica usando lazy
+
 
 function ArtistsSection() {
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
@@ -17,7 +16,7 @@ function ArtistsSection() {
     useEffect(() => {
         // Hace una solicitud GET al backend para obtener los artistas
         axios
-            .get('http://localhost:3000/api/artists')
+            .get('http://localhost:000/api/artists')
             .then((response) => {
                 setArtists(response.data) // Actualiza el estado con los artistas obtenidos
             })

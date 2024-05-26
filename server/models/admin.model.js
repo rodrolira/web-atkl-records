@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const adminSchema = new mongoose.Schema(
+const adminSchema =  mongoose.Schema(
   {
     username: {
       type: String,

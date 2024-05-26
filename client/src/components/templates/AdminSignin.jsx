@@ -1,33 +1,87 @@
-import React, { useEffect, lazy } from 'react' // Importa React y useEffect
+import React, { useEffect, useState } from 'react' // Importa React y useEffect
 import { useLanguage } from '../../contexts/LanguageContext' // Importa el hook useLanguage
 import { Box, Button, Checkbox, colors, Typography } from '@mui/material'
 import CustomInput from '../atoms/CustomInput'
 import Logo from '../atoms/Logo'
-import { useAdminAuth } from '../../contexts/AuthContext'
-import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
+import { useAdminAuth } from '../../contexts/AuthContext'
+
+const AUTH_ADMIN = gql`
+    mutation authAdmin($input: AuthInput) {
+        authAdmin(input: $input) {
+            token
+        }
+    }
+`
 
 function AdminSignin() {
+    // routing
+    const navigate = useNavigate()
+    const { signin } = useAdminAuth() // Obtener la función signin del contexto de autenticación de administradores
+
+    const [message, saveMessage] = useState(null)
+
+    const [authAdmin] = useMutation(AUTH_ADMIN)
+
+    // Validacion del Form
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            password: '',
+        },
+        validationSchema: Yup.object({
+            username: Yup.string().required(
+                'El nombre de usuario es requerido'
+            ),
+            password: Yup.string().required('La contraseña es requerida'),
+        }),
+        onSubmit: async (values) => {
+            // console.log(values)
+            const { username, password } = values
+
+            try {
+                const { data } = await authAdmin({
+                    variables: {
+                        input: {
+                            username,
+                            password,
+                        },
+                    },
+                })
+                console.log(data)
+                saveMessage('Auth...')
+
+                //Guardar token
+                const { token } = data.authAdmin
+                localStorage.setItem('adminToken', token)
+                signin({ username, password }) // Llamar a la función signin para establecer el estado de autenticación del administrador
+
+                //Redirect
+                navigate('/')
+            } catch (error) {
+                saveMessage(error.message.replace('GraphQL error: ', ''))
+                // console.log(error)
+
+                setTimeout(() => {
+                    saveMessage(null)
+                }, 2000)
+            }
+        },
+    })
+
     const { language } = useLanguage() // Usa el hook para obtener language
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm()
-
-    const { signin, isAuthenticated, errors: signinErrors } = useAdminAuth()
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        if (isAuthenticated) navigate('/')
-    }, [isAuthenticated])
-
-    const onSubmit = handleSubmit((data) => {
-        signin(data)
-    })
+    const showMessage = () => {
+        return (
+            <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center mx-auto">
+                <p>{message} </p>
+            </div>
+        )
+    }
 
     return (
         <React.Suspense fallback={<div>Loading...</div>}>
@@ -107,18 +161,14 @@ function AdminSignin() {
                             </Typography>
                         </Box>
 
-                        <div>
-                            {signinErrors.map((error, i) => (
-                                <div
-                                    className="bg-red-500 p-2 mb-2 text-white rounded-md"
-                                    key={i}
-                                >
-                                    {error}
-                                </div>
-                            ))}
+                        {message && showMessage()}
 
+                        <div>
                             {/* FORM */}
-                            <form onSubmit={onSubmit}>
+                            <Box
+                                component="form"
+                                onSubmit={formik.handleSubmit}
+                            >
                                 <CustomInput
                                     type="text"
                                     label={
@@ -131,28 +181,21 @@ function AdminSignin() {
                                             ? 'Enter your username...'
                                             : 'Ingrese su nombre de usuario...'
                                     }
-                                    {...register('username', {
-                                        required: true,
-                                    })}
                                     isIconActive={false}
                                     text-align="center"
                                     mx="auto"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.username}
+                                    name="username"
+                                    id="username"
                                 />
-
-                                {errors.username && (
-                                    <Typography
-                                        color="red"
-                                        fontSize="14px"
-                                        fontWeight="bold"
-                                        mt={2}
-                                        mb={2}
-                                        textAlign="center"
-                                    >
-                                        {language === 'en'
-                                            ? 'Username is required'
-                                            : 'Se requiere nombre de usuario'}
-                                    </Typography>
-                                )}
+                                {formik.touched.username &&
+                                formik.errors.username ? (
+                                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                                        <p className="font-bold">Error</p>
+                                        <p>{formik.errors.username}</p>
+                                    </div>
+                                ) : null}
 
                                 <CustomInput
                                     label={
@@ -167,26 +210,21 @@ function AdminSignin() {
                                     }
                                     type="password"
                                     isIconActive={true}
-                                    {...register('password', {
-                                        required: true,
-                                    })}
+                                    text-align="center"
+                                    mx="auto"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.password}
+                                    name="password"
+                                    id="password"
+                                    onBlur={formik.handleBlur}
                                 />
-                                {errors.password && (
-                                    <p
-                                        style={{
-                                            color: 'red',
-                                            fontSize: '14px',
-                                            fontWeight: 'bold',
-                                            marginTop: '2px',
-                                            marginBottom: '2px',
-                                            textAlign: 'center',
-                                        }}
-                                    >
-                                        {language === 'en'
-                                            ? 'Password is required'
-                                            : 'Se requiere contraseña'}
-                                    </p>
-                                )}
+                                {formik.touched.password &&
+                                formik.errors.password ? (
+                                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                                        <p className="font-bold">Error</p>
+                                        <p>{formik.errors.password}</p>
+                                    </div>
+                                ) : null}
 
                                 {/* BUTTON */}
                                 <Box
@@ -229,12 +267,13 @@ function AdminSignin() {
                                         mb: 4,
                                         boxShadow: `0 0 20px ${colors.green[500]}`,
                                     }}
+                                    value="Login"
                                 >
                                     {language === 'en'
                                         ? 'Login'
                                         : 'Iniciar Sesión'}
                                 </Button>
-                            </form>
+                            </Box>
                             {/* FORM END */}
                         </div>
 
