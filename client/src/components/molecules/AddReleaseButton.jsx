@@ -13,7 +13,7 @@ const AddReleaseButton = () => {
 
   return (
     <>
-      <Button onClick={functionOpenPopup} color='primary' variant='contained'>
+      <Button onClick={functionOpenPopup} color='primary' className={'mb-2'} variant='contained'>
         <AddReleaseForm open={open} closePopup={closePopup} />
       </Button>
     </>

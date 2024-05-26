@@ -5,11 +5,25 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2'
 import CustomInput from '../atoms/CustomInput'
 import Logo from '../atoms/Logo'
 import { useForm } from 'react-hook-form'
+import { useFormik } from 'formik';
 
 const SignupPage = () => {
+
+  // Validacion de Form
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+      username: '',
+    },
+    onSubmit: values => {
+      console.log('sending')
+      console.log(values)
+    },
+  })
+
   const { language } = useLanguage()
   const { register } = useForm()
-  const { onSubmit } = data => console.log(data)
 
   return (
     <Grid
@@ -81,7 +95,7 @@ const SignupPage = () => {
             </Typography>
           </Box>
 
-          <Box component="form" onSubmit={onSubmit}>
+          <Box component="form" onSubmit={formik.handleSubmit}>
             {/* INPUTS */}
             <CustomInput
               {...register('email')}
@@ -94,6 +108,7 @@ const SignupPage = () => {
               type='email'
               name='email'
               id='emailInput'
+              value={formik.values.email}
             />
             <CustomInput
               {...register('username')}
@@ -108,6 +123,7 @@ const SignupPage = () => {
               type='text'
               name='username'
               id='usernameInput'
+              value={formik.values.username}
             />
             <CustomInput
               {...register('password')}
@@ -121,6 +137,7 @@ const SignupPage = () => {
               type='password'
               name='password'
               id='passwordInput'
+              value={formik.values.password}
             />
             <CustomInput
               label={

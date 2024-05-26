@@ -1,31 +1,72 @@
 import User from "../models/user.model.js";
+import Artist from "../models/artist.model.js";
+import Release from "../models/release.model.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
-
 dotenv.config();
 
-
-
 const createToken = (user, secret, expiration) => {
-    console.log(user);
-    const { id, username, password, email } = user;
+  console.log(user);
+  const { id, username, password, email } = user;
 
-    return jwt.sign({ id, email, username, password}, secret, { expiresIn: expiration });
-
-}
+  return jwt.sign({ id, email, username, password }, secret, {
+    expiresIn: expiration,
+  });
+};
 
 // Resolvers
 const resolvers = {
   Query: {
-        getUser: async (_, { token }) => {
-            const userId = await jwt.verify(token, process.env.SECRET)
-            return userId
-        }
+    // Users
+    getUser: async (_, { token }) => {
+      const userId = await jwt.verify(token, process.env.SECRET);
+      return userId;
     },
 
+    // Artists
+    getArtists: async () => {
+      try {
+        const artists = await Artist.find();
+        return artists;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    getArtist: async (_, { id }) => {
+      const artist = await Artist.findById(id); // Buscar el artista por su ID
+
+      if (!artist) {
+        throw new Error("Artista no encontrado");
+      }
+
+      return artist;
+    },
+
+    // Releases
+    getReleases: async () => {
+      try {
+        const releases = await Release.find();
+        return releases;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    getRelease: async (_, { id }) => {
+      // Revisar si el Release existe
+      const release = await Release.findById(id);
+
+      if (!release) {
+        throw new Error("Lanzamiento no encontrado");
+      }
+
+      return release;
+    },
+  },
+
   Mutation: {
+    // Users
     newUser: async (_, { input }) => {
       const { email, password } = input;
 
@@ -47,34 +88,122 @@ const resolvers = {
       } catch (error) {
         console.log(error);
       }
-      },
+    },
+    authUser: async (_, { input }) => {
+      const { email, password } = input;
 
-      authUser: async (_, { input }) => {
+      // Revisar si existe el usuario
+      const userFound = await User.findOne({ email });
 
-          const { email, password } = input;
-
-          // Revisar si existe el usuario
-          const userFound = await User.findOne({ email });
-
-          if (!userFound) {
-            throw new Error("User not found");
-          }
-
-          // Revisar si el password es correcto
-          const correctPassword = await bcryptjs.compare(password, userFound.password);
-
-          if (!correctPassword) {
-            throw new Error("Wrong password");
-          }
-
-          // Crear token
-          return {
-            token: createToken(userFound, process.env.SECRET, "24h")
-
-
+      if (!userFound) {
+        throw new Error("User not found");
       }
-      },
 
+      // Revisar si el password es correcto
+      const correctPassword = await bcryptjs.compare(
+        password,
+        userFound.password
+      );
+
+      if (!correctPassword) {
+        throw new Error("Wrong password");
+      }
+
+      // Crear token
+      return {
+        token: createToken(userFound, process.env.SECRET, "24h"),
+      };
+    },
+
+    // Artists
+    newArtist: async (_, { input }, ctx) => {
+      console.log(ctx);
+      const { email } = input;
+
+      // Revisar si existe el usuario
+
+      const artist = await Artist.findOne({ email });
+      if (artist) {
+        throw new Error("Artist already exists");
+      }
+      const newArtist = new Artist(input);
+
+      // Asignar User
+      newArtist.user = "664094a0db533081f996a173";
+      //Guardar en DB
+      try {
+        const result = await newArtist.save();
+
+        return result;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    updateArtist: async (_, { id, input }) => {
+      //  Revisar si el artista existe
+      let artist = await Artist.findById(id);
+
+      if (!artist) {
+        throw new Error("Artist not found");
+      }
+
+      //Guardar en DB
+      artist = await Artist.findOneAndUpdate({ _id: id }, input, { new: true });
+
+      return artist;
+    },
+    deleteArtist: async (_, { id }) => {
+      // Buscar el artista por su ID
+      let artist = await Artist.findById(id);
+      if (!artist) {
+        throw new Error("Artist not found");
+      }
+
+      // Eliminar el artista de la base de datos
+      await Artist.findOneAndDelete({ _id: id });
+
+      return "Artist deleted";
+    },
+
+    // Releases
+    newRelease: async (_, { input }) => {
+      try {
+        const release = new Release(input);
+
+        // DB
+        const result = await release.save();
+        return result;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    updateRelease: async (_, { id, input }) => {
+      // Revisar si el Release existe
+      let release = await Release.findById(id);
+
+      if (!release) {
+        throw new Error("Release not found");
+      }
+
+      //Guardar en DB
+      release = await Release.findOneAndUpdate({ _id: id }, input, {
+        new: true,
+      });
+
+      return release;
+    },
+    deleteRelease: async (_, { id }) => {
+      // Revisar si el Release existe
+      let release = await Release.findById(id);
+      if (!release) {
+        throw new Error("Release not found");
+      }
+
+      // Eliminar el Release de la base de datos
+      await Release.findOneAndDelete({ _id: id });
+
+      return "Release deleted";
+    },
   },
 };
 

@@ -1,101 +1,113 @@
 import React, { useState } from 'react'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import {
-  Box,
-  IconButton,
-  InputAdornment,
-  InputBase,
-  Paper,
-  Typography
+    Box,
+    IconButton,
+    InputAdornment,
+    InputBase,
+    Paper,
+    Typography,
 } from '@mui/material'
 import { colors } from '/src/theme'
 import PropTypes from 'prop-types'
 
 // eslint-disable-next-line react/display-name
 const CustomInput = React.forwardRef(
-  (
-    { isIconActive, label, placeholder, type, id, name, value, ...props },
-    ref
-  ) => {
-    const [showPassword, setShowPassword] = useState(false)
+    (
+        { isIconActive, label, placeholder, type, id, name, value, onChange },
+        ref
+    ) => {
+        const [showPassword, setShowPassword] = useState(false)
 
-    // eslint-disable-next-line no-unused-vars
-    const [password, setPassword] = useState('')
+        const togglePasswordVisibility = () => {
+            setShowPassword((prev) => !prev)
+        }
 
-    const togglePasswordVisibility = () => {
-      setShowPassword(prev => !prev)
+        return (
+            <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                mb={2}
+            >
+                <Box
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    width="100%"
+                >
+                    <Typography color="white" pb={1} textAlign="center">
+                        {label}
+                    </Typography>
+                    <InputBase
+                        fullWidth
+                        type={
+                            type === 'password'
+                                ? showPassword
+                                    ? 'text'
+                                    : 'password'
+                                : type
+                        }
+                        placeholder={placeholder}
+                        id={id}
+                        name={name}
+                        value={value}
+                        onChange={onChange}
+                        inputRef={ref}
+                        sx={{
+                            bgcolor: colors.input[500],
+                            p: 1,
+                            borderRadius: '5px',
+                        }}
+                        endAdornment={
+                            type === 'password' &&
+                            isIconActive && (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={togglePasswordVisibility}
+                                        onMouseDown={(event) =>
+                                            event.preventDefault()
+                                        }
+                                        edge="end"
+                                    >
+                                        {showPassword ? (
+                                            <VisibilityOff />
+                                        ) : (
+                                            <Visibility />
+                                        )}
+                                    </IconButton>
+                                </InputAdornment>
+                            )
+                        }
+                    />
+                </Box>
+            </Box>
+        )
     }
-
-    return (
-      <Box
-        display='flex'
-        flexDirection='column'
-        alignContent='center'
-        justifyContent='flex-center'
-        mb={2}
-      >
-        <Box display='flex' flexDirection='column' justifyContent='flex-center'>
-          <Typography color='white' pb={1} textalign={'center'}>
-            {label}
-          </Typography>
-          <Paper
-            sx={{
-              background: colors.input[500],
-              width: '100%'
-            }}
-          >
-            <InputBase
-              {...props}
-              ref={ref}
-              id={id}
-              name={name}
-              placeholder={placeholder}
-              fullWidth
-              type={
-                type === 'password'
-                  ? showPassword
-                    ? 'text'
-                    : 'password'
-                  : type
-              }
-              value={value}
-              onChange={e => setPassword(e.target.value)}
-              sx={{
-                bgcolor: colors.input[500],
-                p: 1,
-                borderRadius: '5px'
-              }}
-              endAdornment={
-                isIconActive && (
-                  <InputAdornment position='end' sx={{ pr: 1 }}>
-                    <IconButton edge='end' onClick={togglePasswordVisibility}>
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }
-            />
-          </Paper>
-        </Box>
-      </Box>
-    )
-  }
 )
 
 CustomInput.propTypes = {
-  id: PropTypes.string.isRequired,
-  isIconActive: PropTypes.bool,
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
-  type: PropTypes.oneOf(['text', 'password']).isRequired,
-  value: PropTypes.string
+    isIconActive: PropTypes.bool,
+    label: PropTypes.string,
+    placeholder: PropTypes.string,
+    type: PropTypes.string,
+    id: PropTypes.string,
+    name: PropTypes.string,
+    value: PropTypes.string,
+    onChange: PropTypes.func,
 }
 
 CustomInput.defaultProps = {
-  type: 'text',
-  id: '',
-  name: ''
+    isIconActive: true,
+    label: '',
+    placeholder: '',
+    type: 'text',
+    id: '',
+    name: '',
+    value: '',
+    onChange: () => {},
 }
 
 export default CustomInput

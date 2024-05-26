@@ -4,12 +4,20 @@ const artistSchema = mongoose.Schema(
   {
     artistName: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     user: {
       // Campo para almacenar el ID del usuario
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User' // Referencia al modelo de User
+      ref: 'User', // Referencia al modelo de User
+      required: true
+    },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true
     },
     bio: {
       type: String
@@ -37,9 +45,13 @@ const artistSchema = mongoose.Schema(
     },
     spotifyLink: {
       type: String
+    },
+    create: {
+      type: Date,
+      default: Date.now()
     }
   },
   { timestamps: true }
 )
 
-export default mongoose.model('Artist', artistSchema)
+export default mongoose.model.Artist || mongoose.model('Artist', artistSchema)

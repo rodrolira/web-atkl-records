@@ -5,7 +5,7 @@ import Button from '../atoms/Button'
 import { useAdminAuth } from '../../contexts/AuthContext'
 
 // Importa ReleaseSection usando importación dinámica
-const ReleaseSection = React.lazy(() => import('../organisms/ReleaseSection'))
+const ReleaseSection = React.lazy(() => import('../organisms/ReleasesSection'))
 
 function ReleasesPage () {
   const { language } = useLanguage()
@@ -35,7 +35,7 @@ function ReleasesPage () {
   console.log(releasesData) // Imprimir releasesData en la consola del navegador
 
   return (
-    <div className='sm:m-0 inline-block lg:m-32 sm:mx-auto' id='releases'>
+    <div className='sm:m-0 inline-block sm:mx-auto'>
       <div className='flex items-center justify-between'>
         <a href='/releases' className='mx-auto'>
           <Title> {language === 'en' ? 'Releases' : 'Lanzamientos'}</Title>
