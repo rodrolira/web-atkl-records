@@ -2,8 +2,9 @@ import Admin from "../models/admin.model.js";
 import bcrypt from 'bcryptjs'
 import { createAccessToken } from "../libs/jwt.js";
 import jwt from 'jsonwebtoken';
-import { TOKEN_SECRET } from "../config.js";
+import dotenv from "dotenv";
 
+dotenv.config();
 export const registerAdmin = async (req, res) => {
     const { username, email, password } = req.body;
 
@@ -92,7 +93,7 @@ export const verifyAdminToken = async (req, res) => {
 
     if (!adminToken) return res.status(401).json({ message: 'Unauthorized' })
 
-    jwt.verify(adminToken, TOKEN_SECRET, async (err, user) => {
+    jwt.verify(adminToken, process.env.SECRET, async (err, user) => {
         if (err) return res.status(401).json({ message: 'Unauthorized' })
 
         const userFound = await Admin.findById(user.id)

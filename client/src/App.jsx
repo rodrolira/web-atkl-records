@@ -8,7 +8,6 @@ import {
 import axios from 'axios'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import 'vite/modulepreload-polyfill'
-import { Analytics } from '@vercel/analytics/react'
 import Navbar from './components/organisms/Navbar'
 import { LanguageProvider } from './contexts/LanguageContext'
 import './App.css'
@@ -17,6 +16,7 @@ import Footer from './components/organisms/Footer.jsx'
 import { AuthProvider, AdminAuthProvider } from './contexts/AuthContext'
 import { ArtistProvider } from './contexts/ArtistContext.jsx'
 import ProtectedRoute from './ProtectedRoute.jsx'
+import { useQuery, gql } from '@apollo/client'
 
 const ArtistsPage = React.lazy(() => import('./components/pages/ArtistsPage'))
 const ArtistPage = React.lazy(() => import('./components/pages/ArtistPage'))

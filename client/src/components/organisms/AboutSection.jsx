@@ -6,7 +6,7 @@ function AboutSection () {
   const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
 
   return (
-    <section id='about' className='my-32 py-16'>
+    <section id='about' className='py-16'>
       <div className='container mx-auto p-5'>
         <Title>{language === 'en' ? 'About' : 'Acerca de'}</Title>
         <p className='text-lg text-white'>

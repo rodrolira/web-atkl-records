@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 import './Home.css'
 import { useLanguage } from '../../contexts/LanguageContext'
 const Artists = React.lazy(() => import('../organisms/ArtistsSection'))
-const Releases = React.lazy(() => import('./ReleasesPage'))
+const Releases = React.lazy(() => import('../organisms/ReleasesSection'))
 const DemosSection = React.lazy(() => import('../organisms/DemoSection'))
 const ContactSection = React.lazy(() => import('../organisms/ContactSection'))
 import AboutSection from '../organisms/AboutSection'
@@ -38,19 +38,19 @@ function Home () {
           </div>
         </div>
       </div>
-      ;
+
       <Suspense fallback={<div>Loading...</div>}>
         <Artists />
       </Suspense>
-      ;
+
       <Suspense fallback={<div>Loading...</div>}>
         <Releases />
       </Suspense>
-      <AboutSection />;
+      <AboutSection />
       <Suspense fallback={<div>Loading...</div>}>
         <DemosSection />
       </Suspense>
-      ;
+
       <Suspense fallback={<div>Loading...</div>}>
         <ContactSection />
       </Suspense>
