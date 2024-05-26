@@ -9,7 +9,7 @@
 // export const AdminAuthContext = createContext()
 
 // // eslint-disable-next-line react-refresh/only-export-components
-// export const useAdminAuth = () => {
+// export const authAdmin = () => {
 //   const context = useContext(AdminAuthContext)
 //   if (!context) {
 //     throw new Error('useAuth must be used within an AuthProvider')

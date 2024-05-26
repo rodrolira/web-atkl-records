@@ -82,7 +82,7 @@ const AddReleaseForm = () => {
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => {
               // Envía los datos del formulario al backend para procesarlos
-              fetch('http://localhost:3000/api/releases', {
+              fetch('http://localhost:4000/api/releases', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'

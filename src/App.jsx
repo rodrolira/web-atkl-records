@@ -13,10 +13,9 @@ import { LanguageProvider } from './contexts/LanguageContext'
 import './App.css'
 import Home from './components/pages/Home.jsx'
 import Footer from './components/organisms/Footer.jsx'
-import { AuthProvider, AdminAuthProvider } from './contexts/AuthContext'
+import { useAdminAuth } from './contexts/AuthContext'
 import { ArtistProvider } from './contexts/ArtistContext.jsx'
 import ProtectedRoute from './ProtectedRoute.jsx'
-import { useQuery, gql } from '@apollo/client'
 
 const ArtistsPage = React.lazy(() => import('./components/pages/ArtistsPage'))
 const ArtistPage = React.lazy(() => import('./components/pages/ArtistPage'))
@@ -33,6 +32,7 @@ const DiscographyPage = React.lazy(
 import LoginArtistPage from './components/pages/LoginArtistPage'
 
 const App = () => {
+    const { isAdmin } = useAdminAuth()
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [artistsData, setArtistsData] = useState([])
 
@@ -40,7 +40,7 @@ const App = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    'http://localhost:3000/api/artists'
+                    'http://localhost:4000/api/artists'
                 )
                 setArtistsData(response.data)
                 setIsAuthenticated(true)
@@ -53,55 +53,85 @@ const App = () => {
         fetchData()
     }, [])
 
-  return (
-    <div className='App'>
-      <AuthProvider>
-        <AdminAuthProvider>
-          <ArtistProvider>
-            <LanguageProvider>
-              <SpeedInsights />
-              <Router>
-                <Navbar />
-                <Routes>
-                  <Route path='/' element={<Home />} />
-                  <Route path='/home' element={<Navigate to='/' />} />
-                  <Route
-                    path='/artists'
-                    element={<ArtistsPage artistsData={artistsData} />}
-                  />
-                  <Route
-                    path='/artists/:id'
-                    element={<ArtistPage artistsData={artistsData} />}
-                  />
-                  <Route
-                    path='/releases'
-                    element={
-                      <Suspense fallback={<div>Loading...</div>}>
-                        <ReleasesPage />{' '}
-                      </Suspense>
-                    }
-                  />
-                  <Route path='/login' element={<LoginArtistPage />} />
-                  <Route path='/admin/login' element={<LoginAdminPage />} />
-                  <Route path='/admin' element={<AdminDashboard />} />
-                  <Route path='/register' element={<RegisterPage />} />
-                  <Route path='/tasks' element={<h1> Tasks Page </h1>} />
-                  <Route path='/add-task' element={<h1> New Task </h1>} />
-                  <Route path='/tasks/:id' element={<h1> Update Page </h1>} />
-                  <Route path='/discography' element={<DiscographyPage />} />
+    return (
+        <div className="App">
+            <ArtistProvider>
+                <LanguageProvider>
+                    <SpeedInsights />
+                    <Router>
+                        <Navbar />
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/home" element={<Navigate to="/" />} />
+                            <Route
+                                path="/artists"
+                                element={
+                                    <ArtistsPage artistsData={artistsData} />
+                                }
+                            />
+                            <Route
+                                path="/artists/:id"
+                                element={
+                                    <ArtistPage artistsData={artistsData} />
+                                }
+                            />
+                            <Route
+                                path="/releases"
+                                element={
+                                    <Suspense fallback={<div>Loading...</div>}>
+                                        <ReleasesPage />{' '}
+                                    </Suspense>
+                                }
+                            />
+                            <Route
+                                path="/login"
+                                element={<LoginArtistPage />}
+                            />
+                            <Route
+                                path="/admin/login"
+                                element={<LoginAdminPage />}
+                            />
+                            {/* Renderizar el tablero del administrador solo si está autenticado como administrador */}
+                            {isAdmin && (
+                                <Route
+                                    path="/admin"
+                                    element={<AdminDashboard />}
+                                />
+                            )}
+                            <Route
+                                path="/register"
+                                element={<RegisterPage />}
+                            />
+                            <Route
+                                path="/tasks"
+                                element={<h1> Tasks Page </h1>}
+                            />
+                            <Route
+                                path="/add-task"
+                                element={<h1> New Task </h1>}
+                            />
+                            <Route
+                                path="/tasks/:id"
+                                element={<h1> Update Page </h1>}
+                            />
+                            <Route
+                                path="/discography"
+                                element={<DiscographyPage />}
+                            />
 
-                  <Route element={<ProtectedRoute />}>
-                    <Route path='/profile' element={<ProfilePage />} />
-                  </Route>
-                </Routes>
-              </Router>
-              <Footer />
-            </LanguageProvider>
-          </ArtistProvider>
-        </AdminAuthProvider>
-      </AuthProvider>
-    </div>
-  )
+                            <Route element={<ProtectedRoute />}>
+                                <Route
+                                    path="/profile"
+                                    element={<ProfilePage />}
+                                />
+                            </Route>
+                        </Routes>
+                    </Router>
+                    <Footer />
+                </LanguageProvider>
+            </ArtistProvider>
+        </div>
+    )
 }
 
 export default App

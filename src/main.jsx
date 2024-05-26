@@ -8,19 +8,31 @@ import {
     ApolloClient,
     InMemoryCache,
     ApolloProvider,
-    gql,
+    HttpLink,
 } from '@apollo/client'
+import { LanguageProvider } from './contexts/LanguageContext'
+import { AdminAuthProvider, AuthProvider } from './contexts/AuthContext'
 
 const client = new ApolloClient({
-    uri: 'http://localhost:4000/',
+    connectToDevTools: true,
     cache: new InMemoryCache(),
+    link: new HttpLink({
+        uri: 'http://localhost:4000/',
+        fetch,
+    }),
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
     <React.StrictMode>
-          <ApolloProvider client={client}>
-            <App />
-          </ApolloProvider>
+        <ApolloProvider client={client}>
+            <AuthProvider>
+                <AdminAuthProvider>
+                    <LanguageProvider>
+                        <App />
+                    </LanguageProvider>
+                </AdminAuthProvider>
+            </AuthProvider>
+        </ApolloProvider>
     </React.StrictMode>
 )
