@@ -29,7 +29,7 @@ function ArtistCard({
           {name}
         </h5>
       </Link>
-      <div className="flex space-x-4 text-2xl justify-center">
+      <div className="flex space-x-4 text-2xl justify-center my-2">
         {twitterUrl && (
           <a
             href={twitterUrl}

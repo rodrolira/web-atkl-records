@@ -1,24 +1,39 @@
-import React, { useEffect, lazy } from 'react' // Importa React y useEffect
+import React, { useEffect } from 'react' // Importa React y useEffect
 import { useLanguage } from '../../contexts/LanguageContext' // Importa el hook useLanguage
 import { Box, Button, Checkbox, colors, Typography } from '@mui/material'
 import CustomInput from '../atoms/CustomInput'
 import Logo from '../atoms/Logo'
-import { useForm } from 'react-hook-form'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
-import { PropTypes } from 'prop-types'
 
 const SigninPage = () => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm()
+    // Validacion del Form
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            password: '',
+        },
+        validationSchema: Yup.object({
+            username: Yup.string().required(
+                'El nombre de usuario es requerido'
+            ),
+            password: Yup.string()
+                .min(6, 'La contraseña debe tener al menos 6 caracteres')
+                .required('La contraseña es requerida'),
+        }),
+        onSubmit: (values) => {
+            console.log('sending')
+            console.log(values)
+        },
+    })
+
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
 
-    const { signin, isAuthenticated, errors: signinErrors } = useAuth()
+    const { signin, isAuthenticated } = useAuth()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -26,10 +41,6 @@ const SigninPage = () => {
             navigate('/', { replace: true })
         }
     }, [isAuthenticated, navigate])
-
-    const onSubmit = handleSubmit((data) => {
-        signin(data)
-    })
 
     return (
         <React.Suspense fallback={<div>Loading...</div>}>
@@ -110,18 +121,13 @@ const SigninPage = () => {
                         </Box>
 
                         <div>
-                            {signinErrors.map((error, i) => (
-                                <div
-                                    className="bg-red-500 p-2 mb-2 text-white rounded-md"
-                                    key={i}
-                                >
-                                    {error}
-                                </div>
-                            ))}
-
-                            <form onSubmit={onSubmit}>
+                            <Box
+                                component="form"
+                                onSubmit={formik.handleSubmit}
+                            >
                                 {/* INPUTS */}
                                 <CustomInput
+                                    id="username"
                                     type="text"
                                     label={
                                         language === 'en'
@@ -133,62 +139,49 @@ const SigninPage = () => {
                                             ? 'Enter your username...'
                                             : 'Ingrese su nombre de usuario...'
                                     }
-                                    {...register('username', {
-                                        required: true,
-                                    })}
                                     isIconActive={false}
                                     text-align="center"
                                     mx="auto"
-                                />
-                                {errors.username && (
-                                    <p
-                                        style={{
-                                            color: 'red',
-                                            fontSize: '12px',
-                                            fontWeight: 'bold',
-                                            marginTop: '2px',
-                                            marginBottom: '2px',
-                                        }}
-                                    >
-                                        {language === 'en'
-                                            ? 'Username is required'
-                                            : 'El usuario es requerido'}
-                                    </p>
-                                )}
-
-                                <CustomInput
-                                    type="password"
-                                    label={
-                                        language === 'en'
-                                            ? 'Password'
-                                            : 'Contraseña'
-                                    }
-                                    placeholder={
-                                        language === 'en'
-                                            ? 'Enter your password...'
-                                            : 'Ingrese su contraseña...'
-                                    }
-                                    isIconActive={true}
-                                    {...register('password', {
-                                        required: true,
-                                    })}
+                                    value={formik.values.username}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                 />
 
-                                {errors.password && (
-                                    <p
-                                        style={{
-                                            color: 'red',
-                                            fontSize: '12px',
-                                            fontWeight: 'bold',
-                                            marginTop: '2px',
-                                            marginBottom: '2px',
-                                        }}
-                                    >
-                                        {language === 'en'
-                                            ? 'Password is required'
-                                            : 'La contraseña es requerida'}
-                                    </p>
-                                )}
+                                {formik.touched.username &&
+                                formik.errors.username ? (
+                                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                                        <p className="font-bold">Error</p>
+                                        <p>{formik.errors.username}</p>
+                                    </div>
+                                ) : null}
+
+                                <div>
+                                    <CustomInput
+                                        id="password"
+                                        type="password"
+                                        label={
+                                            language === 'en'
+                                                ? 'Password'
+                                                : 'Contraseña'
+                                        }
+                                        placeholder={
+                                            language === 'en'
+                                                ? 'Enter your password...'
+                                                : 'Ingrese su contraseña...'
+                                        }
+                                        isIconActive={true}
+                                        value={formik.values.password}
+                                        onChange={formik.handleChange}
+                                    />
+                                </div>
+
+                                {formik.touched.password &&
+                                formik.errors.password ? (
+                                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                                        <p className="font-bold">Error</p>
+                                        <p>{formik.errors.password}</p>
+                                    </div>
+                                ) : null}
 
                                 {/* INPUT END */}
 
@@ -232,26 +225,19 @@ const SigninPage = () => {
                                         boxShadow: `0 0 20px ${colors.green[500]}`,
                                     }}
                                     type="submit"
+                                    value="Login"
                                 >
                                     {language === 'en'
                                         ? 'Login'
                                         : 'Iniciar Sesión'}
                                 </Button>
-                            </form>
+                            </Box>
                         </div>
                     </Box>
                 </Box>
             </Grid>
         </React.Suspense>
     )
-}
-
-SigninPage.defaultProps = {
-    language: 'es',
-}
-
-SigninPage.propTypes = {
-    language: PropTypes.string,
 }
 
 export default SigninPage
