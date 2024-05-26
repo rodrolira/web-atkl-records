@@ -87,7 +87,7 @@ const AddArtistForm = () => {
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => {
               // Envía los datos del formulario al backend para procesarlos
-              fetch('http://localhost:3000/api/artists', {
+              fetch('http://localhost:4000/api/artists', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'

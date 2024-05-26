@@ -29,7 +29,9 @@ const Register = () => {
           <Grid item xs={12} sm={6}>
             <SignupPage />
           </Grid>
-         
+          <Grid item xs={12} sm={6}>
+            <TitleBox />
+          </Grid>
         </Grid>
       </Box>
     </MainLayout>

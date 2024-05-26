@@ -10,6 +10,12 @@ const typeDefs = gql`
     create: String
   }
 
+  type Admin {
+    id: ID
+    username: String
+    email: String
+  }
+
   type Token {
     token: String
   }
@@ -51,6 +57,12 @@ const typeDefs = gql`
   }
 
   input AuthInput {
+    username: String!
+    password: String!
+  }
+
+  input AdminInput {
+    username: String!
     email: String!
     password: String!
   }
@@ -86,6 +98,10 @@ const typeDefs = gql`
     users: [User]
     getUser(token: String!): User
 
+    # Admin
+    admins: [Admin]
+    getAdmin(token: String!): Admin
+
     # Artists
     artists: [Artist]
     getArtists: [Artist]
@@ -101,6 +117,10 @@ const typeDefs = gql`
     # Users
     newUser(input: UserInput): User
     authUser(input: AuthInput): Token
+
+    # Admin
+    newAdmin(input: AdminInput): Admin
+    authAdmin(input: AuthInput): Token
 
     # Artists
     newArtist(input: ArtistInput): Artist

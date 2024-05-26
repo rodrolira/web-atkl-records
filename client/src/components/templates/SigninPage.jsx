@@ -25,7 +25,7 @@ const SigninPage = () => {
                 .min(6, 'La contraseña debe tener al menos 6 caracteres')
                 .required('La contraseña es requerida'),
         }),
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             console.log('sending')
             console.log(values)
         },
