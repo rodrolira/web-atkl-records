@@ -55,7 +55,7 @@ function Footer(isAdminLogin) {
     const footerClass = isAdminLogin ? 'admin-login-footer' : ''
 
     return (
-        <footer className={`relative w-full ${footerClass}`}>
+        <footer className={`relative footer w-full ${footerClass}`}>
             <div className="mx-auto w-full max-w-7xl px-8 border-t border-blue-gray-50">
                 <div className="mx-auto grid w-full grid-cols-1 gap-8 py-12 md:grid-cols-2 lg:grid-cols-4">
                     {sitemap.map(({ title, links }, key) => (

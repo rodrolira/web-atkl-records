@@ -7,7 +7,6 @@ import { useAdminAuth } from '../../contexts/AuthContext'
 import AddArtistButton from '../molecules/AddArtistButton'
 import axios from 'axios'
 
-
 function ArtistsSection() {
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
@@ -16,7 +15,7 @@ function ArtistsSection() {
     useEffect(() => {
         // Hace una solicitud GET al backend para obtener los artistas
         axios
-            .get('http://localhost:000/api/artists')
+            .get('http://localhost:3000/api/artists')
             .then((response) => {
                 setArtists(response.data) // Actualiza el estado con los artistas obtenidos
             })
@@ -27,7 +26,7 @@ function ArtistsSection() {
 
     // Renderiza los artistas en la interfaz de usuario
     return (
-        <div className="inline-block" id="artists">
+        <div className="inline-block py-16" id="artists">
             <div>
                 <a href="/artists" className="mx-auto">
                     <Title>{language === 'en' ? 'Artists' : 'Artistas'}</Title>

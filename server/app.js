@@ -2,11 +2,11 @@ import express from "express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@apollo/server/express4";
-import jwt from "jsonwebtoken";
+// import { ApolloServer } from "@apollo/server";
+// import { expressMiddleware } from "@apollo/server/express4";
+// import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import http from "http";
+// import http from "http";
 import authRoutes from "./routes/auth.routes.js";
 import taskRoutes from "./routes/tasks.routes.js";
 import artistsRoutes from "./routes/artists.routes.js";
@@ -16,50 +16,51 @@ import contactFormRoutes from "./routes/contact-form.routes.js";
 
 dotenv.config();
 
-export async function startApolloServer(typeDefs, resolvers) {
+// export async function startApolloServer(typeDefs, resolvers) {
   const app = express();
-  const httpServer = http.createServer(app);
+  // const httpServer = http.createServer(app);
 
   //Server
-  const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: ({ req }) => {
-      // console.log(req.headers["authorization"]);
-      const token = req.headers["authorization"] || "";
+  // const server = new ApolloServer({
+  //   typeDefs,
+  //   resolvers,
+  //   context: ({ req }) => {
+  //     // console.log(req.headers["authorization"]);
+  //     // console.log(req.headers)
+  //     const token = req.headers["authorization"] || "";
 
-      if (token) {
-        try {
-          const user = jwt.verify(token);
-          console.log(user);
+  //     if (token) {
+  //       try {
+  //         const user = jwt.verify(token.replace('Bearer ', ''), process.env.SECRET);
+  //          console.log(user);
 
-          return {
-            user,
-          };
-        } catch (error) {
-          console.log("Hubo un Error");
-          console.log(error);
-        }
-      }
-    },
-  });
+  //         return {
+  //           user,
+  //         };
+  //       } catch (error) {
+  //         console.log("Hubo un Error");
+  //         console.log(error);
+  //       }
+  //     }
+  //   },
+  // });
 
-  await server.start();
+  // await server.start();
 
   // server.listen().then(({ url }) => {
   //   console.log(`🚀 Server ready at ${url}`);
   // });
 
-  app.use("/", cors({
-    origin: "http://localhost:5173",
-    credentials: true
-  }), express.json(), expressMiddleware(server));
+  // app.use("/", cors({
+  //   origin: "http://localhost:5173",
+  //   credentials: true
+  // }), express.json(), expressMiddleware(server));
 
-  await new Promise(resolve =>
-    httpServer.listen({
-      port: 4000,
-    })
-  );
+  // await new Promise(resolve =>
+  //   httpServer.listen({
+  //     port: 4000,
+  //   })
+  // );
 
   // app.use(
   //   cors({
@@ -102,4 +103,6 @@ export async function startApolloServer(typeDefs, resolvers) {
   app.use((req, res) => {
     res.status(404).json({ error: "Page not found" });
   });
-}
+// }
+
+export default app;

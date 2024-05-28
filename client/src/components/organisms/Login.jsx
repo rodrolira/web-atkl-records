@@ -16,8 +16,8 @@ const Login = () => {
             lg: '60vw',
             xl: '60vw'
           },
-          marginBottom: '100px',
-          margin: '100px'
+          margin: '100px',
+          marginRight: '0px',
         }}
       >
         <Grid

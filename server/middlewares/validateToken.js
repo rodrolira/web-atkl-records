@@ -1,37 +1,37 @@
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 dotenv.config();
 
 export const authRequired = (req, res, next) => {
-    const { token } = req.cookies
+  const { token } = req.cookies;
 
-    if (!token) return res.status(401).json({ message: 'Unauthorized' })
+  if (!token) return res.status(401).json({ message: "Unauthorized" });
 
-    jwt.verify(token, process.env.SECRET, (err, user) => {
-        if (err) return res.status(403).json({ message: 'Invalid token' })
+  jwt.verify(token, process.env.SECRET, (err, user) => {
+    if (err) return res.status(403).json({ message: "Invalid token" });
 
-        req.user = user
-        next()
-    })
-}
+    req.user = user;
+    next();
+  });
+};
 
 export const adminAuthRequired = (req, res, next) => {
-    const { adminToken } = req.cookies
-    console.log("Token recibido:", adminToken); // Verifica si el adminToken se está recibiendo correctamente
+  const { token } = req.cookies;
+  console.log("Token recibido:", token); // Verifica si el token se está recibiendo correctamente
 
-    if (!adminToken) {
-        console.log("Token no encontrado en las cookies.");
-        return res.status(401).json({ message: 'Unauthorized' })
+  if (!token) {
+    console.log("Token no encontrado en las cookies.");
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  jwt.verify(token, process.env.TZ, (err, user) => {
+    if (err) {
+      console.error("Error al verificar el token:", err);
+      return res.status(403).json({ message: "Invalid token" });
     }
-    jwt.verify(adminToken, process.env.TZ, (err, user) => {
-        if (err) {
-            console.error("Error al verificar el adminToken:", err);
-            return res.status(403).json({ message: 'Invalid adminToken' })
-        }
-        console.log("Token verificado correctamente. Usuario:", user);
+    console.log("Token verificado correctamente. Usuario:", user);
 
-        req.user = user
-        next()
-    })
-}
+    req.user = user;
+    next();
+  });
+};

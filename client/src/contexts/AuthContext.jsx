@@ -137,94 +137,94 @@ export const AuthProvider = ({ children }) => {
 
 // ADMIN PROVIDER //
 export const AdminAuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null)
-    const [isAdmin, setIsAdmin] = useState(false)
-    const [errors, setErrors] = useState([])
-    const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [errors, setErrors] = useState([])
+  const [loading, setLoading] = useState(true)
 
-    const signup = async (adminData) => {
-        try {
-            const res = await registerAdminRequest(adminData)
-            setUser(res.data)
-            setIsAdmin(true)
-        } catch (error) {
-            setErrors(error.response.data)
-        }
+
+
+  const signup = async adminData => {
+    try {
+      const res = await registerAdminRequest(adminData)
+      setUser(res.data)
+      setIsAuthenticated(true)
+    } catch (error) {
+      setErrors(error.response.data)
     }
+  }
 
-    const signin = async (userData) => {
-        try {
-            const res = await loginAdminRequest(userData)
-            setIsAdmin(true)
-            setUser(res.data)
-        } catch (error) {
-            if (Array.isArray(error.response.data)) {
-                setErrors(error.response.data)
-            } else {
-                setErrors([error.response.data.message])
-            }
-        }
+  const signin = async adminData => {
+    try {
+      const res = await loginAdminRequest(adminData)
+      setIsAuthenticated(true)
+      setUser(res.data)
+    } catch (error) {
+      if (Array.isArray(error.response.data)) {
+        setErrors(error.response.data)
+      } else {
+        setErrors([error.response.data.message])
+      }
     }
+  }
 
-    const logout = () => {
-        Cookies.remove('adminToken')
-        setIsAdmin(false)
+  const logout = () => {
+    Cookies.remove('token')
+    setIsAuthenticated(false)
+    setUser(null)
+  }
+
+  useEffect(() => {
+    async function checkAdminLogin () {
+      const cookies = Cookies.get()
+
+      if (!cookies.token) {
+        setIsAuthenticated(false)
+        setLoading(false)
+        return setUser(null)
+      }
+
+      try {
+        const res = await verityAdminTokenRequest()
+        if (!res.data) {
+          setIsAuthenticated(false)
+          setLoading(false)
+          return
+        }
+
+        setIsAuthenticated(true)
+        setUser(res.data)
+        setLoading(false)
+      } catch (error) {
+        setIsAuthenticated(false)
         setUser(null)
+        setLoading(false)
+      }
     }
 
-    useEffect(() => {
-        async function checkAdminLogin() {
-            const cookies = Cookies.get()
+    checkAdminLogin()
+  }, [])
 
-            if (!cookies.adminToken) {
-                setIsAdmin(false)
-                setLoading(false)
-                return setUser(null)
-            }
-
-            try {
-                const res = await verityAdminTokenRequest()
-                if (!res.data) {
-                    setIsAdmin(false)
-                    setLoading(false)
-                    return
-                }
-
-                setIsAdmin(true)
-                setUser(res.data)
-                setLoading(false)
-            } catch (error) {
-                setIsAdmin(false)
-                setUser(null)
-                setLoading(false)
-            }
-        }
-
-        checkAdminLogin()
-    }, [])
-
-    return (
-        <AdminAuthContext.Provider
-            value={{
-                signup,
-                signin,
-                logout,
-                loading,
-                user,
-                isAdmin,
-                errors,
-            }}
-        >
-            {children}
-            {errors.length > 0 && (
-                <div className="error-container">
-                    {errors.map((error, index) => (
-                        <p key={index} className="error-message">
-                            {error}
-                        </p>
-                    ))}
-                </div>
-            )}
-        </AdminAuthContext.Provider>
-    )
+  return (
+    <AdminAuthContext.Provider
+      value={{
+        signup,
+        signin,
+        logout,
+        loading,
+        user,
+        isAuthenticated,
+        errors,
+      }}
+    >
+      {children}
+      {errors.length > 0 && (
+        <div className="error-container">
+          {errors.map((error, index) => (
+            <p key={index} className="error-message">{error}</p>
+          ))}
+        </div>
+      )}
+    </AdminAuthContext.Provider>
+  )
 }

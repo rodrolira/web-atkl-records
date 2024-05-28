@@ -1,20 +1,18 @@
 // eslint-disable-next-line react/prop-types, no-unused-vars
-import React, { lazy } from 'react'
+import React from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import Title from '../atoms/Title'
 import { useAdminAuth } from '../../contexts/AuthContext'
 
-// Importa ReleaseCard usando importación dinámica
-const ReleaseCard = lazy(() => import('./ReleaseCard'))
-import { PropTypes } from 'prop-types'
 import AddReleaseButton from '../molecules/AddReleaseButton'
+import ReleaseCard from './ReleaseCard'
 
-function ReleasesSection({ releasesData }) {
+function ReleasesSection() {
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
 
     return (
-        <div className="grid gap-4 inline-block" id="releases">
+        <div className="grid gap-4 py-16 inline-block" id="releases">
             <div>
                 <a href="/releases" className="mx-auto">
                     <Title>
@@ -33,31 +31,19 @@ function ReleasesSection({ releasesData }) {
                     </ul>
                 )}
             </div>
-            {releasesData &&
+            {/* {releasesData &&
                 Array.isArray(releasesData) &&
-                releasesData.map((release) => (
-                    <ReleaseCard
-                        key={release.id}
-                        title={release.title}
-                        artist={release.artist}
-                        bandcampLink={release.bandcampLink}
-                        embeddedPlayer={release.embeddedPlayer}
-                    />
-                ))}
+                releasesData.map((release) => ( */}
+            <ReleaseCard
+            // key={release.id}
+            // title={release.title}
+            // artist={release.artist}
+            // bandcampLink={release.bandcampLink}
+            // embeddedPlayer={release.embeddedPlayer}
+            />
+            {/* ))} */}
         </div>
     )
-}
-
-ReleasesSection.propTypes = {
-    releasesData: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.number.isRequired,
-            title: PropTypes.string.isRequired,
-            artist: PropTypes.string.isRequired,
-            bandcampLink: PropTypes.string,
-            embeddedPlayer: PropTypes.string,
-        })
-    ).isRequired,
 }
 
 export default ReleasesSection
