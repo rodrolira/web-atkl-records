@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "dev": "nodemon server/index.js"
+    "dev": "nodemon server/index.js",
+    "start": "nodemon server/index.js --exec babel-node -e js"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +32,9 @@
   },
   "devDependencies": {
     "@apollo/rover": "^0.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
     "bcryptjs": "^2.4.3",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",

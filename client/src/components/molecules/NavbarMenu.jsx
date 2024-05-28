@@ -12,61 +12,57 @@ import Button from '../atoms/Button'
 import AddArtistButton from './AddArtistButton'
 import AddReleaseButton from './AddReleaseButton'
 
-function NavbarMenu() {
-    const location = useLocation()
-    const { language } = useLanguage()
-    const { isAuthenticated: userAuthenticated } = useAuth()
-    const { isAdmin } = useAdminAuth()
+function NavbarMenu () {
+  const location = useLocation()
+  const { language } = useLanguage()
+  const { isAuthenticated: userAuthenticated } = useAuth()
+  const { isAuthenticated: adminAuthenticated } = useAdminAuth()
 
-    return (
-        <div className="md:flex lg:block md:flex-row-reverse md:justify-around md:items-center  w-full">
-            <div className="flex items-center justify-end h-[50%]">
-                <div className="z-10 flex divide-y rounded-lg text-center ">
-                    <ul
-                        className="py-2 text-sm flex text-white dark:text-white sm:font-normal"
-                        aria-labelledby="dropdownHoverButton"
-                    >
-                        {isAdmin && (
-                            <li>
-                                <AddArtistButton className="btn-add">
-                                    {language === 'en'
-                                        ? 'Add Artist'
-                                        : 'Agregar Artista'}
-                                </AddArtistButton>
-                            </li>
-                        )}
-                        {isAdmin && (
-                            <li>
-                                <AddReleaseButton className="btn-add">
-                                    {language === 'en'
-                                        ? 'Add Release'
-                                        : 'Agregar Lanzamiento'}
-                                </AddReleaseButton>
-                            </li>
-                        )}
-                        {isAdmin && (
-                            <li>
-                                <Button className="btn-dashboard" href="/admin">
-                                    {language === 'en'
-                                        ? 'Admin Dashboard'
-                                        : 'Panel de Administrador'}
-                                </Button>
-                            </li>
-                        )}
+  return (
+    <div className='md:flex lg:block md:flex-row-reverse md:justify-around md:items-center  w-full'>
+      <div className='flex items-center justify-end h-[50%]'>
+        <div className='z-10 flex divide-y rounded-lg text-center '>
+          <ul
+            className='py-2 text-sm flex text-white dark:text-white sm:font-normal'
+            aria-labelledby='dropdownHoverButton'
+          >
+            {adminAuthenticated && (
+              <li>
+                <AddArtistButton className='btn-add'>
+                  {language === 'en' ? 'Add Artist' : 'Agregar Artista'}
+                </AddArtistButton>
+              </li>
+            )}
+            {adminAuthenticated && (
+              <li>
+                <AddReleaseButton className='btn-add'>
+                  {language === 'en' ? 'Add Release' : 'Agregar Lanzamiento'}
+                </AddReleaseButton>
+              </li>
+            )}
+            {adminAuthenticated && (
+              <li>
+                <Button className='btn-dashboard' href='/admin'>
+                  {language === 'en'
+                    ? 'Admin Dashboard'
+                    : 'Panel de Administrador'}
+                </Button>
+              </li>
+            )}
 
-                        {!isAdmin && <DemoButton />}
-                        {/* user login button */}
-                        {!isAdmin && !userAuthenticated && <LoginButton />}
-                        <LanguageMenu />
+            {!adminAuthenticated && <DemoButton />}
+            {/* user login button */}
+            {!adminAuthenticated && !userAuthenticated && <LoginButton />}
+            <LanguageMenu />
 
-                        {userAuthenticated && <LogoutButton />}
-                        {isAdmin && <LogoutButton />}
-                    </ul>
-                </div>
-            </div>
-            <NavbarLinks />
+            {userAuthenticated && <LogoutButton />}
+            {adminAuthenticated && <LogoutButton />}
+          </ul>
         </div>
-    )
+      </div>
+      <NavbarLinks />
+    </div>
+  )
 }
 
 export default NavbarMenu

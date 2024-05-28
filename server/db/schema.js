@@ -50,6 +50,11 @@ const typeDefs = gql`
     create: String
   }
 
+  type TopArtist {
+    total: Float
+    artist: [Artist]
+  }
+
   input UserInput {
     username: String!
     email: String!
@@ -111,6 +116,9 @@ const typeDefs = gql`
     releases: [Release]
     getReleases: [Release]
     getRelease(id: ID!): Release
+
+    # Busquedas Avanzadas
+    bestArtists: [TopArtist]
   }
 
   type Mutation {

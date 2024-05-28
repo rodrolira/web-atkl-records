@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react' // Importa React y useEffect
+import React, { useEffect } from 'react' // Importa React y useEffect
 import { useLanguage } from '../../contexts/LanguageContext' // Importa el hook useLanguage
 import { Box, Button, Checkbox, colors, Typography } from '@mui/material'
 import CustomInput from '../atoms/CustomInput'
@@ -6,26 +6,20 @@ import Logo from '../atoms/Logo'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { gql, useMutation, useQuery } from '@apollo/client'
-import Grid from '@mui/material/Unstable_Grid2/Grid2'
 import { useAdminAuth } from '../../contexts/AuthContext'
-
-const AUTH_ADMIN = gql`
-    mutation authAdmin($input: AuthInput) {
-        authAdmin(input: $input) {
-            token
-        }
-    }
-`
+import Grid from '@mui/material/Unstable_Grid2/Grid2'
 
 function AdminSignin() {
+    const { language } = useLanguage() // Usa el hook para obtener language
     // routing
     const navigate = useNavigate()
-    const { signin } = useAdminAuth() // Obtener la función signin del contexto de autenticación de administradores
+    const { signin, isAuthenticated, errors: signinErrors } = useAdminAuth() // Obtener la función signin del contexto de autenticación de administradores
 
-    const [message, saveMessage] = useState(null)
-
-    const [authAdmin] = useMutation(AUTH_ADMIN)
+    // Define validation schema using Yup
+    const validationSchema = Yup.object({
+        username: Yup.string().required('El nombre de usuario es requerido'),
+        password: Yup.string().required('La contraseña es requerida'),
+    })
 
     // Validacion del Form
     const formik = useFormik({
@@ -33,55 +27,17 @@ function AdminSignin() {
             username: '',
             password: '',
         },
-        validationSchema: Yup.object({
-            username: Yup.string().required(
-                'El nombre de usuario es requerido'
-            ),
-            password: Yup.string().required('La contraseña es requerida'),
-        }),
-        onSubmit: async (values) => {
-            // console.log(values)
-            const { username, password } = values
-
-            try {
-                const { data } = await authAdmin({
-                    variables: {
-                        input: {
-                            username,
-                            password,
-                        },
-                    },
-                })
-                console.log(data)
-                saveMessage('Auth...')
-
-                //Guardar token
-                const { token } = data.authAdmin
-                localStorage.setItem('adminToken', token)
-                signin({ username, password }) // Llamar a la función signin para establecer el estado de autenticación del administrador
-
-                //Redirect
-                navigate('/')
-            } catch (error) {
-                saveMessage(error.message.replace('GraphQL error: ', ''))
-                // console.log(error)
-
-                setTimeout(() => {
-                    saveMessage(null)
-                }, 2000)
-            }
+        validationSchema,
+        onSubmit: (values) => {
+            signin(values)
         },
     })
 
-    const { language } = useLanguage() // Usa el hook para obtener language
-
-    const showMessage = () => {
-        return (
-            <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center mx-auto">
-                <p>{message} </p>
-            </div>
-        )
-    }
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/')
+        }
+    }, [isAuthenticated, navigate])
 
     return (
         <React.Suspense fallback={<div>Loading...</div>}>
@@ -161,8 +117,6 @@ function AdminSignin() {
                             </Typography>
                         </Box>
 
-                        {message && showMessage()}
-
                         <div>
                             {/* FORM */}
                             <Box
@@ -186,6 +140,7 @@ function AdminSignin() {
                                     mx="auto"
                                     onChange={formik.handleChange}
                                     value={formik.values.username}
+                                    onBlur={formik.handleBlur}
                                     name="username"
                                     id="username"
                                 />
@@ -273,6 +228,13 @@ function AdminSignin() {
                                         ? 'Login'
                                         : 'Iniciar Sesión'}
                                 </Button>
+                                {signinErrors && signinErrors.length > 0 && (
+                                    <div>
+                                        {signinErrors.map((error, index) => (
+                                            <div key={index}>{error}</div>
+                                        ))}
+                                    </div>
+                                )}
                             </Box>
                             {/* FORM END */}
                         </div>

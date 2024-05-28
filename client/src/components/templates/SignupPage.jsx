@@ -6,21 +6,9 @@ import CustomInput from '../atoms/CustomInput'
 import Logo from '../atoms/Logo'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useMutation, gql } from '@apollo/client'
 
-const NEW_USER = gql`
-    mutation NewUser($input: UserInput) {
-        newUser(input: $input) {
-            id
-            username
-            email
-        }
-    }
-`
 
 const SignupPage = () => {
-    // Mutation para crear usuario
-    const [newUser] = useMutation(NEW_USER)
 
     // Validacion de Form
     const formik = useFormik({
