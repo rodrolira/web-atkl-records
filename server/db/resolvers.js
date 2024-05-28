@@ -68,6 +68,26 @@ const resolvers = {
 
       return release;
     },
+    bestArtists: async () => {
+      const artists = await Release.aggregate([
+        { $match: { state: "COMPLETED" } },
+        {
+          $group: {
+            _id: "$artist",
+            total: { $sum: "$total" },
+          },
+        },
+        {
+          $lookup: {
+            from: 'artists',
+            localField: '_id',
+            foreignField: '_id',
+            as: 'artist',
+          }
+        }
+      ]);
+      return artists;
+    },
   },
 
   Mutation: {
