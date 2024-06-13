@@ -1,4 +1,5 @@
-import React from 'react'
+//layouts/Layout.jsx
+import * as React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from '../components/pages/Home'
 import ArtistsPage from '../components/pages/ArtistsPage'
@@ -13,11 +14,9 @@ import { LanguageProvider } from '../contexts/LanguageContext'
 import '../App.css'
 import Footer from '../components/organisms/Footer'
 import AdminDashboard from '../admin/AdminDashboard'
-import injectContext from '../js/store/appContext'
 
 
 const Layout = () => {
-    const basename = process.env.BASENAME || ""
 
     return (
         <div className="flex">
@@ -26,7 +25,7 @@ const Layout = () => {
                     <AdminAuthProvider>
                         <ArtistProvider>
                             <LanguageProvider>
-                                <BrowserRouter basename={basename}>
+                                <BrowserRouter>
                                     <Routes>
                                         <Route path="/" element={<Home />} />
                                         <Route
@@ -69,4 +68,4 @@ const Layout = () => {
     )
 }
 
-export default injectContext(Layout)
+export default Layout
