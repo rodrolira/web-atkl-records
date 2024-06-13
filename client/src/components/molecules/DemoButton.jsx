@@ -3,19 +3,32 @@ import React from 'react'
 import Button from '../atoms/Button'
 
 import { useLanguage } from '../../contexts/LanguageContext'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const DemoButton = () => {
     const { language } = useLanguage()
     const navigate = useNavigate()
+    const location = useLocation()
 
     const handleButtonClick = () => {
-        navigate('/', { state: { scrollToDemos: true } })
+        // Verificar si estamos en la página principal
+        if (location.pathname !== '/') {
+            navigate('/', { state: { scrollToDemos: true } })
 
-         // Obtener la referencia a la sección de demos
-         const demosSection = document.getElementById('demos')
-         // Hacer scroll hacia la sección de demos
-         demosSection.scrollIntoView({ behavior: 'smooth' })
+            // Esperar un momento antes de hacer scroll para asegurar que la navegación ocurra primero
+            setTimeout(() => {
+                const demosSection = document.getElementById('demos')
+                if (demosSection) {
+                    demosSection.scrollIntoView({ behavior: 'smooth' })
+                }
+            }, 100) // Ajusta este tiempo según sea necesario
+        } else {
+            // Estamos en la página principal, simplemente hacer scroll hacia la sección de demos
+            const demosSection = document.getElementById('demos')
+            if (demosSection) {
+                demosSection.scrollIntoView({ behavior: 'smooth' })
+            }
+        }
     }
 
     return (
