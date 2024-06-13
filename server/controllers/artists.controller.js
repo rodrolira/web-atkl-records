@@ -1,54 +1,34 @@
-// controllers/artists.controller.js
-import artistsData from '../data/artistsData.js'
-import Artist from '../models/artist.model.js'
-import User from '../models/user.model.js'
-import bcrypt from 'bcryptjs'
-import { createAccessToken } from '../libs/jwt.js'
+// controllers/artist.controller.js
+
+import {
+  createArtist,
+  getAllArtists,
+  getArtistById,
+} from "../models/artist.model.js";
 
 export const addArtist = async (req, res) => {
+  const {
+    artistName,
+    userId,
+    email,
+    bio,
+    image,
+    bandcampLink,
+    facebookLink,
+    instagramLink,
+    soundcloudLink,
+    twitterLink,
+    youtubeLink,
+    spotifyLink,
+  } = req.body;
+  if (!artistName) {
+    return res.status(400).json({ message: "artistName is required" });
+  }
   try {
-    const {
+    const newArtist = await createArtist({
       artistName,
-      username,
+      userId,
       email,
-      password,
-      bio,
-      image,
-      bandcampLink,
-      facebookLink,
-      instagramLink,
-      soundcloudLink,
-      twitterLink,
-      youtubeLink,
-      spotifyLink
-    } = req.body
-
-    // Verificar si el usuario ya existe
-    const userFound = await User.findOne({ email })
-
-    if (userFound) {
-      return res.status(400).json(['User already exists'])
-    }
-
-    // Hash de la contraseña
-    const passwordHash = await bcrypt.hash(password, 10)
-
-    // Crear nuevo usuario
-    const newUser = new User({
-      username,
-      email,
-      password: passwordHash
-    })
-
-    // Guardar nuevo usuario en la base de datos
-    const userSaved = await newUser.save()
-
-    // Generar token de acceso
-    const token = await createAccessToken({ id: userSaved._id })
-
-    // Crear nuevo artista asociado al usuario
-    const newArtist = new Artist({
-      artistName,
       bio,
       image,
       bandcampLink,
@@ -58,45 +38,34 @@ export const addArtist = async (req, res) => {
       twitterLink,
       youtubeLink,
       spotifyLink,
-      user: userSaved._id // Asignar el ID del usuario al campo 'user' del artista
-    })
+    });
 
-    // Guardar el nuevo artista en la base de datos
-    await newArtist.save()
-
-    // Enviar respuesta al cliente con el token y la información del usuario
-    res.cookie('token', token)
-    res.status(201).json({
-      id: userSaved._id,
-      username: userSaved.username,
-      email: userSaved.email
-    })
+    res.status(201).json(newArtist);
   } catch (error) {
-    console.error('Error al agregar el artista:', error)
-    res.status(500).json({ error: 'Error interno del servidor.' })
+    console.error(`Error adding artist: ${error.message}`, error);
+    res.status(500).json({ message: error.message, details: error.stack });
   }
-}
+};
 
-export const getAllArtists = async (req, res) => {
+export const getArtists = async (req, res) => {
   try {
-    const artists = await Artist.find() // Obtener todos los artistas de la base de datos
-    res.json(artists) // Devolver los artistas como respuesta JSON
+    const artists = await getAllArtists();
+    res.status(200).json(artists);
   } catch (error) {
-    console.error('Error fetching artists:', error)
-    res.status(500).json({ error: 'Error fetching artists' })
+    res.status(500).json({ message: error.message });
   }
-}
+};
 
-export const getArtistById = async (req, res) => {
+export const fetchArtistById = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const artist = await Artist.findById(req.params.id) // Buscar el artista por su ID
+    const artist = await getArtistById(id);
     if (!artist) {
-      res.status(404).json({ error: 'Artista no encontrado' })
-    } else {
-      res.json(artist) // Devolver el artista como respuesta JSON
+      return res.status(404).json({ message: "Artist not found" });
     }
+    res.status(200).json(artist);
   } catch (error) {
-    console.error('Error fetching artist by ID:', error)
-    res.status(500).json({ error: 'Error fetching artist by ID' })
+    res.status(500).json({ message: error.message });
   }
-}
+};

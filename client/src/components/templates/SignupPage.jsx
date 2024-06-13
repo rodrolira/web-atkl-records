@@ -7,10 +7,9 @@ import CustomInput from '../atoms/CustomInput'
 import Logo from '../atoms/Logo'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-
+import { registerRequest } from '../../api/auth' // Adjust the import path accordingly
 
 const SignupPage = () => {
-
     // Validacion de Form
     const formik = useFormik({
         initialValues: {
@@ -34,24 +33,21 @@ const SignupPage = () => {
             // console.log('sending')
             // console.log(values)
             const { username, email, password } = values
+            console.log('Registering user with:', { username, email, password })
 
             // Crear usuario
             try {
-                await newUser({
-                    variables: {
-                        input: {
-                            username,
-                            email,
-                        password,
-                            password2
-                        },
-                    },
+                console.log('Request Data:', { username, email, password })
+                const response = await registerRequest({
+                    username,
+                    email,
+                    password,
                 })
-                console.log(data)
+                console.log('Response Data:', response.data)
 
                 // Usuario creado
             } catch (error) {
-                console.log(error)
+                console.error('Registration error:', error)
             }
         },
     })
@@ -170,17 +166,17 @@ const SignupPage = () => {
                             mx="auto"
                             type="text"
                             id="username"
-                value={formik.values.username}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
+                            value={formik.values.username}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
 
-              {formik.touched.username && formik.errors.username ? (
-                <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
-                  <p className="font-bold">Error</p>
-                  <p>{formik.errors.username}</p>
-                </div>
-              ) : null}
+                        {formik.touched.username && formik.errors.username ? (
+                            <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                                <p className="font-bold">Error</p>
+                                <p>{formik.errors.username}</p>
+                            </div>
+                        ) : null}
 
                         <CustomInput
                             label={
@@ -194,17 +190,17 @@ const SignupPage = () => {
                             isIconActive={true}
                             type="password"
                             id="password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
 
-              {formik.touched.password && formik.errors.password ? (
-                <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
-                  <p className="font-bold">Error</p>
-                  <p>{formik.errors.password}</p>
-                </div>
-              ) : null}
+                        {formik.touched.password && formik.errors.password ? (
+                            <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                                <p className="font-bold">Error</p>
+                                <p>{formik.errors.password}</p>
+                            </div>
+                        ) : null}
 
                         <CustomInput
                             label={
@@ -218,11 +214,11 @@ const SignupPage = () => {
                                     : 'Confirme su contraseña...'
                             }
                             isIconActive={true}
-                type="password"
-                id="password2"
-                value={formik.values.password2}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                            type="password"
+                            id="password2"
+                            value={formik.values.password2}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                         />
 
                         {/* INPUT END */}
@@ -252,9 +248,9 @@ const SignupPage = () => {
                                 mb: 4,
                                 boxShadow: `0 0 20px ${colors.green[500]}`,
                             }}
-                type="submit"
-                variant="contained"
-                value= "Register"
+                            type="submit"
+                            variant="contained"
+                            value="Register"
                         >
                             {language === 'en' ? 'Sign up' : 'Registrarse'}
                         </Button>
