@@ -1,3 +1,4 @@
+//ArtistsPage.jsx
 import React from 'react'
 import ArtistsSection from '../organisms/ArtistsSection'
 import Navbar from '../organisms/Navbar'

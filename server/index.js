@@ -1,3 +1,4 @@
+// index.js
 import app from "./app.js";
 // import  typeDefs from "./db/schema.js";
 // import resolvers  from "./db/resolvers.js";

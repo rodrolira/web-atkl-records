@@ -1,3 +1,4 @@
+// ArtistsSection.jsx
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
@@ -7,10 +8,10 @@ import { useAdminAuth } from '../../contexts/AuthContext'
 import AddArtistButton from '../molecules/AddArtistButton'
 import axios from 'axios'
 
-function ArtistsSection() {
+function ArtistsSection({ artists: initialArtists }) {
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
-    const [artists, setArtists] = useState([]) // Estado para almacenar la lista de artistas
+const [artists, setArtists] = useState([]);
 
     useEffect(() => {
         // Hace una solicitud GET al backend para obtener los artistas
@@ -33,8 +34,8 @@ function ArtistsSection() {
                 </a>
                 {adminAuthenticated && (
                     <ul>
-                        <li>
-                            <AddArtistButton className="btn-add">
+                        <li className="mb-4">
+                            <AddArtistButton>
                                 {language === 'en'
                                     ? 'Add Artist'
                                     : 'Agregar Artista'}
@@ -46,6 +47,7 @@ function ArtistsSection() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {artists.map((artist) => (
                     <ArtistCard
+                        key={artist.id} // Añadir el atributo key con un identificador único
                         id={artist.id}
                         name={artist.name}
                         image={artist.image}

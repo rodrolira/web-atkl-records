@@ -6,7 +6,6 @@ const releaseSchema = mongoose.Schema({
   releaseYear: {
     type: Number,
     required: true,
-    default: new Date()
    },
   bandacampLink: { type: String }, // Enlace de Bandcamp
   beatportLink: { type: String }, // Enlace de Beatport
@@ -22,5 +21,4 @@ const releaseSchema = mongoose.Schema({
   { timestamps: true }
 );
 
-export default mongoose.model.Release ||
-  mongoose.model("Release", releaseSchema);
+export default mongoose.model("Release", releaseSchema);

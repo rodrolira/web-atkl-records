@@ -1,3 +1,4 @@
+//SignupPage.jsx
 import React from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { Box, Button, Checkbox, colors, Typography } from '@mui/material'

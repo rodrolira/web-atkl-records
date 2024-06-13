@@ -1,3 +1,4 @@
+// app.js
 import express from "express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
@@ -103,6 +104,16 @@ dotenv.config();
   app.use((req, res) => {
     res.status(404).json({ error: "Page not found" });
   });
-// }
+
+  // Ruta para manejar POST requests a /api/releases
+app.post('/api/releases', (req, res) => {
+  const newRelease = req.body;
+
+  // Aquí deberías agregar la lógica para guardar el nuevo lanzamiento
+  // Ejemplo: Guardar en la base de datos
+
+  res.status(201).json({ message: 'Release created successfully', release: newRelease });
+});
+
 
 export default app;

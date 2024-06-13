@@ -1,5 +1,6 @@
+//Home.jsx
+
 import React, { useEffect, useContext } from 'react'
-    import { Context } from '../../js/store/appContext'
 import './Home.css'
 import { useLanguage } from '../../contexts/LanguageContext'
 import AboutSection from '../organisms/AboutSection'
@@ -8,10 +9,9 @@ import ReleasesSection from '../organisms/ReleasesSection'
 import ArtistsSection from '../organisms/ArtistsSection'
 import ContactSection from '../organisms/ContactSection'
 import { useLocation } from 'react-router-dom'
-import Navbar from '../organisms/Navbar';
+import Navbar from '../organisms/Navbar'
 
 function Home() {
-    const { store, actions } = useContext(Context)
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
     const location = useLocation()
 
@@ -26,7 +26,7 @@ function Home() {
 
     return (
         <div id="home" className="home">
-            <Navbar/>
+            <Navbar />
             <div className="parallax-container flex">
                 <div className="parallax-content flex w-full">
                     {/* Contenido del encabezado aquí */}

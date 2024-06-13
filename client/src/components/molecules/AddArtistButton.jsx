@@ -13,7 +13,7 @@ const AddArtistButton = () => {
 
   return (
     <>
-      <Button onClick={functionOpenPopup} color='primary' className={'mb-2'} variant='contained'>
+      <Button onClick={functionOpenPopup} color='primary' variant=''>
         <AddArtistForm open={open} closePopup={closePopup} />
       </Button>
     </>
