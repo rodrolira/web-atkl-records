@@ -12,36 +12,36 @@ import { useNavigate } from 'react-router-dom'
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
 
 const SigninPage = () => {
+        const { signin, isAuthenticated, errors: signinErrors } = useAuth() // Obtener la función signin del contexto de autenticación de administradores
+        const navigate = useNavigate()
+
+    // Define validation schema using Yup
+    const validationSchema = Yup.object({
+        username: Yup.string().required('El nombre de usuario es requerido'),
+        password: Yup.string().required('La contraseña es requerida'),
+    })
+
     // Validacion del Form
     const formik = useFormik({
         initialValues: {
             username: '',
             password: '',
         },
-        validationSchema: Yup.object({
-            username: Yup.string().required(
-                'El nombre de usuario es requerido'
-            ),
-            password: Yup.string()
-                .min(6, 'La contraseña debe tener al menos 6 caracteres')
-                .required('La contraseña es requerida'),
-        }),
-        onSubmit: async (values) => {
-            console.log('sending')
-            console.log(values)
+        validationSchema,
+        onSubmit:  (values) => {
+                 signin(values)
+
         },
     })
+   useEffect(() => {
+       if (isAuthenticated) {
+           navigate('/', { replace: true })
+       }
+   }, [isAuthenticated, navigate])
 
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
 
-    const { signin, isAuthenticated } = useAuth()
-    const navigate = useNavigate()
 
-    useEffect(() => {
-        if (isAuthenticated) {
-            navigate('/', { replace: true })
-        }
-    }, [isAuthenticated, navigate])
 
     return (
         <React.Suspense fallback={<div>Loading...</div>}>
@@ -156,7 +156,6 @@ const SigninPage = () => {
                                     </div>
                                 ) : null}
 
-                                <div>
                                     <CustomInput
                                         id="password"
                                         type="password"
@@ -173,8 +172,8 @@ const SigninPage = () => {
                                         isIconActive={true}
                                         value={formik.values.password}
                                         onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
                                     />
-                                </div>
 
                                 {formik.touched.password &&
                                 formik.errors.password ? (
@@ -232,6 +231,22 @@ const SigninPage = () => {
                                         ? 'Login'
                                         : 'Iniciar Sesión'}
                                 </Button>
+                                {signinErrors && signinErrors.length > 0 && (
+                                    <div>
+                                        {signinErrors.map((error, index) => (
+                                            <div
+                                                key={error}
+                                                className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4"
+                                            >
+                                                <p className="font-bold">
+                                                    Error
+                                                </p>
+                                                <p>{error}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
                             </Box>
                         </div>
                     </Box>

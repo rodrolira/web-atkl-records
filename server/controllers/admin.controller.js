@@ -1,36 +1,33 @@
-import Admin from "../models/admin.model.js";
+// controllers/admin.controller.js
+
 import bcrypt from "bcryptjs";
-import { createAccessToken } from "../libs/jwt.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import {
+  createAdmin,
+  findAdminByEmail,
+  findAdminById,
+  findAdminByUsername,
+} from "../models/admin.model.js";
 
 dotenv.config();
+
 export const registerAdmin = async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    const userFound = await Admin.findOne({ email });
+    const existingAdmin = await findAdminByEmail(email);
 
-    if (userFound) return res.status(400).json(["User already exists"]);
+    if (existingAdmin) {
+      return res.status(400).json(["Admin already exists"]);
+    }
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    await createAdmin({ username, email, password });
 
-    const newUser = new Admin({
-      username,
-      email,
-      password: passwordHash,
-    });
+    const token = jwt.sign({ email }, process.env.SECRET, { expiresIn: "1h" });
 
-    const userSaved = await newUser.save();
-    const token = await createAccessToken({ id: userSaved._id });
-
-    res.cookie("token", token);
-
-    res.json({
-      id: userSaved._id,
-      username: userSaved.username,
-      email: userSaved.email,
-    });
+    res.cookie("token", token, { httpOnly: true });
+    res.status(201).json({ message: "Admin registered successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -40,61 +37,59 @@ export const loginAdmin = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const userFound = await Admin.findOne({ username });
-    if (!userFound) return res.status(400).json({ message: "User not found" });
+    const admin = await findAdminByUsername(username);
 
-    const isMatch = await bcrypt.compare(password, userFound.password);
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
 
-    if (!isMatch) return res.status(400).json({ message: "Wrong password" });
+    const isMatch = await bcrypt.compare(password, admin.password);
 
-    const token = await createAccessToken({ id: userFound._id });
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
 
-    res.cookie("token", token);
-
-    res.json({
-      id: userFound._id,
-      username: userFound.username,
-      email: userFound.email,
+    const token = jwt.sign({ username }, process.env.SECRET, {
+      expiresIn: "1h",
     });
+
+    res.cookie("token", token, { httpOnly: true });
+    res.status(200).json({ message: "Logged in successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
 export const logoutAdmin = (req, res) => {
-  res.cookie("token", "", {
-    expires: new Date(0),
-  });
-  return res.sendStatus(200);
+  res.clearCookie("token");
+  res.status(200).json({ message: "Logged out successfully" });
 };
 
 export const profileAdmin = async (req, res) => {
-  const userFound = await Admin.findById(req.user.id);
-  if (!userFound) return res.status(400).json({ message: "User not found" });
-  return res.json({
-    id: userFound._id,
-    username: userFound.username,
-    email: userFound.email,
-    createdAt: userFound.createdAt,
-    updatedAt: userFound.updatedAt,
-  });
-};
+  const { email } = req.user;
 
-export const verifyAdminToken = async (req, res) => {
-  const { token } = req.cookies;
+  try {
+    const admin = await findAdminByEmail(email);
 
-  if (!token) return res.status(401).json({ message: "Unauthorized" });
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
 
-  jwt.verify(token, process.env.SECRET, async (err, user) => {
-    if (err) return res.status(401).json({ message: "Unauthorized" });
+    // Utilizando findAdminById para obtener el perfil del admin por su ID
+    const adminProfile = await findAdminById(admin.id);
 
-    const userFound = await Admin.findById(user.id);
-    if (!userFound) return res.status(401).json({ message: "Unauthorized" });
+    if (!adminProfile) {
+      return res.status(404).json({ message: "Admin profile not found" });
+    }
 
-    return res.json({
-      id: userFound._id,
-      username: userFound.username,
-      email: userFound.email,
+    res.status(200).json({
+      id: admin.id,
+      username: admin.username,
+      email: admin.email,
+      createdAt: admin.created_at,
+      updatedAt: admin.updated_at,
     });
-  });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
