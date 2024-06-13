@@ -14,7 +14,7 @@ import PropTypes from 'prop-types'
 // eslint-disable-next-line react/display-name
 const CustomInput = React.forwardRef(
     (
-        { isIconActive, label, placeholder, type, id, name, value, onChange },
+        { isIconActive, label, placeholder, type, id, name, onChange },
         ref
     ) => {
         const [showPassword, setShowPassword] = useState(false)
@@ -52,7 +52,6 @@ const CustomInput = React.forwardRef(
                         placeholder={placeholder}
                         id={id}
                         name={name}
-                        value={value}
                         onChange={onChange}
                         inputRef={ref}
                         sx={{
@@ -95,7 +94,6 @@ CustomInput.propTypes = {
     type: PropTypes.string,
     id: PropTypes.string,
     name: PropTypes.string,
-    value: PropTypes.string,
     onChange: PropTypes.func,
 }
 
@@ -106,7 +104,6 @@ CustomInput.defaultProps = {
     type: 'text',
     id: '',
     name: '',
-    value: '',
     onChange: () => {},
 }
 

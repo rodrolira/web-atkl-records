@@ -69,6 +69,7 @@
   },
   "devDependencies": {
     "@apollo/rover": "^0.23.0",
+    "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@types/webidl-conversions": "^7.0.3",
