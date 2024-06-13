@@ -1,3 +1,5 @@
+//ArtistPage.jsx
+
 import React, { Suspense } from 'react' // Importa React y Suspense
 import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'

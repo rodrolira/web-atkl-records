@@ -1,3 +1,4 @@
+// ArtistContext.jsx
 import { createContext, useContext, useState } from 'react'
 import { createArtistRequest } from '../api/artists'
 const ArtistContext = createContext()

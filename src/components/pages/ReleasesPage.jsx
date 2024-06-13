@@ -1,3 +1,5 @@
+//ReleasesPage.jsx
+
 import React, { Suspense } from 'react' // Importa React y Suspense
 import { useLanguage } from '../../contexts/LanguageContext'
 import Button from '../atoms/Button'

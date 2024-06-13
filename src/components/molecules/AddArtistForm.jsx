@@ -12,8 +12,10 @@ import CloseIcon from '@mui/icons-material/Close'
 import { useState } from 'react'
 import ButtonComponent from '../atoms/Button'
 import { IconButton } from '@mui/material'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useArtists } from '../../contexts/ArtistContext'
+import { useForm } from 'react-hook-form';
 
 const validationSchema = Yup.object().shape({
   artistName: Yup.string().required('El nombre del artista es requerido'),
@@ -28,8 +30,10 @@ const validationSchema = Yup.object().shape({
 })
 
 const AddArtistForm = () => {
+  const { register, handleSubmit, errors } = useForm()
   const [open, setOpen] = useState(false)
 
+  const { createArtist } = useArtists()
   const functionOpenPopup = () => {
     setOpen(true)
   }
@@ -41,6 +45,9 @@ const AddArtistForm = () => {
     setOpen(false)
   }
 
+  const onSubmit = handleSubmit(data => {
+    createArtist(data)
+  })
   return (
     <>
       <ButtonComponent
@@ -85,26 +92,7 @@ const AddArtistForm = () => {
               // Agrega más campos iniciales si es necesario
             }}
             validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting }) => {
-              // Envía los datos del formulario al backend para procesarlos
-              fetch('http://localhost:4000/api/artists', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(values)
-              })
-                .then(response => response.json())
-                .then(data => {
-                  console.log('Success:', data)
-                  setSubmitting(false)
-                  handleClose()
-                })
-                .catch(error => {
-                  console.error('Error:', error)
-                  setSubmitting(false)
-                })
-            }}
+            onSubmit={onSubmit}
           >
             {({ isSubmitting }) => (
               <Form>
@@ -126,6 +114,7 @@ const AddArtistForm = () => {
                       />
                     )}
                   </Field>
+                  <ErrorMessage name='artistName' component='div' />
                   <Field name='username'>
                     {({ field, form }) => (
                       <TextField
@@ -141,6 +130,7 @@ const AddArtistForm = () => {
                       />
                     )}
                   </Field>
+                  <ErrorMessage name='username' component='div' />
 
                   <Field name='email'>
                     {({ field, form }) => (
@@ -158,6 +148,7 @@ const AddArtistForm = () => {
                     )}
                   </Field>
 
+                  <ErrorMessage name='email' component='div' />
 
                   <Field name='password'>
                     {({ field, form }) => (
@@ -175,6 +166,7 @@ const AddArtistForm = () => {
                       />
                     )}
                   </Field>
+                  <ErrorMessage name='password' component='div' />
                   <InputLabel> Upload Profile Image </InputLabel>
                   <TextField
                     helperText='Upload Profile Image'
