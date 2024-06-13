@@ -17,51 +17,8 @@ import contactFormRoutes from "./routes/contact-form.routes.js";
 
 dotenv.config();
 
-// export async function startApolloServer(typeDefs, resolvers) {
   const app = express();
-  // const httpServer = http.createServer(app);
 
-  //Server
-  // const server = new ApolloServer({
-  //   typeDefs,
-  //   resolvers,
-  //   context: ({ req }) => {
-  //     // console.log(req.headers["authorization"]);
-  //     // console.log(req.headers)
-  //     const token = req.headers["authorization"] || "";
-
-  //     if (token) {
-  //       try {
-  //         const user = jwt.verify(token.replace('Bearer ', ''), process.env.SECRET);
-  //          console.log(user);
-
-  //         return {
-  //           user,
-  //         };
-  //       } catch (error) {
-  //         console.log("Hubo un Error");
-  //         console.log(error);
-  //       }
-  //     }
-  //   },
-  // });
-
-  // await server.start();
-
-  // server.listen().then(({ url }) => {
-  //   console.log(`🚀 Server ready at ${url}`);
-  // });
-
-  // app.use("/", cors({
-  //   origin: "http://localhost:5173",
-  //   credentials: true
-  // }), express.json(), expressMiddleware(server));
-
-  // await new Promise(resolve =>
-  //   httpServer.listen({
-  //     port: 4000,
-  //   })
-  // );
 
   // app.use(
   //   cors({

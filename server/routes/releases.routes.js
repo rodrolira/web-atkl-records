@@ -1,10 +1,12 @@
-import express from 'express';
+import express from "express";
 const router = express.Router();
-import { getAllReleases, getReleaseById } from '../controllers/releases.controller.js';
+import {
+  getReleases,
+  fetchReleaseById,
+} from "../controllers/releases.controller.js";
 
-
-router.post('/releases');
-router.get('/releases', getAllReleases);
-router.get('/releases/:id', getReleaseById);
+router.post("/releases");
+router.get("/releases", getReleases);
+router.get("/releases/:id", fetchReleaseById);
 
 export default router;
