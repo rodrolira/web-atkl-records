@@ -1,18 +1,16 @@
 // AuthContext.jsx
-import { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import {
     registerRequest,
     loginRequest,
+    logoutRequest,
     verityTokenRequest,
-    registerAdminRequest,
-    loginAdminRequest,
-    verityAdminTokenRequest,
 } from '../api/auth'
 
-export const AuthContext = createContext()
-export const AdminAuthContext = createContext()
+const AuthContext = createContext()
 
+// Hook para usar el contexto de autenticación general
 export const useAuth = () => {
     const context = useContext(AuthContext)
     if (!context) {
@@ -21,22 +19,22 @@ export const useAuth = () => {
     return context
 }
 
-// Agrega un hook personalizado para el contexto del administrador
-export const useAdminAuth = () => {
-    const context = useContext(AdminAuthContext)
-    if (!context) {
-        throw new Error('useAdminAuth must be used within an AuthProvider')
-    }
-    return context
-}
-
 // USUARIO PROVIDER //
 // eslint-disable-next-line react/prop-types
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [user, setUser] = useState(null)
     const [errors, setErrors] = useState([])
     const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        // Verificar si el usuario está autenticado al cargar la aplicación
+        const storedUser = localStorage.getItem('user')
+        if (storedUser) {
+            setIsAuthenticated(true)
+            setUser(JSON.parse(storedUser))
+        }
+    }, [])
 
     const signup = async (user) => {
         try {
@@ -53,24 +51,20 @@ export const AuthProvider = ({ children }) => {
     const signin = async (user) => {
         try {
             const res = await loginRequest(user)
-            console.log(res)
             setIsAuthenticated(true)
             setUser(res.data)
+            localStorage.setItem('user', JSON.stringify(res.data)) // Guarda el usuario en localStorage
+            setErrors([]) // Limpia los errores
         } catch (error) {
             if (Array.isArray(error.response.data)) {
-                return setErrors(error.response.data)
+                setErrors([error.response.data.message])
+            } else {
+                setErrors([error.response.data.message])
             }
-
-            setErrors([error.response.data.message])
         }
     }
 
-    const logout = () => {
-        Cookies.remove('token')
-        setIsAuthenticated(false)
-        setUser(null)
-    }
-
+ 
     useEffect(() => {
         if (errors.length > 0) {
             const timer = setTimeout(() => {
@@ -86,10 +80,8 @@ export const AuthProvider = ({ children }) => {
 
             if (!cookies.token) {
                 setIsAuthenticated(false)
-                setLoading(false)
                 return setUser(null)
             }
-
             try {
                 const res = await verityTokenRequest(cookies.token)
                 if (!res.data) {
@@ -102,12 +94,38 @@ export const AuthProvider = ({ children }) => {
                 setUser(res.data)
                 setLoading(false)
             } catch (error) {
+                console.log(error)
                 setIsAuthenticated(false)
                 setUser(null)
                 setLoading(false)
             }
         }
+
         checkLogin()
+    }, [])
+
+    const logout = () => {
+        logoutRequest()
+        Cookies.remove('token')
+        setIsAuthenticated(false)
+        setUser(null)
+    }
+
+    useEffect(() => {
+        const token = localStorage.getItem('token')
+        if (token) {
+            verityTokenRequest(token)
+                .then((res) => {
+                    setIsAuthenticated(true)
+                    setUser(res.data.user)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    localStorage.removeItem('token')
+                    setIsAuthenticated(false)
+                    setUser(null)
+                })
+        }
     }, [])
 
     return (
@@ -123,109 +141,15 @@ export const AuthProvider = ({ children }) => {
             }}
         >
             {children}
-            {errors.length > 0 && (
-                <div className="error-container">
-                    {errors.map((error, index) => (
-                        <p key={index} className="error-message">
-                            {error}
-                        </p>
-                    ))}
-                </div>
-            )}
+                {errors.length > 0 && (
+                    <div className="error-container">
+                        {errors.map((error, index) => (
+                            <p key={index} className="error-message">
+                                {error}
+                            </p>
+                        ))}
+                    </div>
+                )}
         </AuthContext.Provider>
-    )
-}
-
-// ADMIN PROVIDER //
-export const AdminAuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null)
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
-    const [errors, setErrors] = useState([])
-    const [loading, setLoading] = useState(true)
-
-    const signup = async (adminData) => {
-        try {
-            const res = await registerAdminRequest(adminData)
-            setUser(res.data)
-            setIsAuthenticated(true)
-        } catch (error) {
-            setErrors(error.response.data)
-        }
-    }
-
-    const signin = async (user) => {
-        try {
-            const res = await loginAdminRequest(user)
-            setIsAuthenticated(true)
-            setUser(res.data)
-        } catch (error) {
-            if (Array.isArray(error.response.data)) {
-                setErrors(error.response.data)
-            } else {
-                setErrors([error.response.data.message])
-            }
-        }
-    }
-
-    const logout = () => {
-        Cookies.remove('token')
-        setIsAuthenticated(false)
-        setUser(null)
-    }
-
-    useEffect(() => {
-        async function checkAdminLogin() {
-            const cookies = Cookies.get()
-
-            if (!cookies.token) {
-                setIsAuthenticated(false)
-                setLoading(false)
-                return setUser(null)
-            }
-
-            try {
-                const res = await verityAdminTokenRequest()
-                if (!res.data) {
-                    setIsAuthenticated(false)
-                    setLoading(false)
-                    return
-                }
-
-                setIsAuthenticated(true)
-                setUser(res.data)
-                setLoading(false)
-            } catch (error) {
-                setIsAuthenticated(false)
-                setUser(null)
-                setLoading(false)
-            }
-        }
-
-        checkAdminLogin()
-    }, [])
-
-    return (
-        <AdminAuthContext.Provider
-            value={{
-                signup,
-                signin,
-                logout,
-                loading,
-                user,
-                isAuthenticated,
-                errors,
-            }}
-        >
-            {children}
-            {errors.length > 0 && (
-                <div className="error-container">
-                    {errors.map((error, index) => (
-                        <p key={index} className="error-message">
-                            {error}
-                        </p>
-                    ))}
-                </div>
-            )}
-        </AdminAuthContext.Provider>
     )
 }

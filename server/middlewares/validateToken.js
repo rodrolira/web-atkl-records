@@ -3,17 +3,20 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export const authRequired = (req, res, next) => {
-  const { token } = req.cookies;
+const validateToken = (req, res, next) => {
+  const token = req.cookies.token;
 
-  if (!token) return res.status(401).json({ message: "Unauthorized" });
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
 
-  jwt.verify(token, process.env.SECRET, (err, user) => {
-    if (err) return res.status(403).json({ message: "Invalid token" });
-
-    req.user = user;
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET);
+    req.user = decoded;
     next();
-  });
+  } catch (error) {
+    return res.status(401).json({ message: "Invalid token" });
+  }
 };
 
 export const adminAuthRequired = (req, res, next) => {
@@ -24,7 +27,7 @@ export const adminAuthRequired = (req, res, next) => {
     console.log("Token no encontrado en las cookies.");
     return res.status(401).json({ message: "Unauthorized" });
   }
-  jwt.verify(token, process.env.TZ, (err, user) => {
+  jwt.verify(token, process.env.SECRET, (err, user) => {
     if (err) {
       console.error("Error al verificar el token:", err);
       return res.status(403).json({ message: "Invalid token" });
@@ -35,3 +38,5 @@ export const adminAuthRequired = (req, res, next) => {
     next();
   });
 };
+
+export default validateToken;

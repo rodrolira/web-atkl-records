@@ -3,8 +3,11 @@
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-
-import { createUser, findUserByEmail, findUserByUsername } from "../models/user.model.js";
+import User, {
+  createUser,
+  findUserByEmail,
+  findUserByUsername,
+} from "../models/user.model.js";
 
 dotenv.config();
 
@@ -19,7 +22,7 @@ export const register = async (req, res) => {
     }
 
     await createUser({ username, email, password });
-    const token = jwt.sign({ email }, process.env.SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ email }, process.env.SECRET, { expiresIn: "12h" });
 
     res.cookie("token", token, { httpOnly: true });
     res.status(201).json({ message: "User registered successfully" });
@@ -42,9 +45,8 @@ export const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid credentials" });
     }
-
 
     res.status(200).json({ message: "Logged in successfully" });
   } catch (error) {
@@ -77,4 +79,24 @@ export const profile = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+export const verifyToken = async (req, res) => {
+  const { token } = req.cookies;
+
+  if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+  jwt.verify(token, process.env.SECRET, async (err, user) => {
+    if (err) return res.status(401).json({ message: "Unauthorized" });
+
+    const userFound = await User.findById(user.id);
+
+    if (!userFound) return res.status(401).json({ message: "Unauthorized" });
+
+    return res.json({
+      id: userFound._id,
+      username: userFound.username,
+      email: userFound.email,
+    });
+  });
 };

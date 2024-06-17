@@ -4,7 +4,6 @@ import app from "./app.js";
 // import resolvers  from "./db/resolvers.js";
 import pool from "./db/db.js";
 
-// startApolloServer(typeDefs, resolvers, connectDB);
 
 //Connect DB
 pool

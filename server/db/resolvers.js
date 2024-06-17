@@ -169,9 +169,9 @@ const resolvers = {
       // Revisar si existe el admin
       const adminFound = await Admin.findOne({ username });
 
-      if (!adminFound) {
-        throw new Error("Admin not found");
-      }
+        if (!adminFound) {
+          throw new Error("Admin not found");
+        }
 
       // Revisar si el password es correcto
       const correctPassword = await bcryptjs.compare(

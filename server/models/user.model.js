@@ -59,3 +59,14 @@ export const findUserById = async (id) => {
     throw new Error(`Error finding user by ID: ${error.message}`);
   }
 };
+
+// Agrupar funciones en un objeto User
+const User = {
+  createUser,
+  findUserByEmail,
+  findUserByUsername,
+  findUserById,
+};
+
+// Exportar el objeto User
+export default User;

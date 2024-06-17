@@ -41,7 +41,7 @@ function ArtistPage ({ artistsData, currentAdminUser }) {
           <h1 className='text-2xl font-bold mb-2'>{artist.name}</h1>
           <img
             className='rounded-t-lg'
-            src='/img/avatar.jpg'
+            src='../../assets/img/rodro.jpg'
             alt={artist.name}
           />
           <p className='mb-2 uppercase'>{artist.role}</p>

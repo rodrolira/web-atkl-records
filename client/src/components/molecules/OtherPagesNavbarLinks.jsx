@@ -36,7 +36,7 @@ const OtherPagesNavbarLinks = () => {
           >
             <div className='max-w-screen-xl mx-auto w-full'>
               <div className='flex items-center justify-center w-full'>
-                <ul className='items-center md:bg-transparent bg-gray-700 bg-opacity-75 font-semibold flex flex-col md:p-0 w-full z-10 sm:border md:space-x-4 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 border-gray-700'>
+                <ul className='items-center md:bg-transparent bg-gray-700 bg-opacity-75 font-semibold flex flex-col md:p-0 w-full  sm:border md:space-x-4 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 border-gray-700'>
                   {links.map(link => (
                     <NavItem
                       key={link.to}

@@ -3,10 +3,9 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import {
+import Admin, {
   createAdmin,
   findAdminByEmail,
-  findAdminById,
   findAdminByUsername,
 } from "../models/admin.model.js";
 
@@ -23,7 +22,6 @@ export const registerAdmin = async (req, res) => {
     }
 
     await createAdmin({ username, email, password });
-
     const token = jwt.sign({ email }, process.env.SECRET, { expiresIn: "1h" });
 
     res.cookie("token", token, { httpOnly: true });
@@ -46,14 +44,9 @@ export const loginAdmin = async (req, res) => {
     const isMatch = await bcrypt.compare(password, admin.password);
 
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ username }, process.env.SECRET, {
-      expiresIn: "1h",
-    });
-
-    res.cookie("token", token, { httpOnly: true });
     res.status(200).json({ message: "Logged in successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -75,13 +68,6 @@ export const profileAdmin = async (req, res) => {
       return res.status(404).json({ message: "Admin not found" });
     }
 
-    // Utilizando findAdminById para obtener el perfil del admin por su ID
-    const adminProfile = await findAdminById(admin.id);
-
-    if (!adminProfile) {
-      return res.status(404).json({ message: "Admin profile not found" });
-    }
-
     res.status(200).json({
       id: admin.id,
       username: admin.username,
@@ -92,4 +78,24 @@ export const profileAdmin = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+export const verifyToken = async (req, res) => {
+  const { token } = req.cookies;
+
+  if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+  jwt.verify(token, process.env.SECRET, async (err, user) => {
+    if (err) return res.status(401).json({ message: "Unauthorized" });
+
+    const adminFound = await Admin.findById(user.id);
+
+    if (!adminFound) return res.status(401).json({ message: "Unauthorized" });
+
+    return res.json({
+      id: adminFound._id,
+      username: adminFound.username,
+      email: adminFound.email,
+    });
+  });
 };

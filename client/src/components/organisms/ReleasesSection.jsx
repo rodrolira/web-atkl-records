@@ -4,7 +4,7 @@
 import React, { useState } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import Title from '../atoms/Title'
-import { useAdminAuth } from '../../contexts/AuthContext'
+import { useAdminAuth } from '../../contexts/AdminAuthContext'
 
 import AddReleaseButton from '../molecules/AddReleaseButton'
 import ReleaseCard from './ReleaseCard'
@@ -34,7 +34,7 @@ function ReleasesSection({ releases }) {
                                 {language === 'en'
                                     ? 'Add Release'
                                     : 'Agregar Lanzamiento'}
-                            </AddReleaseButton> 
+                            </AddReleaseButton>
                         </li>
                     </ul>
                 )}

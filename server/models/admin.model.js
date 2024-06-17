@@ -57,3 +57,17 @@ export const findAdminById = async (id) => {
     throw new Error(`Error finding admin by ID: ${error.message}`);
   }
 };
+
+
+// Agrupar funciones en un objeto Admin
+
+
+const Admin = {
+
+  createAdmin,
+  findAdminByEmail,
+  findAdminByUsername,
+  findAdminById
+};
+
+export default Admin;

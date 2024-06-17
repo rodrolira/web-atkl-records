@@ -9,13 +9,15 @@ import {
     TextField,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import ButtonComponent from '../atoms/Button'
 import { IconButton } from '@mui/material'
-import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik'
+import { Formik, Form, Field, ErrorMessage, useField } from 'formik'
 import * as Yup from 'yup'
+import axios from 'axios'
 import { useArtists } from '../../contexts/ArtistContext'
-import { useForm } from 'react-hook-form'
+// import { useForm } from 'react-hook-form'
+import FileUpload from './FileUpload';
 
 const validationSchema = Yup.object().shape({
     artistName: Yup.string().required('El nombre del artista es requerido'),
@@ -27,10 +29,21 @@ const validationSchema = Yup.object().shape({
         .min(6, 'La contraseña debe tener al menos 6 caracteres')
         .required('La contraseña es requerida'),
     // Agrega más validaciones para otros campos si es necesario
+    bio: Yup.string(),
+    image: Yup.mixed(),
+    bandcampLink: Yup.string(),
+    facebookLink: Yup.string(),
+    instagramLink: Yup.string(),
+    soundcloudLink: Yup.string(),
+    twitterLink: Yup.string(),
+    youtubeLink: Yup.string(),
+    spotifyLink: Yup.string(),
 })
 
-const AddArtistForm = () => {
-    const { register, handleSubmit, errors } = useForm()
+
+
+const AddArtistForm = ({ onArtistAdded }) => {
+    // const { register, handleSubmit, errors } = useForm()
     const [open, setOpen] = useState(false)
     const { createArtist } = useArtists()
 
@@ -41,18 +54,24 @@ const AddArtistForm = () => {
         setOpen(false)
     }
 
-    const handleClose = () => {
-        setOpen(false)
-    }
 
     const onSubmit = async (values, actions) => {
         console.log('Submitting values:', values)
+        const formData = new FormData()
+        for (let key in values) {
+            formData.append(key, values[key])
+        }
         try {
-            await createArtist(values)
+            const newArtist = await createArtist(formData)
             actions.setSubmitting(false)
             closePopup()
+
+            // Llama a la función onArtistAdded si está definida
+            if (onArtistAdded) {
+                onArtistAdded(newArtist) // Pasa el nuevo artista como argumento si es necesario
+            }
         } catch (error) {
-            console.error(error)
+            console.error('Error adding artist:', error)
             actions.setSubmitting(false)
         }
     }
@@ -99,6 +118,15 @@ const AddArtistForm = () => {
                             email: '',
                             password: '',
                             // Agrega más campos iniciales si es necesario
+                            bio: '',
+                            image: '',
+                            bandcampLink: '',
+                            facebookLink: '',
+                            instagramLink: '',
+                            soundcloudLink: '',
+                            twitterLink: '',
+                            youtubeLink: '',
+                            spotifyLink: '',
                         }}
                         validationSchema={validationSchema}
                         onSubmit={onSubmit}
@@ -143,7 +171,7 @@ const AddArtistForm = () => {
                                                     form.touched.username &&
                                                     form.errors.username
                                                 }
-                                                autoComplete="auto"
+                                                autoComplete="off"
                                             />
                                         )}
                                     </Field>
@@ -151,7 +179,6 @@ const AddArtistForm = () => {
                                         name="username"
                                         component="div"
                                     />
-
                                     <Field name="email">
                                         {({ field, form }) => (
                                             <TextField
@@ -170,12 +197,10 @@ const AddArtistForm = () => {
                                             />
                                         )}
                                     </Field>
-
                                     <ErrorMessage
                                         name="email"
                                         component="div"
                                     />
-
                                     <Field name="password">
                                         {({ field, form }) => (
                                             <TextField
@@ -200,50 +225,87 @@ const AddArtistForm = () => {
                                         name="password"
                                         component="div"
                                     />
-                                    <InputLabel>
+                                    {/* <InputLabel>
                                         {' '}
                                         Upload Profile Image{' '}
                                     </InputLabel>
-                                    <TextField
-                                        helperText="Upload Profile Image"
-                                        type="file"
-                                        name="image"
-                                        id="image"
-                                        variant="outlined"
-                                        style={{ marginTop: '0px' }}
-                                    ></TextField>
-                                    <TextField
-                                        label="Artist Bio"
-                                        variant="outlined"
-                                    ></TextField>
-                                    <TextField
-                                        label="Bandcamp Link"
-                                        variant="outlined"
-                                    ></TextField>
-                                    <TextField
-                                        label="Facebook Link"
-                                        variant="outlined"
-                                    ></TextField>
-                                    <TextField
-                                        label="Instagram Link"
-                                        variant="outlined"
-                                    ></TextField>
-                                    <TextField
-                                        label="Soundcloud Link"
-                                        variant="outlined"
-                                    ></TextField>
-                                    <TextField
-                                        label="Twitter Link"
-                                        variant="outlined"
-                                    ></TextField>
-                                    <TextField
-                                        label="Youtube Link"
-                                        variant="outlined"
-                                    ></TextField>
-                                    <TextField
-                                        label="Spotify Link"
-                                        variant="outlined"
-                                    ></TextField>
+                                    <Field name="image">
+                                        {({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                helperText="Upload Profile Image"
+                                                type="file"
+                                                name="image"
+                                                id="image"
+                                                variant="outlined"
+                                                style={{ marginTop: '0px' }}
+                                            ></TextField>
+                                        )}
+                                    </Field> */}
+                                    <FileUpload/>
+                                    <Field name="bandcampLink">
+                                        {({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                label="Bandcamp Link"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                    </Field>
+                                    <Field name="facebookLink">
+                                        {({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                label="Facebook Link"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                    </Field>
+                                    <Field name="instagramLink">
+                                        {({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                label="Instagram Link"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                    </Field>
+                                    <Field name="soundcloudLink">
+                                        {({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                label="Soundcloud Link"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                    </Field>
+                                    <Field name="twitterLink">
+                                        {({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                label="Twitter Link"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                    </Field>
+                                    <Field name="youtubeLink">
+                                        {({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                label="Youtube Link"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                    </Field>
+                                    <Field name="spotifyLink">
+                                        {({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                label="Spotify Link"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                    </Field>{' '}
                                     <Button
                                         type="submit"
                                         variant="contained"
