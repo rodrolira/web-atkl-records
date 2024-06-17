@@ -12,7 +12,7 @@ import { LanguageProvider } from './contexts/LanguageContext'
 import './App.css'
 import Home from './components/pages/Home.jsx'
 import Footer from './components/organisms/Footer.jsx'
-import { AuthProvider, AdminAuthProvider } from './contexts/AuthContext'
+// import { AuthProvider, AdminAuthProvider } from './contexts/AuthContext'
 import { ArtistProvider } from './contexts/ArtistContext.jsx'
 
 const ArtistsPage = React.lazy(() => import('./components/pages/ArtistsPage'))
@@ -29,6 +29,8 @@ const RegisterPage = React.lazy(() => import('./components/pages/RegisterPage'))
 // )
 import LoginArtistPage from './components/pages/LoginArtistPage'
 import NotFound from './components/pages/NotFound.jsx'
+import ProtectedRoute from './ProtectedRoute';
+import SigninPage from './components/templates/SigninPage.jsx'
 
 const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -53,8 +55,8 @@ const App = () => {
 
     return (
         <div className="App flex flex-col min-h-screen">
-            <AuthProvider>
-                <AdminAuthProvider>
+            {/* <AuthProvider> */}
+                {/* <AdminAuthProvider> */}
                     <ArtistProvider>
                         <LanguageProvider>
                             <SpeedInsights />
@@ -111,7 +113,13 @@ const App = () => {
                                         <Route
                                             path="/register"
                                             element={<RegisterPage />}
+                                    />
+                                    <ProtectedRoute>
+                                        <Route
+                                            path="/login"
+                                            element={<SigninPage />}
                                         />
+                                    </ProtectedRoute>
 
                                     </Routes>
 
@@ -120,8 +128,8 @@ const App = () => {
                             </Router>
                         </LanguageProvider>
                     </ArtistProvider>
-                </AdminAuthProvider>
-            </AuthProvider>
+                {/* </AdminAuthProvider> */}
+            {/* </AuthProvider> */}
         </div>
     )
 }

@@ -8,7 +8,7 @@ import Logo from '../atoms/Logo'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useAdminAuth } from '../../contexts/AuthContext'
+import { useAdminAuth } from '../../contexts/AdminAuthContext'
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
 
 function AdminSignin() {
@@ -37,7 +37,7 @@ function AdminSignin() {
 
     useEffect(() => {
         if (isAuthenticated) {
-            navigate('/admin')
+            navigate('/')
         }
     }, [isAuthenticated, navigate])
 
@@ -233,7 +233,12 @@ function AdminSignin() {
                                 {signinErrors && signinErrors.length > 0 && (
                                     <div>
                                         {signinErrors.map((error, index) => (
-                                            <div key={index}>{error}</div>
+                                            <div
+                                                className="text-red-900 font-bold mb-4 bg-red-200 "
+                                                key={index}
+                                            >
+                                                {error}
+                                            </div>
                                         ))}
                                     </div>
                                 )}

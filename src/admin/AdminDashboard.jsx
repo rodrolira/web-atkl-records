@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Box, Typography, List, ListItem, ListItemText } from '@mui/material'
-import { AdminAuthContext } from '../contexts/AuthContext'
+import AdminAuthContext from '../contexts/AdminAuthContext'
 import { Navigate } from 'react-router-dom'
 import Navbar from '../components/organisms/Navbar'
 

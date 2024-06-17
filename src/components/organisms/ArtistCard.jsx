@@ -11,28 +11,23 @@ import {
   faBandcamp,
 } from "@fortawesome/free-brands-svg-icons";
 
-function ArtistCard({
-  id,
-  name,
-  image,
-  twitterUrl,
-  instagramUrl,
-  facebookUrl,
-  soundcloudUrl,
-  bandcampUrl,
-}) {
+const ArtistCard = ({ artist }) => {
+  const { id, artist_name, image, twitter_link, instagram_link, facebook_link, soundcloud_link, bandcamp_link } = artist
+
   return (
     <div className="bg-black max-w-sm border border-gray-200 rounded-lg shadow dark:border-purple-500">
       <Link to={`/artists/${id}`} className="block">
-        <img className="rounded-t-lg" src={image} alt={name} />
+        <div className="w-full rounded-t-lg overflow-hidden" >
+        <img className="rounded-t-lg" src={`http://localhost:3000/${image}`} alt={artist_name} />
+        </div>
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-white text-center ">
-          {name}
+          {artist_name}
         </h5>
       </Link>
       <div className="flex space-x-4 text-2xl justify-center my-2">
-        {twitterUrl && (
+        {twitter_link && (
           <a
-            href={twitterUrl}
+            href={twitter_link}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View Twitter Profile"
@@ -41,9 +36,9 @@ function ArtistCard({
             <FontAwesomeIcon icon={faTwitter} />
           </a>
         )}
-        {instagramUrl && (
+        {instagram_link && (
           <a
-            href={instagramUrl}
+            href={instagram_link}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View Twitter Profile"
@@ -52,9 +47,9 @@ function ArtistCard({
             <FontAwesomeIcon icon={faInstagram} />
           </a>
         )}
-        {facebookUrl && (
+        {facebook_link && (
           <a
-            href={facebookUrl}
+            href={facebook_link}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View Twitter Profile"
@@ -63,9 +58,9 @@ function ArtistCard({
             <FontAwesomeIcon icon={faFacebook} />
           </a>
         )}
-        {soundcloudUrl && (
+        {soundcloud_link && (
           <a
-            href={soundcloudUrl}
+            href={soundcloud_link}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View Twitter Profile"
@@ -74,9 +69,9 @@ function ArtistCard({
             <FontAwesomeIcon icon={faSoundcloud} />
           </a>
         )}
-        {bandcampUrl && (
+        {bandcamp_link && (
           <a
-            href={bandcampUrl}
+            href={bandcamp_link}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View Twitter Profile"
@@ -89,16 +84,5 @@ function ArtistCard({
     </div>
   );
 }
-
-ArtistCard.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  image: PropTypes.string,
-  twitterUrl: PropTypes.string,
-  instagramUrl: PropTypes.string,
-  facebookUrl: PropTypes.string,
-  soundcloudUrl: PropTypes.string,
-  bandcampUrl: PropTypes.string,
-};
 
 export default ArtistCard;

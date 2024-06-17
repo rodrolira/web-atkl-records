@@ -1,19 +1,18 @@
-//SigninPage.jsx
 import React, { useEffect } from 'react' // Importa React y useEffect
 import { useLanguage } from '../../contexts/LanguageContext' // Importa el hook useLanguage
 import { Box, Button, Checkbox, colors, Typography } from '@mui/material'
 import CustomInput from '../atoms/CustomInput'
 import Logo from '../atoms/Logo'
+import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useAuth } from '../../contexts/AuthContext'
-import { useNavigate } from 'react-router-dom'
-
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
 
-const SigninPage = () => {
-        const { signin, isAuthenticated, errors: signinErrors } = useAuth() // Obtener la función signin del contexto de autenticación de administradores
-        const navigate = useNavigate()
+function SigninPage() {
+    const { language } = useLanguage() // Usa el hook para obtener language
+    const navigate = useNavigate()
+    const { signin, isAuthenticated, errors: signinErrors } = useAuth() // Obtener la función signin del contexto de autenticación de artistas
 
     // Define validation schema using Yup
     const validationSchema = Yup.object({
@@ -28,20 +27,16 @@ const SigninPage = () => {
             password: '',
         },
         validationSchema,
-        onSubmit:  (values) => {
-                 signin(values)
-
+        onSubmit: (values) => {
+            signin(values)
         },
     })
-   useEffect(() => {
-       if (isAuthenticated) {
-           navigate('/', { replace: true })
-       }
-   }, [isAuthenticated, navigate])
 
-    const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
-
-
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/')
+        }
+    }, [isAuthenticated, navigate])
 
     return (
         <React.Suspense fallback={<div>Loading...</div>}>
@@ -104,7 +99,7 @@ const SigninPage = () => {
                                     justifyContent: 'center',
                                 }}
                             >
-                                <Logo />
+                                <Logo isAdminSignin={false} />
                             </Box>
                             {/* LOGO END */}
 
@@ -122,13 +117,12 @@ const SigninPage = () => {
                         </Box>
 
                         <div>
+                            {/* FORM */}
                             <Box
                                 component="form"
                                 onSubmit={formik.handleSubmit}
                             >
-                                {/* INPUTS */}
                                 <CustomInput
-                                    id="username"
                                     type="text"
                                     label={
                                         language === 'en'
@@ -143,11 +137,12 @@ const SigninPage = () => {
                                     isIconActive={false}
                                     text-align="center"
                                     mx="auto"
-                                    value={formik.values.username}
                                     onChange={formik.handleChange}
+                                    value={formik.values.username}
                                     onBlur={formik.handleBlur}
+                                    name="username"
+                                    id="username"
                                 />
-
                                 {formik.touched.username &&
                                 formik.errors.username ? (
                                     <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
@@ -156,25 +151,27 @@ const SigninPage = () => {
                                     </div>
                                 ) : null}
 
-                                    <CustomInput
-                                        id="password"
-                                        type="password"
-                                        label={
-                                            language === 'en'
-                                                ? 'Password'
-                                                : 'Contraseña'
-                                        }
-                                        placeholder={
-                                            language === 'en'
-                                                ? 'Enter your password...'
-                                                : 'Ingrese su contraseña...'
-                                        }
-                                        isIconActive={true}
-                                        value={formik.values.password}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                    />
-
+                                <CustomInput
+                                    label={
+                                        language === 'en'
+                                            ? 'Password'
+                                            : 'Contraseña'
+                                    }
+                                    placeholder={
+                                        language === 'en'
+                                            ? 'Enter your password...'
+                                            : 'Ingrese su contraseña...'
+                                    }
+                                    type="password"
+                                    isIconActive={true}
+                                    text-align="center"
+                                    mx="auto"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.password}
+                                    name="password"
+                                    id="password"
+                                    onBlur={formik.handleBlur}
+                                />
                                 {formik.touched.password &&
                                 formik.errors.password ? (
                                     <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
@@ -183,8 +180,7 @@ const SigninPage = () => {
                                     </div>
                                 ) : null}
 
-                                {/* INPUT END */}
-
+                                {/* BUTTON */}
                                 <Box
                                     display="flex"
                                     flexDirection="row"
@@ -217,6 +213,7 @@ const SigninPage = () => {
                                     </a>
                                 </Box>
                                 <Button
+                                    type="submit"
                                     variant="contained"
                                     fullWidth
                                     sx={{
@@ -224,7 +221,6 @@ const SigninPage = () => {
                                         mb: 4,
                                         boxShadow: `0 0 20px ${colors.green[500]}`,
                                     }}
-                                    type="submit"
                                     value="Login"
                                 >
                                     {language === 'en'
@@ -235,19 +231,16 @@ const SigninPage = () => {
                                     <div>
                                         {signinErrors.map((error, index) => (
                                             <div
-                                                key={error}
-                                                className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4"
+                                                className="text-red-900 font-bold mb-4 bg-red-200"
+                                                key={index}
                                             >
-                                                <p className="font-bold">
-                                                    Error
-                                                </p>
-                                                <p>{error}</p>
+                                                {error}
                                             </div>
                                         ))}
                                     </div>
                                 )}
-
                             </Box>
+                            {/* FORM END */}
                         </div>
                     </Box>
                 </Box>
