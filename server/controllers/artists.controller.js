@@ -1,18 +1,22 @@
 // controllers/artist.controller.js
-
+import { createUser } from "../models/user.model.js";
 import {
   createArtist,
   getAllArtists,
   getArtistById,
 } from "../models/artist.model.js";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+
+dotenv.config();
 
 export const addArtist = async (req, res) => {
   const {
     artistName,
-    userId,
+    username,
     email,
+    password,
     bio,
-    image,
     bandcampLink,
     facebookLink,
     instagramLink,
@@ -21,13 +25,24 @@ export const addArtist = async (req, res) => {
     youtubeLink,
     spotifyLink,
   } = req.body;
-  if (!artistName) {
-    return res.status(400).json({ message: "artistName is required" });
+
+  // Verifica si hay un archivo subido
+  const image = req.file ? req.file.path : null;
+
+  if (!artistName || !username || !email || !password) {
+    return res.status(400).json({
+      message: "artistName, username, email, and password are required",
+    });
   }
+
   try {
+    // Crear usuario
+    const newUser = await createUser({ username, email, password });
+
+    // Crear artista asociado al usuario
     const newArtist = await createArtist({
       artistName,
-      userId,
+      userId: newUser.id,
       email,
       bio,
       image,
@@ -40,10 +55,18 @@ export const addArtist = async (req, res) => {
       spotifyLink,
     });
 
+    const token = jwt.sign({ email }, process.env.SECRET, { expiresIn: "12h" });
+
+    res.cookie("token", token, { httpOnly: true });
+
+    console.log("New artist created:", newArtist);
+
     res.status(201).json(newArtist);
   } catch (error) {
     console.error(`Error adding artist: ${error.message}`, error);
-    res.status(500).json({ message: error.message, details: error.stack });
+    return res
+      .status(500)
+      .json({ message: error.message, details: error.stack });
   }
 };
 

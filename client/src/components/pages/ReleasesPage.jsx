@@ -3,7 +3,7 @@
 import React, { Suspense } from 'react' // Importa React y Suspense
 import { useLanguage } from '../../contexts/LanguageContext'
 import Button from '../atoms/Button'
-import { useAdminAuth } from '../../contexts/AuthContext'
+import { useAdminAuth } from '../../contexts/AdminAuthContext'
 
 // Importa ReleaseSection usando importación dinámica
 const ReleaseSection = React.lazy(() => import('../organisms/ReleasesSection'))

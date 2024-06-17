@@ -71,3 +71,11 @@ export const getArtistById = async (id) => {
     throw new Error(`Error fetching artist by ID: ${error.message}`);
   }
 };
+
+const Artist = {
+  createArtist,
+  getAllArtists,
+  getArtistById,
+};
+
+export default Artist;
