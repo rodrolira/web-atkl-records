@@ -1,12 +1,4 @@
-// controllers/release.controller.js
-
-import {
-  createRelease,
-  getAllReleases,
-  getReleaseById,
-  updateRelease,
-  deleteRelease,
-} from "../models/release.model.js";
+import Release from "../models/release.model.js";
 
 export const addRelease = async (req, res) => {
   const {
@@ -21,7 +13,7 @@ export const addRelease = async (req, res) => {
   } = req.body;
 
   try {
-    const newRelease = await createRelease({
+    const newRelease = await Release.create({
       title,
       releaseYear,
       bandcampLink,
@@ -40,7 +32,7 @@ export const addRelease = async (req, res) => {
 
 export const getReleases = async (req, res) => {
   try {
-    const releases = await getAllReleases();
+    const releases = await Release.findAll();
     res.status(200).json(releases);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -51,7 +43,7 @@ export const fetchReleaseById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const release = await getReleaseById(id);
+    const release = await Release.findByPk(id);
     if (!release) {
       return res.status(404).json({ message: "Release not found" });
     }
@@ -75,19 +67,26 @@ export const modifyRelease = async (req, res) => {
   } = req.body;
 
   try {
-    const updatedRelease = await updateRelease(id, {
-      title,
-      releaseYear,
-      bandcampLink,
-      beatportLink,
-      spotifyLink,
-      appleMusicLink,
-      youtubeLink,
-      soundcloudLink,
-    });
-    if (!updatedRelease) {
+    const [updated] = await Release.update(
+      {
+        title,
+        releaseYear,
+        bandcampLink,
+        beatportLink,
+        spotifyLink,
+        appleMusicLink,
+        youtubeLink,
+        soundcloudLink,
+      },
+      {
+        where: { id },
+      }
+    );
+
+    if (!updated) {
       return res.status(404).json({ message: "Release not found" });
     }
+    const updatedRelease = await Release.findByPk(id);
     res.status(200).json(updatedRelease);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -98,8 +97,8 @@ export const removeRelease = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const deletedCount = await deleteRelease(id);
-    if (deletedCount === 0) {
+    const deleted = await Release.destroy({ where: { id } });
+    if (!deleted) {
       return res.status(404).json({ message: "Release not found" });
     }
     res.status(200).json({ message: "Release deleted successfully" });

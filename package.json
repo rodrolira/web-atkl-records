@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "dev": "nodemon server/index.js",
-    "start": "nodemon server/index.js --exec babel-node -e js"
+    "start": "NODE_ENV=production nodemon server/index.js",
+    "dev": "NODE_ENV=development nodemon server/index.js"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +31,7 @@
     "pg-hstore": "^2.3.4",
     "semver": "^7.6.1",
     "sequelize": "^6.37.3",
+    "sequelize-cli": "^6.6.2",
     "yup": "^1.4.0",
     "zod": "^3.22.5"
   },
@@ -42,6 +43,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/morgan": "^1.9.9",
     "@types/multer": "^1.4.11",
+    "@types/nodemailer": "^6.4.15",
     "@types/pg": "^8.11.6",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^0.0.0",

@@ -1,14 +1,13 @@
 // AuthContext.jsx
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import Cookies from 'js-cookie'
+import React, { useContext, useEffect, useState } from 'react'
 import {
     registerRequest,
     loginRequest,
+    verifyUserTokenRequest,
     logoutRequest,
-    verityTokenRequest,
 } from '../api/auth'
 
-const AuthContext = createContext()
+const AuthContext = React.createContext()
 
 // Hook para usar el contexto de autenticación general
 export const useAuth = () => {
@@ -28,43 +27,52 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        // Verificar si el usuario está autenticado al cargar la aplicación
-        const storedUser = localStorage.getItem('user')
-        if (storedUser) {
-            setIsAuthenticated(true)
-            setUser(JSON.parse(storedUser))
+        const checkLogin = async () => {
+            try {
+                await verifyToken()
+            } finally {
+                setLoading(false)
+            }
         }
+        checkLogin()
     }, [])
 
     const signup = async (user) => {
         try {
             const res = await registerRequest(user)
-            console.log(res.data)
             setUser(res.data)
             setIsAuthenticated(true)
+            localStorage.setItem('user', JSON.stringify(res.data)) // Guarda el usuario en localStorage
         } catch (error) {
-            console.log(error.response)
-            setErrors(error.response.data)
+            setErrors([error.response.data.message])
         }
     }
 
     const signin = async (user) => {
         try {
             const res = await loginRequest(user)
+            const { token, userData } = res.data
+
             setIsAuthenticated(true)
-            setUser(res.data)
-            localStorage.setItem('user', JSON.stringify(res.data)) // Guarda el usuario en localStorage
-            setErrors([]) // Limpia los errores
+            setUser(userData)
+            localStorage.setItem('token', token) // Guarda el usuario en localStorage
         } catch (error) {
-            if (Array.isArray(error.response.data)) {
-                setErrors([error.response.data.message])
-            } else {
-                setErrors([error.response.data.message])
-            }
+            setErrors([error.response.data.message])
         }
     }
 
- 
+    const signout = async () => {
+        try {
+            await logoutRequest()
+            setIsAuthenticated(false)
+            setUser(null)
+            localStorage.removeItem('user')
+            localStorage.removeItem('token')
+        } catch (error) {
+            setErrors('Error logging out:', error)
+        }
+    }
+
     useEffect(() => {
         if (errors.length > 0) {
             const timer = setTimeout(() => {
@@ -74,66 +82,23 @@ export const AuthProvider = ({ children }) => {
         }
     }, [errors])
 
-    useEffect(() => {
-        async function checkLogin() {
-            const cookies = Cookies.get()
-
-            if (!cookies.token) {
-                setIsAuthenticated(false)
-                return setUser(null)
-            }
-            try {
-                const res = await verityTokenRequest(cookies.token)
-                if (!res.data) {
-                    setIsAuthenticated(false)
-                    setLoading(false)
-                    return
-                }
-
-                setIsAuthenticated(true)
-                setUser(res.data)
-                setLoading(false)
-            } catch (error) {
-                console.log(error)
-                setIsAuthenticated(false)
-                setUser(null)
-                setLoading(false)
-            }
+    const verifyToken = async () => {
+        try {
+            const res = await verifyUserTokenRequest()
+            setIsAuthenticated(true)
+            setUser(res.data)
+        } catch (error) {
+            setIsAuthenticated(false)
+            setUser(null)
         }
-
-        checkLogin()
-    }, [])
-
-    const logout = () => {
-        logoutRequest()
-        Cookies.remove('token')
-        setIsAuthenticated(false)
-        setUser(null)
     }
-
-    useEffect(() => {
-        const token = localStorage.getItem('token')
-        if (token) {
-            verityTokenRequest(token)
-                .then((res) => {
-                    setIsAuthenticated(true)
-                    setUser(res.data.user)
-                })
-                .catch((error) => {
-                    console.log(error)
-                    localStorage.removeItem('token')
-                    setIsAuthenticated(false)
-                    setUser(null)
-                })
-        }
-    }, [])
 
     return (
         <AuthContext.Provider
             value={{
                 signup,
                 signin,
-                logout,
+                signout,
                 loading,
                 user,
                 isAuthenticated,
@@ -141,15 +106,15 @@ export const AuthProvider = ({ children }) => {
             }}
         >
             {children}
-                {errors.length > 0 && (
-                    <div className="error-container">
-                        {errors.map((error, index) => (
-                            <p key={index} className="error-message">
-                                {error}
-                            </p>
-                        ))}
-                    </div>
-                )}
+            {errors.length > 0 && (
+                <div className="error-container">
+                    {errors.map((error, index) => (
+                        <p key={index} className="error-message">
+                            {error}
+                        </p>
+                    ))}
+                </div>
+            )}
         </AuthContext.Provider>
     )
 }

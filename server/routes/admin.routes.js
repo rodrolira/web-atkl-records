@@ -1,22 +1,71 @@
-import { Router } from "express";
-import {
-  registerAdmin,
-  loginAdmin,
-  logoutAdmin,
-  profileAdmin,
-  verifyToken,
-} from "../controllers/admin.controller.js";
-import validateToken from "../middlewares/validateToken.js";
+// admin.routes.js
 
-const router = Router();
+import express from "express";
+import * as adminController from "../controllers/admin.controller.js";
 
-router.post("/admin/register", registerAdmin);
-router.post("/admin/login", loginAdmin);
-router.post("/admin/logout", logoutAdmin);
-router.get("/admin/protected", validateToken);
-router.get("/admin/verify", verifyToken);
-router.get("/admin/profile", profileAdmin);
+const router = express.Router();
 
-// Agrega más rutas según tus necesidades aquí...
+router.post("/admin/register", async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    const newAdmin = await adminController.createAdmin({
+      username,
+      email,
+      password,
+    });
+    res
+      .status(201)
+      .json({ message: "Admin registered successfully", admin: newAdmin });
+  } catch (error) {
+    console.error("Error registering admin:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
+router.post("/admin/login", async (req, res) => {
+  try {
+  const { username, password } = req.body;
+    const token = await adminController.loginAdmin(username, password);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 12 * 60 * 60 * 1000, // 12hrs
+    });
+
+    res.json({ message: "Login successful", admin: { username, password } });
+  } catch (error) {
+    console.error("Error logging in admin:", error);
+    res.status(401).json({ message: "Invalid credentials" });
+  }
+});
+
+router.post("/admin/logout", adminController.logoutAdmin);
+
+
+router.get(
+  "/admin/profile",
+  adminController.verifyTokenAdmin,
+  async (req, res) => {
+    try {
+      const admin = await adminController.profileAdmin(req.adminId);
+      res.json({ admin });
+    } catch (error) {
+      console.error("Error fetching admin profile:", error);
+      res.status(500).json({ message: "Server Error" });
+    }
+  }
+);
+
+router.get("/admin/verify", async (req, res) => {
+  const { token } = req.cookies;
+  try {
+    const admin = await adminController.verifyTokenAdmin(token);
+    res.json({ admin });
+  } catch (error) {
+    console.error("Error verifying admin token:", error);
+    res.status(401).json({ message: "Unauthorized" });
+  }
+});
 
 export default router;

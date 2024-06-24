@@ -12,6 +12,7 @@ import LogoutButton from './LogoutButton'
 import Button from '../atoms/Button'
 import AddArtistButton from './AddArtistButton'
 import AddReleaseButton from './AddReleaseButton'
+import AdminLogoutButton from './AdminLogoutButton'
 
 function NavbarMenu () {
   const location = useLocation()
@@ -57,7 +58,7 @@ function NavbarMenu () {
             <LanguageMenu />
 
             {userAuthenticated && <LogoutButton />}
-            {adminAuthenticated && <LogoutButton />}
+            {adminAuthenticated && <AdminLogoutButton />}
           </ul>
         </div>
       </div>

@@ -1,81 +1,70 @@
 // models/artist.model.js
+import { DataTypes } from "sequelize";
+import User from "./user.model.js";
+import sequelize from "../db/sequelize.js";
 
-import pool from "../db/db.js";
-
-export const createArtist = async ({
-  artistName,
-  userId,
-  email,
-  bio,
-  image,
-  bandcampLink,
-  facebookLink,
-  instagramLink,
-  soundcloudLink,
-  twitterLink,
-  youtubeLink,
-  spotifyLink,
-}) => {
-  const query = {
-    text: `INSERT INTO artists(artist_name, user_id, email, bio, image, bandcamp_link, facebook_link,
-      instagram_link, soundcloud_link, twitter_link, youtube_link, spotify_link)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`,
-    values: [
-      artistName,
-      userId,
-      email,
-      bio,
-      image,
-      bandcampLink,
-      facebookLink,
-      instagramLink,
-      soundcloudLink,
-      twitterLink,
-      youtubeLink,
-      spotifyLink,
-    ],
-  };
-
-  try {
-    const result = await pool.query(query);
-    return result.rows[0];
-  } catch (error) {
-    console.error(`Error creating artist: ${error.message}`, error);
-    throw new Error(`Error creating artist: ${error.message}`);
+const Artist = sequelize.define(
+  "Artist",
+  {
+    artistName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: "artist_name",
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: "user_id",
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    bio: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    image: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    bandcampLink: {
+      type: DataTypes.STRING(255),
+      field: "bandcamp_link",
+    },
+    facebookLink: {
+      type: DataTypes.STRING(255),
+      field: "facebook_link",
+    },
+    instagramLink: {
+      type: DataTypes.STRING(255),
+      field: "instagram_link",
+    },
+    soundcloudLink: {
+      type: DataTypes.STRING(255),
+      field: "soundcloud_link",
+    },
+    twitterLink: {
+      type: DataTypes.STRING(255),
+      field: "twitter_link",
+    },
+    youtubeLink: {
+      type: DataTypes.STRING(255),
+      field: "youtube_link",
+    },
+    spotifyLink: {
+      type: DataTypes.STRING(255),
+      field: "spotify_link",
+    },
+  },
+  {
+    timestamps: true,
+    tableName: "artists",
   }
-};
+);
 
-export const getAllArtists = async () => {
-  const query = {
-    text: "SELECT * FROM artists",
-  };
-
-  try {
-    const result = await pool.query(query);
-    return result.rows;
-  } catch (error) {
-    throw new Error(`Error fetching artists: ${error.message}`);
-  }
-};
-
-export const getArtistById = async (id) => {
-  const query = {
-    text: "SELECT * FROM artists WHERE id = $1",
-    values: [id],
-  };
-
-  try {
-    const result = await pool.query(query);
-    return result.rows[0];
-  } catch (error) {
-    throw new Error(`Error fetching artist by ID: ${error.message}`);
-  }
-};
-
-const Artist = {
-  createArtist,
-  getAllArtists,
-  getArtistById,
-};
+// Define the relationship
+Artist.belongsTo(User, { foreignKey: "user_id", targetKey: "id" });
+User.hasOne(Artist, { foreignKey: "user_id", sourceKey: "id" });
 
 export default Artist;

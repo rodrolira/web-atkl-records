@@ -8,22 +8,22 @@ import LoginArtistPage from '../components/pages/LoginArtistPage'
 import RegisterPage from '../components/pages/RegisterPage'
 import ReleasesPage from '../components/pages/ReleasesPage'
 import NotFound from '../components/pages/NotFound'
-import { AdminAuthProvider } from '../contexts/AdminAuthContext'
-import { AuthProvider } from '../contexts/AuthContext'
+// import { AdminAuthProvider } from '../contexts/AdminAuthContext'
+// import { AuthProvider } from '../contexts/AuthContext'
 import { ArtistProvider } from '../contexts/ArtistContext'
 import { LanguageProvider } from '../contexts/LanguageContext'
 import '../App.css'
 import Footer from '../components/organisms/Footer'
 import AdminDashboard from '../admin/AdminDashboard'
 import ProtectedRoute from '../ProtectedRoute'
-import AdminProtectedRoute from '../AdminProtectedRoute'
+// import AdminProtectedRoute from '../AdminProtectedRoute'
 
 const Layout = () => {
     return (
         <div className="flex">
             <div className="layout">
-                <AuthProvider>
-                    <AdminAuthProvider>
+                {/* <AuthProvider> */}
+                    {/* <AdminAuthProvider> */}
                         <ArtistProvider>
                             <LanguageProvider>
                                 <BrowserRouter>
@@ -53,19 +53,19 @@ const Layout = () => {
                                             path="/*"
                                             element={<NotFound />}
                                         />
-                                        <Route element={<AdminProtectedRoute />}>
+                                        {/* <Route element={<AdminProtectedRoute />}> */}
                                             <Route
                                                 path="/admin"
                                                 element={<AdminDashboard />}
                                             />
-                                        </Route>
+                                        {/* </Route> */}
                                     </Routes>
                                     <Footer />
                                 </BrowserRouter>
                             </LanguageProvider>
                         </ArtistProvider>
-                    </AdminAuthProvider>
-                </AuthProvider>
+                    {/* </AdminAuthProvider>
+                </AuthProvider> */}
             </div>
         </div>
     )

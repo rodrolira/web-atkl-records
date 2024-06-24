@@ -1,19 +1,19 @@
 // index.js
 import app from "./app.js";
-// import  typeDefs from "./db/schema.js";
-// import resolvers  from "./db/resolvers.js";
-import pool from "./db/db.js";
+import sequelize from "./db/sequelize.js";
+import dotenv from 'dotenv';
 
+dotenv.config();
 
-//Connect DB
-pool
-  .connect()
+sequelize
+  .sync({ force: false })
   .then(() => {
-    // App
-    app.listen(3000, () => {
-      console.log("🚀 Server ready at", 3000);
+    console.log("Database synchronized");
+    // Iniciar el servidor aquí...
+    app.listen(process.env.PORT, () => {
+      console.log("Server is running on port", process.env.PORT);
     });
   })
-  .catch((err) => {
-    console.log("Failed to connect to PostgreSQL:", err);
+  .catch((error) => {
+    console.error("Error synchronizing database:", error);
   });
