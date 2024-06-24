@@ -4,16 +4,16 @@ import React from 'react'
 import Button from '../atoms/Button'
 import { useNavigate } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAdminAuth } from '../../contexts/AdminAuthContext'
 
-const LogoutButton = () => {
+const AdminLogoutButton = () => {
     const { language } = useLanguage()
-    const { signout } = useAuth()
+    const { signout } = useAdminAuth()
     const navigate = useNavigate()
 
     const handleLogout = async () => {
         await signout()
-        navigate('/login')
+        navigate('/')
     }
 
     return (
@@ -28,4 +28,4 @@ const LogoutButton = () => {
     )
 }
 
-export default LogoutButton
+export default AdminLogoutButton
