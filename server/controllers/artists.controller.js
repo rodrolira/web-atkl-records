@@ -1,19 +1,15 @@
 // controllers/artist.controller.js
-import { createUser } from "../models/user.model.js";
-import {
-  createArtist,
-  getAllArtists,
-  getArtistById,
-} from "../models/artist.model.js";
+import Artist from "../models/artist.model.js";
+import User from "../models/user.model.js";
+import bcrypt from "bcryptjs";
+import  jwt  from "jsonwebtoken";
 import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
 
 dotenv.config();
 
 export const addArtist = async (req, res) => {
   const {
     artistName,
-    username,
     email,
     password,
     bio,
@@ -29,7 +25,7 @@ export const addArtist = async (req, res) => {
   // Verifica si hay un archivo subido
   const image = req.file ? req.file.path : null;
 
-  if (!artistName || !username || !email || !password) {
+  if (!artistName  || !email || !password) {
     return res.status(400).json({
       message: "artistName, username, email, and password are required",
     });
@@ -37,10 +33,14 @@ export const addArtist = async (req, res) => {
 
   try {
     // Crear usuario
-    const newUser = await createUser({ username, email, password });
+    const newUser = await User.create({
+      username: email,
+      email,
+      password: await bcrypt.hash(password, 10),
+    });
 
     // Crear artista asociado al usuario
-    const newArtist = await createArtist({
+    const newArtist = await Artist.create({
       artistName,
       userId: newUser.id,
       email,
@@ -72,7 +72,7 @@ export const addArtist = async (req, res) => {
 
 export const getArtists = async (req, res) => {
   try {
-    const artists = await getAllArtists();
+    const artists = await Artist.findAll();
     res.status(200).json(artists);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -83,7 +83,7 @@ export const fetchArtistById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const artist = await getArtistById(id);
+    const artist = await Artist.findByPk(id);
     if (!artist) {
       return res.status(404).json({ message: "Artist not found" });
     }

@@ -12,22 +12,22 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 const ArtistCard = ({ artist }) => {
-  const { id, artist_name, image, twitter_link, instagram_link, facebook_link, soundcloud_link, bandcamp_link } = artist
+  const { id, artistName, image, twitterLink, instagramLink, facebookLink, soundcloudLink, bandcampLink } = artist
 
   return (
     <div className="bg-black max-w-sm border border-gray-200 rounded-lg shadow dark:border-purple-500">
       <Link to={`/artists/${id}`} className="block">
         <div className="w-full rounded-t-lg overflow-hidden" >
-        <img className="rounded-t-lg" src={`http://localhost:3000/${image}`} alt={artist_name} />
+        <img className="rounded-t-lg" src={`http://localhost:3000/${image}`} alt={artistName} />
         </div>
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-white text-center ">
-          {artist_name}
+          {artistName}
         </h5>
       </Link>
       <div className="flex space-x-4 text-2xl justify-center my-2">
-        {twitter_link && (
+        {twitterLink && (
           <a
-            href={twitter_link}
+            href={twitterLink}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View Twitter Profile"
@@ -36,9 +36,9 @@ const ArtistCard = ({ artist }) => {
             <FontAwesomeIcon icon={faTwitter} />
           </a>
         )}
-        {instagram_link && (
+        {instagramLink && (
           <a
-            href={instagram_link}
+            href={instagramLink}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View Twitter Profile"
@@ -47,9 +47,9 @@ const ArtistCard = ({ artist }) => {
             <FontAwesomeIcon icon={faInstagram} />
           </a>
         )}
-        {facebook_link && (
+        {facebookLink && (
           <a
-            href={facebook_link}
+            href={facebookLink}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View Twitter Profile"
@@ -58,9 +58,9 @@ const ArtistCard = ({ artist }) => {
             <FontAwesomeIcon icon={faFacebook} />
           </a>
         )}
-        {soundcloud_link && (
+        {soundcloudLink && (
           <a
-            href={soundcloud_link}
+            href={soundcloudLink}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View Twitter Profile"
@@ -69,9 +69,9 @@ const ArtistCard = ({ artist }) => {
             <FontAwesomeIcon icon={faSoundcloud} />
           </a>
         )}
-        {bandcamp_link && (
+        {bandcampLink && (
           <a
-            href={bandcamp_link}
+            href={bandcampLink}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View Twitter Profile"

@@ -1,53 +1,50 @@
 // ArtistsSection.jsx
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react'
+import React, {  useEffect } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import Title from '../atoms/Title'
 import ArtistCard from './ArtistCard'
 import { useAdminAuth } from '../../contexts/AdminAuthContext'
 import AddArtistButton from '../molecules/AddArtistButton'
 import axios from 'axios'
+import AddArtistForm from '../molecules/AddArtistForm'
+import { useArtists } from '../../contexts/ArtistContext'
 
-function ArtistsSection({ artists: initialArtists }) {
+function ArtistsSection() {
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
-    const [artists, setArtists] = useState([])
+    const { artists, createArtist } = useArtists() // Asegúrate de que estás usando createArtist y artists desde el contexto
 
     useEffect(() => {
-        if (initialArtists && initialArtists.length > 0) {
-            setArtists(initialArtists)
-        } else {
-            // Hace una solicitud GET al backend para obtener los artistas
-            axios
-                .get('http://localhost:3000/api/artists')
-                .then((response) => {
-                    setArtists(response.data) // Actualiza el estado con los artistas obtenidos
-                })
-                .catch((error) => {
-                    console.error('Error fetching artists:', error)
-                })
+        fetchArtists()
+    }, [])
+
+    const fetchArtists = async () => {
+        try {
+            const response = await axios.get(
+                'http://localhost:3000/api/artists'
+            )
+            createArtist(response.data)
+        } catch (error) {
+            console.error('Error fetching artists:', error)
         }
-    }, [initialArtists]) // Se ejecuta una vez al montar el componente
-    // Renderiza los artistas en la interfaz de usuario
+    }
+
+    const handleArtistAdded = (newArtist) => {
+        createArtist([...artists, newArtist])
+        console.log('Artista agregado:', newArtist)
+    }
+
     return (
         <div className="inline-block py-16" id="artists">
-            <div>
-                <a href="/artists" className="mx-auto">
-                    <Title>{language === 'en' ? 'Artists' : 'Artistas'}</Title>
-                </a>
-                {adminAuthenticated && (
-                    <ul>
-                        <li className="mb-4">
-                            <AddArtistButton>
-                                {language === 'en'
-                                    ? 'Add Artist'
-                                    : 'Agregar Artista'}
-                            </AddArtistButton>
-                        </li>
-                    </ul>
-                )}
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <a href="/artists" className="mx-auto">
+                <Title>{language === 'en' ? 'Artists' : 'Artistas'}</Title>
+            </a>
+            {adminAuthenticated && (
+                <AddArtistForm onArtistAdded={handleArtistAdded} />
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
                 {artists.map((artist) => (
                     <ArtistCard
                         key={artist.id} // Añadir el atributo key con un identificador único

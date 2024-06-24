@@ -1,5 +1,4 @@
 import {
-    Button,
     Dialog,
     DialogActions,
     DialogContent,
@@ -7,17 +6,19 @@ import {
     InputLabel,
     Stack,
     TextField,
+    Button,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import React, { useState } from 'react'
-import ButtonComponent from '../atoms/Button'
+// import Button from '../atoms/Button'
 import { IconButton } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage, useField } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
 import { useArtists } from '../../contexts/ArtistContext'
 // import { useForm } from 'react-hook-form'
-import FileUpload from './FileUpload';
+import FileUpload from './FileUpload'
+import ArtistCard from '../organisms/ArtistCard'
 
 const validationSchema = Yup.object().shape({
     artistName: Yup.string().required('El nombre del artista es requerido'),
@@ -40,51 +41,48 @@ const validationSchema = Yup.object().shape({
     spotifyLink: Yup.string(),
 })
 
-
-
 const AddArtistForm = ({ onArtistAdded }) => {
-    // const { register, handleSubmit, errors } = useForm()
     const [open, setOpen] = useState(false)
-    const { createArtist } = useArtists()
+    const { createArtist } = useArtists() // Función para crear artistas desde el contexto
+    const [error, setError] = useState(null)
 
-    const functionOpenPopup = () => {
+    const openPopup = () => {
         setOpen(true)
     }
+
     const closePopup = () => {
         setOpen(false)
     }
 
-
     const onSubmit = async (values, actions) => {
-        console.log('Submitting values:', values)
         const formData = new FormData()
         for (let key in values) {
             formData.append(key, values[key])
         }
         try {
-            const newArtist = await createArtist(formData)
-            actions.setSubmitting(false)
+            const response = await createArtist(formData) // Llamada al contexto para crear un artista
+            actions.resetForm() // Reinicia el formulario después de enviar
             closePopup()
-
-            // Llama a la función onArtistAdded si está definida
             if (onArtistAdded) {
-                onArtistAdded(newArtist) // Pasa el nuevo artista como argumento si es necesario
+                onArtistAdded(response) // Llama a la función para manejar el nuevo artista agregado
             }
         } catch (error) {
             console.error('Error adding artist:', error)
-            actions.setSubmitting(false)
+            setError('Failed to add artist')
         }
     }
 
     return (
         <>
-            <ButtonComponent
-                onClick={functionOpenPopup}
+            <Button
+                onClick={openPopup}
                 className={'btn-add'}
                 variant="contained"
+
+
             >
                 Add Artist
-            </ButtonComponent>
+            </Button>
             <Dialog
                 open={open}
                 onClose={closePopup}
@@ -175,10 +173,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                             />
                                         )}
                                     </Field>
-                                    <ErrorMessage
-                                        name="username"
-                                        component="div"
-                                    />
+
                                     <Field name="email">
                                         {({ field, form }) => (
                                             <TextField
@@ -197,10 +192,6 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                             />
                                         )}
                                     </Field>
-                                    <ErrorMessage
-                                        name="email"
-                                        component="div"
-                                    />
                                     <Field name="password">
                                         {({ field, form }) => (
                                             <TextField
@@ -221,28 +212,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                             />
                                         )}
                                     </Field>
-                                    <ErrorMessage
-                                        name="password"
-                                        component="div"
-                                    />
-                                    {/* <InputLabel>
-                                        {' '}
-                                        Upload Profile Image{' '}
-                                    </InputLabel>
-                                    <Field name="image">
-                                        {({ field }) => (
-                                            <TextField
-                                                {...field}
-                                                helperText="Upload Profile Image"
-                                                type="file"
-                                                name="image"
-                                                id="image"
-                                                variant="outlined"
-                                                style={{ marginTop: '0px' }}
-                                            ></TextField>
-                                        )}
-                                    </Field> */}
-                                    <FileUpload/>
+                                    <FileUpload />
                                     <Field name="bandcampLink">
                                         {({ field }) => (
                                             <TextField
@@ -307,6 +277,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                         )}
                                     </Field>{' '}
                                     <Button
+                                        className={'btn-add'}
                                         type="submit"
                                         variant="contained"
                                         color="success"
@@ -314,12 +285,21 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                     >
                                         {isSubmitting ? 'Adding...' : 'Add'}
                                     </Button>
+                                    {error && (
+                                        <div style={{ color: 'red' }}>
+                                            {error}
+                                        </div>
+                                    )}
                                 </Stack>
                             </Form>
                         )}
                     </Formik>
                 </DialogContent>
-                <DialogActions></DialogActions>
+                <DialogActions>
+                    <IconButton onClick={closePopup}>
+                        <CloseIcon />
+                    </IconButton>
+                </DialogActions>
             </Dialog>
         </>
     )

@@ -1,102 +1,109 @@
-// controllers/auth.controller.js
+// user.controller.js
 
 import bcrypt from "bcryptjs";
-import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import User, {
-  createUser,
-  findUserByEmail,
-  findUserByUsername,
-} from "../models/user.model.js";
+import User from "../models/user.model.js";
 
-dotenv.config();
+const createToken = (userId) => {
+  return jwt.sign({ userId }, process.env.SECRET, {
+    expiresIn: "12h",
+  });
+};
 
-export const register = async (req, res) => {
-  const { username, email, password } = req.body;
+export const createUser = async ({ username, email, password }) => {
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
-    const existingUser = await findUserByEmail(email);
-
-    if (existingUser) {
-      return res.status(400).json(["User already exists"]);
-    }
-
-    await createUser({ username, email, password });
-    const token = jwt.sign({ email }, process.env.SECRET, { expiresIn: "12h" });
-
-    res.cookie("token", token, { httpOnly: true });
-    res.status(201).json({ message: "User registered successfully" });
+    const newUser = await User.create({
+      username,
+      email,
+      password: hashedPassword,
+    });
+    return newUser;
   } catch (error) {
-    console.error("Error registering user:", error);
-    res.status(500).json({ message: error.message });
+    throw new Error(`Error creating user: ${error.message}`);
   }
 };
 
-export const login = async (req, res) => {
-  const { username, password } = req.body;
-
+export const findUserByEmail = async (email) => {
   try {
-    const user = await findUserByUsername(username);
+    const user = await User.findOne({ where: { email } });
+    return user;
+  } catch (error) {
+    throw new Error(`Error finding user by email: ${error.message}`);
+  }
+};
+
+export const findUserByUsername = async (username) => {
+  try {
+    const user = await User.findOne({ where: { username } });
+    return user;
+  } catch (error) {
+    throw new Error(`Error finding user by username: ${error.message}`);
+  }
+};
+
+export const loginUser = async (username, password) => {
+  try {
+    const user = await User.findOne({ where: { username } });
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      throw new Error("User not found");
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      throw new Error("Invalid credentials");
     }
 
-    res.status(200).json({ message: "Logged in successfully" });
+    const token = createToken(user.id)
+
+    return token;
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    throw new Error(`Error logging in user: ${error.message}`);
   }
 };
 
-export const logout = (req, res) => {
-  res.clearCookie("token");
-  res.status(200).json({ message: "Logged out successfully" });
-};
 
-export const profile = async (req, res) => {
-  const { email } = req.user;
-
+export const profileUser = async (userId) => {
   try {
-    const user = await findUserByEmail(email);
+    const user = await User.findByPk(userId);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      throw new Error("User not found");
     }
 
-    res.status(200).json({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      createdAt: user.created_at,
-      updatedAt: user.updated_at,
-    });
+    return user;
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    throw new Error(`Error fetching user profile: ${error.message}`);
   }
 };
 
-export const verifyToken = async (req, res) => {
-  const { token } = req.cookies;
+export const verifyTokenUser = async (token) => {
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET);
+    const user = await User.findByPk(decoded.userId);
 
-  if (!token) return res.status(401).json({ message: "Unauthorized" });
+    if (!user) {
+      throw new Error("User not found");
+    }
 
-  jwt.verify(token, process.env.SECRET, async (err, user) => {
-    if (err) return res.status(401).json({ message: "Unauthorized" });
+    return user;
+  } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      throw new Error("Token expired");
+    } else {
+      throw new Error(`Error verifying user token: ${error.message}`);
+    }
+  }
+};
 
-    const userFound = await User.findById(user.id);
-
-    if (!userFound) return res.status(401).json({ message: "Unauthorized" });
-
-    return res.json({
-      id: userFound._id,
-      username: userFound.username,
-      email: userFound.email,
-    });
-  });
+export const logoutUser = (req, res) => {
+  try {
+    res.clearCookie("token");
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    res.status(500).json({ message: `Error logging out: ${error.message}` });
+  }
 };
