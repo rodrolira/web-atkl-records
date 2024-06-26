@@ -18,20 +18,20 @@ const app = express();
 // Middleware para servir archivos estáticos
 app.use("/uploads", express.static("uploads"));
 
+ app.use(
+   cors({
+     origin: 'https://atkl-react2-fzwl.vercel.app',
+     credentials: true,
+     exposedHeaders: 'Access-Control-Allow-Origin' // Agrega esta línea
+   })
+ )
 // app.use(
 //   cors({
-//     origin: 'https://atkl-react2-fzwl.vercel.app',
+//     origin: "http://localhost:5173",
 //     credentials: true,
-//     exposedHeaders: 'Access-Control-Allow-Origin' // Agrega esta línea
+//     methods: ["GET", "POST", "DELETE"], // Agrega DELETE aquí si es necesario
 //   })
-// )
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-    methods: ["GET", "POST", "DELETE"], // Agrega DELETE aquí si es necesario
-  })
-);
+// );
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
