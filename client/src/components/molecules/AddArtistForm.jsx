@@ -3,22 +3,19 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    InputLabel,
     Stack,
     TextField,
-    Button,
+    // Button,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import React, { useState } from 'react'
-// import Button from '../atoms/Button'
+import Button from '../atoms/Button'
 import { IconButton } from '@mui/material'
-import { Formik, Form, Field, ErrorMessage, useField } from 'formik'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import axios from 'axios'
 import { useArtists } from '../../contexts/ArtistContext'
 // import { useForm } from 'react-hook-form'
 import FileUpload from './FileUpload'
-import ArtistCard from '../organisms/ArtistCard'
 
 const validationSchema = Yup.object().shape({
     artistName: Yup.string().required('El nombre del artista es requerido'),
@@ -55,20 +52,23 @@ const AddArtistForm = ({ onArtistAdded }) => {
     }
 
     const onSubmit = async (values, actions) => {
+        console.log('Submitting values:', values)
         const formData = new FormData()
         for (let key in values) {
             formData.append(key, values[key])
         }
         try {
-            const response = await createArtist(formData) // Llamada al contexto para crear un artista
-            actions.resetForm() // Reinicia el formulario después de enviar
+            const newArtist = await createArtist(formData) // Llamada al contexto para crear un artista
+            actions.setSubmitting(false)
+            // actions.resetForm() // Reinicia el formulario después de enviar
             closePopup()
             if (onArtistAdded) {
-                onArtistAdded(response) // Llama a la función para manejar el nuevo artista agregado
+                onArtistAdded(newArtist) // Pasa el nuevo artista como argumento si es necesariola función para manejar el nuevo artista agregado
             }
         } catch (error) {
             console.error('Error adding artist:', error)
-            setError('Failed to add artist')
+            // setError('Failed to add artist')
+            actions.setSubmitting(false)
         }
     }
 
@@ -76,10 +76,8 @@ const AddArtistForm = ({ onArtistAdded }) => {
         <>
             <Button
                 onClick={openPopup}
-                className={'btn-add'}
+                className={'btn-add mx-auto'}
                 variant="contained"
-
-
             >
                 Add Artist
             </Button>
@@ -173,7 +171,6 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                             />
                                         )}
                                     </Field>
-
                                     <Field name="email">
                                         {({ field, form }) => (
                                             <TextField
