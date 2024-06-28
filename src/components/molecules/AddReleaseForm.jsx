@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {
-    Button,
     Dialog,
     DialogActions,
     DialogContent,
@@ -16,7 +15,7 @@ import { IconButton } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 
-import ButtonComponent from '../atoms/Button'
+import Button from '../atoms/Button'
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required('El título del lanzamiento es requerido'),
@@ -40,13 +39,13 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
     }
     return (
         <>
-            <ButtonComponent
+            <Button
                 onClick={openPopup}
                 variant="contained"
-                className={'btn-add'}
+                className={'btn-add mx-auto'}
             >
                 Add Release
-            </ButtonComponent>
+            </Button>
             <Dialog
                 open={open}
                 onClose={closePopup}
@@ -253,6 +252,7 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                     ></TextField>
                                     {/* Agrega más campos de formulario según sea necesario */}
                                     <Button
+                                        className={'btn-add'}
                                         type="submit"
                                         variant="contained"
                                         color="primary"

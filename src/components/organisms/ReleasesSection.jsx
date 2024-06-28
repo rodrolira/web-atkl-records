@@ -21,37 +21,26 @@ function ReleasesSection({ releases }) {
 
     return (
         <div className="grid gap-4 py-16 inline-block" id="releases">
-            <div>
-                <a href="/releases" className="mx-auto">
-                    <Title>
-                        {language === 'en' ? 'Releases' : 'Lanzamientos'}
-                    </Title>
-                </a>
-                {adminAuthenticated && (
-                    <ul>
-                        <li>
-                             <AddReleaseButton>
-                                {language === 'en'
-                                    ? 'Add Release'
-                                    : 'Agregar Lanzamiento'}
-                            </AddReleaseButton>
-                        </li>
-                    </ul>
-                )}
-            </div>
+            <a href="/releases" className="mx-auto">
+                <Title>{language === 'en' ? 'Releases' : 'Lanzamientos'}</Title>
+            </a>
+            {adminAuthenticated && (
+                <AddReleaseForm />
+            )}
             {/* {releasesData &&
                     Array.isArray(releasesData) &&
                     releasesData.map((release) => ( */}
-            {releaseList && releaseList.length > 0 && releaseList.map((release,
-            index) => (
-            <ReleaseCard
-                key={index}
-                title={release.title}
-                artist={release.artist}
-                coverImage={release.coverImage}
-                audioSrc={release.audioSrc}
-            />
-            ))}
+            {releaseList &&
+                releaseList.length > 0 &&
+                releaseList.map((release, index) => (
+                    <ReleaseCard
+                        key={index}
+                        title={release.title}
+                        artist={release.artist}
+                        coverImage={release.coverImage}
+                        audioSrc={release.audioSrc}
+                    />
+                ))}
         </div>
     )
 }
