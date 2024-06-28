@@ -45,15 +45,35 @@ const ArtistCard = ({ artist }) => {
     }
 
     return (
-        <div className="bg-black max-w-sm border border-gray-200 rounded-lg shadow dark:border-purple-500">
-            <Link to={`/artists/${id}`} className="block">
-                <div className="w-full rounded-t-lg overflow-hidden">
+        <div className="bg-black max-w-sm border border-gray-200 rounded-lg shadow dark:border-purple-500 relative">
+            <Link to={`/artists/${id}`} className="block relative">
+                <div className="w-full rounded-t-lg overflow-hidden relative">
                     <img
                         className="rounded-t-lg"
                         src={`http://localhost:3000/${image}`}
                         alt={artistName}
                     />
+                    {adminAuthenticated && (
+                        <div className="absolute top-2 right-2 flex space-x-2">
+                            <Link
+                                to={`/artists/${artist.id}/edit`}
+                                aria-label="Edit Artist"
+                                className="text-yellow-400 hover:text-yellow-500 text-xl"
+                            >
+                                <FontAwesomeIcon icon={faEdit} />
+                            </Link>
+
+                            <button
+                                onClick={handleDelete}
+                                aria-label="Delete Artist"
+                                className="text-red-400 hover:text-red-500 text-xl"
+                            >
+                                <FontAwesomeIcon icon={faTrash} />
+                            </button>
+                        </div>
+                    )}
                 </div>
+
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-white text-center ">
                     {artistName}
                 </h5>
@@ -115,25 +135,6 @@ const ArtistCard = ({ artist }) => {
                     </a>
                 )}
             </div>
-            {adminAuthenticated && (
-                <div className="flex justify-around my-2">
-                    <Link
-                        to={`/artists/${artist.id}/edit`}
-                        aria-label="Edit Artist"
-                        className="text-gray-400 hover:text-yellow-500"
-                    >
-                        <FontAwesomeIcon icon={faEdit} />
-                    </Link>
-
-                    <button
-                        onClick={handleDelete}
-                        aria-label="Delete Artist"
-                        className="text-gray-400 hover:text-red-500"
-                    >
-                        <FontAwesomeIcon icon={faTrash} />
-                    </button>
-                </div>
-            )}
         </div>
     )
 }

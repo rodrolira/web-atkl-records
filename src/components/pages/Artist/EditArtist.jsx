@@ -7,9 +7,10 @@ import Button from '../../atoms/Button'
 import FileUpload from '../../molecules/FileUpload'
 
 import { useArtists } from '../../../contexts/ArtistContext'
+import { getArtistRequest, updateArtistRequest } from '../../../api/artists'
 
 const validationSchema = Yup.object().shape({
-    artistName: Yup.string().required('Artist name is required'),
+    artistName: Yup.string(),
     image: Yup.mixed(),
 })
 
@@ -26,7 +27,7 @@ function EditArtist() {
         bandcampLink: '',
     })
 
-    const { updateArtist, getArtist } = useArtists()
+    const { updateArtist } = useArtists()
 
     useEffect(() => {
         fetchArtist(id)
@@ -34,7 +35,7 @@ function EditArtist() {
 
     const fetchArtist = async (artistId) => {
         try {
-            const response = await getArtist(artistId)
+            const response = await getArtistRequest(artistId)
             setInitialValues(response.data)
         } catch (error) {
             console.error('Error fetching artist:', error)
@@ -94,7 +95,7 @@ function EditArtist() {
                                 />
                             </div>
                             <div className="mb-4">
-                                    <FileUpload />
+                                <FileUpload />
                             </div>
                             <div className="mb-4">
                                 <label
@@ -204,13 +205,13 @@ function EditArtist() {
                                 >
                                     Cancel
                                 </Button>
-                                <button
+                                <Button
                                     type="submit"
                                     className="btn btn-save"
                                     disabled={isSubmitting}
                                 >
                                     Save
-                                </button>
+                                </Button>
                             </div>
                         </Form>
                     )}
