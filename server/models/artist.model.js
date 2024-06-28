@@ -28,6 +28,10 @@ const Artist = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    role: {
+        type: DataTypes.ENUM('Dj', 'Producer'),
+        allowNull: false,
+    },
     bandcampLink: {
       type: DataTypes.STRING(255),
       field: "bandcamp_link",
@@ -64,7 +68,7 @@ const Artist = sequelize.define(
 );
 
 // Define the relationship
-Artist.belongsTo(User, { foreignKey: "user_id", targetKey: "id" });
-User.hasOne(Artist, { foreignKey: "user_id", sourceKey: "id" });
+Artist.belongsTo(User, { foreignKey: "userId", targetKey: "id" });
+User.hasOne(Artist, { foreignKey: "userId", sourceKey: "id" });
 
 export default Artist;

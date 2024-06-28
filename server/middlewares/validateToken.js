@@ -5,25 +5,34 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const validateToken = (req, res, next) => {
-  const token = req.cookies.token;
-
+export const validateToken = async (req, res, next) => {
+  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
   if (!token) {
-    // Si no hay token, respondemos con un estado 401 directamente
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  jwt.verify(token, process.env.SECRET, (err, decoded) => {
-    if (err) {
-      // Si hay un error en la verificación del token, respondemos con un estado 401
-      console.error("Error verifying token:", err);
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    // Si el token es válido, adjuntamos el usuario decodificado al objeto `req`
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET);
     req.user = decoded;
     next();
-  });
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    return res.status(401).json({ message: "Unauthorized" });
+  }
 };
 
-export default validateToken;
+export const verifyTokenAdmin = async (req, res, next) => {
+  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+};

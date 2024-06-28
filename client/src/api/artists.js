@@ -7,7 +7,10 @@ export const createArtistRequest = async (artist) => {
     return await axios.post('/artists', artist)
 }
 
-export const updateArtistRequest = (artist) =>
-    axios.put(`/artists/${artist._id}`, artist)
+export const updateArtistRequest = async (id, updatedArtistData) => {
+    return await axios.put(`/artists/${id}`, updatedArtistData)
+}
 
-export const deleteArtistRequest = (id) => axios.delete(`/artists/${id}`)
+export const deleteArtistRequest = async (id) => {
+    return await axios.delete(`/artists/${id}`)
+}

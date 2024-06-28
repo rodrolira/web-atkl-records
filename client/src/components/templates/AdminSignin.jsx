@@ -2,7 +2,14 @@
 
 import React, { useEffect } from 'react' // Importa React y useEffect
 import { useLanguage } from '../../contexts/LanguageContext' // Importa el hook useLanguage
-import { Box, Button, Checkbox, colors, Typography } from '@mui/material'
+import {
+    Box,
+    Button,
+    Checkbox,
+    colors,
+    FormControlLabel,
+    Typography,
+} from '@mui/material'
 import CustomInput from '../atoms/CustomInput'
 import Logo from '../atoms/Logo'
 import { useNavigate } from 'react-router-dom'
@@ -58,7 +65,7 @@ function AdminSignin() {
                         lg: '15px 2px 5px -5px',
                         xl: '15px 2px 5px -5px',
                     },
-                    marginTop: {
+                    setBlockStart: {
                         xs: '0px',
                         sm: '0px',
                         md: '100px',
@@ -73,7 +80,7 @@ function AdminSignin() {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        height: '100%',
+                        blockSize: '100%',
                         borderRadius: {
                             xs: '30px',
                             sm: '30px',
@@ -93,8 +100,8 @@ function AdminSignin() {
                             <Box
                                 sx={{
                                     mt: '60px',
-                                    width: '150px',
-                                    height: '150px',
+                                    inlineSize: '150px',
+                                    blockSize: '150px',
                                     bgcolor: 'black',
                                     borderRadius: '20px',
                                     display: 'flex',
@@ -192,28 +199,24 @@ function AdminSignin() {
                                     width="100%"
                                     color="white"
                                 >
-                                    <div style={{ display: 'flex' }}>
-                                        <Checkbox
-                                            disableRipple
-                                            sx={{ p: 0, pr: 1 }}
-                                        />
-                                        <Typography>
-                                            {language === 'en'
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                disableRipple
+                                                sx={{ p: 0, pr: 1 }}
+                                                checked={
+                                                    formik.values.rememberMe
+                                                }
+                                                onChange={formik.handleChange}
+                                                name="rememberMe"
+                                            />
+                                        }
+                                        label={
+                                            language === 'en'
                                                 ? 'Remember me'
-                                                : 'Recuérdame'}
-                                        </Typography>
-                                    </div>
-                                    <a
-                                        href="#yoyo"
-                                        style={{
-                                            color: colors.green[500],
-                                            textDecoration: 'none',
-                                        }}
-                                    >
-                                        {language === 'en'
-                                            ? 'Forget password?'
-                                            : '¿Olvidó su contraseña?'}
-                                    </a>
+                                                : 'Recuérdame'
+                                        }
+                                    />
                                 </Box>
                                 <Button
                                     type="submit"

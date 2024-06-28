@@ -2,6 +2,7 @@
 
 import express from "express";
 import * as adminController from "../controllers/admin.controller.js";
+import { verifyTokenAdmin } from "../middlewares/validateToken.js";
 
 const router = express.Router();
 
@@ -24,7 +25,7 @@ router.post("/admin/register", async (req, res) => {
 
 router.post("/admin/login", async (req, res) => {
   try {
-  const { username, password } = req.body;
+    const { username, password } = req.body;
     const token = await adminController.loginAdmin(username, password);
 
     res.cookie("token", token, {
@@ -42,30 +43,29 @@ router.post("/admin/login", async (req, res) => {
 
 router.post("/admin/logout", adminController.logoutAdmin);
 
-
-router.get(
-  "/admin/profile",
-  adminController.verifyTokenAdmin,
-  async (req, res) => {
-    try {
-      const admin = await adminController.profileAdmin(req.adminId);
-      res.json({ admin });
-    } catch (error) {
-      console.error("Error fetching admin profile:", error);
-      res.status(500).json({ message: "Server Error" });
-    }
-  }
-);
-
-router.get("/admin/verify", async (req, res) => {
-  const { token } = req.cookies;
+router.get("/admin/profile", verifyTokenAdmin, async (req, res) => {
   try {
-    const admin = await adminController.verifyTokenAdmin(token);
+    const admin = await adminController.profileAdmin(req.adminId);
     res.json({ admin });
   } catch (error) {
-    console.error("Error verifying admin token:", error);
-    res.status(401).json({ message: "Unauthorized" });
+    console.error("Error fetching admin profile:", error);
+    res.status(500).json({ message: "Server Error" });
   }
+});
+
+// router.get("/admin/verify", async (req, res) => {
+//   const { token } = req.cookies;
+//   try {
+//     const admin = await validateToken(token);
+//     res.json({ admin });
+//   } catch (error) {
+//     console.error("Error verifying admin token:", error);
+//     res.status(401).json({ message: "Unauthorized" });
+//   }
+// });
+
+router.get("/admin/verify", verifyTokenAdmin, async (req, res) => {
+  res.json({ admin: req.adminId });
 });
 
 export default router;

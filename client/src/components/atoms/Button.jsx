@@ -18,10 +18,10 @@ const Button = ({ href, onClick, children, className }) => {
         )
     } else {
         return (
-            <div className="h-full mx-2">
+            <div className="h-full mx-2 flex">
                 <button
                     onClick={onClick}
-                    className={`h-full text-white font-medium rounded-lg text-sm inline-flex items-center ${className}`}
+                    className={`h-full text-white font-medium rounded-lg text-sm text-center items-center ${className}`}
                 >
                     {children}
                 </button>

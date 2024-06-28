@@ -8,13 +8,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const createAdmin = async ({ username, email, password }) => {
-  const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
     const newAdmin = await Admin.create({
       username,
       email,
-      password: hashedPassword,
+      password,
     });
     return newAdmin;
   } catch (error) {
@@ -25,6 +24,7 @@ export const createAdmin = async ({ username, email, password }) => {
 export const findAdminByEmail = async (email) => {
   try {
     const admin = await Admin.findOne({ where: { email } });
+    if (!admin) throw new Error("Admin not found")
     return admin;
   } catch (error) {
     throw new Error(`Error finding admin by email: ${error.message}`);
@@ -34,6 +34,7 @@ export const findAdminByEmail = async (email) => {
 export const findAdminByUsername = async (username) => {
   try {
     const admin = await Admin.findOne({ where: { username } });
+    if (!admin) throw new Error("Admin not found")
     return admin;
   } catch (error) {
     throw new Error(`Error finding admin by username: ${error.message}`);
@@ -55,7 +56,7 @@ export const loginAdmin = async (username, password) => {
     }
 
     const token = jwt.sign({ adminId: admin.id }, process.env.SECRET, {
-      expiresIn: "12h",
+      expiresIn: process.env.TOKEN_EXPIRATION || "12h",
     });
 
     return token;
@@ -80,24 +81,24 @@ export const profileAdmin = async (adminId) => {
   }
 };
 
-export const verifyTokenAdmin = async (token) => {
-  try {
-    const decoded = jwt.verify(token, process.env.SECRET);
-    const admin = await Admin.findByPk(decoded.adminId);
+// export const verifyTokenAdmin = async (token) => {
+//   try {
+//     const decoded = jwt.verify(token, process.env.SECRET);
+//     const admin = await Admin.findByPk(decoded.adminId);
 
-    if (!admin) {
-      throw new Error("Admin not found");
-    }
+//     if (!admin) {
+//       throw new Error("Admin not found");
+//     }
 
-    return admin;
-  } catch (error) {
-    if (error.name === "TokenExpiredError") {
-      throw new Error("Token expired");
-    } else {
-      throw new Error(`Error verifying admin token: ${error.message}`);
-    }
-  }
-};
+//     return admin;
+//   } catch (error) {
+//     if (error.name === "TokenExpiredError") {
+//       throw new Error("Token expired");
+//     } else {
+//       throw new Error(`Error verifying admin token: ${error.message}`);
+//     }
+//   }
+// };
 
 
 export const logoutAdmin = async (req, res) => {

@@ -1,3 +1,4 @@
+.btn-save,
 .btn-buy,
 .btn-add,
 .btn-delete,
@@ -12,6 +13,11 @@
     /* Transición suave del color de fondo */
 }
 
+.btn-save {
+    background-color: #007bff !important;
+    /* Azul */
+}
+
 .btn-buy {
     background-color: #12f334 !important;
     /* Verde brillante */
@@ -19,7 +25,7 @@
 
 .btn-add {
     background-color: #11c101 !important;
-    /* Verde toxico*/
+    /* Verde toxico */
 }
 
 .btn-delete {
@@ -38,6 +44,7 @@
 }
 
 /* Efecto hover */
+.btn-save:hover,
 .btn-buy:hover,
 .btn-add:hover,
 .btn-delete:hover,
