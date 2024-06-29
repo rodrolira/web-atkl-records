@@ -7,11 +7,16 @@ import Button from '../../atoms/Button'
 import FileUpload from '../../molecules/FileUpload'
 
 import { useArtists } from '../../../contexts/ArtistContext'
-import { getArtistRequest, updateArtistRequest } from '../../../api/artists'
+import {
+    getArtistRequest,
+    updateArtistRequest,
+    deleteArtistRequest,
+} from '../../../api/artists'
 
 const validationSchema = Yup.object().shape({
-    artistName: Yup.string(),
+    artistName: Yup.string().required('Artist name is required'),
     image: Yup.mixed(),
+    role: Yup.array().required('Role is required'),
 })
 
 function EditArtist() {
@@ -25,9 +30,10 @@ function EditArtist() {
         facebookLink: '',
         soundcloudLink: '',
         bandcampLink: '',
+        role: 'DJ', // Default role
     })
 
-    const { updateArtist } = useArtists()
+    const { updateArtist, deleteArtist } = useArtists()
 
     useEffect(() => {
         fetchArtist(id)
@@ -54,6 +60,17 @@ function EditArtist() {
         } catch (error) {
             console.error('Error updating artist:', error)
             setSubmitting(false)
+        }
+    }
+
+    const handleDelete = async () => {
+        if (window.confirm('Are you sure you want to delete this artist?')) {
+            try {
+                await deleteArtist(id)
+                navigate('/artists')
+            } catch (error) {
+                console.error('Error deleting artist:', error)
+            }
         }
     }
 
@@ -96,6 +113,29 @@ function EditArtist() {
                             </div>
                             <div className="mb-4">
                                 <FileUpload />
+                            </div>
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="role"
+                                    className="block text-gray-700 font-bold mb-2"
+                                >
+                                    Role
+                                </label>
+                                <Field
+                                render=""
+                                    as="select"
+                                    id="role"
+                                    name="role"
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                >
+                                    <option value="DJ">DJ</option>
+                                    <option value="Producer">Producer</option>
+                                </Field>
+                                <ErrorMessage
+                                    name="role"
+                                    component="div"
+                                    className="text-red-500 text-sm mt-1"
+                                />
                             </div>
                             <div className="mb-4">
                                 <label
@@ -205,12 +245,19 @@ function EditArtist() {
                                 >
                                     Cancel
                                 </Button>
-                                <Button
+                                <button
                                     type="submit"
                                     className="btn btn-save"
                                     disabled={isSubmitting}
                                 >
                                     Save
+                                </button>
+                                <Button
+                                    type="button"
+                                    className="btn btn-delete"
+                                    onClick={handleDelete}
+                                >
+                                    Delete
                                 </Button>
                             </div>
                         </Form>
