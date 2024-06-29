@@ -29,6 +29,7 @@ const validationSchema = Yup.object().shape({
     // Agrega más validaciones para otros campos si es necesario
     bio: Yup.string(),
     image: Yup.mixed(),
+    role: Yup.string().required('El rol es requerido'), // Validación para el campo "role"
     bandcampLink: Yup.string(),
     facebookLink: Yup.string(),
     instagramLink: Yup.string(),
@@ -77,7 +78,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
             <Button
                 onClick={openPopup}
                 className={'btn-add mx-auto'}
-                variant="contained"
+                variant='contained'
             >
                 Add Artist
             </Button>
@@ -85,7 +86,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                 open={open}
                 onClose={closePopup}
                 fullWidth
-                maxWidth="sm"
+                maxWidth='sm'
                 PaperProps={{
                     sx: {
                         borderRadius: '0px',
@@ -96,14 +97,14 @@ const AddArtistForm = ({ onArtistAdded }) => {
                         float: 'right',
                     },
                 }}
-                scroll="body"
+                scroll='body'
             >
                 <DialogTitle style={{ textAlign: 'center' }}>
                     {' '}
                     Add Artist{' '}
                     <IconButton style={{ float: 'right' }} onClick={closePopup}>
                         {' '}
-                        <CloseIcon color="error"> </CloseIcon>
+                        <CloseIcon color='error'> </CloseIcon>
                     </IconButton>{' '}
                 </DialogTitle>
                 <DialogContent>
@@ -116,6 +117,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                             // Agrega más campos iniciales si es necesario
                             bio: '',
                             image: '',
+                            role: '', // Campo inicial para "role"
                             bandcampLink: '',
                             facebookLink: '',
                             instagramLink: '',
@@ -130,12 +132,12 @@ const AddArtistForm = ({ onArtistAdded }) => {
                         {({ isSubmitting }) => (
                             <Form>
                                 <Stack spacing={2} margin={2}>
-                                    <Field name="artistName">
+                                    <Field name='artistName'>
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
-                                                label="Artist Name"
-                                                variant="outlined"
+                                                label='Artist Name'
+                                                variant='outlined'
                                                 error={
                                                     form.errors.artistName &&
                                                     form.touched.artistName
@@ -149,15 +151,15 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                         )}
                                     </Field>
                                     <ErrorMessage
-                                        name="artistName"
-                                        component="div"
+                                        name='artistName'
+                                        component='div'
                                     />
-                                    <Field name="username">
+                                    <Field name='username'>
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
-                                                label="Username"
-                                                variant="outlined"
+                                                label='Username'
+                                                variant='outlined'
                                                 error={
                                                     form.errors.username &&
                                                     form.touched.username
@@ -167,16 +169,16 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                                     form.touched.username &&
                                                     form.errors.username
                                                 }
-                                                autoComplete="off"
+                                                autoComplete='off'
                                             />
                                         )}
                                     </Field>
-                                    <Field name="email">
+                                    <Field name='email'>
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
-                                                label="Email"
-                                                variant="outlined"
+                                                label='Email'
+                                                variant='outlined'
                                                 error={
                                                     form.errors.email &&
                                                     form.touched.email
@@ -189,13 +191,13 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                             />
                                         )}
                                     </Field>
-                                    <Field name="password">
+                                    <Field name='password'>
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
-                                                label="Password"
-                                                variant="outlined"
-                                                type="password"
+                                                label='Password'
+                                                variant='outlined'
+                                                type='password'
                                                 error={
                                                     form.errors.password &&
                                                     form.touched.password
@@ -205,79 +207,107 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                                     form.touched.password &&
                                                     form.errors.password
                                                 }
-                                                autoComplete="current-password"
+                                                autoComplete='current-password'
                                             />
                                         )}
                                     </Field>
                                     <FileUpload />
-                                    <Field name="bandcampLink">
+                                    <Field name='role'>
+                                        {({ field, form }) => (
+                                            <TextField
+                                                {...field}
+                                                label='Role'
+                                                variant='outlined'
+                                                select
+                                                error={
+                                                    form.errors.role &&
+                                                    form.touched.role
+                                                }
+                                                helperText={
+                                                    form.errors.role &&
+                                                    form.touched.role &&
+                                                    form.errors.role
+                                                }
+                                                SelectProps={{
+                                                    native: true,
+                                                }}
+                                            >
+                                                <option value=''></option>
+                                                <option value='DJ'>DJ</option>
+                                                <option value='Producer'>
+                                                    Producer
+                                                </option>
+                                            </TextField>
+                                        )}
+                                    </Field>
+                                    <Field name='bandcampLink'>
                                         {({ field }) => (
                                             <TextField
                                                 {...field}
-                                                label="Bandcamp Link"
-                                                variant="outlined"
+                                                label='Bandcamp Link'
+                                                variant='outlined'
                                             />
                                         )}
                                     </Field>
-                                    <Field name="facebookLink">
+                                    <Field name='facebookLink'>
                                         {({ field }) => (
                                             <TextField
                                                 {...field}
-                                                label="Facebook Link"
-                                                variant="outlined"
+                                                label='Facebook Link'
+                                                variant='outlined'
                                             />
                                         )}
                                     </Field>
-                                    <Field name="instagramLink">
+                                    <Field name='instagramLink'>
                                         {({ field }) => (
                                             <TextField
                                                 {...field}
-                                                label="Instagram Link"
-                                                variant="outlined"
+                                                label='Instagram Link'
+                                                variant='outlined'
                                             />
                                         )}
                                     </Field>
-                                    <Field name="soundcloudLink">
+                                    <Field name='soundcloudLink'>
                                         {({ field }) => (
                                             <TextField
                                                 {...field}
-                                                label="Soundcloud Link"
-                                                variant="outlined"
+                                                label='Soundcloud Link'
+                                                variant='outlined'
                                             />
                                         )}
                                     </Field>
-                                    <Field name="twitterLink">
+                                    <Field name='twitterLink'>
                                         {({ field }) => (
                                             <TextField
                                                 {...field}
-                                                label="Twitter Link"
-                                                variant="outlined"
+                                                label='Twitter Link'
+                                                variant='outlined'
                                             />
                                         )}
                                     </Field>
-                                    <Field name="youtubeLink">
+                                    <Field name='youtubeLink'>
                                         {({ field }) => (
                                             <TextField
                                                 {...field}
-                                                label="Youtube Link"
-                                                variant="outlined"
+                                                label='Youtube Link'
+                                                variant='outlined'
                                             />
                                         )}
                                     </Field>
-                                    <Field name="spotifyLink">
+                                    <Field name='spotifyLink'>
                                         {({ field }) => (
                                             <TextField
                                                 {...field}
-                                                label="Spotify Link"
-                                                variant="outlined"
+                                                label='Spotify Link'
+                                                variant='outlined'
                                             />
                                         )}
                                     </Field>{' '}
                                     <Button
                                         className={'btn-add'}
-                                        type="submit"
-                                        variant="contained"
-                                        color="success"
+                                        type='submit'
+                                        variant='contained'
+                                        color='success'
                                         disabled={isSubmitting}
                                     >
                                         {isSubmitting ? 'Adding...' : 'Add'}
@@ -292,11 +322,6 @@ const AddArtistForm = ({ onArtistAdded }) => {
                         )}
                     </Formik>
                 </DialogContent>
-                <DialogActions>
-                    <IconButton onClick={closePopup}>
-                        <CloseIcon />
-                    </IconButton>
-                </DialogActions>
             </Dialog>
         </>
     )

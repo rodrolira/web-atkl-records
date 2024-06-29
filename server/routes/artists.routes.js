@@ -27,7 +27,7 @@ router.get("/artists/:id", fetchArtistById);
 
 router.post("/artists", upload.single("image"), addArtist);
 
-router.put("/artists/:id", updateArtist);
+router.put("/artists/:id", upload.single("image"), updateArtist);
 router.delete("/artists/:id", deleteArtist);
 
 export default router;

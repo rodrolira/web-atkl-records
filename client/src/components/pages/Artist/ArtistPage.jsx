@@ -26,10 +26,11 @@ function ArtistPage () {
     const { language } = useLanguage()
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
     const [showEditModal, setShowEditModal] = useState(false) // Estado para controlar la visibilidad del modal
+    const [isDataUpdated, setIsDataUpdated] = useState(false) // Estado para controlar la actualización de datos
 
     useEffect(() => {
         fetchArtist()
-    }, [id])
+    }, [id, isDataUpdated])
 
     const fetchArtist = async () => {
         try {
@@ -46,6 +47,7 @@ function ArtistPage () {
 
     const closeEditModal = () => {
         setShowEditModal(false)
+        setIsDataUpdated(prev => !prev) // Cambia el estado para actualizar los datos
     }
 
     if (!artist) {
@@ -56,7 +58,6 @@ function ArtistPage () {
         <>
             <Navbar />
             <div className='inline-block w-full mt-32'>
-                <Title>Artist</Title>
                 <div className='flex mt-12'>
                     <div className='w-1/3 p-4 border-r text-center text-white'>
                         <div className='flex items-center justify-center mb-2'>
@@ -75,68 +76,83 @@ function ArtistPage () {
                                 </Button>
                             )}
                         </div>
-                        <img
-                            className='rounded-t-lg'
-                            src={`http://localhost:3000/${artist.image}`}
-                            alt={artist.artistName}
-                        />
-                        <p className='mb-2 uppercase'>{artist.role}</p>
-                        <div className='flex space-x-4 text-2xl justify-center my-2'>
-                            {artist.twitterLink && (
-                                <a
-                                    href={artist.twitterLink}
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    aria-label='View Twitter Profile'
-                                    className='text-gray-400 dark:text-blue-500 hover:text-blue-500 dark:hover:text-blue-300'
-                                >
-                                    <FontAwesomeIcon icon={faTwitter} />
-                                </a>
-                            )}
-                            {artist.instagramLink && (
-                                <a
-                                    href={artist.instagramLink}
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    aria-label='View Instagram Profile'
-                                    className='text-gray-400 dark:text-orange-500 hover:text-red-500 dark:hover:text-red-300'
-                                >
-                                    <FontAwesomeIcon icon={faInstagram} />
-                                </a>
-                            )}
-                            {artist.facebookLink && (
-                                <a
-                                    href={artist.facebookLink}
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    aria-label='View Facebook Profile'
-                                    className='text-gray-400 dark:text-blue-600 hover:text-blue-800 dark:hover:text-blue-600'
-                                >
-                                    <FontAwesomeIcon icon={faFacebook} />
-                                </a>
-                            )}
-                            {artist.soundcloudLink && (
-                                <a
-                                    href={artist.soundcloudLink}
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    aria-label='View SoundCloud Profile'
-                                    className='text-gray-400 dark:text-red-400 hover:text-red-600 dark:hover:text-red-400'
-                                >
-                                    <FontAwesomeIcon icon={faSoundcloud} />
-                                </a>
-                            )}
-                            {artist.bandcampLink && (
-                                <a
-                                    href={artist.bandcampLink}
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    aria-label='View Bandcamp Profile'
-                                    className='text-gray-400 dark:text-teal-500 hover:text-teal-600 dark:hover:text-teal-500'
-                                >
-                                    <FontAwesomeIcon icon={faBandcamp} />
-                                </a>
-                            )}
+
+                        <div className='p-4 rounded-lg'>
+                            <img
+                                className='rounded-t-lg'
+                                src={`http://localhost:3000/${artist.image}`}
+                                alt={artist.artistName}
+                            />
+                            <div className='bg-slate-900 border-gray-200 w-full h-full relative rounded-b-lg'>
+                                <h1 className='mb-2 uppercase text-2xl'>
+                                    {artist.role}
+                                </h1>
+                                <div className='flex space-x-4 text-2xl justify-center my-2 py-2'>
+                                    {artist.twitterLink && (
+                                        <a
+                                            href={artist.twitterLink}
+                                            target='_blank'
+                                            rel='noopener noreferrer'
+                                            aria-label='View Twitter Profile'
+                                            className='text-gray-400 dark:text-blue-500 hover:text-blue-500 dark:hover:text-blue-300'
+                                        >
+                                            <FontAwesomeIcon icon={faTwitter} />
+                                        </a>
+                                    )}
+                                    {artist.instagramLink && (
+                                        <a
+                                            href={artist.instagramLink}
+                                            target='_blank'
+                                            rel='noopener noreferrer'
+                                            aria-label='View Instagram Profile'
+                                            className='text-gray-400 dark:text-orange-500 hover:text-red-500 dark:hover:text-red-300'
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faInstagram}
+                                            />
+                                        </a>
+                                    )}
+                                    {artist.facebookLink && (
+                                        <a
+                                            href={artist.facebookLink}
+                                            target='_blank'
+                                            rel='noopener noreferrer'
+                                            aria-label='View Facebook Profile'
+                                            className='text-gray-400 dark:text-blue-600 hover:text-blue-800 dark:hover:text-blue-600'
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faFacebook}
+                                            />
+                                        </a>
+                                    )}
+                                    {artist.soundcloudLink && (
+                                        <a
+                                            href={artist.soundcloudLink}
+                                            target='_blank'
+                                            rel='noopener noreferrer'
+                                            aria-label='View SoundCloud Profile'
+                                            className='text-gray-400 dark:text-red-400 hover:text-red-600 dark:hover:text-red-400'
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faSoundcloud}
+                                            />
+                                        </a>
+                                    )}
+                                    {artist.bandcampLink && (
+                                        <a
+                                            href={artist.bandcampLink}
+                                            target='_blank'
+                                            rel='noopener noreferrer'
+                                            aria-label='View Bandcamp Profile'
+                                            className='text-gray-400 dark:text-teal-500 hover:text-teal-600 dark:hover:text-teal-500'
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faBandcamp}
+                                            />
+                                        </a>
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     </div>
 
