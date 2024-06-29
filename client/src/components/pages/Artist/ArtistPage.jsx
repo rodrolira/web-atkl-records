@@ -1,17 +1,23 @@
-import React, { useState, useEffect, useContext, Suspense } from 'react'
+import React, { useState, useEffect, Suspense } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import { useLanguage } from '../../../contexts/LanguageContext'
 import Title from '../../atoms/Title'
 import { getArtistRequest } from '../../../api/artists'
 import Navbar from '../../organisms/Navbar'
 import { useAdminAuth } from '../../../contexts/AdminAuthContext'
-
-const ReleasesPage = React.lazy(() => import('../ReleasesPage'))
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+    faTwitter,
+    faInstagram,
+    faFacebook,
+    faSoundcloud,
+    faBandcamp,
+} from '@fortawesome/free-brands-svg-icons'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
-function ArtistPage({}) {
+const ReleasesPage = React.lazy(() => import('../ReleasesPage'))
+
+function ArtistPage() {
     const { id } = useParams()
     const [artist, setArtist] = useState(null)
     const { language } = useLanguage()
@@ -50,7 +56,7 @@ function ArtistPage({}) {
                                     to={`/artists/${artist.id}/edit`}
                                     aria-label="Edit Artist"
                                     className="ml-4 text-gray-400 hover:text-yellow-500"
-                                > 
+                                >
                                     <FontAwesomeIcon icon={faEdit} />
                                 </Link>
                             )}
@@ -61,7 +67,63 @@ function ArtistPage({}) {
                             alt={artist.artistName}
                         />
                         <p className="mb-2 uppercase">{artist.role}</p>
-                        {/* Puedes mostrar otros detalles del artista aquí */}
+                        <div className="flex space-x-4 text-2xl justify-center my-2">
+                            {artist.twitterLink && (
+                                <a
+                                    href={artist.twitterLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="View Twitter Profile"
+                                    className="text-gray-400 dark:text-blue-500 hover:text-blue-500 dark:hover:text-blue-300"
+                                >
+                                    <FontAwesomeIcon icon={faTwitter} />
+                                </a>
+                            )}
+                            {artist.instagramLink && (
+                                <a
+                                    href={artist.instagramLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="View Instagram Profile"
+                                    className="text-gray-400 dark:text-orange-500 hover:text-red-500 dark:hover:text-red-300"
+                                >
+                                    <FontAwesomeIcon icon={faInstagram} />
+                                </a>
+                            )}
+                            {artist.facebookLink && (
+                                <a
+                                    href={artist.facebookLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="View Facebook Profile"
+                                    className="text-gray-400 dark:text-blue-600 hover:text-blue-800 dark:hover:text-blue-600"
+                                >
+                                    <FontAwesomeIcon icon={faFacebook} />
+                                </a>
+                            )}
+                            {artist.soundcloudLink && (
+                                <a
+                                    href={artist.soundcloudLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="View SoundCloud Profile"
+                                    className="text-gray-400 dark:text-red-400 hover:text-red-600 dark:hover:text-red-400"
+                                >
+                                    <FontAwesomeIcon icon={faSoundcloud} />
+                                </a>
+                            )}
+                            {artist.bandcampLink && (
+                                <a
+                                    href={artist.bandcampLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="View Bandcamp Profile"
+                                    className="text-gray-400 dark:text-teal-500 hover:text-teal-600 dark:hover:text-teal-500"
+                                >
+                                    <FontAwesomeIcon icon={faBandcamp} />
+                                </a>
+                            )}
+                        </div>
                     </div>
 
                     <div className="w-2/3 p-4 text-white text-center">
@@ -97,8 +159,5 @@ function ArtistPage({}) {
     )
 }
 
-ArtistPage.propTypes = {
-    artistsData: PropTypes.array.isRequired,
-}
 
 export default ArtistPage

@@ -58,6 +58,7 @@
     "react-hook-form": "^7.51.3",
     "react-i18next": "^14.1.0",
     "react-router-dom": "^6.22.3",
+    "reactflow": "^11.11.4",
     "serve": "^14.2.3",
     "tw-elements-react": "^1.0.0-alpha2",
     "uuid": "^9.0.1",
