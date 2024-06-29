@@ -14,6 +14,7 @@ export const addArtist = async (req, res) => {
     username,
     password,
     bio,
+    role,
     bandcampLink,
     facebookLink,
     instagramLink,
@@ -45,6 +46,7 @@ export const addArtist = async (req, res) => {
       artistName,
       userId: newUser.id,
       email,
+      role,
       bio,
       image,
       bandcampLink,
@@ -86,9 +88,17 @@ export const updateArtist = async (req, res) => {
   } = req.body;
 
   try {
+    // Validación de campos obligatorios u otros requerimientos necesarios
+    if (!artistName) {
+      return res
+        .status(400)
+        .json({ error: "Artist name and role are required" });
+    }
+
     console.log(`Updating artist with ID: ${id}`);
     console.log("Update data:", req.body); // Log para verificar los datos recibidos
 
+    // Lógica de actualización en la base de datos
     const [updatedRowsCount, updatedRows] = await Artist.update(
       {
         artistName,
@@ -117,7 +127,7 @@ export const updateArtist = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-  
+
 export const deleteArtist = async (req, res) => {
   try {
     const { id } = req.params;

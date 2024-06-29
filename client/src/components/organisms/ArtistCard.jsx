@@ -12,11 +12,13 @@ import {
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useArtists } from '../../contexts/ArtistContext'
 import { useAdminAuth } from '../../contexts/AdminAuthContext'
+import Button from '../atoms/Button'
 
 const ArtistCard = ({ artist }) => {
     const {
         id,
         artistName,
+        role,
         image,
         twitterLink,
         instagramLink,
@@ -64,13 +66,13 @@ const ArtistCard = ({ artist }) => {
                         />
                         {adminAuthenticated && (
                             <div className='absolute top-2 right-2 flex space-x-2'>
-                                <Link
-                                    to={`/artists/${artist.id}/edit`}
+                                <Button
+                                    // to={`/artists/${artist.id}/edit`}
                                     aria-label='Edit Artist'
                                     className='text-yellow-400 hover:text-yellow-500 text-xl'
                                 >
                                     <FontAwesomeIcon icon={faEdit} />
-                                </Link>
+                                </Button>
 
                                 <button
                                     onClick={handleDelete}
@@ -87,6 +89,9 @@ const ArtistCard = ({ artist }) => {
                         {artistName}
                     </h5>
                 </Link>
+                <h4 className='mb-2 text-2xl font-bold tracking-tight text-white text-center '>
+                    {role}
+                </h4>
                 <div className='flex space-x-4 text-2xl justify-center my-2'>
                     {twitterLink && (
                         <Link

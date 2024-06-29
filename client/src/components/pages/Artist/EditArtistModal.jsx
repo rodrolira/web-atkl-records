@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
     image: Yup.mixed(),
 })
 
-function EditArtistModal (onClose) {
+function EditArtistModal ({ onClose }) {
     const { id } = useParams()
     const navigate = useNavigate()
     const [initialValues, setInitialValues] = useState({
@@ -31,6 +31,7 @@ function EditArtistModal (onClose) {
         soundcloudLink: '',
         bandcampLink: '',
         role: [], // Initialize as an empty array for multiple selection
+        bio: '',
     })
 
     const { updateArtist, deleteArtist } = useArtists()
@@ -56,7 +57,7 @@ function EditArtistModal (onClose) {
 
         try {
             await updateArtist(id, formData)
-            navigate(`/artists/${id}`)
+            onClose()
         } catch (error) {
             console.error('Error updating artist:', error)
             setSubmitting(false)
@@ -128,6 +129,26 @@ function EditArtistModal (onClose) {
                             </Field>
                             <ErrorMessage
                                 name='role'
+                                component='div'
+                                className='text-red-500 text-sm mt-1'
+                            />
+                        </div>
+                        <div className='mb-4'>
+                            <label
+                                htmlFor='bio'
+                                className='block text-gray-700 font-bold mb-2'
+                            >
+                                Bio
+                            </label>
+                            <Field
+                                as='textarea'
+                                id='bio'
+                                name='bio'
+                                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                placeholder='Bio'
+                            />
+                            <ErrorMessage
+                                name='bio'
                                 component='div'
                                 className='text-red-500 text-sm mt-1'
                             />
@@ -235,7 +256,7 @@ function EditArtistModal (onClose) {
                         <div className='flex items-center justify-between'>
                             <Link
                                 type='button'
-                                onClick={() => navigate(`/artists/${id}`)} // Cambia a navigate para cerrar el modal
+                                onClick={onClose} // Cambia a navigate para cerrar el modal
                                 className='btn btn-cancel'
                             >
                                 Cancel
