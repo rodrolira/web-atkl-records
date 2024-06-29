@@ -22,48 +22,48 @@ import ArtistPage from '../components/pages/Artist/ArtistPage'
 
 const Layout = () => {
     return (
-        <div className="flex">
-            <div className="layout">
+        <div className='flex'>
+            <div className='layout'>
                 {/* <AuthProvider> */}
                 {/* <AdminAuthProvider> */}
                 <ArtistProvider>
                     <LanguageProvider>
                         <BrowserRouter>
                             <Routes>
-                                <Route path="/" element={<Home />} />
+                                <Route path='/' element={<Home />} />
                                 <Route
-                                    path="/artists"
+                                    path='/artists'
                                     element={<ArtistsPage />}
                                 />
                                 <Route
-                                    path="/artists/:id"
+                                    path='/artists/:id'
                                     element={<ArtistPage />}
                                 />
                                 <Route
-                                    path="/artists/:id/edit"
+                                    path='/artists/:id/edit'
                                     element={<EditArtist />}
                                 />
 
                                 <Route
-                                    path="/releases"
+                                    path='/releases'
                                     element={<ReleasesPage />}
                                 />
                                 <Route
-                                    path="/login"
+                                    path='/login'
                                     element={<LoginArtistPage />}
                                 />
                                 <Route
-                                    path="/admin/login"
+                                    path='/admin/login'
                                     element={<LoginAdminPage />}
                                 />
                                 <Route
-                                    path="/register"
+                                    path='/register'
                                     element={<RegisterPage />}
                                 />
-                                <Route path="/*" element={<NotFound />} />
+                                <Route path='/*' element={<NotFound />} />
                                 {/* <Route element={<AdminProtectedRoute />}> */}
                                 <Route
-                                    path="/admin"
+                                    path='/admin'
                                     element={<AdminDashboard />}
                                 />
                                 {/* <Route

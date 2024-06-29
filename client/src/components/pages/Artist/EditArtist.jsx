@@ -7,19 +7,15 @@ import Button from '../../atoms/Button'
 import FileUpload from '../../molecules/FileUpload'
 
 import { useArtists } from '../../../contexts/ArtistContext'
-import {
-    getArtistRequest,
-    updateArtistRequest,
-    deleteArtistRequest,
-} from '../../../api/artists'
+import { getArtistRequest } from '../../../api/artists'
 
 const validationSchema = Yup.object().shape({
     artistName: Yup.string().required('Artist name is required'),
     image: Yup.mixed(),
-    role: Yup.array().required('Role is required'),
+    role: Yup.array().of(Yup.string()), // Updated validation for role as an array of strings
 })
 
-function EditArtist() {
+function EditArtist () {
     const { id } = useParams()
     const navigate = useNavigate()
     const [initialValues, setInitialValues] = useState({
@@ -30,7 +26,7 @@ function EditArtist() {
         facebookLink: '',
         soundcloudLink: '',
         bandcampLink: '',
-        role: 'DJ', // Default role
+        role: [], // Initialize as an empty array for multiple selection
     })
 
     const { updateArtist, deleteArtist } = useArtists()
@@ -39,7 +35,7 @@ function EditArtist() {
         fetchArtist(id)
     }, [id])
 
-    const fetchArtist = async (artistId) => {
+    const fetchArtist = async artistId => {
         try {
             const response = await getArtistRequest(artistId)
             setInitialValues(response.data)
@@ -77,7 +73,7 @@ function EditArtist() {
     return (
         <>
             <Navbar />
-            <div className="flex flex-col items-center justify-center mt-32">
+            <div className='flex flex-col items-center justify-center mt-32'>
                 <Formik
                     initialValues={initialValues}
                     enableReinitialize
@@ -85,176 +81,175 @@ function EditArtist() {
                     onSubmit={handleSubmit}
                 >
                     {({ isSubmitting }) => (
-                        <Form className="w-full max-w-md bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                            <h2 className="text-2xl mb-4 font-bold">
+                        <Form className='w-full max-w-md bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
+                            <h2 className='text-2xl mb-4 font-bold'>
                                 Edit Artist
                             </h2>
-                            <div className="mb-4">
+                            <div className='mb-4'>
                                 <label
-                                    htmlFor="artistName"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    htmlFor='artistName'
+                                    className='block text-gray-700 font-bold mb-2'
                                 >
                                     Artist Name
                                 </label>
                                 <Field
-                                    type="text"
-                                    id="artistName"
-                                    name="artistName"
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    placeholder="Artist Name"
-                                    autoComplete="off"
+                                    type='text'
+                                    id='artistName'
+                                    name='artistName'
+                                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                    placeholder='Artist Name'
+                                    autoComplete='off'
                                     autoFocus
                                 />
                                 <ErrorMessage
-                                    name="artistName"
-                                    component="div"
-                                    className="text-red-500 text-sm mt-1"
+                                    name='artistName'
+                                    component='div'
+                                    className='text-red-500 text-sm mt-1'
                                 />
                             </div>
-                            <div className="mb-4">
+                            <div className='mb-4'>
                                 <FileUpload />
                             </div>
-                            <div className="mb-4">
+                            <div className='mb-4'>
                                 <label
-                                    htmlFor="role"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    htmlFor='role'
+                                    className='block text-gray-700 font-bold mb-2'
                                 >
                                     Role
                                 </label>
                                 <Field
-                                render=""
-                                    as="select"
-                                    id="role"
-                                    name="role"
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    as='select'
+                                    id='role'
+                                    name='role'
+                                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                                 >
-                                    <option value="DJ">DJ</option>
-                                    <option value="Producer">Producer</option>
+                                    <option value='DJ'>DJ</option>
+                                    <option value='Producer'>Producer</option>
                                 </Field>
                                 <ErrorMessage
-                                    name="role"
-                                    component="div"
-                                    className="text-red-500 text-sm mt-1"
+                                    name='role'
+                                    component='div'
+                                    className='text-red-500 text-sm mt-1'
                                 />
                             </div>
-                            <div className="mb-4">
+                            <div className='mb-4'>
                                 <label
-                                    htmlFor="twitterLink"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    htmlFor='twitterLink'
+                                    className='block text-gray-700 font-bold mb-2'
                                 >
                                     Twitter Link
                                 </label>
                                 <Field
-                                    type="text"
-                                    id="twitterLink"
-                                    name="twitterLink"
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    placeholder="Twitter Link"
+                                    type='text'
+                                    id='twitterLink'
+                                    name='twitterLink'
+                                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                    placeholder='Twitter Link'
                                 />
                                 <ErrorMessage
-                                    name="twitterLink"
-                                    component="div"
-                                    className="text-red-500 text-sm mt-1"
+                                    name='twitterLink'
+                                    component='div'
+                                    className='text-red-500 text-sm mt-1'
                                 />
                             </div>
-                            <div className="mb-4">
+                            <div className='mb-4'>
                                 <label
-                                    htmlFor="instagramLink"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    htmlFor='instagramLink'
+                                    className='block text-gray-700 font-bold mb-2'
                                 >
                                     Instagram Link
                                 </label>
                                 <Field
-                                    type="text"
-                                    id="instagramLink"
-                                    name="instagramLink"
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    placeholder="Instagram Link"
+                                    type='text'
+                                    id='instagramLink'
+                                    name='instagramLink'
+                                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                    placeholder='Instagram Link'
                                 />
                                 <ErrorMessage
-                                    name="instagramLink"
-                                    component="div"
-                                    className="text-red-500 text-sm mt-1"
+                                    name='instagramLink'
+                                    component='div'
+                                    className='text-red-500 text-sm mt-1'
                                 />
                             </div>
-                            <div className="mb-4">
+                            <div className='mb-4'>
                                 <label
-                                    htmlFor="facebookLink"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    htmlFor='facebookLink'
+                                    className='block text-gray-700 font-bold mb-2'
                                 >
                                     Facebook Link
                                 </label>
                                 <Field
-                                    type="text"
-                                    id="facebookLink"
-                                    name="facebookLink"
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    placeholder="Facebook Link"
+                                    type='text'
+                                    id='facebookLink'
+                                    name='facebookLink'
+                                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                    placeholder='Facebook Link'
                                 />
                                 <ErrorMessage
-                                    name="facebookLink"
-                                    component="div"
-                                    className="text-red-500 text-sm mt-1"
+                                    name='facebookLink'
+                                    component='div'
+                                    className='text-red-500 text-sm mt-1'
                                 />
                             </div>
-                            <div className="mb-4">
+                            <div className='mb-4'>
                                 <label
-                                    htmlFor="soundcloudLink"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    htmlFor='soundcloudLink'
+                                    className='block text-gray-700 font-bold mb-2'
                                 >
                                     SoundCloud Link
                                 </label>
                                 <Field
-                                    type="text"
-                                    id="soundcloudLink"
-                                    name="soundcloudLink"
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    placeholder="SoundCloud Link"
+                                    type='text'
+                                    id='soundcloudLink'
+                                    name='soundcloudLink'
+                                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                    placeholder='SoundCloud Link'
                                 />
                                 <ErrorMessage
-                                    name="soundcloudLink"
-                                    component="div"
-                                    className="text-red-500 text-sm mt-1"
+                                    name='soundcloudLink'
+                                    component='div'
+                                    className='text-red-500 text-sm mt-1'
                                 />
                             </div>
-                            <div className="mb-6">
+                            <div className='mb-6'>
                                 <label
-                                    htmlFor="bandcampLink"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    htmlFor='bandcampLink'
+                                    className='block text-gray-700 font-bold mb-2'
                                 >
                                     Bandcamp Link
                                 </label>
                                 <Field
-                                    type="text"
-                                    id="bandcampLink"
-                                    name="bandcampLink"
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    placeholder="Bandcamp Link"
+                                    type='text'
+                                    id='bandcampLink'
+                                    name='bandcampLink'
+                                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                    placeholder='Bandcamp Link'
                                 />
                                 <ErrorMessage
-                                    name="bandcampLink"
-                                    component="div"
-                                    className="text-red-500 text-sm mt-1"
+                                    name='bandcampLink'
+                                    component='div'
+                                    className='text-red-500 text-sm mt-1'
                                 />
                             </div>
-                            <div className="flex items-center justify-between">
-                                <Button
-                                    type="button"
-                                    href={`/artists/${id}`}
-                                    className="btn btn-cancel"
+                            <div className='flex items-center justify-between'>
+                                <Link
+                                    type='button'
+                                    to={`/artists/${id}`}
+                                    className='btn btn-cancel'
                                 >
                                     Cancel
-                                </Button>
+                                </Link>
                                 <button
-                                    type="submit"
-                                    className="btn btn-save"
+                                    type='submit'
+                                    className='btn btn-save'
                                     disabled={isSubmitting}
                                 >
                                     Save
                                 </button>
                                 <Button
-                                    type="button"
-                                    className="btn btn-delete"
+                                    type='button'
+                                    className='btn btn-delete'
                                     onClick={handleDelete}
                                 >
                                     Delete
