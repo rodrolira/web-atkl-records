@@ -84,7 +84,7 @@ function ArtistPage () {
                                 alt={artist.artistName}
                             />
                             <div className='bg-slate-900 border-gray-200 w-full h-full relative rounded-b-lg'>
-                                <h1 className='mb-2 uppercase text-2xl'>
+                                <h1 className='text-2xl font-semibold tracking-tight text-white text-center'>
                                     {artist.role}
                                 </h1>
                                 <div className='flex space-x-4 text-2xl justify-center my-2 py-2'>

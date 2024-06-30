@@ -5,6 +5,7 @@
   "homepage": "https://rodrolira.github.io/web-atkl-records",
   "type": "module",
   "scripts": {
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "dev": "vite",
     "test": "vitest",
     "build": "vite build",

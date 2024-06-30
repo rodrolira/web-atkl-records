@@ -1,21 +1,52 @@
+// controllers/release.controller.js
 import Release from "../models/release.model.js";
+import ArtistRelease from "../models/artistRelease.model.js";
 
 export const addRelease = async (req, res) => {
   const {
     title,
-    releaseYear,
+    releaseDate,
+    isExplicit,
+    description,
+    genre,
+    releaseType,
     bandcampLink,
     beatportLink,
     spotifyLink,
     appleMusicLink,
     youtubeLink,
     soundcloudLink,
+    artistIds,
   } = req.body;
 
+  // Verifica si hay un archivo subido para la imagen de portada
+  const coverImageUrl = req.file ? req.file.path : null;
+
+  // Verifica que los campos obligatorios estén presentes
+  if (
+    !title ||
+    !releaseDate ||
+    !genre ||
+    !releaseType ||
+    !artistIds ||
+    artistIds.length === 0
+  ) {
+    return res.status(400).json({
+      message:
+        "title, releaseDate, genre, releaseType, and at least one artistId are required",
+    });
+  }
+
   try {
+    // Crear el release
     const newRelease = await Release.create({
       title,
-      releaseYear,
+      releaseDate,
+      isExplicit,
+      description,
+      genre,
+      coverImageUrl,
+      releaseType,
       bandcampLink,
       beatportLink,
       spotifyLink,
@@ -23,6 +54,15 @@ export const addRelease = async (req, res) => {
       youtubeLink,
       soundcloudLink,
     });
+
+    // Crear las asociaciones con Artist a través de ArtistRelease
+    const artistReleasePromises = artistIds.map(async (artistId) => {
+      await ArtistRelease.create({
+        artistId,
+        releaseId: newRelease.id,
+      });
+    });
+    await Promise.all(artistReleasePromises);
 
     res.status(201).json(newRelease);
   } catch (error) {
@@ -53,11 +93,16 @@ export const fetchReleaseById = async (req, res) => {
   }
 };
 
-export const modifyRelease = async (req, res) => {
+export const updateRelease = async (req, res) => {
   const { id } = req.params;
   const {
     title,
-    releaseYear,
+    releaseDate,
+    isExplicit,
+    description,
+    genre,
+    releaseType,
+    coverImageUrl,
     bandcampLink,
     beatportLink,
     spotifyLink,
@@ -67,10 +112,21 @@ export const modifyRelease = async (req, res) => {
   } = req.body;
 
   try {
+    // Validar que el título y otros campos necesarios estén presentes
+    if (!title) {
+      return res.status(400).json({ error: "Title is required" });
+    }
+
+    // Actualizar el release en la base de datos
     const [updated] = await Release.update(
       {
         title,
-        releaseYear,
+        releaseDate,
+        isExplicit,
+        description,
+        genre,
+        releaseType,
+        coverImageUrl,
         bandcampLink,
         beatportLink,
         spotifyLink,
@@ -80,12 +136,15 @@ export const modifyRelease = async (req, res) => {
       },
       {
         where: { id },
+        returning: true, // Devolver el registro actualizado
       }
     );
 
     if (!updated) {
       return res.status(404).json({ message: "Release not found" });
     }
+
+    // Buscar y devolver el registro actualizado
     const updatedRelease = await Release.findByPk(id);
     res.status(200).json(updatedRelease);
   } catch (error) {
@@ -93,10 +152,11 @@ export const modifyRelease = async (req, res) => {
   }
 };
 
-export const removeRelease = async (req, res) => {
+export const deleteRelease = async (req, res) => {
   const { id } = req.params;
 
   try {
+    // Eliminar el release de la base de datos
     const deleted = await Release.destroy({ where: { id } });
     if (!deleted) {
       return res.status(404).json({ message: "Release not found" });

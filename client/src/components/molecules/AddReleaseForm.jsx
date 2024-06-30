@@ -4,28 +4,36 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    InputLabel,
-    MenuItem,
-    Select,
     Stack,
     TextField,
+    IconButton,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import { IconButton } from '@mui/material'
+import Button from '../atoms/Button'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-
-import Button from '../atoms/Button'
+import FileUpload from './FileUpload'
+import { useReleases } from '../../contexts/ReleaseContext' // Asegúrate de ajustar el contexto según sea necesario
 
 const validationSchema = Yup.object().shape({
-    title: Yup.string().required('El título del lanzamiento es requerido'),
-    releaseYear: Yup.number().required('El año de lanzamiento es requerido'),
-    artist: Yup.string().required('El artista es requerido'),
-    // Agrega más validaciones para otros campos si es necesario
+    title: Yup.string().required('Title is required'),
+    releaseDate: Yup.date().required('Release date is required'),
+    genre: Yup.string().required('Genre is required'),
+    releaseType: Yup.string().required('Release type is required'),
+    artistIds: Yup.array().min(1, 'At least one artist is required'),
+    // Agrega más validaciones según sea necesario
+    bandcampLink: Yup.string(),
+    beatportLink: Yup.string(),
+    spotifyLink: Yup.string(),
+    appleMusicLink: Yup.string(),
+    youtubeLink: Yup.string(),
+    soundcloudLink: Yup.string(),
 })
 
 const AddReleaseForm = ({ onReleaseAdded }) => {
     const [open, setOpen] = useState(false)
+    const { createRelease } = useReleases() // Ajusta según el contexto de los releases
+    const [error, setError] = useState(null)
 
     const openPopup = () => {
         setOpen(true)
@@ -34,15 +42,36 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
     const closePopup = () => {
         setOpen(false)
     }
-    const handleClose = () => {
-        setOpen(false)
+
+    const onSubmit = async (values, actions) => {
+        const formData = new FormData()
+        for (let key in values) {
+            if (key === 'artistIds') {
+                formData.append(key, JSON.stringify(values[key]))
+            } else {
+                formData.append(key, values[key])
+            }
+        }
+        try {
+            const newRelease = await createRelease(formData) // Llama al método para crear un release
+            actions.setSubmitting(false)
+            closePopup()
+            if (onReleaseAdded) {
+                onReleaseAdded(newRelease)
+            }
+        } catch (error) {
+            console.error('Error adding release:', error)
+            actions.setSubmitting(false)
+            setError('Failed to add release')
+        }
     }
+
     return (
         <>
             <Button
                 onClick={openPopup}
-                variant="contained"
                 className={'btn-add mx-auto'}
+                variant='contained'
             >
                 Add Release
             </Button>
@@ -50,7 +79,7 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                 open={open}
                 onClose={closePopup}
                 fullWidth
-                maxWidth="sm"
+                maxWidth='sm'
                 PaperProps={{
                     sx: {
                         borderRadius: '0px',
@@ -61,70 +90,40 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                         float: 'right',
                     },
                 }}
-                scroll="body"
+                scroll='body'
             >
                 <DialogTitle style={{ textAlign: 'center' }}>
                     Add Release
-                    <IconButton style={{ float: 'right' }} onClick={closePopup}>
-                        {' '}
-                        <CloseIcon color="error"> </CloseIcon>
-                    </IconButton>{' '}
                 </DialogTitle>
                 <DialogContent>
                     <Formik
                         initialValues={{
                             title: '',
-                            artist: '',
-                            coverImage: '',
-                            audioSrc: '',
+                            releaseDate: '',
+                            isExplicit: false,
+                            description: '',
+                            genre: '',
+                            releaseType: '',
+                            bandcampLink: '',
+                            beatportLink: '',
+                            spotifyLink: '',
+                            appleMusicLink: '',
+                            youtubeLink: '',
+                            soundcloudLink: '',
+                            artistIds: [],
                         }}
-                        // Agrega más campos iniciales si es necesario
-
                         validationSchema={validationSchema}
-                        onSubmit={(values, { setSubmitting, resetForm }) => {
-                            // Envía los datos del formulario al backend para procesarlos
-                            fetch('http://localhost:3000/api/releases', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify(values),
-                            })
-                                .then((response) => {
-                                    if (!response.ok) {
-                                        throw new Error(
-                                            'Network response was not ok'
-                                        )
-                                    }
-                                    return response.json()
-                                })
-                                .then((data) => {
-                                    onReleaseAdded(data.release)
-                                    resetForm()
-                                    setSubmitting(false)
-                                })
-                                .catch((error) => {
-                                    console.error('Error:', error)
-                                    setSubmitting(false)
-                                })
-                        }}
+                        onSubmit={onSubmit}
                     >
                         {({ isSubmitting }) => (
                             <Form>
-                                <Stack spacing={2}>
-                                    <Field
-                                        name="title"
-                                        as={TextField}
-                                        label="Title"
-                                        variant="outlined"
-                                        fullwidth
-                                        margin="normal"
-                                    >
+                                <Stack spacing={2} margin={2}>
+                                    <Field name='title'>
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
-                                                label="Title"
-                                                variant="outlined"
+                                                label='Title'
+                                                variant='outlined'
                                                 error={
                                                     form.errors.title &&
                                                     form.touched.title
@@ -138,70 +137,38 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                         )}
                                     </Field>
                                     <ErrorMessage
-                                        name="title"
-                                        component="div"
+                                        name='title'
+                                        component='div'
                                     />
-                                    <Field name="releaseYear">
+                                    <Field name='releaseDate'>
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
-                                                label="Release Year"
-                                                variant="outlined"
-                                                type="number"
+                                                label='Release Date'
+                                                variant='outlined'
+                                                type='date'
                                                 error={
-                                                    form.errors.releaseYear &&
-                                                    form.touched.releaseYear
+                                                    form.errors.releaseDate &&
+                                                    form.touched.releaseDate
                                                 }
                                                 helperText={
-                                                    form.errors.releaseYear &&
-                                                    form.touched.releaseYear &&
-                                                    form.errors.releaseYear
+                                                    form.errors.releaseDate &&
+                                                    form.touched.releaseDate &&
+                                                    form.errors.releaseDate
                                                 }
                                             />
                                         )}
                                     </Field>
                                     <ErrorMessage
-                                        name="releaseYear"
-                                        component="div"
+                                        name='releaseDate'
+                                        component='div'
                                     />
-                                    <InputLabel>Artist</InputLabel>
-                                    <Field name="artist">
-                                        {({ field, form }) => (
-                                            <Select
-                                                {...field}
-                                                label="Artist"
-                                                variant="outlined"
-                                                error={
-                                                    form.errors.artist &&
-                                                    form.touched.artist
-                                                }
-                                                helperText={
-                                                    form.errors.artist &&
-                                                    form.touched.artist &&
-                                                    form.errors.artist
-                                                }
-                                            >
-                                                {/* Opciones de artistas obtenidas de la base de datos */}
-                                                <MenuItem value="artist1">
-                                                    Artist 1
-                                                </MenuItem>
-                                                <MenuItem value="artist2">
-                                                    Artist 2
-                                                </MenuItem>
-                                                {/* Agrega más opciones según sea necesario */}
-                                            </Select>
-                                        )}
-                                    </Field>
-                                    <ErrorMessage
-                                        name="artist"
-                                        component="div"
-                                    />
-                                    <Field name="genre">
+                                    <Field name='genre'>
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
-                                                label="Genre"
-                                                variant="outlined"
+                                                label='Genre'
+                                                variant='outlined'
                                                 error={
                                                     form.errors.genre &&
                                                     form.touched.genre
@@ -215,61 +182,127 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                         )}
                                     </Field>
                                     <ErrorMessage
-                                        name="genre"
-                                        component="div"
+                                        name='genre'
+                                        component='div'
                                     />
-                                    <Field name="buyLink">
+                                    <Field name='releaseType'>
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
-                                                label="Buy Link"
-                                                variant="outlined"
+                                                label='Release Type'
+                                                variant='outlined'
                                                 error={
-                                                    form.errors.buyLink &&
-                                                    form.touched.buyLink
+                                                    form.errors.releaseType &&
+                                                    form.touched.releaseType
                                                 }
                                                 helperText={
-                                                    form.errors.buyLink &&
-                                                    form.touched.buyLink &&
-                                                    form.errors.buyLink
+                                                    form.errors.releaseType &&
+                                                    form.touched.releaseType &&
+                                                    form.errors.releaseType
                                                 }
                                             />
                                         )}
                                     </Field>
                                     <ErrorMessage
-                                        name="buyLink"
-                                        component="div"
+                                        name='releaseType'
+                                        component='div'
                                     />
-                                    <InputLabel>
-                                        {' '}
-                                        Upload Cover Image{' '}
-                                    </InputLabel>
-                                    <TextField
-                                        helperText="Upload Cover Image"
-                                        type="file"
-                                        variant="outlined"
-                                        style={{ marginTop: '0px' }}
-                                    ></TextField>
-                                    {/* Agrega más campos de formulario según sea necesario */}
+                                    <Field name='artistIds'>
+                                        {({ field, form }) => (
+                                            <TextField
+                                                {...field}
+                                                label='Artist IDs (comma-separated)'
+                                                variant='outlined'
+                                                error={
+                                                    form.errors.artistIds &&
+                                                    form.touched.artistIds
+                                                }
+                                                helperText={
+                                                    form.errors.artistIds &&
+                                                    form.touched.artistIds &&
+                                                    form.errors.artistIds
+                                                }
+                                            />
+                                        )}
+                                    </Field>
+                                    <ErrorMessage
+                                        name='artistIds'
+                                        component='div'
+                                    />
+                                    <FileUpload />
+                                    <Field name='bandcampLink'>
+                                        {({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                label='Bandcamp Link'
+                                                variant='outlined'
+                                            />
+                                        )}
+                                    </Field>
+                                    <Field name='beatportLink'>
+                                        {({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                label='Beatport Link'
+                                                variant='outlined'
+                                            />
+                                        )}
+                                    </Field>
+                                    <Field name='spotifyLink'>
+                                        {({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                label='Spotify Link'
+                                                variant='outlined'
+                                            />
+                                        )}
+                                    </Field>
+                                    <Field name='appleMusicLink'>
+                                        {({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                label='Apple Music Link'
+                                                variant='outlined'
+                                            />
+                                        )}
+                                    </Field>
+                                    <Field name='youtubeLink'>
+                                        {({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                label='Youtube Link'
+                                                variant='outlined'
+                                            />
+                                        )}
+                                    </Field>
+                                    <Field name='soundcloudLink'>
+                                        {({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                label='Soundcloud Link'
+                                                variant='outlined'
+                                            />
+                                        )}
+                                    </Field>
                                     <Button
                                         className={'btn-add'}
-                                        type="submit"
-                                        variant="contained"
-                                        color="primary"
+                                        type='submit'
+                                        variant='contained'
+                                        color='success'
                                         disabled={isSubmitting}
                                     >
                                         {isSubmitting ? 'Adding...' : 'Add'}
                                     </Button>
+                                    {error && (
+                                        <div style={{ color: 'red' }}>
+                                            {error}
+                                        </div>
+                                    )}
                                 </Stack>
                             </Form>
                         )}
                     </Formik>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={closePopup} color="secondary">
-                        Cancel
-                    </Button>
-                </DialogActions>
             </Dialog>
         </>
     )

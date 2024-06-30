@@ -8,48 +8,61 @@ const Release = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    releaseYear: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+    releaseDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    isExplicit: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
     },
     description: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
     genre: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM(
+        "Techno",
+        "Industrial Techno",
+        "Hard Techno",
+        "Acid Techno",
+        "Hardcore",
+        "Schranz"
+      ),
       allowNull: true,
     },
     coverImageUrl: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    duration: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    artistId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: "Artists", // Nombre de la tabla del modelo de Artista
-        key: "id",
-      },
-      allowNull: false,
-    },
     releaseType: {
-      type: DataTypes.ENUM("Album", "EP", "Single"),
+      type: DataTypes.ENUM("Album", "EP", "Single", "V.A"),
       allowNull: false,
     },
-    trackCount: {
-      type: DataTypes.INTEGER,
+    bandcampLink: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
-    bandcampLink: DataTypes.STRING,
-    beatportLink: DataTypes.STRING,
-    spotifyLink: DataTypes.STRING,
-    appleMusicLink: DataTypes.STRING,
-    youtubeLink: DataTypes.STRING,
-    soundcloudLink: DataTypes.STRING,
+    beatportLink: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    spotifyLink: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    appleMusicLink: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    youtubeLink: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    soundcloudLink: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     timestamps: true,
