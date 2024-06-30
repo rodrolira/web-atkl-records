@@ -32,6 +32,17 @@ export function ReleaseProvider ({ children }) {
         }
     }
 
+    // Lógica para obtener un release por ID
+    const getRelease = async id => {
+        try {
+            const response = await getReleaseRequest(id)
+            return response.data
+        } catch (error) {
+            console.error(`Error fetching release with ID ${id}:`, error)
+            throw error
+        }
+    }
+
     // Lógica para crear un release
     const createRelease = async release => {
         try {
