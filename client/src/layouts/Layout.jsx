@@ -21,7 +21,7 @@ import EditArtist from '../components/pages/Artist/EditArtist'
 import ArtistPage from '../components/pages/Artist/ArtistPage'
 import { GenreProvider } from '../contexts/GenreContext'
 import ArtistProfilePage from '../components/pages/Artist/ArtistProfilePage'
-// import AdminProtectedRoute from '../AdminProtectedRoute'
+import AdminProtectedRoute from '../AdminProtectedRoute'
 
 const Layout = () => {
     return (
@@ -48,7 +48,6 @@ const Layout = () => {
                                             path='/artists/:id/edit'
                                             element={<EditArtist />}
                                         />
-
                                         <Route
                                             path='/releases'
                                             element={<ReleasesPage />}
@@ -61,10 +60,16 @@ const Layout = () => {
                                             path='/admin/login'
                                             element={<LoginAdminPage />}
                                         />
+
                                         <Route
-                                            path='/register'
-                                            element={<RegisterPage />}
-                                        />
+                                            element={<AdminProtectedRoute />}
+                                        >
+                                            {''}
+                                            <Route
+                                                path='/register'
+                                                element={<RegisterPage />}
+                                            />
+                                        </Route>
                                         <Route
                                             path='/*'
                                             element={<NotFound />}
@@ -73,15 +78,10 @@ const Layout = () => {
                                             path='/artists/:id'
                                             element={<ArtistProfilePage />}
                                         />
-
-                                        {/* <Route element={<AdminProtectedRoute />}> */}
                                         <Route
                                             path='/admin'
                                             element={<AdminDashboard />}
                                         />
-                                        {/* <Route
-                                path="/edit-artist/" */}
-                                        {/* </Route> */}
                                     </Routes>
                                     <Footer />
                                 </BrowserRouter>
