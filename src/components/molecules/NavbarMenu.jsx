@@ -1,11 +1,10 @@
-/* eslint-disable no-unused-vars */
 import React from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import LoginButton from './LoginButton'
 import LanguageMenu from './LanguageMenu'
-import { useLocation } from 'react-router-dom'
 import DemoButton from './DemoButton'
-import { useLanguage } from '../../contexts/LanguageContext'
 import NavbarLinks from './NavbarLinks'
+import { useLanguage } from '../../contexts/LanguageContext'
 import { useAuth } from '../../contexts/AuthContext'
 import { useAdminAuth } from '../../contexts/AdminAuthContext'
 import LogoutButton from './LogoutButton'
@@ -14,44 +13,54 @@ import AddArtistButton from './AddArtistButton'
 import AddReleaseButton from './AddReleaseButton'
 import AdminLogoutButton from './AdminLogoutButton'
 
-function NavbarMenu() {
+function NavbarMenu ({ userId }) {
     const location = useLocation()
     const { language } = useLanguage()
     const { isAuthenticated: userAuthenticated } = useAuth()
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
 
     return (
-        <div className="md:flex lg:block md:flex-row-reverse md:justify-around md:items-center  w-full">
-            <div className="flex items-center justify-end h-[50%]">
-                <div className="z-10 flex divide-y rounded-lg text-center ">
+        <div className='md:flex lg:block md:flex-row-reverse md:justify-around md:items-center w-full'>
+            <div className='flex items-center justify-end h-[50%]'>
+                <div className='z-10 flex divide-y rounded-lg text-center '>
                     <ul
-                        className="py-2 text-sm flex text-white dark:text-white sm:font-normal"
-                        aria-labelledby="dropdownHoverButton"
+                        className='py-2 text-sm flex text-white dark:text-white sm:font-normal'
+                        aria-labelledby='dropdownHoverButton'
                     >
-                        {adminAuthenticated && (
+                        {adminAuthenticated && !userAuthenticated && (
                             <li>
-                                <AddArtistButton className="btn-add !capitalize">
+                                <AddArtistButton className='btn-add !capitalize'>
                                     {language === 'en'
                                         ? 'Add Artist'
                                         : 'Agregar Artista'}
                                 </AddArtistButton>
                             </li>
                         )}
-                        {adminAuthenticated && (
+                        {adminAuthenticated && !userAuthenticated && (
                             <li>
-                                <AddReleaseButton className="btn-add">
+                                <AddReleaseButton className='btn-add'>
                                     {language === 'en'
                                         ? 'Add Release'
                                         : 'Agregar Lanzamiento'}
                                 </AddReleaseButton>
                             </li>
                         )}
-                        {adminAuthenticated && (
+                        {adminAuthenticated && !userAuthenticated && (
                             <li>
-                                <Button className="btn-dashboard" href="/admin">
+                                <Button className='btn-dashboard' href='/admin'>
                                     {language === 'en'
                                         ? 'Admin Dashboard'
                                         : 'Panel de Administrador'}
+                                </Button>
+                            </li>
+                        )}
+                        {userAuthenticated && (
+                            <li>
+                                <Button
+                                    href={`/users/${userId}`} // Asegúrate de tener la variable userId definida aquí
+                                    className='btn-dashboard'
+                                >
+                                    {language === 'en' ? 'Profile' : 'Perfil'}
                                 </Button>
                             </li>
                         )}
@@ -64,7 +73,9 @@ function NavbarMenu() {
                         <LanguageMenu />
 
                         {userAuthenticated && <LogoutButton />}
-                        {adminAuthenticated && <AdminLogoutButton />}
+                        {adminAuthenticated && !userAuthenticated && (
+                            <AdminLogoutButton />
+                        )}
                     </ul>
                 </div>
             </div>

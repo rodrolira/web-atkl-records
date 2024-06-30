@@ -5,12 +5,7 @@ export const getReleasesRequest = () => axios.get('/releases')
 export const getReleaseRequest = (id) => axios.get(`/releases/${id}`)
 
 export const createReleaseRequest = async (release) => {
-    try {
-        const response = await axios.post('/releases', release)
-        return response.data
-    } catch (error) {
-        throw new Error(`Error creating release: ${error}`)
-    }
+    return await axios.post('/releases', release)
 }
 
 export const updateReleaseRequest = async (id, release) => {
