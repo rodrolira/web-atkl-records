@@ -14,6 +14,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import FileUpload from './FileUpload'
 import { useReleases } from '../../contexts/ReleaseContext' // Asegúrate de ajustar el contexto según sea necesario
+import { useArtists } from '../../contexts/ArtistContext'
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
@@ -34,6 +35,11 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
     const [open, setOpen] = useState(false)
     const { createRelease } = useReleases() // Ajusta según el contexto de los releases
     const [error, setError] = useState(null)
+    const { artists, fetchArtists } = useArtists() // Obtiene la lista de artistas y la función para obtenerlos
+
+    useEffect(() => {
+        fetchArtists() // Carga la lista de artistas al montar el componente
+    }, [])
 
     const openPopup = () => {
         setOpen(true)
@@ -115,7 +121,7 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                         validationSchema={validationSchema}
                         onSubmit={onSubmit}
                     >
-                        {({ isSubmitting }) => (
+                        {({ isSubmitting, setFieldValue }) => (
                             <Form>
                                 <Stack spacing={2} margin={2}>
                                     <Field name='title'>
@@ -136,15 +142,10 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                             />
                                         )}
                                     </Field>
-                                    <ErrorMessage
-                                        name='title'
-                                        component='div'
-                                    />
                                     <Field name='releaseDate'>
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
-                                                label='Release Date'
                                                 variant='outlined'
                                                 type='date'
                                                 error={
@@ -159,10 +160,6 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                             />
                                         )}
                                     </Field>
-                                    <ErrorMessage
-                                        name='releaseDate'
-                                        component='div'
-                                    />
                                     <Field name='genre'>
                                         {({ field, form }) => (
                                             <TextField
@@ -181,10 +178,6 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                             />
                                         )}
                                     </Field>
-                                    <ErrorMessage
-                                        name='genre'
-                                        component='div'
-                                    />
                                     <Field name='releaseType'>
                                         {({ field, form }) => (
                                             <TextField
@@ -203,15 +196,12 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                             />
                                         )}
                                     </Field>
-                                    <ErrorMessage
-                                        name='releaseType'
-                                        component='div'
-                                    />
                                     <Field name='artistIds'>
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
-                                                label='Artist IDs (comma-separated)'
+                                                select
+                                                label='Artists'
                                                 variant='outlined'
                                                 error={
                                                     form.errors.artistIds &&
@@ -222,13 +212,28 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                                     form.touched.artistIds &&
                                                     form.errors.artistIds
                                                 }
-                                            />
+                                                onChange={e =>
+                                                    setFieldValue(
+                                                        'artistIds',
+                                                        e.target.value
+                                                            .split(',')
+                                                            .map(id =>
+                                                                id.trim()
+                                                            )
+                                                    )
+                                                }
+                                            >
+                                                {artists.map(artist => (
+                                                    <MenuItem
+                                                        key={artist.id}
+                                                        value={artist.id}
+                                                    >
+                                                        {artist.artistName}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField>
                                         )}
                                     </Field>
-                                    <ErrorMessage
-                                        name='artistIds'
-                                        component='div'
-                                    />
                                     <FileUpload />
                                     <Field name='bandcampLink'>
                                         {({ field }) => (

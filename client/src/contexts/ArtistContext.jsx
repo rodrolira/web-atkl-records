@@ -17,7 +17,7 @@ export const useArtists = () => {
     return context
 }
 
-export function ArtistProvider({ children }) {
+export function ArtistProvider ({ children }) {
     const [artists, setArtists] = useState([]) // Estado para almacenar la lista de artistas
 
     // Lógica para obtener la lista de artistas
@@ -33,9 +33,9 @@ export function ArtistProvider({ children }) {
     }
 
     // Lógica para crear un artista
-    const createArtist = async (artist) => {
+    const createArtist = async artist => {
         const res = await createArtistRequest(artist)
-        setArtists((prevArtists) => [...prevArtists, res.data])
+        setArtists(prevArtists => [...prevArtists, res.data])
         console.log(res)
     }
 
@@ -43,8 +43,8 @@ export function ArtistProvider({ children }) {
     const updateArtist = async (artistId, updatedData) => {
         try {
             const response = await updateArtistRequest(artistId, updatedData) // Pasa los datos actualizados
-            setArtists((prevArtists) =>
-                prevArtists.map((artist) =>
+            setArtists(prevArtists =>
+                prevArtists.map(artist =>
                     artist.id === artistId ? response.data : artist
                 )
             )
@@ -54,14 +54,14 @@ export function ArtistProvider({ children }) {
     }
 
     // Lógica para eliminar un artista
-    const deleteArtist = async (artistId) => {
+    const deleteArtist = async artistId => {
         try {
             // Lógica para eliminar el artista en el backend (axios.delete, etc.)
             await deleteArtistRequest(artistId)
 
             // Después de eliminar exitosamente, actualiza la lista localmente
-            setArtists((prevArtists) =>
-                prevArtists.filter((artist) => artist.id !== artistId)
+            setArtists(prevArtists =>
+                prevArtists.filter(artist => artist.id !== artistId)
             )
         } catch (error) {
             console.error('Error deleting artist:', error)
