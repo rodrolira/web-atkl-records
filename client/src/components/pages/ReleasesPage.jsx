@@ -7,9 +7,9 @@ import { useAdminAuth } from '../../contexts/AdminAuthContext'
 
 // Importa ReleaseSection usando importación dinámica
 const ReleaseSection = React.lazy(() => import('../organisms/ReleasesSection'))
-import Navbar from '../organisms/Navbar';
+import Navbar from '../organisms/Navbar'
 
-function ReleasesPage() {
+function ReleasesPage () {
     const { language } = useLanguage()
     const { isAdmin } = useAdminAuth()
 
@@ -23,9 +23,9 @@ function ReleasesPage() {
             embeddedPlayer: (
                 <iframe
                     style={{ border: '0', width: 'auto', height: '442px' }}
-                    src="https://bandcamp.com/EmbeddedPlayer/track=1762528373/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/"
+                    src='https://bandcamp.com/EmbeddedPlayer/track=1762528373/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/'
                 >
-                    <a href="https://atklrecords.bandcamp.com/track/insanity-free-download-hpn002">
+                    <a href='https://atklrecords.bandcamp.com/track/insanity-free-download-hpn002'>
                         INSANITY - (FREE DOWNLOAD) de RODRO
                     </a>
                 </iframe>
@@ -37,13 +37,13 @@ function ReleasesPage() {
 
     return (
         <div>
-            <Navbar/>
-            <div className="sm:m-0 inline-block sm:mx-auto my-12 lg:my-16 sm:my-10 w-full">
-                <div className="flex items-center justify-between">
-                    <a href="/releases" className="mx-auto"></a>
+            <Navbar />
+            <div className='sm:m-0 inline-block sm:mx-auto my-12 lg:my-16 sm:my-10 w-full'>
+                <div className='flex items-center justify-between'>
+                    <a href='/releases' className='mx-auto'></a>
                     {isAdmin && (
                         <Button
-                            className="btn-add"
+                            className='btn-add'
                             children={
                                 language === 'en'
                                     ? 'Add Release'

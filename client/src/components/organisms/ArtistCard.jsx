@@ -85,11 +85,11 @@ const ArtistCard = ({ artist }) => {
                         )}
                     </div>
 
-                    <h5 className='mb-2 text-2xl font-bold tracking-tight text-white text-center '>
+                    <h5 className='text-2xl font-bold tracking-tight text-white text-center'>
                         {artistName}
                     </h5>
                 </Link>
-                <h4 className='mb-2 text-2xl font-bold tracking-tight text-white text-center '>
+                <h4 className='mb-2 text-xl font-bold tracking-tight text-white text-center'>
                     {role}
                 </h4>
                 <div className='flex space-x-4 text-2xl justify-center my-2'>
