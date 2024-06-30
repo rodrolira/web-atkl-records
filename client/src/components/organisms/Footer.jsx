@@ -14,7 +14,7 @@ const SITEMAP_EN = [
     },
     {
         title: 'Services',
-        links: ['Booking', 'Mastering', 'Free Releaases', 'Affiliate Program'],
+        links: ['Booking', 'Mastering', 'Free Releases', 'Affiliate Program'],
     },
     {
         title: 'Products',
@@ -48,7 +48,7 @@ const SITEMAP_ES = [
 
 const currentYear = new Date().getFullYear()
 
-function Footer(isAdminLogin) {
+function Footer (isAdminLogin) {
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
     const sitemap = language === 'en' ? SITEMAP_EN : SITEMAP_ES // Selecciona el sitemap según el idioma
 
@@ -56,28 +56,28 @@ function Footer(isAdminLogin) {
 
     return (
         <footer className={`relative footer w-full ${footerClass}`}>
-            <div className="mx-auto w-full max-w-7xl px-8 border-t border-blue-gray-50">
-                <div className="mx-auto grid w-full grid-cols-1 gap-8 py-12 md:grid-cols-2 lg:grid-cols-4">
+            <div className='mx-auto w-full max-w-7xl px-8 border-t border-blue-gray-50'>
+                <div className='mx-auto grid w-full grid-cols-1 gap-8 py-12 md:grid-cols-2 lg:grid-cols-4'>
                     {sitemap.map(({ title, links }, key) => (
-                        <div key={key} className="w-full">
+                        <div key={key} className='w-full'>
                             <Typography
-                                variant="small"
-                                color="white"
-                                className="mb-4 font-bold uppercase opacity-50"
+                                variant='small'
+                                color='white'
+                                className='mb-4 font-bold uppercase opacity-50'
                             >
                                 {title}
                             </Typography>
-                            <ul className="space-y-1">
+                            <ul className='space-y-1'>
                                 {links.map((link, key) => (
                                     <Typography
                                         key={key}
-                                        as="li"
-                                        color="white"
-                                        className="font-normal"
+                                        as='li'
+                                        color='white'
+                                        className='font-normal'
                                     >
                                         <a
-                                            href="#"
-                                            className="inline-block py-1 pr-2 transition-transform hover:scale-105"
+                                            href='#'
+                                            className='inline-block py-1 pr-2 transition-transform hover:scale-105'
                                         >
                                             {link}
                                         </a>
@@ -87,13 +87,13 @@ function Footer(isAdminLogin) {
                         </div>
                     ))}
                 </div>
-                <div className="flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-between">
+                <div className='flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-between'>
                     <Typography
-                        variant="small"
-                        className="mb-4 text-center font-normal text-white md:mb-0"
+                        variant='small'
+                        className='mb-4 text-center font-normal text-white md:mb-0'
                     >
                         &copy; {currentYear}{' '}
-                        <a href="https://material-tailwind.com/">
+                        <a href='https://material-tailwind.com/'>
                             ATKL Records
                         </a>
                         .{' '}
@@ -101,59 +101,59 @@ function Footer(isAdminLogin) {
                             ? 'All Rights Reserved.'
                             : 'Todos los Derechos Reservados.'}{' '}
                     </Typography>
-                    <div className="flex gap-4 text-white sm:justify-center">
+                    <div className='flex gap-4 text-white sm:justify-center'>
                         <Typography
-                            as="a"
-                            href="#"
-                            className="opacity-80 transition-opacity hover:opacity-100"
+                            as='a'
+                            href='#'
+                            className='opacity-80 transition-opacity hover:opacity-100'
                         >
                             <svg
-                                className="h-5 w-5"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
+                                className='h-5 w-5'
+                                fill='currentColor'
+                                viewBox='0 0 24 24'
+                                aria-hidden='true'
                             >
                                 {/* Icono de red social 1 */}
                             </svg>
                         </Typography>
                         <Typography
-                            as="a"
-                            href="#"
-                            className="opacity-80 transition-opacity hover:opacity-100"
+                            as='a'
+                            href='#'
+                            className='opacity-80 transition-opacity hover:opacity-100'
                         >
                             <svg
-                                className="h-5 w-5"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
+                                className='h-5 w-5'
+                                fill='currentColor'
+                                viewBox='0 0 24 24'
+                                aria-hidden='true'
                             >
                                 {/* Icono de red social 2 */}
                             </svg>
                         </Typography>
                         <Typography
-                            as="a"
-                            href="#"
-                            className="opacity-80 transition-opacity hover:opacity-100"
+                            as='a'
+                            href='#'
+                            className='opacity-80 transition-opacity hover:opacity-100'
                         >
                             <svg
-                                className="h-5 w-5"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
+                                className='h-5 w-5'
+                                fill='currentColor'
+                                viewBox='0 0 24 24'
+                                aria-hidden='true'
                             >
                                 {/* Icono de red social 3 */}
                             </svg>
                         </Typography>
                         <Typography
-                            as="a"
-                            href="#"
-                            className="opacity-80 transition-opacity hover:opacity-100"
+                            as='a'
+                            href='#'
+                            className='opacity-80 transition-opacity hover:opacity-100'
                         >
                             <svg
-                                className="h-5 w-5"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
+                                className='h-5 w-5'
+                                fill='currentColor'
+                                viewBox='0 0 24 24'
+                                aria-hidden='true'
                             >
                                 {/* Icono de red social 4 */}
                             </svg>

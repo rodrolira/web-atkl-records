@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db/sequelize.js";
+import Genre from "./genre.model.js";
 
 const Release = sequelize.define(
   "Release",
@@ -12,23 +13,20 @@ const Release = sequelize.define(
       type: DataTypes.DATE,
       allowNull: true,
     },
+    genreId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Genre,
+        key: "id",
+      },
+      allowNull: true, // Adjust this as per your schema
+    },
     isExplicit: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    genre: {
-      type: DataTypes.ENUM(
-        "Techno",
-        "Industrial Techno",
-        "Hard Techno",
-        "Acid Techno",
-        "Hardcore",
-        "Schranz"
-      ),
       allowNull: true,
     },
     coverImageUrl: {

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import {
     getReleasesRequest,
     getReleaseRequest,
@@ -21,14 +21,24 @@ export const useReleases = () => {
 
 export function ReleaseProvider ({ children }) {
     const [releases, setReleases] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
+
+    useEffect(() => {
+        fetchReleases() // Carga la lista de releases al montar el contexto
+    }, [])
 
     // Lógica para obtener la lista de releases
     const fetchReleases = async () => {
+        setLoading(true)
         try {
             const response = await getReleasesRequest()
             setReleases(response.data)
+            setLoading(false)
         } catch (error) {
             console.error('Error fetching releases:', error)
+            setError('Failed to fetch releases')
+            setLoading(false)
         }
     }
 
@@ -45,14 +55,9 @@ export function ReleaseProvider ({ children }) {
 
     // Lógica para crear un release
     const createRelease = async release => {
-        try {
-            const response = await createReleaseRequest(release)
-            setReleases(prevReleases => [...prevReleases, response])
-            return response
-        } catch (error) {
-            console.error('Error creating release:', error)
-            throw error
-        }
+        const res = await createReleaseRequest(release)
+        setReleases(prevReleases => [...prevReleases, res.data])
+        console.log(res)
     }
 
     // Lógica para actualizar un release
@@ -88,10 +93,14 @@ export function ReleaseProvider ({ children }) {
         <ReleaseContext.Provider
             value={{
                 releases,
+                setReleases,
+                loading,
+                error,
                 fetchReleases,
                 createRelease,
                 updateRelease,
                 deleteRelease,
+                getRelease,
             }}
         >
             {children}

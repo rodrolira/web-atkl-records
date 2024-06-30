@@ -8,7 +8,7 @@ export const addRelease = async (req, res) => {
     releaseDate,
     isExplicit,
     description,
-    genre,
+    genreId,
     releaseType,
     bandcampLink,
     beatportLink,
@@ -19,32 +19,41 @@ export const addRelease = async (req, res) => {
     artistIds,
   } = req.body;
 
-  // Verifica si hay un archivo subido para la imagen de portada
-  const coverImageUrl = req.file ? req.file.path : null;
-
   // Verifica que los campos obligatorios estén presentes
   if (
     !title ||
     !releaseDate ||
-    !genre ||
+    !genreId ||
     !releaseType ||
     !artistIds ||
     artistIds.length === 0
   ) {
     return res.status(400).json({
       message:
-        "title, releaseDate, genre, releaseType, and at least one artistId are required",
+        "title, releaseDate, genreId, releaseType, and at least one ArtistId are required",
     });
   }
 
   try {
+    // Parse artistIds if it is a string
+    const parsedArtistIds =
+      typeof artistIds === "string" ? JSON.parse(artistIds) : artistIds;
+
+    // Ensure artistIds is an array
+    if (!Array.isArray(parsedArtistIds)) {
+      return res.status(400).json({ message: "artistIds must be an array" });
+    }
+
+    // Verifica si hay un archivo subido para la imagen de portada
+    const coverImageUrl = req.file ? req.file.path : null;
+
     // Crear el release
     const newRelease = await Release.create({
       title,
       releaseDate,
       isExplicit,
       description,
-      genre,
+      genreId,
       coverImageUrl,
       releaseType,
       bandcampLink,
@@ -56,17 +65,26 @@ export const addRelease = async (req, res) => {
     });
 
     // Crear las asociaciones con Artist a través de ArtistRelease
-    const artistReleasePromises = artistIds.map(async (artistId) => {
+    const artistReleasePromises = parsedArtistIds.map(async (ArtistId) => {
+      console.log(
+        "Creating ArtistRelease with ArtistId:",
+        ArtistId,
+        "and ReleaseId:",
+        newRelease.id
+      );
+
       await ArtistRelease.create({
-        artistId,
-        releaseId: newRelease.id,
+        ArtistId,
+        ReleaseId: newRelease.id,
       });
     });
     await Promise.all(artistReleasePromises);
 
     res.status(201).json(newRelease);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    // Handle errors
+    console.error("Error adding release:", error);
+    res.status(500).json({ message: "Failed to add release" });
   }
 };
 
@@ -100,7 +118,7 @@ export const updateRelease = async (req, res) => {
     releaseDate,
     isExplicit,
     description,
-    genre,
+    genreId,
     releaseType,
     coverImageUrl,
     bandcampLink,
@@ -124,7 +142,7 @@ export const updateRelease = async (req, res) => {
         releaseDate,
         isExplicit,
         description,
-        genre,
+        genreId,
         releaseType,
         coverImageUrl,
         bandcampLink,

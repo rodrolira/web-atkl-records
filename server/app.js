@@ -9,6 +9,7 @@ import authRoutes from "./routes/auth.routes.js";
 import artistsRoutes from "./routes/artists.routes.js";
 import releasesRoutes from "./routes/releases.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
+import genreRoutes from "./routes/genre.routes.js";
 import contactFormRoutes from "./routes/contact-form.routes.js";
 
 dotenv.config();
@@ -43,6 +44,7 @@ app.use("/api", artistsRoutes);
 app.use("/api", releasesRoutes);
 app.use("/api", adminRoutes);
 app.use("/api", contactFormRoutes);
+app.use("/api", genreRoutes);
 
 // Middleware para manejo de errores
 app.use((err, req, res, next) => {

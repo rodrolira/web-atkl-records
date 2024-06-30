@@ -1,22 +1,16 @@
 // artistRelease.model.js
 import { DataTypes } from "sequelize";
 import sequelize from "../db/sequelize.js";
-import Artist from "./artist.model.js";
-import Release from "./release.model.js";
 
 const ArtistRelease = sequelize.define("ArtistRelease", {
-  artistId: {
+  ArtistId: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  releaseId: {
+  ReleaseId: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
 });
 
 export default ArtistRelease;
-
-// Define las asociaciones si es necesario
-Artist.belongsToMany(Release, { through: ArtistRelease });
-Release.belongsToMany(Artist, { through: ArtistRelease });
