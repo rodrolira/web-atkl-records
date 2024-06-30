@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
         checkLogin()
     }, [])
 
-    const signup = async (user) => {
+    const signup = async user => {
         try {
             const res = await registerRequest(user)
             setUser(res.data)
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const signin = async (user) => {
+    const signin = async user => {
         try {
             const res = await loginRequest(user)
             const { token, userData } = res.data
@@ -107,9 +107,9 @@ export const AuthProvider = ({ children }) => {
         >
             {children}
             {errors.length > 0 && (
-                <div className="error-container">
+                <div className='error-container'>
                     {errors.map((error, index) => (
-                        <p key={index} className="error-message">
+                        <p key={index} className='error-message'>
                             {error}
                         </p>
                     ))}

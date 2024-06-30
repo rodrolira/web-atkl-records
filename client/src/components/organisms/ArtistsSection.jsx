@@ -39,47 +39,6 @@ function ArtistsSection () {
                         artist={artist}
                     />
                 ))}
-
-                {/* <ArtistCard
-                    id={1}
-                    name={language === 'en' ? 'RODRO' : 'RODRO'}
-                    image="/img/artists/rodro.jpg"
-                    twitterLink="https://twitter.com/"
-                    instagramLink="https://www.instagram.com/"
-                    facebookLink="https://www.facebook.com/"
-                    soundcloudLink="https://soundcloud.com/"
-                    bandcampLink="https://bandcamp.com/"
-                />
-                <ArtistCard
-                    id={2}
-                    name={language === 'en' ? 'Sweet_Hate' : 'Sweet_Hate'}
-                    image="/img/artists/sweet_hate.jpg"
-                    twitterLink="https://twitter.com/"
-                    instagramLink="https://www.instagram.com/"
-                    facebookLink="https://www.facebook.com/"
-                    soundcloudLink="https://soundcloud.com/"
-                    bandcampLink="https://bandcamp.com"
-                />
-                <ArtistCard
-                    id={3}
-                    name={language === 'en' ? 'Abstracto' : 'Abstracto'}
-                    image="/img/avatar.jpg"
-                    twitterLink="https://twitter.com/"
-                    instagramLink="https://www.instagram.com/"
-                    facebookLink="https://www.facebook.com/"
-                    soundcloudLink="https://soundcloud.com/"
-                    bandcampLink="https://bandcamp.com"
-                />
-                <ArtistCard
-                    id={4}
-                    name={language === 'en' ? 'DARKNOISE' : 'DARKNOISE'}
-                    image="/img/avatar.jpg"
-                    twitterLink="https://twitter.com/"
-                    instagramLink="https://www.instagram.com/"
-                    facebookLink="https://www.facebook.com/"
-                    soundcloudLink="https://soundcloud.com/"
-                    bandcampLink="https://bandcamp.com"
-                /> */}
             </div>
         </div>
     )

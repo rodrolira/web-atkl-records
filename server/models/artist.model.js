@@ -1,6 +1,5 @@
 // models/artist.model.js
 import { DataTypes } from "sequelize";
-import User from "./user.model.js";
 import sequelize from "../db/sequelize.js";
 
 const Artist = sequelize.define(
@@ -66,9 +65,5 @@ const Artist = sequelize.define(
     tableName: "artists",
   }
 );
-
-// Define the relationship with User
-Artist.belongsTo(User, { foreignKey: "userId", targetKey: "id" });
-User.hasOne(Artist, { foreignKey: "userId", sourceKey: "id" });
 
 export default Artist;

@@ -19,6 +19,8 @@ import AdminDashboard from '../admin/AdminDashboard'
 import ProtectedRoute from '../ProtectedRoute'
 import EditArtist from '../components/pages/Artist/EditArtist'
 import ArtistPage from '../components/pages/Artist/ArtistPage'
+import { GenreProvider } from '../contexts/GenreContext'
+import ArtistProfilePage from '../components/pages/Artist/ArtistProfilePage'
 // import AdminProtectedRoute from '../AdminProtectedRoute'
 
 const Layout = () => {
@@ -27,56 +29,66 @@ const Layout = () => {
             <div className='layout'>
                 {/* <AuthProvider> */}
                 {/* <AdminAuthProvider> */}
-                <ReleaseProvider>
-                    <ArtistProvider>
-                        <LanguageProvider>
-                            <BrowserRouter>
-                                <Routes>
-                                    <Route path='/' element={<Home />} />
-                                    <Route
-                                        path='/artists'
-                                        element={<ArtistsPage />}
-                                    />
-                                    <Route
-                                        path='/artists/:id'
-                                        element={<ArtistPage />}
-                                    />
-                                    <Route
-                                        path='/artists/:id/edit'
-                                        element={<EditArtist />}
-                                    />
+                <GenreProvider>
+                    <ReleaseProvider>
+                        <ArtistProvider>
+                            <LanguageProvider>
+                                <BrowserRouter>
+                                    <Routes>
+                                        <Route path='/' element={<Home />} />
+                                        <Route
+                                            path='/artists'
+                                            element={<ArtistsPage />}
+                                        />
+                                        <Route
+                                            path='/artists/:id'
+                                            element={<ArtistPage />}
+                                        />
+                                        <Route
+                                            path='/artists/:id/edit'
+                                            element={<EditArtist />}
+                                        />
 
-                                    <Route
-                                        path='/releases'
-                                        element={<ReleasesPage />}
-                                    />
-                                    <Route
-                                        path='/login'
-                                        element={<LoginArtistPage />}
-                                    />
-                                    <Route
-                                        path='/admin/login'
-                                        element={<LoginAdminPage />}
-                                    />
-                                    <Route
-                                        path='/register'
-                                        element={<RegisterPage />}
-                                    />
-                                    <Route path='/*' element={<NotFound />} />
-                                    {/* <Route element={<AdminProtectedRoute />}> */}
-                                    <Route
-                                        path='/admin'
-                                        element={<AdminDashboard />}
-                                    />
-                                    {/* <Route
+                                        <Route
+                                            path='/releases'
+                                            element={<ReleasesPage />}
+                                        />
+                                        <Route
+                                            path='/login'
+                                            element={<LoginArtistPage />}
+                                        />
+                                        <Route
+                                            path='/admin/login'
+                                            element={<LoginAdminPage />}
+                                        />
+                                        <Route
+                                            path='/register'
+                                            element={<RegisterPage />}
+                                        />
+                                        <Route
+                                            path='/*'
+                                            element={<NotFound />}
+                                        />
+                                        <Route
+                                            path='/artists/:id'
+                                            element={<ArtistProfilePage />}
+                                        />
+
+                                        {/* <Route element={<AdminProtectedRoute />}> */}
+                                        <Route
+                                            path='/admin'
+                                            element={<AdminDashboard />}
+                                        />
+                                        {/* <Route
                                 path="/edit-artist/" */}
-                                    {/* </Route> */}
-                                </Routes>
-                                <Footer />
-                            </BrowserRouter>
-                        </LanguageProvider>
-                    </ArtistProvider>
-                </ReleaseProvider>
+                                        {/* </Route> */}
+                                    </Routes>
+                                    <Footer />
+                                </BrowserRouter>
+                            </LanguageProvider>
+                        </ArtistProvider>
+                    </ReleaseProvider>
+                </GenreProvider>
                 {/* </AdminAuthProvider>
                 </AuthProvider> */}
             </div>

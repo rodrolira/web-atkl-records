@@ -7,6 +7,7 @@ import {
     Stack,
     TextField,
     IconButton,
+    MenuItem,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import Button from '../atoms/Button'
@@ -15,13 +16,15 @@ import * as Yup from 'yup'
 import FileUpload from './FileUpload'
 import { useReleases } from '../../contexts/ReleaseContext' // Asegúrate de ajustar el contexto según sea necesario
 import { useArtists } from '../../contexts/ArtistContext'
+import { useGenres } from '../../contexts/GenreContext'
+import FileUploadRelease from './FileUploadRelease'
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
     releaseDate: Yup.date().required('Release date is required'),
-    genre: Yup.string().required('Genre is required'),
+    genreId: Yup.number().required('Genre is required'),
     releaseType: Yup.string().required('Release type is required'),
-    artistIds: Yup.array().min(1, 'At least one artist is required'),
+    artistIds: Yup.number().min(1, 'At least one artist is required'),
     // Agrega más validaciones según sea necesario
     bandcampLink: Yup.string(),
     beatportLink: Yup.string(),
@@ -36,9 +39,11 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
     const { createRelease } = useReleases() // Ajusta según el contexto de los releases
     const [error, setError] = useState(null)
     const { artists, fetchArtists } = useArtists() // Obtiene la lista de artistas y la función para obtenerlos
+    const { genres, fetchGenres } = useGenres() // Obtiene la lista de géneros y la función para obtenerlos
 
     useEffect(() => {
         fetchArtists() // Carga la lista de artistas al montar el componente
+        fetchGenres() // Carga la lista de géneros al montar el componente
     }, [])
 
     const openPopup = () => {
@@ -47,13 +52,18 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
 
     const closePopup = () => {
         setOpen(false)
+        setError(null)
     }
 
     const onSubmit = async (values, actions) => {
         const formData = new FormData()
         for (let key in values) {
             if (key === 'artistIds') {
-                formData.append(key, JSON.stringify(values[key]))
+                // Ensure artistIds is an array and convert to JSON string
+                const artistIdsArray = Array.isArray(values[key])
+                    ? values[key]
+                    : [values[key]]
+                formData.append(key, JSON.stringify(artistIdsArray))
             } else {
                 formData.append(key, values[key])
             }
@@ -108,7 +118,7 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                             releaseDate: '',
                             isExplicit: false,
                             description: '',
-                            genre: '',
+                            genreId: '',
                             releaseType: '',
                             bandcampLink: '',
                             beatportLink: '',
@@ -160,22 +170,38 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                             />
                                         )}
                                     </Field>
-                                    <Field name='genre'>
+                                    <Field name='genreId'>
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
+                                                select
                                                 label='Genre'
                                                 variant='outlined'
                                                 error={
-                                                    form.errors.genre &&
-                                                    form.touched.genre
+                                                    form.errors.genreId &&
+                                                    form.touched.genreId
                                                 }
                                                 helperText={
-                                                    form.errors.genre &&
-                                                    form.touched.genre &&
-                                                    form.errors.genre
+                                                    form.errors.genreId &&
+                                                    form.touched.genreId &&
+                                                    form.errors.genreId
                                                 }
-                                            />
+                                                onChange={e =>
+                                                    setFieldValue(
+                                                        'genreId',
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                {genres.map(genre => (
+                                                    <MenuItem
+                                                        key={genre.id}
+                                                        value={genre.id}
+                                                    >
+                                                        {genre.name}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField>
                                         )}
                                     </Field>
                                     <Field name='releaseType'>
@@ -203,23 +229,20 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                                 select
                                                 label='Artists'
                                                 variant='outlined'
-                                                error={
+                                                error={Boolean(
                                                     form.errors.artistIds &&
-                                                    form.touched.artistIds
-                                                }
+                                                        form.touched.artistIds
+                                                )}
                                                 helperText={
                                                     form.errors.artistIds &&
                                                     form.touched.artistIds &&
                                                     form.errors.artistIds
                                                 }
+                                                multiple
                                                 onChange={e =>
                                                     setFieldValue(
                                                         'artistIds',
                                                         e.target.value
-                                                            .split(',')
-                                                            .map(id =>
-                                                                id.trim()
-                                                            )
                                                     )
                                                 }
                                             >
@@ -234,7 +257,7 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                             </TextField>
                                         )}
                                     </Field>
-                                    <FileUpload />
+                                    <FileUploadRelease />
                                     <Field name='bandcampLink'>
                                         {({ field }) => (
                                             <TextField

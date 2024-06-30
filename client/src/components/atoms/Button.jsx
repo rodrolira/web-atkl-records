@@ -6,10 +6,10 @@ import './Button.css'
 const Button = ({ href, onClick, children, className }) => {
     if (href) {
         return (
-            <div className="h-full mx-2">
+            <div className='h-full mx-2'>
                 <a
                     href={href}
-                    rel="noopener noreferrer"
+                    rel='noopener noreferrer'
                     className={`h-full text-white font-medium rounded-lg text-sm inline-flex items-center ${className}`}
                 >
                     {children}
@@ -18,7 +18,7 @@ const Button = ({ href, onClick, children, className }) => {
         )
     } else {
         return (
-            <div className="h-full mx-2 flex">
+            <div className='h-full mx-2 flex'>
                 <button
                     onClick={onClick}
                     className={`h-full text-white font-medium rounded-lg text-sm text-center items-center ${className}`}
