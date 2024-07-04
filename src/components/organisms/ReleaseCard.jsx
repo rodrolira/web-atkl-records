@@ -9,8 +9,9 @@ import {
     faSoundcloud,
 } from '@fortawesome/free-brands-svg-icons'
 import { Link } from 'react-router-dom'
+import Button from '../atoms/Button'
 
-function ReleaseCard ({
+function ReleaseCard({
     title,
     artist,
     coverImageUrl,
@@ -41,7 +42,7 @@ function ReleaseCard ({
             {isExplicit && <p className='text-red-500'>Explicit</p>}
             <p className='text-sm mt-2'>{description}</p>
 
-            <div className='flex justify-center space-x-4 mt-4'>
+            <div className='flex justify-center space-x-4 my-4'>
                 {bandcampLink && (
                     <Link
                         to={bandcampLink}
@@ -104,6 +105,12 @@ function ReleaseCard ({
                     </Link>
                 )}
             </div>
+            {bandcampLink && (
+                <Button href={bandcampLink} className="btn-buy h-10 mx-auto mb-4">
+                    Comprar
+                </Button>
+            )}
+
         </div>
     )
 }
