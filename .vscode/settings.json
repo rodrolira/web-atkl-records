@@ -5,9 +5,6 @@
     "codium.codeCompletion.enable": true,
     "python.analysis.autoImportCompletions": true,
     "python.analysis.typeCheckingMode": "basic",
-    "accessibility.signalOptions": {
-        "volume": 10
-    },
     "files.autoSave": "onWindowChange",
     "better-comments.tags": [
 
@@ -56,5 +53,6 @@
             "bold": false,
             "italic": false
         }
-    ]
+    ],
+    "accessibility.signalOptions.volume": 10
 }
