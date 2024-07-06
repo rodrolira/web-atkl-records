@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Typography, List, ListItem, ListItemText } from '@mui/material'
 import { useAdminAuth } from '../contexts/AdminAuthContext'
 import { useNavigate } from 'react-router-dom'
@@ -8,14 +8,23 @@ function AdminDashboard() {
     const { isAuthenticated, loading } = useAdminAuth()
     const navigate = useNavigate()
 
+    // Si no está autenticado, redirige a la página de login del admin después de que el componente se monte
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate('/admin/login')
+        }
+
+    }, [isAuthenticated, navigate])
+
+
     // Si aún se está cargando la verificación de autenticación, muestra un mensaje de carga
     if (loading) {
         return <p>Loading...</p>
     }
 
-    // Si no está autenticado, redirige a la página de login del admin
+    // Si no está autenticado, no renderiza el contenido del dashboard
     if (!isAuthenticated) {
-         navigate('/admin/login')
+        return null;
     }
 
     return (

@@ -104,7 +104,7 @@ CustomInput.defaultProps = {
     type: 'text',
     id: '',
     name: '',
-    onChange: () => {},
+    onChange: () => { },
 }
 
 export default CustomInput

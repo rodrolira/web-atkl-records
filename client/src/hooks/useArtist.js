@@ -1,7 +1,7 @@
 // src/hooks/useArtist.js
 import { useState, useEffect } from 'react'
 
-const useArtist = (id) => {
+const useArtist = (artistId) => {
     const [artist, setArtist] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -10,7 +10,7 @@ const useArtist = (id) => {
         const fetchArtist = async () => {
             try {
                 const response = await fetch(
-                    `http://localhost:3000/api/artists/${id}`
+                    `http://localhost:3000/api/artists/${artistId}`
                 )
                 if (!response.ok) {
                     throw new Error('Error fetching artist data')
@@ -25,7 +25,7 @@ const useArtist = (id) => {
         }
 
         fetchArtist()
-    }, [id])
+    }, [artistId])
 
     return { artist, loading, error }
 }

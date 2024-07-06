@@ -231,7 +231,7 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                                 variant='outlined'
                                                 error={Boolean(
                                                     form.errors.artistIds &&
-                                                        form.touched.artistIds
+                                                    form.touched.artistIds
                                                 )}
                                                 helperText={
                                                     form.errors.artistIds &&
