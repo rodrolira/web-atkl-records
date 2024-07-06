@@ -3,10 +3,10 @@ import express from "express";
 const router = express.Router();
 import {
   getArtists,
-  fetchArtistById,
   addArtist,
   deleteArtist,
   updateArtist,
+  getArtistById,
 } from "../controllers/artists.controller.js";
 import multer from "multer";
 
@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.get("/artists", getArtists);
-router.get("/artists/:id", fetchArtistById);
+router.get("/artists/:id", getArtistById);
 
 router.post("/artists", upload.single("image"), addArtist);
 
