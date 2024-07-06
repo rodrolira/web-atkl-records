@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import {
     createArtistRequest,
     deleteArtistRequest,
@@ -12,12 +12,14 @@ export const useArtists = () => {
     const context = useContext(ArtistContext)
 
     if (!context) {
+        console.log('useArtist must be used within an ArtistProvider')
         throw new Error('useArtist must be used within an ArtistProvider')
     }
+    console.log('Context returned successfully')
     return context
 }
 
-export function ArtistProvider ({ children }) {
+export function ArtistProvider({ children }) {
     const [artists, setArtists] = useState([]) // Estado para almacenar la lista de artistas
 
     // Lógica para obtener la lista de artistas

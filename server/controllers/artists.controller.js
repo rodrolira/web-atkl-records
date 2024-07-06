@@ -151,7 +151,7 @@ export const getArtists = async (req, res) => {
   }
 };
 
-export const fetchArtistById = async (req, res) => {
+export const getArtistById = async (req, res) => {
   const { id } = req.params;
 
   try {

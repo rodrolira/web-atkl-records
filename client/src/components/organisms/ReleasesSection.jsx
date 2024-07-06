@@ -1,18 +1,18 @@
 //ReleasesSection.jsx
 
 // eslint-disable-next-line react/prop-types, no-unused-vars
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import Title from '../atoms/Title'
 import { useAdminAuth } from '../../contexts/AdminAuthContext'
 import ReleaseCard from './ReleaseCard'
 import AddReleaseForm from '../molecules/AddReleaseForm'
-import { useReleases } from '../../contexts/ReleaseContext'
+import { ReleaseContext } from '../../contexts/ReleaseContext'
 
-function ReleasesSection () {
+function ReleasesSection() {
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
-    const { releases, fetchReleases, createRelease } = useReleases()
+    const { releases, fetchReleases, createRelease } = useContext(ReleaseContext)
 
     useEffect(() => {
         fetchReleases()
@@ -37,7 +37,7 @@ function ReleasesSection () {
                     <ReleaseCard
                         key={index}
                         title={release.title}
-                        ArtistId={release.ArtistId}
+                        artistId={release.artistId}
                         coverImageUrl={release.coverImageUrl}
                         bandcampLink={release.bandcampLink}
                         beatportLink={release.beatportLink}

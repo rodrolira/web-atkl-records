@@ -7,7 +7,7 @@ import {
     deleteReleaseRequest,
 } from '../api/releases'
 
-const ReleaseContext = createContext()
+export const ReleaseContext = createContext()
 
 export const useReleases = () => {
     const context = useContext(ReleaseContext)
@@ -19,7 +19,7 @@ export const useReleases = () => {
     return context
 }
 
-export function ReleaseProvider ({ children }) {
+export function ReleaseProvider({ children }) {
     const [releases, setReleases] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -107,3 +107,4 @@ export function ReleaseProvider ({ children }) {
         </ReleaseContext.Provider>
     )
 }
+
