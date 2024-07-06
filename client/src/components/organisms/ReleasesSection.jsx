@@ -37,7 +37,7 @@ function ReleasesSection() {
                     <ReleaseCard
                         key={index}
                         title={release.title}
-                        artistId={release.artistId}
+                        artistName={release.artistName}
                         coverImageUrl={release.coverImageUrl}
                         bandcampLink={release.bandcampLink}
                         beatportLink={release.beatportLink}

@@ -10,11 +10,10 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 import { Link } from 'react-router-dom'
 import Button from '../atoms/Button'
-import useArtist from '../../hooks/useArtist'
 
 function ReleaseCard({
     title,
-    artistId,
+    artist,
     coverImageUrl,
     releaseDate,
     isExplicit,
@@ -28,21 +27,12 @@ function ReleaseCard({
     youtubeLink,
     soundcloudLink,
 }) {
-    const { artist, loading, error } = useArtist(artistId);
-
     return (
         <div className='max-w-sm w-full mx-auto text-center border text-white rounded-lg shadow bg-black border-gray-700'>
             <h3 className='text-xl font-bold mt-2'>{title}</h3>
-            {loading ? (
-                <p>Loading artist...</p>
-            ) : error ? (
-                <p>Error loading artist</p>
-            ) : (
-                <h3 className='text-lg lg:h-auto sm:h-min font-bold mt-2'>
-                    {artist}
-                </h3>
-
-            )}
+            <h3 className='text-lg lg:h-auto sm:h-min font-bold mt-2'>
+                {artist}
+            </h3>
             <img
                 src={`http://localhost:3000/${coverImageUrl}`}
                 alt={title}
@@ -127,7 +117,7 @@ function ReleaseCard({
 
 ReleaseCard.propTypes = {
     title: PropTypes.string.isRequired,
-    artistId: PropTypes.string.isRequired,
+    artist: PropTypes.string.isRequired,
     coverImageUrl: PropTypes.string.isRequired,
     releaseDate: PropTypes.string.isRequired,
     isExplicit: PropTypes.bool.isRequired,
