@@ -8,14 +8,15 @@ import { useAdminAuth } from '../../contexts/AdminAuthContext'
 import AddArtistForm from '../molecules/AddArtistForm'
 import { useArtists } from '../../contexts/ArtistContext'
 
-function ArtistsSection () {
+
+function ArtistsSection() {
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
     const { artists, fetchArtists, createArtist } = useArtists()
 
     useEffect(() => {
         fetchArtists()
-    }, [])
+    }, [fetchArtists])
 
     const handleArtistAdded = async newArtist => {
         await createArtist(newArtist)

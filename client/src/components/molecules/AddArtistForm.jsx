@@ -11,11 +11,10 @@ import CloseIcon from '@mui/icons-material/Close'
 import React, { useState } from 'react'
 import Button from '../atoms/Button'
 import { IconButton } from '@mui/material'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { useArtists } from '../../contexts/ArtistContext'
 import FileUpload from './FileUpload'
-import { ButtonGroup } from 'react-bootstrap'
 
 const validationSchema = Yup.object().shape({
     artist_name: Yup.string().required('El nombre del artista es requerido'),

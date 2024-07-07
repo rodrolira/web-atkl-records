@@ -26,7 +26,7 @@ const ArtistCard = ({ artist }) => {
     const handleDelete = async () => {
         if (
             window.confirm(
-                `¿Estás seguro de que deseas eliminar al artista ${artist_name}?`
+                `¿Estás seguro de que deseas eliminar al artista ${artist.artist_name}?`
             )
         ) {
             try {
@@ -50,38 +50,40 @@ const ArtistCard = ({ artist }) => {
     return (
         <>
             <div className='bg-black max-w-sm border border-gray-200 rounded-lg shadow dark:border-purple-500 relative'>
-                <Link to={`/artists/${artist.id}`} className='block relative'>
-                    <div className='w-full rounded-t-lg overflow-hidden relative'>
+                <div className='w-full rounded-t-lg overflow-hidden relative'>
+
+                    <Link to={`/artists/${artist.id}`} className='block relative'>
                         <img
                             className='rounded-t-lg'
                             src={`http://localhost:3000/${artist.image}`}
                             alt={artist.artist_name}
                         />
-                        {adminAuthenticated && (
-                            <div className='absolute top-2 right-2 flex space-x-2'>
-                                <Button
-                                    // to={`/artists/${artist.id}/edit`}
-                                    aria-label='Edit Artist'
-                                    className='text-yellow-400 hover:text-yellow-500 text-xl'
-                                >
-                                    <FontAwesomeIcon icon={faEdit} />
-                                </Button>
+                    </Link>
 
-                                <button
-                                    onClick={handleDelete}
-                                    aria-label='Delete Artist'
-                                    className='text-red-400 hover:text-red-500 text-xl'
-                                >
-                                    <FontAwesomeIcon icon={faTrash} />
-                                </button>
-                            </div>
-                        )}
-                    </div>
+                    {adminAuthenticated && (
+                        <div className='absolute top-2 right-2 flex space-x-2'>
+                            <Button
+                                // to={`/artists/${artist.id}/edit`}
+                                aria-label='Edit Artist'
+                                className='text-yellow-400 hover:text-yellow-500 text-xl'
+                            >
+                                <FontAwesomeIcon icon={faEdit} />
+                            </Button>
 
-                    <h5 className='text-2xl font-bold tracking-tight text-white text-center'>
-                        {artist.artist_name}
-                    </h5>
-                </Link>
+                            <Button
+                                onClick={handleDelete}
+                                aria-label='Delete Artist'
+                                className='text-red-400 hover:text-red-500 text-xl'
+                            >
+                                <FontAwesomeIcon icon={faTrash} />
+                            </Button>
+                        </div>
+                    )}
+                </div>
+
+                <h5 className='text-2xl font-bold tracking-tight text-white text-center'>
+                    {artist.artist_name}
+                </h5>
                 <h4 className='mb-2 text-xl font-bold tracking-tight text-white text-center'>
                     {artist.role}
                 </h4>
@@ -164,13 +166,15 @@ const ArtistCard = ({ artist }) => {
                         </Link>
                     )}
                 </div>
-            </div>
+            </div >
             {/* Modal de Edición del Artista */}
-            {showEditModal && (
-                <Modal onClose={closeEditModal}>
-                    <EditArtistModal id={id} onClose={closeEditModal} />
-                </Modal>
-            )}
+            {
+                showEditModal && (
+                    <Modal onClose={closeEditModal}>
+                        <EditArtistModal id={id} onClose={closeEditModal} />
+                    </Modal>
+                )
+            }
         </>
     )
 }

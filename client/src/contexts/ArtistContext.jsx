@@ -1,10 +1,10 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useCallback } from 'react'
 import {
     createArtistRequest,
     deleteArtistRequest,
+    getArtistsRequest,
     updateArtistRequest,
 } from '../api/artists'
-import axios from 'axios'
 
 const ArtistContext = createContext()
 
@@ -15,25 +15,25 @@ export const useArtists = () => {
         console.log('useArtist must be used within an ArtistProvider')
         throw new Error('useArtist must be used within an ArtistProvider')
     }
-    console.log('Context returned successfully')
     return context
 }
 
 export function ArtistProvider({ children }) {
     const [artists, setArtists] = useState([]) // Estado para almacenar la lista de artistas
 
-
     // Lógica para obtener la lista de artistas
-    const fetchArtists = async () => {
+    const fetchArtists = useCallback(async () => {
         try {
-            const response = await axios.get(
-                'http://localhost:3000/api/artists'
-            )
-            setArtists(response.data)
+            const response = await getArtistsRequest();
+            setArtists(response.data);
         } catch (error) {
-            console.error('Error fetching artists:', error)
+            console.error('Error fetching artists:', error);
+            if (error.response) {
+                console.error('Error:', error.response.data)
+            }
         }
-    }
+    }, []); // Dependencias vacías para que no se redefina
+
     // Lógica para crear un artista
     const createArtist = async artist => {
         const res = await createArtistRequest(artist)

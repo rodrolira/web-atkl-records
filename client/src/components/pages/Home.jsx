@@ -5,11 +5,11 @@ import './Home.css'
 import { useLanguage } from '../../contexts/LanguageContext'
 import AboutSection from '../organisms/AboutSection'
 import DemosSection from '../organisms/DemoSection'
-import ReleasesSection from '../organisms/ReleasesSection'
 import ArtistsSection from '../organisms/ArtistsSection'
 import ContactSection from '../organisms/ContactSection'
 import { useLocation } from 'react-router-dom'
 import Navbar from '../organisms/Navbar'
+import ReleasesSection from './Release/ReleasesSection';
 
 function Home() {
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
@@ -59,8 +59,8 @@ function Home() {
                 </div>
             </div>
 
-            <ArtistsSection />
             <ReleasesSection />
+            <ArtistsSection />
             <AboutSection />
             <DemosSection />
             <ContactSection />
