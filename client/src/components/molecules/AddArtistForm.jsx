@@ -1,4 +1,5 @@
 import {
+    // Button,
     Dialog,
     DialogActions,
     DialogContent,
@@ -14,9 +15,10 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { useArtists } from '../../contexts/ArtistContext'
 import FileUpload from './FileUpload'
+import { ButtonGroup } from 'react-bootstrap'
 
 const validationSchema = Yup.object().shape({
-    artistName: Yup.string().required('El nombre del artista es requerido'),
+    artist_name: Yup.string().required('El nombre del artista es requerido'),
     username: Yup.string().required('El nombre de usuario es requerido'),
     email: Yup.string()
         .email('Correo electrónico inválido')
@@ -34,6 +36,9 @@ const validationSchema = Yup.object().shape({
     twitterLink: Yup.string(),
     youtube_link: Yup.string(),
     spotify_link: Yup.string(),
+    beatport_link: Yup.string(),
+    apple_music_link: Yup.string(),
+
 })
 
 const AddArtistForm = ({ onArtistAdded }) => {
@@ -64,7 +69,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
         }
     }
 
-    const renderField = (name, label, type = 'text', autoComplete = 'off') => (
+    const renderField = (name, label, type = 'text', autoComplete = 'on') => (
         <Field name={name}>
             {({ field, form }) => (
                 <TextField
@@ -111,7 +116,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                 <DialogContent>
                     <Formik
                         initialValues={{
-                            artistName: '',
+                            artist_name: '',
                             username: '',
                             email: '',
                             password: '',
@@ -125,6 +130,8 @@ const AddArtistForm = ({ onArtistAdded }) => {
                             twitterLink: '',
                             youtube_link: '',
                             spotify_link: '',
+                            beatport_link: '',
+
                         }}
                         validationSchema={validationSchema}
                         onSubmit={onSubmit}
@@ -132,7 +139,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                         {({ isSubmitting }) => (
                             <Form>
                                 <Stack spacing={2} margin={2}>
-                                    {renderField('artistName', 'Artist Name')}
+                                    {renderField('artist_name', 'Artist Name')}
                                     {renderField('username', 'Username')}
                                     {renderField('email', 'Email')}
                                     {renderField('password', 'Password', 'password', 'current-password')}
@@ -154,13 +161,17 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                             </TextField>
                                         )}
                                     </Field>
+                                    {renderField('bio', 'Bio')}
                                     {renderField('bandcamp_link', 'Bandcamp Link')}
+                                    {renderField('beatport_link', 'Beatport Link')}
                                     {renderField('facebook_link', 'Facebook Link')}
                                     {renderField('instagram_link', 'Instagram Link')}
                                     {renderField('soundcloud_link', 'Soundcloud Link')}
                                     {renderField('twitterLink', 'Twitter Link')}
                                     {renderField('youtube_link', 'Youtube Link')}
                                     {renderField('spotify_link', 'Spotify Link')}
+                                    {renderField('apple_music_link', 'Apple Music Link')}
+
                                     <Button
                                         className='btn-add'
                                         type='submit'

@@ -22,14 +22,6 @@ const Release = sequelize.define(
       },
       allowNull: true, // Adjust this as per your schema
     },
-    artist_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Artist,
-        key: "id",
-      },
-      allowNull: true, // Adjust this as per your schema
-    },
     is_explicit: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
