@@ -22,8 +22,9 @@ export const addArtist = async (req, res) => {
     twitterLink,
     youtubeLink,
     spotifyLink,
+    appleMusicLink,
+    beatportLink,
   } = req.body;
-
   // Verifica si hay un archivo subido
   const image = req.file ? req.file.path : null;
 
