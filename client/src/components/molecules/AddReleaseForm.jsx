@@ -14,88 +14,81 @@ import Button from '../atoms/Button'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import FileUpload from './FileUpload'
-import { useReleases } from '../../contexts/ReleaseContext' // Asegúrate de ajustar el contexto según sea necesario
+import { useReleases } from '../../contexts/ReleaseContext'
 import { useArtists } from '../../contexts/ArtistContext'
 import { useGenres } from '../../contexts/GenreContext'
 import FileUploadRelease from './FileUploadRelease'
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
-    releaseDate: Yup.date().required('Release date is required'),
-    genreId: Yup.number().required('Genre is required'),
-    releaseType: Yup.string().required('Release type is required'),
+    release_date: Yup.date().required('Release date is required'),
+    genre_id: Yup.number().required('Genre is required'),
+    release_type: Yup.string().required('Release type is required'),
     artistIds: Yup.number().min(1, 'At least one artist is required'),
-    // Agrega más validaciones según sea necesario
-    bandcampLink: Yup.string(),
-    beatportLink: Yup.string(),
-    spotifyLink: Yup.string(),
-    appleMusicLink: Yup.string(),
-    youtubeLink: Yup.string(),
-    soundcloudLink: Yup.string(),
+    // bandcamp_link: Yup.string(),
+    // beatport_link: Yup.string(),
+    // spotify_link: Yup.string(),
+    // apple_music_link: Yup.string(),
+    // youtube_link: Yup.string(),
+    // soundcloud_link: Yup.string(),
 })
 
 const AddReleaseForm = ({ onReleaseAdded }) => {
     const [open, setOpen] = useState(false)
-    const { createRelease } = useReleases() // Ajusta según el contexto de los releases
+    const { createRelease } = useReleases()
     const [error, setError] = useState(null)
-    const { artists, fetchArtists } = useArtists() // Obtiene la lista de artistas y la función para obtenerlos
-    const { genres, fetchGenres } = useGenres() // Obtiene la lista de géneros y la función para obtenerlos
+    const { artists, fetchArtists } = useArtists()
+    const { genres, fetchGenres } = useGenres()
 
     useEffect(() => {
-        fetchArtists() // Carga la lista de artistas al montar el componente
-        fetchGenres() // Carga la lista de géneros al montar el componente
+        // fetchArtists()
+        fetchGenres()
     }, [])
 
-    const openPopup = () => {
+    const handleOpen = () => {
         setOpen(true)
     }
 
-    const closePopup = () => {
+    const handleClose = () => {
         setOpen(false)
         setError(null)
     }
 
-    const onSubmit = async (values, actions) => {
-        const formData = new FormData()
-        for (let key in values) {
+    const handleSubmit = async (values, { setSubmitting }) => {
+        const formData = new FormData();
+        for (const key in values) {
             if (key === 'artistIds') {
-                // Ensure artistIds is an array and convert to JSON string
-                const artistIdsArray = Array.isArray(values[key])
-                    ? values[key]
-                    : [values[key]]
-                formData.append(key, JSON.stringify(artistIdsArray))
+                values[key].forEach(id => formData.append(key, id)); // Append each artist_id to FormData
             } else {
-                formData.append(key, values[key])
+                formData.append(key, values[key]);
             }
         }
+
+
         try {
-            const newRelease = await createRelease(formData) // Llama al método para crear un release
-            actions.setSubmitting(false)
-            closePopup()
+            const newRelease = await createRelease(formData);
+            setSubmitting(false);
+            handleClose();
             if (onReleaseAdded) {
-                onReleaseAdded(newRelease)
+                onReleaseAdded(newRelease);
             }
         } catch (error) {
-            console.error('Error adding release:', error)
-            actions.setSubmitting(false)
-            setError('Failed to add release')
+            console.error('Error adding release:', error);
+            setSubmitting(false);
+            setError('Failed to add release');
         }
-    }
+    };
 
     return (
         <>
-            <Button
-                onClick={openPopup}
-                className={'btn-add mx-auto'}
-                variant='contained'
-            >
+            <Button onClick={handleOpen} className="btn-add mx-auto" variant="contained">
                 Add Release
             </Button>
             <Dialog
                 open={open}
-                onClose={closePopup}
+                onClose={handleClose}
                 fullWidth
-                maxWidth='sm'
+                maxWidth="sm"
                 PaperProps={{
                     sx: {
                         borderRadius: '0px',
@@ -106,151 +99,104 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                         float: 'right',
                     },
                 }}
-                scroll='body'
+                scroll="body"
             >
-                <DialogTitle style={{ textAlign: 'center' }}>
-                    Add Release
-                </DialogTitle>
+                <DialogTitle style={{ textAlign: 'center' }}>Add Release</DialogTitle>
                 <DialogContent>
                     <Formik
                         initialValues={{
                             title: '',
-                            releaseDate: '',
-                            isExplicit: false,
-                            description: '',
-                            genreId: '',
-                            releaseType: '',
-                            bandcampLink: '',
-                            beatportLink: '',
-                            spotifyLink: '',
-                            appleMusicLink: '',
-                            youtubeLink: '',
-                            soundcloudLink: '',
-                            artistIds: [],
+                            release_date: '',
+                            genre_id: '',
+                            release_type: '',
+                            // bandcamp_link: '',
+                            // beatport_link: '',
+                            // spotify_link: '',
+                            // apple_music_link: '',
+                            // youtube_link: '',
+                            // soundcloud_link: '',
+                            artistIds: [], // Use artistIds instead of artistIds
                         }}
                         validationSchema={validationSchema}
-                        onSubmit={onSubmit}
+                        onSubmit={handleSubmit}
                     >
                         {({ isSubmitting, setFieldValue }) => (
                             <Form>
                                 <Stack spacing={2} margin={2}>
-                                    <Field name='title'>
+                                    <Field name="title">
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
-                                                label='Title'
-                                                variant='outlined'
-                                                error={
-                                                    form.errors.title &&
-                                                    form.touched.title
-                                                }
-                                                helperText={
-                                                    form.errors.title &&
-                                                    form.touched.title &&
-                                                    form.errors.title
-                                                }
+                                                label="Title"
+                                                variant="outlined"
+                                                error={form.errors.title && form.touched.title}
+                                                helperText={form.errors.title && form.touched.title && form.errors.title}
                                             />
                                         )}
                                     </Field>
-                                    <Field name='releaseDate'>
+                                    <Field name="release_date">
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
-                                                variant='outlined'
-                                                type='date'
-                                                error={
-                                                    form.errors.releaseDate &&
-                                                    form.touched.releaseDate
-                                                }
-                                                helperText={
-                                                    form.errors.releaseDate &&
-                                                    form.touched.releaseDate &&
-                                                    form.errors.releaseDate
-                                                }
+                                                variant="outlined"
+                                                type="date"
+                                                error={form.errors.release_date && form.touched.release_date}
+                                                helperText={form.errors.release_date && form.touched.release_date && form.errors.release_date}
                                             />
                                         )}
                                     </Field>
-                                    <Field name='genreId'>
+                                    <Field name="genre_id">
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
                                                 select
-                                                label='Genre'
-                                                variant='outlined'
-                                                error={
-                                                    form.errors.genreId &&
-                                                    form.touched.genreId
-                                                }
-                                                helperText={
-                                                    form.errors.genreId &&
-                                                    form.touched.genreId &&
-                                                    form.errors.genreId
-                                                }
-                                                onChange={e =>
-                                                    setFieldValue(
-                                                        'genreId',
-                                                        e.target.value
-                                                    )
-                                                }
+                                                label="Genre"
+                                                variant="outlined"
+                                                error={form.errors.genre_id && form.touched.genre_id}
+                                                helperText={form.errors.genre_id && form.touched.genre_id && form.errors.genre_id}
+                                                onChange={(e) => setFieldValue('genre_id', e.target.value)}
                                             >
-                                                {genres.map(genre => (
-                                                    <MenuItem
-                                                        key={genre.id}
-                                                        value={genre.id}
-                                                    >
+                                                {genres.map((genre) => (
+                                                    <MenuItem key={genre.id} value={genre.id}>
                                                         {genre.name}
                                                     </MenuItem>
                                                 ))}
                                             </TextField>
                                         )}
                                     </Field>
-                                    <Field name='releaseType'>
-                                        {({ field, form }) => (
-                                            <TextField
-                                                {...field}
-                                                label='Release Type'
-                                                variant='outlined'
-                                                error={
-                                                    form.errors.releaseType &&
-                                                    form.touched.releaseType
-                                                }
-                                                helperText={
-                                                    form.errors.releaseType &&
-                                                    form.touched.releaseType &&
-                                                    form.errors.releaseType
-                                                }
-                                            />
-                                        )}
-                                    </Field>
-                                    <Field name='artistIds'>
+                                    <Field name="artistIds">
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
                                                 select
-                                                label='Artists'
-                                                variant='outlined'
-                                                error={Boolean(
-                                                    form.errors.artistIds &&
-                                                    form.touched.artistIds
-                                                )}
-                                                helperText={
-                                                    form.errors.artistIds &&
-                                                    form.touched.artistIds &&
-                                                    form.errors.artistIds
-                                                }
-                                                multiple
-                                                onChange={e =>
-                                                    setFieldValue(
-                                                        'artistIds',
-                                                        e.target.value
-                                                    )
-                                                }
+                                                label="Artist"
+                                                variant="outlined"
+                                                error={Boolean(form.errors.artistIds && form.touched.artistIds)}
+                                                helperText={form.errors.artistIds && form.touched.artistIds && form.errors.artistIds}
+                                                onChange={(e) => {
+                                                    const selectedIds = e.target.value;
+                                                    setFieldValue('artistIds', selectedIds);
+                                                }}
+                                                SelectProps={{
+                                                    multiple: true,
+                                                    value: field.value || [],
+                                                    onChange: (e) => {
+                                                        const selectedIds = e.target.value;
+                                                        setFieldValue('artistIds', selectedIds);
+                                                    },
+                                                    renderValue: (selected) => (
+                                                        <div>
+                                                            {selected.map(id => (
+                                                                <MenuItem key={id} value={id}>
+                                                                    {artists.find(artist => artist.id === id)?.artistName}
+                                                                </MenuItem>
+                                                            ))}
+                                                        </div>
+                                                    ),
+                                                }}
                                             >
-                                                {artists.map(artist => (
-                                                    <MenuItem
-                                                        key={artist.id}
-                                                        value={artist.id}
-                                                    >
+                                                {artists.map((artist) => (
+                                                    <MenuItem key={artist.id} value={artist.id}>
                                                         {artist.artistName}
                                                     </MenuItem>
                                                 ))}
@@ -258,74 +204,40 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                         )}
                                     </Field>
                                     <FileUploadRelease />
-                                    <Field name='bandcampLink'>
+                                    {/* <Field name="bandcamp_link">
                                         {({ field }) => (
-                                            <TextField
-                                                {...field}
-                                                label='Bandcamp Link'
-                                                variant='outlined'
-                                            />
+                                            <TextField {...field} label="Bandcamp Link" variant="outlined" />
                                         )}
                                     </Field>
-                                    <Field name='beatportLink'>
+                                    <Field name="beatport_link">
                                         {({ field }) => (
-                                            <TextField
-                                                {...field}
-                                                label='Beatport Link'
-                                                variant='outlined'
-                                            />
+                                            <TextField {...field} label="Beatport Link" variant="outlined" />
                                         )}
                                     </Field>
-                                    <Field name='spotifyLink'>
+                                    <Field name="spotify_link">
                                         {({ field }) => (
-                                            <TextField
-                                                {...field}
-                                                label='Spotify Link'
-                                                variant='outlined'
-                                            />
+                                            <TextField {...field} label="Spotify Link" variant="outlined" />
                                         )}
                                     </Field>
-                                    <Field name='appleMusicLink'>
+                                    <Field name="apple_music_link">
                                         {({ field }) => (
-                                            <TextField
-                                                {...field}
-                                                label='Apple Music Link'
-                                                variant='outlined'
-                                            />
+                                            <TextField {...field} label="Apple Music Link" variant="outlined" />
                                         )}
                                     </Field>
-                                    <Field name='youtubeLink'>
+                                    <Field name="youtube_link">
                                         {({ field }) => (
-                                            <TextField
-                                                {...field}
-                                                label='Youtube Link'
-                                                variant='outlined'
-                                            />
+                                            <TextField {...field} label="Youtube Link" variant="outlined" />
                                         )}
                                     </Field>
-                                    <Field name='soundcloudLink'>
+                                    <Field name="soundcloud_link">
                                         {({ field }) => (
-                                            <TextField
-                                                {...field}
-                                                label='Soundcloud Link'
-                                                variant='outlined'
-                                            />
+                                            <TextField {...field} label="Soundcloud Link" variant="outlined" />
                                         )}
-                                    </Field>
-                                    <Button
-                                        className={'btn-add'}
-                                        type='submit'
-                                        variant='contained'
-                                        color='success'
-                                        disabled={isSubmitting}
-                                    >
+                                    </Field> */}
+                                    <Button className="btn-add" type="submit" variant="contained" color="success" disabled={isSubmitting}>
                                         {isSubmitting ? 'Adding...' : 'Add'}
                                     </Button>
-                                    {error && (
-                                        <div style={{ color: 'red' }}>
-                                            {error}
-                                        </div>
-                                    )}
+                                    {error && <div style={{ color: 'red' }}>{error}</div>}
                                 </Stack>
                             </Form>
                         )}

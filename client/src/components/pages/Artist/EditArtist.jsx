@@ -12,21 +12,23 @@ import { getArtistRequest } from '../../../api/artists'
 const validationSchema = Yup.object().shape({
     artistName: Yup.string().required('Artist name is required'),
     image: Yup.mixed(),
-    role: Yup.array().of(Yup.string()), // Updated validation for role as an array of strings
+    socialLinks: Yup.array().of(
+        Yup.object().shape({
+            network: Yup.string().required('Social network is required'),
+            link: Yup.string().url('Invalid URL').required('Link is required'),
+        })
+    ),
 })
 
-function EditArtist () {
+function EditArtist() {
     const { id } = useParams()
     const navigate = useNavigate()
     const [initialValues, setInitialValues] = useState({
         artistName: '',
         image: '',
-        twitterLink: '',
-        instagramLink: '',
-        facebookLink: '',
-        soundcloudLink: '',
-        bandcampLink: '',
+        socialLinks: [],
         role: [], // Initialize as an empty array for multiple selection
+        bio: '',
     })
 
     const { updateArtist, deleteArtist } = useArtists()
@@ -35,9 +37,9 @@ function EditArtist () {
         fetchArtist(id)
     }, [id])
 
-    const fetchArtist = async artistId => {
+    const fetchArtist = async artist_id => {
         try {
-            const response = await getArtistRequest(artistId)
+            const response = await getArtistRequest(artist_id)
             setInitialValues(response.data)
         } catch (error) {
             console.error('Error fetching artist:', error)
@@ -119,6 +121,7 @@ function EditArtist () {
                                 </label>
                                 <Field
                                     as='select'
+                                    multiple
                                     id='role'
                                     name='role'
                                     className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
@@ -154,80 +157,80 @@ function EditArtist () {
                             </div>
                             <div className='mb-4'>
                                 <label
-                                    htmlFor='instagramLink'
+                                    htmlFor='instagram_link'
                                     className='block text-gray-700 font-bold mb-2'
                                 >
                                     Instagram Link
                                 </label>
                                 <Field
                                     type='text'
-                                    id='instagramLink'
-                                    name='instagramLink'
+                                    id='instagram_link'
+                                    name='instagram_link'
                                     className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                                     placeholder='Instagram Link'
                                 />
                                 <ErrorMessage
-                                    name='instagramLink'
+                                    name='instagram_link'
                                     component='div'
                                     className='text-red-500 text-sm mt-1'
                                 />
                             </div>
                             <div className='mb-4'>
                                 <label
-                                    htmlFor='facebookLink'
+                                    htmlFor='facebook_link'
                                     className='block text-gray-700 font-bold mb-2'
                                 >
                                     Facebook Link
                                 </label>
                                 <Field
                                     type='text'
-                                    id='facebookLink'
-                                    name='facebookLink'
+                                    id='facebook_link'
+                                    name='facebook_link'
                                     className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                                     placeholder='Facebook Link'
                                 />
                                 <ErrorMessage
-                                    name='facebookLink'
+                                    name='facebook_link'
                                     component='div'
                                     className='text-red-500 text-sm mt-1'
                                 />
                             </div>
                             <div className='mb-4'>
                                 <label
-                                    htmlFor='soundcloudLink'
+                                    htmlFor='soundcloud_link'
                                     className='block text-gray-700 font-bold mb-2'
                                 >
                                     SoundCloud Link
                                 </label>
                                 <Field
                                     type='text'
-                                    id='soundcloudLink'
-                                    name='soundcloudLink'
+                                    id='soundcloud_link'
+                                    name='soundcloud_link'
                                     className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                                     placeholder='SoundCloud Link'
                                 />
                                 <ErrorMessage
-                                    name='soundcloudLink'
+                                    name='soundcloud_link'
                                     component='div'
                                     className='text-red-500 text-sm mt-1'
                                 />
                             </div>
                             <div className='mb-6'>
                                 <label
-                                    htmlFor='bandcampLink'
+                                    htmlFor='bandcamp_link'
                                     className='block text-gray-700 font-bold mb-2'
                                 >
                                     Bandcamp Link
                                 </label>
                                 <Field
                                     type='text'
-                                    id='bandcampLink'
-                                    name='bandcampLink'
+                                    id='bandcamp_link'
+                                    name='bandcamp_link'
                                     className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                                     placeholder='Bandcamp Link'
                                 />
                                 <ErrorMessage
-                                    name='bandcampLink'
+                                    name='bandcamp_link'
                                     component='div'
                                     className='text-red-500 text-sm mt-1'
                                 />

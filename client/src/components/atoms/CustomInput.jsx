@@ -14,7 +14,7 @@ import PropTypes from 'prop-types'
 // eslint-disable-next-line react/display-name
 const CustomInput = React.forwardRef(
     (
-        { isIconActive, label, placeholder, type, id, name, onChange },
+        { isIconActive = true, label = '', placeholder = '', type = 'text', id = '', name = '', onChange = () => { } },
         ref
     ) => {
         const [showPassword, setShowPassword] = useState(false)
@@ -97,14 +97,5 @@ CustomInput.propTypes = {
     onChange: PropTypes.func,
 }
 
-CustomInput.defaultProps = {
-    isIconActive: true,
-    label: '',
-    placeholder: '',
-    type: 'text',
-    id: '',
-    name: '',
-    onChange: () => { },
-}
 
 export default CustomInput

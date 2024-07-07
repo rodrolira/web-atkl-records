@@ -9,28 +9,28 @@ dotenv.config();
 
 export const addArtist = async (req, res) => {
   const {
-    artistName,
+    artist_name,
     email,
     username,
     password,
     bio,
     role,
-    bandcampLink,
-    facebookLink,
-    instagramLink,
-    soundcloudLink,
-    twitterLink,
-    youtubeLink,
-    spotifyLink,
-    appleMusicLink,
-    beatportLink,
+    bandcamp_link,
+    facebook_link,
+    instagram_link,
+    soundcloud_link,
+    twitter_link,
+    youtube_link,
+    spotify_link,
+    apple_music_link,
+    beatport_link,
   } = req.body;
   // Verifica si hay un archivo subido
   const image = req.file ? req.file.path : null;
 
-  if (!artistName || !email || !username || !password) {
+  if (!artist_name || !email || !username || !password) {
     return res.status(400).json({
-      message: "artistName, username, email, and password are required",
+      message: "artist_name, username, email, and password are required",
     });
   }
 
@@ -44,19 +44,21 @@ export const addArtist = async (req, res) => {
 
     // Crear artista asociado al usuario
     const newArtist = await Artist.create({
-      artistName,
-      userId: newUser.id,
+      artist_name,
+      user_id: newUser.id,
       email,
       role,
       bio,
       image,
-      bandcampLink,
-      facebookLink,
-      instagramLink,
-      soundcloudLink,
-      twitterLink,
-      youtubeLink,
-      spotifyLink,
+      bandcamp_link,
+      facebook_link,
+      instagram_link,
+      soundcloud_link,
+      twitter_link,
+      youtube_link,
+      spotify_link,
+      apple_music_link,
+      beatport_link,
     });
 
     const token = jwt.sign({ email }, process.env.SECRET, { expiresIn: "12h" });
@@ -77,20 +79,24 @@ export const addArtist = async (req, res) => {
 export const updateArtist = async (req, res) => {
   const { id } = req.params;
   const {
-    artistName,
+    artist_name,
     bio,
     role,
     image,
-    twitterLink,
-    instagramLink,
-    facebookLink,
-    soundcloudLink,
-    bandcampLink,
+    twitter_link,
+    instagram_link,
+    facebook_link,
+    soundcloud_link,
+    bandcamp_link,
+    youtube_link,
+    spotify_link,
+    apple_music_link,
+    beatport_link,
   } = req.body;
 
   try {
     // Validación de campos obligatorios u otros requerimientos necesarios
-    if (!artistName) {
+    if (!artist_name) {
       return res
         .status(400)
         .json({ error: "Artist name and role are required" });
@@ -102,15 +108,19 @@ export const updateArtist = async (req, res) => {
     // Lógica de actualización en la base de datos
     const [updatedRowsCount, updatedRows] = await Artist.update(
       {
-        artistName,
+        artist_name,
         bio,
         role,
         image,
-        twitterLink,
-        instagramLink,
-        facebookLink,
-        soundcloudLink,
-        bandcampLink,
+        twitter_link,
+        instagram_link,
+        facebook_link,
+        soundcloud_link,
+        bandcamp_link,
+        youtube_link,
+        spotify_link,
+        apple_music_link,
+        beatport_link,
       },
       {
         where: { id },

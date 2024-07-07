@@ -22,6 +22,7 @@ export const useArtists = () => {
 export function ArtistProvider({ children }) {
     const [artists, setArtists] = useState([]) // Estado para almacenar la lista de artistas
 
+
     // Lógica para obtener la lista de artistas
     const fetchArtists = async () => {
         try {
@@ -33,7 +34,6 @@ export function ArtistProvider({ children }) {
             console.error('Error fetching artists:', error)
         }
     }
-
     // Lógica para crear un artista
     const createArtist = async artist => {
         const res = await createArtistRequest(artist)
@@ -42,12 +42,12 @@ export function ArtistProvider({ children }) {
     }
 
     // Lógica para actualizar un artista
-    const updateArtist = async (artistId, updatedData) => {
+    const updateArtist = async (artist_id, updatedData) => {
         try {
-            const response = await updateArtistRequest(artistId, updatedData) // Pasa los datos actualizados
+            const response = await updateArtistRequest(artist_id, updatedData) // Pasa los datos actualizados
             setArtists(prevArtists =>
                 prevArtists.map(artist =>
-                    artist.id === artistId ? response.data : artist
+                    artist.id === artist_id ? response.data : artist
                 )
             )
         } catch (error) {
@@ -56,14 +56,14 @@ export function ArtistProvider({ children }) {
     }
 
     // Lógica para eliminar un artista
-    const deleteArtist = async artistId => {
+    const deleteArtist = async id => {
         try {
             // Lógica para eliminar el artista en el backend (axios.delete, etc.)
-            await deleteArtistRequest(artistId)
+            await deleteArtistRequest(id)
 
             // Después de eliminar exitosamente, actualiza la lista localmente
             setArtists(prevArtists =>
-                prevArtists.filter(artist => artist.id !== artistId)
+                prevArtists.filter(artist => artist.id !== id)
             )
         } catch (error) {
             console.error('Error deleting artist:', error)

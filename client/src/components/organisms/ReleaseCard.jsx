@@ -14,18 +14,18 @@ import Button from '../atoms/Button'
 function ReleaseCard({
     title,
     artist,
-    coverImageUrl,
-    releaseDate,
-    isExplicit,
+    cover_image_url,
+    release_date,
+    is_explicit,
     description,
-    genreId,
-    releaseType,
-    bandcampLink,
-    beatportLink,
-    spotifyLink,
-    appleMusicLink,
-    youtubeLink,
-    soundcloudLink,
+    genre_id,
+    release_type,
+    bandcamp_link,
+    beatport_link,
+    spotify_link,
+    apple_music_link,
+    youtube_link,
+    soundcloud_link,
 }) {
     return (
         <div className='max-w-sm w-full mx-auto text-center border text-white rounded-lg shadow bg-black border-gray-700'>
@@ -34,18 +34,18 @@ function ReleaseCard({
                 {artist}
             </h3>
             <img
-                src={`http://localhost:3000/${coverImageUrl}`}
+                src={`http://localhost:3000/${cover_image_url}`}
                 alt={title}
                 className='w-full rounded-lg'
             />
 
-            {isExplicit && <p className='text-red-500'>Explicit</p>}
+            {is_explicit && <p className='text-red-500'>Explicit</p>}
             <p className='text-sm mt-2'>{description}</p>
 
             <div className='flex justify-center space-x-4 my-4'>
-                {bandcampLink && (
+                {bandcamp_link && (
                     <Link
-                        to={bandcampLink}
+                        to={bandcamp_link}
                         target='_blank'
                         rel='noopener noreferrer'
                         className='text-gray-400 hover:text-teal-600'
@@ -53,9 +53,9 @@ function ReleaseCard({
                         <FontAwesomeIcon icon={faBandcamp} size='2x' />
                     </Link>
                 )}
-                {beatportLink && (
+                {beatport_link && (
                     <Link
-                        to={beatportLink}
+                        to={beatport_link}
                         target='_blank'
                         rel='noopener noreferrer'
                         className='text-gray-400 hover:text-blue-600'
@@ -64,9 +64,9 @@ function ReleaseCard({
                         Beatport
                     </Link>
                 )}
-                {spotifyLink && (
+                {spotify_link && (
                     <Link
-                        to={spotifyLink}
+                        to={spotify_link}
                         target='_blank'
                         rel='noopener noreferrer'
                         className='text-gray-400 hover:text-green-400'
@@ -74,9 +74,9 @@ function ReleaseCard({
                         <FontAwesomeIcon icon={faSpotify} size='2x' />
                     </Link>
                 )}
-                {appleMusicLink && (
+                {apple_music_link && (
                     <Link
-                        to={appleMusicLink}
+                        to={apple_music_link}
                         target='_blank'
                         rel='noopener noreferrer'
                         className='text-gray-400 hover:text-purple-500'
@@ -84,9 +84,9 @@ function ReleaseCard({
                         <FontAwesomeIcon icon={faApple} size='2x' />
                     </Link>
                 )}
-                {youtubeLink && (
+                {youtube_link && (
                     <Link
-                        to={youtubeLink}
+                        to={youtube_link}
                         target='_blank'
                         rel='noopener noreferrer'
                         className='text-gray-400 hover:text-red-500'
@@ -94,9 +94,9 @@ function ReleaseCard({
                         <FontAwesomeIcon icon={faYoutube} size='2x' />
                     </Link>
                 )}
-                {soundcloudLink && (
+                {soundcloud_link && (
                     <Link
-                        to={soundcloudLink}
+                        to={soundcloud_link}
                         target='_blank'
                         rel='noopener noreferrer'
                         className='text-gray-400 hover:text-orange-500'
@@ -105,8 +105,8 @@ function ReleaseCard({
                     </Link>
                 )}
             </div>
-            {bandcampLink && (
-                <Button href={bandcampLink} className="btn-buy h-10 mx-auto mb-4">
+            {bandcamp_link && (
+                <Button href={bandcamp_link} className="btn-buy h-10 mx-auto mb-4">
                     Comprar
                 </Button>
             )}
@@ -118,18 +118,18 @@ function ReleaseCard({
 ReleaseCard.propTypes = {
     title: PropTypes.string.isRequired,
     artist: PropTypes.string.isRequired,
-    coverImageUrl: PropTypes.string.isRequired,
-    releaseDate: PropTypes.string.isRequired,
-    isExplicit: PropTypes.bool.isRequired,
+    cover_image_url: PropTypes.string.isRequired,
+    release_date: PropTypes.string.isRequired,
+    is_explicit: PropTypes.bool.isRequired,
     description: PropTypes.string.isRequired,
-    genreId: PropTypes.string.isRequired,
-    releaseType: PropTypes.string.isRequired,
-    bandcampLink: PropTypes.string,
-    beatportLink: PropTypes.string,
-    spotifyLink: PropTypes.string,
-    appleMusicLink: PropTypes.string,
-    youtubeLink: PropTypes.string,
-    soundcloudLink: PropTypes.string,
+    genre_id: PropTypes.string.isRequired,
+    release_type: PropTypes.string.isRequired,
+    bandcamp_link: PropTypes.string,
+    beatport_link: PropTypes.string,
+    spotify_link: PropTypes.string,
+    apple_music_link: PropTypes.string,
+    youtube_link: PropTypes.string,
+    soundcloud_link: PropTypes.string,
 }
 
 export default ReleaseCard

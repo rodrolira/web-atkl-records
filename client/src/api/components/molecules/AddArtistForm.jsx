@@ -31,13 +31,13 @@ const validationSchema = Yup.object().shape({
     // Agrega más validaciones para otros campos si es necesario
     bio: Yup.string(),
     image: Yup.mixed(),
-    bandcampLink: Yup.string(),
-    facebookLink: Yup.string(),
-    instagramLink: Yup.string(),
-    soundcloudLink: Yup.string(),
+    bandcamp_link: Yup.string(),
+    facebook_link: Yup.string(),
+    instagram_link: Yup.string(),
+    soundcloud_link: Yup.string(),
     twitterLink: Yup.string(),
-    youtubeLink: Yup.string(),
-    spotifyLink: Yup.string(),
+    youtube_link: Yup.string(),
+    spotify_link: Yup.string(),
 })
 
 const AddArtistForm = ({ onArtistAdded }) => {
@@ -117,13 +117,13 @@ const AddArtistForm = ({ onArtistAdded }) => {
                             // Agrega más campos iniciales si es necesario
                             bio: '',
                             image: '',
-                            bandcampLink: '',
-                            facebookLink: '',
-                            instagramLink: '',
-                            soundcloudLink: '',
+                            bandcamp_link: '',
+                            facebook_link: '',
+                            instagram_link: '',
+                            soundcloud_link: '',
                             twitterLink: '',
-                            youtubeLink: '',
-                            spotifyLink: '',
+                            youtube_link: '',
+                            spotify_link: '',
                         }}
                         validationSchema={validationSchema}
                         onSubmit={onSubmit}
@@ -240,7 +240,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                         )}
                                     </Field> */}
                                     <FileUpload />
-                                    <Field name="bandcampLink">
+                                    <Field name="bandcamp_link">
                                         {({ field }) => (
                                             <TextField
                                                 {...field}
@@ -249,7 +249,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                             />
                                         )}
                                     </Field>
-                                    <Field name="facebookLink">
+                                    <Field name="facebook_link">
                                         {({ field }) => (
                                             <TextField
                                                 {...field}
@@ -258,7 +258,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                             />
                                         )}
                                     </Field>
-                                    <Field name="instagramLink">
+                                    <Field name="instagram_link">
                                         {({ field }) => (
                                             <TextField
                                                 {...field}
@@ -267,7 +267,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                             />
                                         )}
                                     </Field>
-                                    <Field name="soundcloudLink">
+                                    <Field name="soundcloud_link">
                                         {({ field }) => (
                                             <TextField
                                                 {...field}
@@ -285,7 +285,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                             />
                                         )}
                                     </Field>
-                                    <Field name="youtubeLink">
+                                    <Field name="youtube_link">
                                         {({ field }) => (
                                             <TextField
                                                 {...field}
@@ -294,7 +294,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                             />
                                         )}
                                     </Field>
-                                    <Field name="spotifyLink">
+                                    <Field name="spotify_link">
                                         {({ field }) => (
                                             <TextField
                                                 {...field}

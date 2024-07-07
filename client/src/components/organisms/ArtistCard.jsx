@@ -15,17 +15,7 @@ import { useAdminAuth } from '../../contexts/AdminAuthContext'
 import Button from '../atoms/Button'
 
 const ArtistCard = ({ artist }) => {
-    const {
-        id,
-        artistName,
-        role,
-        image,
-        twitterLink,
-        instagramLink,
-        facebookLink,
-        soundcloudLink,
-        bandcampLink,
-    } = artist
+
     const { deleteArtist, artists, setArtists } = useArtists() // Obtener la función de eliminación del contexto
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
     const [showEditModal, setShowEditModal] = useState(false) // Estado para controlar la visibilidad del modal
@@ -33,7 +23,7 @@ const ArtistCard = ({ artist }) => {
     const handleDelete = async () => {
         if (
             window.confirm(
-                `¿Estás seguro de que deseas eliminar al artista ${artistName}?`
+                `¿Estás seguro de que deseas eliminar al artista ${artist_name}?`
             )
         ) {
             try {
@@ -57,12 +47,12 @@ const ArtistCard = ({ artist }) => {
     return (
         <>
             <div className='bg-black max-w-sm border border-gray-200 rounded-lg shadow dark:border-purple-500 relative'>
-                <Link to={`/artists/${id}`} className='block relative'>
+                <Link to={`/artists/${artist.id}`} className='block relative'>
                     <div className='w-full rounded-t-lg overflow-hidden relative'>
                         <img
                             className='rounded-t-lg'
-                            src={`http://localhost:3000/${image}`}
-                            alt={artistName}
+                            src={`http://localhost:3000/${artist.image}`}
+                            alt={artist.artist_name}
                         />
                         {adminAuthenticated && (
                             <div className='absolute top-2 right-2 flex space-x-2'>
@@ -86,16 +76,16 @@ const ArtistCard = ({ artist }) => {
                     </div>
 
                     <h5 className='text-2xl font-bold tracking-tight text-white text-center'>
-                        {artistName}
+                        {artist.artist_name}
                     </h5>
                 </Link>
                 <h4 className='mb-2 text-xl font-bold tracking-tight text-white text-center'>
-                    {role}
+                    {artist.role}
                 </h4>
                 <div className='flex space-x-4 text-2xl justify-center my-2'>
-                    {twitterLink && (
+                    {artist.twitter_link && (
                         <Link
-                            to={twitterLink}
+                            to={artist.twitter_link}
                             target='_blank'
                             rel='noopener noreferrer'
                             aria-label='View Twitter Profile'
@@ -104,9 +94,9 @@ const ArtistCard = ({ artist }) => {
                             <FontAwesomeIcon icon={faTwitter} />
                         </Link>
                     )}
-                    {instagramLink && (
+                    {artist.instagram_link && (
                         <Link
-                            to={instagramLink}
+                            to={artist.instagram_link}
                             target='_blank'
                             rel='noopener noreferrer'
                             aria-label='View Instagram Profile'
@@ -115,9 +105,9 @@ const ArtistCard = ({ artist }) => {
                             <FontAwesomeIcon icon={faInstagram} />
                         </Link>
                     )}
-                    {facebookLink && (
+                    {artist.facebook_link && (
                         <Link
-                            to={facebookLink}
+                            to={artist.facebook_link}
                             target='_blank'
                             rel='noopener noreferrer'
                             aria-label='View Facebook Profile'
@@ -126,9 +116,9 @@ const ArtistCard = ({ artist }) => {
                             <FontAwesomeIcon icon={faFacebook} />
                         </Link>
                     )}
-                    {soundcloudLink && (
+                    {artist.soundcloud_link && (
                         <Link
-                            to={soundcloudLink}
+                            to={artist.soundcloud_link}
                             target='_blank'
                             rel='noopener noreferrer'
                             aria-label='View Soundcloud Profile'
@@ -137,9 +127,9 @@ const ArtistCard = ({ artist }) => {
                             <FontAwesomeIcon icon={faSoundcloud} />
                         </Link>
                     )}
-                    {bandcampLink && (
+                    {artist.bandcamp_link && (
                         <Link
-                            to={bandcampLink}
+                            to={artist.bandcamp_link}
                             target='_blank'
                             rel='noopener noreferrer'
                             aria-label='View Bandcamp Profile'
@@ -163,13 +153,13 @@ const ArtistCard = ({ artist }) => {
 ArtistCard.propTypes = {
     artist: PropTypes.shape({
         id: PropTypes.number.isRequired,
-        artistName: PropTypes.string.isRequired,
+        artist_name: PropTypes.string.isRequired,
         image: PropTypes.string,
-        twitterLink: PropTypes.string,
-        instagramLink: PropTypes.string,
-        facebookLink: PropTypes.string,
-        soundcloudLink: PropTypes.string,
-        bandcampLink: PropTypes.string,
+        twitter_link: PropTypes.string,
+        instagram_link: PropTypes.string,
+        facebook_link: PropTypes.string,
+        soundcloud_link: PropTypes.string,
+        bandcamp_link: PropTypes.string,
     }).isRequired,
 }
 

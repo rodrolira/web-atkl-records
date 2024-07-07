@@ -13,11 +13,11 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    releaseDate: {
+    release_date: {
       type: Sequelize.DATE,
       allowNull: true,
     },
-    isExplicit: {
+    is_explicit: {
       type: Sequelize.BOOLEAN,
       allowNull: true,
     },
@@ -36,35 +36,35 @@ export async function up(queryInterface, Sequelize) {
       ),
       allowNull: true,
     },
-    coverImageUrl: {
+    cover_image_url: {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    releaseType: {
+    release_type: {
       type: Sequelize.ENUM("Album", "EP", "Single", "V.A"),
       allowNull: false,
     },
-    bandcampLink: {
+    bandcamp_link: {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    beatportLink: {
+    beatport_link: {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    spotifyLink: {
+    spotify_link: {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    appleMusicLink: {
+    apple_music_link: {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    youtubeLink: {
+    youtube_link: {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    soundcloudLink: {
+    soundcloud_link: {
       type: Sequelize.STRING,
       allowNull: true,
     },

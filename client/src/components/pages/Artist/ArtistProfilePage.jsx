@@ -20,7 +20,7 @@ import Title from '../../atoms/Title'
 
 const ReleasesPage = React.lazy(() => import('../ReleasesPage'))
 
-function ArtistProfilePage () {
+function ArtistProfilePage() {
     const { id } = useParams()
     const [artist, setArtist] = useState(null)
     const { language } = useLanguage()
@@ -96,9 +96,9 @@ function ArtistProfilePage () {
                                             <FontAwesomeIcon icon={faTwitter} />
                                         </a>
                                     )}
-                                    {artist.instagramLink && (
+                                    {artist.instagram_link && (
                                         <a
-                                            href={artist.instagramLink}
+                                            href={artist.instagram_link}
                                             target='_blank'
                                             rel='noopener noreferrer'
                                             className='text-gray-400 dark:text-orange-500 hover:text-red-500 dark:hover:text-red-300'
@@ -108,9 +108,9 @@ function ArtistProfilePage () {
                                             />
                                         </a>
                                     )}
-                                    {artist.facebookLink && (
+                                    {artist.facebook_link && (
                                         <a
-                                            href={artist.facebookLink}
+                                            href={artist.facebook_link}
                                             target='_blank'
                                             rel='noopener noreferrer'
                                             className='text-gray-400 dark:text-blue-600 hover:text-blue-800 dark:hover:text-blue-600'
@@ -120,9 +120,9 @@ function ArtistProfilePage () {
                                             />
                                         </a>
                                     )}
-                                    {artist.soundcloudLink && (
+                                    {artist.soundcloud_link && (
                                         <a
-                                            href={artist.soundcloudLink}
+                                            href={artist.soundcloud_link}
                                             target='_blank'
                                             rel='noopener noreferrer'
                                             className='text-gray-400 dark:text-red-400 hover:text-red-600 dark:hover:text-red-400'
@@ -132,9 +132,9 @@ function ArtistProfilePage () {
                                             />
                                         </a>
                                     )}
-                                    {artist.bandcampLink && (
+                                    {artist.bandcamp_link && (
                                         <a
-                                            href={artist.bandcampLink}
+                                            href={artist.bandcamp_link}
                                             target='_blank'
                                             rel='noopener noreferrer'
                                             className='text-gray-400 dark:text-teal-500 hover:text-teal-600 dark:hover:text-teal-500'
