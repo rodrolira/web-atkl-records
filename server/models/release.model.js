@@ -10,11 +10,11 @@ const Release = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    releaseDate: {
+    release_date: {
       type: DataTypes.DATE,
       allowNull: true,
     },
-    genreId: {
+    genre_id: {
       type: DataTypes.INTEGER,
       references: {
         model: Genre,
@@ -22,7 +22,7 @@ const Release = sequelize.define(
       },
       allowNull: true, // Adjust this as per your schema
     },
-    artistId: {
+    artist_id: {
       type: DataTypes.INTEGER,
       references: {
         model: Artist,
@@ -30,7 +30,7 @@ const Release = sequelize.define(
       },
       allowNull: true, // Adjust this as per your schema
     },
-    isExplicit: {
+    is_explicit: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
     },
@@ -38,35 +38,35 @@ const Release = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    coverImageUrl: {
+    cover_image_url: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    releaseType: {
+    release_type: {
       type: DataTypes.ENUM("Album", "EP", "Single", "V.A"),
       allowNull: false,
     },
-    bandcampLink: {
+    bandcamp_link: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    beatportLink: {
+    beatport_link: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    spotifyLink: {
+    spotify_link: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    appleMusicLink: {
+    apple_music_link: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    youtubeLink: {
+    youtube_link: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    soundcloudLink: {
+    soundcloud_link: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -77,7 +77,9 @@ const Release = sequelize.define(
   }
 );
 
-// Define la relación entre Release y Artist si es necesaria
-Release.belongsTo(Artist, { foreignKey: "artistId" });
+Release.belongsToMany(Artist, {
+  through: "release_artists", // Nombre de la tabla que Sequelize creará automáticamente
+  foreignKey: "release_id", // Nombre del campo en la tabla intermedia que referencia Release
+});
 
 export default Release;
