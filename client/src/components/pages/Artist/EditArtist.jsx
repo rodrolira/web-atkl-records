@@ -12,12 +12,20 @@ import { getArtistRequest } from '../../../api/artists'
 const validationSchema = Yup.object().shape({
     artistName: Yup.string().required('Artist name is required'),
     image: Yup.mixed(),
-    socialLinks: Yup.array().of(
-        Yup.object().shape({
-            network: Yup.string().required('Social network is required'),
-            link: Yup.string().url('Invalid URL').required('Link is required'),
-        })
-    ),
+    role: Yup.array().of(Yup.string()).min(1, 'At least one role must be selected').test('both-roles', 'Both DJ and Producer must be selected together', (value) => {
+        return value.includes('DJ') && value.includes('Producer') // Updated validation for role as an array of stringstialize as an empty array for multiple selection
+    }),
+    bio: Yup.string(),
+    twitter_link: Yup.string(),
+    instagram_link: Yup.string(),
+    facebook_link: Yup.string(),
+    soundcloud_link: Yup.string(),
+    bandcamp_link: Yup.string(),
+    youtube_link: Yup.string(),
+    spotify_link: Yup.string(),
+    apple_music_link: Yup.string(),
+    beatport_link: Yup.string(),
+
 })
 
 function EditArtist() {
@@ -26,9 +34,18 @@ function EditArtist() {
     const [initialValues, setInitialValues] = useState({
         artistName: '',
         image: '',
-        socialLinks: [],
         role: [], // Initialize as an empty array for multiple selection
         bio: '',
+        twitter_link: '',
+        instagram_link: '',
+        facebook_link: '',
+        soundcloud_link: '',
+        bandcamp_link: '',
+        youtube_link: '',
+        spotify_link: '',
+        apple_music_link: '',
+        beatport_link: '',
+
     })
 
     const { updateArtist, deleteArtist } = useArtists()
@@ -49,7 +66,13 @@ function EditArtist() {
     const handleSubmit = async (values, { setSubmitting }) => {
         const formData = new FormData()
         for (const key in values) {
-            formData.append(key, values[key])
+            if (key === 'role') {
+                // Convert role to array if it's not already
+                formData.append('role', Array.isArray(values.role) ? values.role.join(',') : values.role)
+            } else {
+                formData.append(key, values[key])
+            }
+
         }
 
         try {
@@ -134,6 +157,13 @@ function EditArtist() {
                                     component='div'
                                     className='text-red-500 text-sm mt-1'
                                 />
+                                {/* Mostrar ambos roles seleccionados */}
+                                {values.role.includes('DJ') && values.role.includes('Producer') && (
+                                    <div className='mt-2 text-gray-600'>
+                                        DJ / Producer
+                                    </div>
+                                )}
+
                             </div>
                             <div className='mb-4'>
                                 <label

@@ -24,13 +24,16 @@ const validationSchema = Yup.object().shape({
     release_date: Yup.date().required('Release date is required'),
     genre_id: Yup.number().required('Genre is required'),
     release_type: Yup.string().required('Release type is required'),
-    artistIds: Yup.number().min(1, 'At least one artist is required'),
-    // bandcamp_link: Yup.string(),
-    // beatport_link: Yup.string(),
-    // spotify_link: Yup.string(),
-    // apple_music_link: Yup.string(),
-    // youtube_link: Yup.string(),
-    // soundcloud_link: Yup.string(),
+    artist_ids: Yup.number().min(1, 'At least one artist is required'),
+    bandcamp_link: Yup.string(),
+    beatport_link: Yup.string(),
+    spotify_link: Yup.string(),
+    apple_music_link: Yup.string(),
+    youtube_link: Yup.string(),
+    soundcloud_link: Yup.string(),
+    cover_image_url: Yup.mixed(),
+    description: Yup.string(),
+
 })
 
 const AddReleaseForm = ({ onReleaseAdded }) => {
@@ -41,7 +44,7 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
     const { genres, fetchGenres } = useGenres()
 
     useEffect(() => {
-        // fetchArtists()
+        fetchArtists()
         fetchGenres()
     }, [])
 
@@ -57,7 +60,7 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
     const handleSubmit = async (values, { setSubmitting }) => {
         const formData = new FormData();
         for (const key in values) {
-            if (key === 'artistIds') {
+            if (key === 'artist_ids') {
                 values[key].forEach(id => formData.append(key, id)); // Append each artist_id to FormData
             } else {
                 formData.append(key, values[key]);
@@ -109,13 +112,13 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                             release_date: '',
                             genre_id: '',
                             release_type: '',
-                            // bandcamp_link: '',
-                            // beatport_link: '',
-                            // spotify_link: '',
-                            // apple_music_link: '',
-                            // youtube_link: '',
-                            // soundcloud_link: '',
-                            artistIds: [], // Use artistIds instead of artistIds
+                            bandcamp_link: '',
+                            beatport_link: '',
+                            spotify_link: '',
+                            apple_music_link: '',
+                            youtube_link: '',
+                            soundcloud_link: '',
+                            artist_ids: [], // Use artist_ids instead of artist_ids
                         }}
                         validationSchema={validationSchema}
                         onSubmit={handleSubmit}
@@ -164,31 +167,31 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                             </TextField>
                                         )}
                                     </Field>
-                                    <Field name="artistIds">
+                                    <Field name="artist_ids">
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
                                                 select
                                                 label="Artist"
                                                 variant="outlined"
-                                                error={Boolean(form.errors.artistIds && form.touched.artistIds)}
-                                                helperText={form.errors.artistIds && form.touched.artistIds && form.errors.artistIds}
+                                                error={Boolean(form.errors.artist_ids && form.touched.artist_ids)}
+                                                helperText={form.errors.artist_ids && form.touched.artist_ids && form.errors.artist_ids}
                                                 onChange={(e) => {
                                                     const selectedIds = e.target.value;
-                                                    setFieldValue('artistIds', selectedIds);
+                                                    setFieldValue('artist_ids', selectedIds);
                                                 }}
                                                 SelectProps={{
                                                     multiple: true,
                                                     value: field.value || [],
                                                     onChange: (e) => {
                                                         const selectedIds = e.target.value;
-                                                        setFieldValue('artistIds', selectedIds);
+                                                        setFieldValue('artist_ids', selectedIds);
                                                     },
                                                     renderValue: (selected) => (
                                                         <div>
                                                             {selected.map(id => (
                                                                 <MenuItem key={id} value={id}>
-                                                                    {artists.find(artist => artist.id === id)?.artistName}
+                                                                    {artists.find(artist => artist.id === id)?.artist_name}
                                                                 </MenuItem>
                                                             ))}
                                                         </div>
@@ -197,14 +200,14 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                             >
                                                 {artists.map((artist) => (
                                                     <MenuItem key={artist.id} value={artist.id}>
-                                                        {artist.artistName}
+                                                        {artist.artist_name}
                                                     </MenuItem>
                                                 ))}
                                             </TextField>
                                         )}
                                     </Field>
                                     <FileUploadRelease />
-                                    {/* <Field name="bandcamp_link">
+                                    <Field name="bandcamp_link">
                                         {({ field }) => (
                                             <TextField {...field} label="Bandcamp Link" variant="outlined" />
                                         )}
@@ -233,7 +236,7 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                         {({ field }) => (
                                             <TextField {...field} label="Soundcloud Link" variant="outlined" />
                                         )}
-                                    </Field> */}
+                                    </Field>
                                     <Button className="btn-add" type="submit" variant="contained" color="success" disabled={isSubmitting}>
                                         {isSubmitting ? 'Adding...' : 'Add'}
                                     </Button>

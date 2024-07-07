@@ -8,6 +8,9 @@ import {
     faFacebook,
     faSoundcloud,
     faBandcamp,
+    faYoutube,
+    faSpotify,
+
 } from '@fortawesome/free-brands-svg-icons'
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useArtists } from '../../contexts/ArtistContext'
@@ -136,6 +139,28 @@ const ArtistCard = ({ artist }) => {
                             className='text-gray-400 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-500'
                         >
                             <FontAwesomeIcon icon={faBandcamp} />
+                        </Link>
+                    )}
+                    {artist.youtube_link && (
+                        <Link
+                            to={artist.youtube_link}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            aria-label='View YouTube Profile'
+                            className='text-gray-400 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400'
+                        >
+                            <FontAwesomeIcon icon={faYoutube} />
+                        </Link>
+                    )}
+                    {artist.spotify_link && (
+                        <Link
+                            to={artist.spotify_link}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            aria-label='View Spotify Profile'
+                            className='text-gray-400 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400'
+                        >
+                            <FontAwesomeIcon icon={faSpotify} />
                         </Link>
                     )}
                 </div>
