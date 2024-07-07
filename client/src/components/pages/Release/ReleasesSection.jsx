@@ -2,12 +2,12 @@
 
 // eslint-disable-next-line react/prop-types, no-unused-vars
 import React, { useContext, useEffect, useState } from 'react'
-import { useLanguage } from '../../contexts/LanguageContext'
-import Title from '../atoms/Title'
-import { useAdminAuth } from '../../contexts/AdminAuthContext'
-import ReleaseCard from './ReleaseCard'
-import AddReleaseForm from '../molecules/AddReleaseForm'
-import { ReleaseContext } from '../../contexts/ReleaseContext'
+import Title from '../../atoms/Title'
+import { useAdminAuth } from '../../../contexts/AdminAuthContext'
+import ReleaseCard from '../../organisms/ReleaseCard'
+import { ReleaseContext } from '../../../contexts/ReleaseContext'
+import { useLanguage } from '../../../contexts/LanguageContext';
+import AddReleaseForm from './AddReleaseForm';
 
 function ReleasesSection() {
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
