@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Button from '../atoms/Button'
-import AddReleaseForm from '../molecules/AddReleaseForm' // Importa el formulario de agregar artista
+import AddReleaseForm from '../pages/Release/AddReleaseForm';
 
 const AddReleaseButton = () => {
     const [open, openChange] = useState(false)

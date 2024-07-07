@@ -117,13 +117,12 @@ function ReleaseCard({
 
 ReleaseCard.propTypes = {
     title: PropTypes.string.isRequired,
-    artist: PropTypes.string.isRequired,
     cover_image_url: PropTypes.string.isRequired,
-    release_date: PropTypes.string.isRequired,
-    is_explicit: PropTypes.bool.isRequired,
-    description: PropTypes.string.isRequired,
-    genre_id: PropTypes.string.isRequired,
-    release_type: PropTypes.string.isRequired,
+    release_date: PropTypes.string,
+    is_explicit: PropTypes.bool,
+    description: PropTypes.string,
+    genre_id: PropTypes.string,
+    release_type: PropTypes.string,
     bandcamp_link: PropTypes.string,
     beatport_link: PropTypes.string,
     spotify_link: PropTypes.string,

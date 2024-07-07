@@ -2,7 +2,6 @@
 import * as React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from '../components/pages/Home'
-import ArtistsPage from '../components/pages/ArtistsPage'
 import LoginAdminPage from '../components/pages/LoginAdminPage'
 import LoginArtistPage from '../components/pages/LoginArtistPage'
 import RegisterPage from '../components/pages/RegisterPage'
@@ -18,10 +17,11 @@ import Footer from '../components/organisms/Footer'
 import AdminDashboard from '../admin/AdminDashboard'
 import ProtectedRoute from '../ProtectedRoute'
 import EditArtist from '../components/pages/Artist/EditArtist'
-import ArtistPage from '../components/pages/Artist/ArtistPage'
 import { GenreProvider } from '../contexts/GenreContext'
 import ArtistProfilePage from '../components/pages/Artist/ArtistProfilePage'
 import AdminProtectedRoute from '../AdminProtectedRoute'
+import ArtistsPage from '../components/pages/Artist/ArtistsPage';
+import ArtistPage from '../components/pages/Artist/ArtistPage';
 
 const Layout = () => {
     return (

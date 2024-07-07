@@ -50,10 +50,15 @@ function EditArtistModal({ onClose }) {
     }
 
     const handleSubmit = async (values, { setSubmitting }) => {
+        // Formatear roles seleccionados con "/"
+        const formattedRoles = Array.isArray(values.role) ? values.role.join(' / ') : values.role;
+
         const formData = new FormData()
         for (const key in values) {
             formData.append(key, values[key])
         }
+        // Añadir roles formateados al FormData
+        formData.set('role', formattedRoles);
 
         try {
             await updateArtist(id, formData)
