@@ -20,7 +20,7 @@ import Modal from '../../atoms/Modal'
 
 const ReleasesPage = React.lazy(() => import('../ReleasesPage'))
 
-function ArtistPage () {
+function ArtistPage() {
     const { id } = useParams()
     const [artist, setArtist] = useState(null)
     const { language } = useLanguage()
@@ -62,7 +62,7 @@ function ArtistPage () {
                     <div className='w-1/3 p-4 border-r text-center text-white'>
                         <div className='flex items-center justify-center mb-2'>
                             <h1 className='text-2xl font-bold'>
-                                {artist.artistName}
+                                {artist.artist_name}
                             </h1>
                             {adminAuthenticated && (
                                 <Button
@@ -81,16 +81,16 @@ function ArtistPage () {
                             <img
                                 className='rounded-t-lg'
                                 src={`http://localhost:3000/${artist.image}`}
-                                alt={artist.artistName}
+                                alt={artist.artist_name}
                             />
                             <div className='bg-slate-900 border-gray-200 w-full h-full relative rounded-b-lg'>
                                 <h1 className='text-2xl font-semibold tracking-tight text-white text-center'>
                                     {artist.role}
                                 </h1>
                                 <div className='flex space-x-4 text-2xl justify-center my-2 py-2'>
-                                    {artist.twitterLink && (
+                                    {artist.twitter_link && (
                                         <a
-                                            href={artist.twitterLink}
+                                            href={artist.twitter_link}
                                             target='_blank'
                                             rel='noopener noreferrer'
                                             aria-label='View Twitter Profile'
@@ -99,9 +99,9 @@ function ArtistPage () {
                                             <FontAwesomeIcon icon={faTwitter} />
                                         </a>
                                     )}
-                                    {artist.instagramLink && (
+                                    {artist.instagram_link && (
                                         <a
-                                            href={artist.instagramLink}
+                                            href={artist.instagram_link}
                                             target='_blank'
                                             rel='noopener noreferrer'
                                             aria-label='View Instagram Profile'
@@ -112,9 +112,9 @@ function ArtistPage () {
                                             />
                                         </a>
                                     )}
-                                    {artist.facebookLink && (
+                                    {artist.facebook_link && (
                                         <a
-                                            href={artist.facebookLink}
+                                            href={artist.facebook_link}
                                             target='_blank'
                                             rel='noopener noreferrer'
                                             aria-label='View Facebook Profile'
@@ -125,9 +125,9 @@ function ArtistPage () {
                                             />
                                         </a>
                                     )}
-                                    {artist.soundcloudLink && (
+                                    {artist.soundcloud_link && (
                                         <a
-                                            href={artist.soundcloudLink}
+                                            href={artist.soundcloud_link}
                                             target='_blank'
                                             rel='noopener noreferrer'
                                             aria-label='View SoundCloud Profile'
@@ -138,9 +138,9 @@ function ArtistPage () {
                                             />
                                         </a>
                                     )}
-                                    {artist.bandcampLink && (
+                                    {artist.bandcamp_link && (
                                         <a
-                                            href={artist.bandcampLink}
+                                            href={artist.bandcamp_link}
                                             target='_blank'
                                             rel='noopener noreferrer'
                                             aria-label='View Bandcamp Profile'

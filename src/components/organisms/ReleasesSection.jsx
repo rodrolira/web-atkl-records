@@ -38,13 +38,13 @@ function ReleasesSection() {
                         key={index}
                         title={release.title}
                         artistName={release.artistName}
-                        coverImageUrl={release.coverImageUrl}
-                        bandcampLink={release.bandcampLink}
-                        beatportLink={release.beatportLink}
-                        spotifyLink={release.spotifyLink}
-                        appleMusicLink={release.appleMusicLink}
-                        youtubeLink={release.youtubeLink}
-                        soundcloudLink={release.soundcloudLink}
+                        cover_image_url={release.cover_image_url}
+                        bandcamp_link={release.bandcamp_link}
+                        beatport_link={release.beatport_link}
+                        spotify_link={release.spotify_link}
+                        apple_music_link={release.apple_music_link}
+                        youtube_link={release.youtube_link}
+                        soundcloud_link={release.soundcloud_link}
                     />
                 ))}
         </div>

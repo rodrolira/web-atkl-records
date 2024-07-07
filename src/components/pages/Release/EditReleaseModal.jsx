@@ -17,17 +17,17 @@ import Modal from '../../atoms/Modal'
 const validationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
     artist: Yup.string().required('Artist is required'),
-    coverImageUrl: Yup.mixed(),
-    releaseDate: Yup.date().required('Release Date is required'),
+    cover_image_url: Yup.mixed(),
+    release_date: Yup.date().required('Release Date is required'),
     description: Yup.string(),
-    genreId: Yup.string().required('Genre is required'),
-    releaseType: Yup.string().required('Release Type is required'),
-    bandcampLink: Yup.string().url('Invalid URL'),
-    beatportLink: Yup.string().url('Invalid URL'),
-    spotifyLink: Yup.string().url('Invalid URL'),
-    appleMusicLink: Yup.string().url('Invalid URL'),
-    youtubeLink: Yup.string().url('Invalid URL'),
-    soundcloudLink: Yup.string().url('Invalid URL'),
+    genre_id: Yup.string().required('Genre is required'),
+    release_type: Yup.string().required('Release Type is required'),
+    bandcamp_link: Yup.string().url('Invalid URL'),
+    beatport_link: Yup.string().url('Invalid URL'),
+    spotify_link: Yup.string().url('Invalid URL'),
+    apple_music_link: Yup.string().url('Invalid URL'),
+    youtube_link: Yup.string().url('Invalid URL'),
+    soundcloud_link: Yup.string().url('Invalid URL'),
 })
 
 function EditReleaseModal({ onClose }) {
@@ -36,18 +36,18 @@ function EditReleaseModal({ onClose }) {
     const [initialValues, setInitialValues] = useState({
         title: '',
         artist: '',
-        coverImageUrl: '',
-        releaseDate: '',
-        isExplicit: false,
+        cover_image_url: '',
+        release_date: '',
+        is_explicit: false,
         description: '',
-        genreId: '',
-        releaseType: '',
-        bandcampLink: '',
-        beatportLink: '',
-        spotifyLink: '',
-        appleMusicLink: '',
-        youtubeLink: '',
-        soundcloudLink: '',
+        genre_id: '',
+        release_type: '',
+        bandcamp_link: '',
+        beatport_link: '',
+        spotify_link: '',
+        apple_music_link: '',
+        youtube_link: '',
+        soundcloud_link: '',
     })
 
     const { updateRelease, deleteRelease } = useReleases()
@@ -56,9 +56,9 @@ function EditReleaseModal({ onClose }) {
         fetchRelease(id)
     }, [id])
 
-    const fetchRelease = async (releaseId) => {
+    const fetchRelease = async (release_id) => {
         try {
-            const response = await getReleaseRequest(releaseId)
+            const response = await getReleaseRequest(release_id)
             setInitialValues(response.data)
         } catch (error) {
             console.error('Error fetching release:', error)
@@ -149,34 +149,34 @@ function EditReleaseModal({ onClose }) {
                         </div>
                         <div className='mb-4'>
                             <label
-                                htmlFor='releaseDate'
+                                htmlFor='release_date'
                                 className='block text-gray-700 font-bold mb-2'
                             >
                                 Release Date
                             </label>
                             <Field
                                 type='date'
-                                id='releaseDate'
-                                name='releaseDate'
+                                id='release_date'
+                                name='release_date'
                                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                             />
                             <ErrorMessage
-                                name='releaseDate'
+                                name='release_date'
                                 component='div'
                                 className='text-red-500 text-sm mt-1'
                             />
                         </div>
                         <div className='mb-4'>
                             <label
-                                htmlFor='isExplicit'
+                                htmlFor='is_explicit'
                                 className='block text-gray-700 font-bold mb-2'
                             >
                                 Explicit Content
                             </label>
                             <Field
                                 type='checkbox'
-                                id='isExplicit'
-                                name='isExplicit'
+                                id='is_explicit'
+                                name='is_explicit'
                                 className='mr-2 leading-tight'
                             />
                         </div>
@@ -202,164 +202,164 @@ function EditReleaseModal({ onClose }) {
                         </div>
                         <div className='mb-4'>
                             <label
-                                htmlFor='genreId'
+                                htmlFor='genre_id'
                                 className='block text-gray-700 font-bold mb-2'
                             >
                                 Genre
                             </label>
                             <Field
                                 as='select'
-                                id='genreId'
-                                name='genreId'
+                                id='genre_id'
+                                name='genre_id'
                                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                             >
                                 <option value=''>Select Genre</option>
                                 {/* Add your genre options here */}
                             </Field>
                             <ErrorMessage
-                                name='genreId'
+                                name='genre_id'
                                 component='div'
                                 className='text-red-500 text-sm mt-1'
                             />
                         </div>
                         <div className='mb-4'>
                             <label
-                                htmlFor='releaseType'
+                                htmlFor='release_type'
                                 className='block text-gray-700 font-bold mb-2'
                             >
                                 Release Type
                             </label>
                             <Field
                                 as='select'
-                                id='releaseType'
-                                name='releaseType'
+                                id='release_type'
+                                name='release_type'
                                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                             >
                                 <option value=''>Select Release Type</option>
                                 {/* Add your release type options here */}
                             </Field>
                             <ErrorMessage
-                                name='releaseType'
+                                name='release_type'
                                 component='div'
                                 className='text-red-500 text-sm mt-1'
                             />
                         </div>
                         <div className='mb-4'>
                             <label
-                                htmlFor='bandcampLink'
+                                htmlFor='bandcamp_link'
                                 className='block text-gray-700 font-bold mb-2'
                             >
                                 Bandcamp Link
                             </label>
                             <Field
                                 type='text'
-                                id='bandcampLink'
-                                name='bandcampLink'
+                                id='bandcamp_link'
+                                name='bandcamp_link'
                                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                                 placeholder='Bandcamp Link'
                             />
                             <ErrorMessage
-                                name='bandcampLink'
+                                name='bandcamp_link'
                                 component='div'
                                 className='text-red-500 text-sm mt-1'
                             />
                         </div>
                         <div className='mb-4'>
                             <label
-                                htmlFor='beatportLink'
+                                htmlFor='beatport_link'
                                 className='block text-gray-700 font-bold mb-2'
                             >
                                 Beatport Link
                             </label>
                             <Field
                                 type='text'
-                                id='beatportLink'
-                                name='beatportLink'
+                                id='beatport_link'
+                                name='beatport_link'
                                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                                 placeholder='Beatport Link'
                             />
                             <ErrorMessage
-                                name='beatportLink'
+                                name='beatport_link'
                                 component='div'
                                 className='text-red-500 text-sm mt-1'
                             />
                         </div>
                         <div className='mb-4'>
                             <label
-                                htmlFor='spotifyLink'
+                                htmlFor='spotify_link'
                                 className='block text-gray-700 font-bold mb-2'
                             >
                                 Spotify Link
                             </label>
                             <Field
                                 type='text'
-                                id='spotifyLink'
-                                name='spotifyLink'
+                                id='spotify_link'
+                                name='spotify_link'
                                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                                 placeholder='Spotify Link'
                             />
                             <ErrorMessage
-                                name='spotifyLink'
+                                name='spotify_link'
                                 component='div'
                                 className='text-red-500 text-sm mt-1'
                             />
                         </div>
                         <div className='mb-4'>
                             <label
-                                htmlFor='appleMusicLink'
+                                htmlFor='apple_music_link'
                                 className='block text-gray-700 font-bold mb-2'
                             >
                                 Apple Music Link
                             </label>
                             <Field
                                 type='text'
-                                id='appleMusicLink'
-                                name='appleMusicLink'
+                                id='apple_music_link'
+                                name='apple_music_link'
                                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                                 placeholder='Apple Music Link'
                             />
                             <ErrorMessage
-                                name='appleMusicLink'
+                                name='apple_music_link'
                                 component='div'
                                 className='text-red-500 text-sm mt-1'
                             />
                         </div>
                         <div className='mb-4'>
                             <label
-                                htmlFor='youtubeLink'
+                                htmlFor='youtube_link'
                                 className='block text-gray-700 font-bold mb-2'
                             >
                                 YouTube Link
                             </label>
                             <Field
                                 type='text'
-                                id='youtubeLink'
-                                name='youtubeLink'
+                                id='youtube_link'
+                                name='youtube_link'
                                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                                 placeholder='YouTube Link'
                             />
                             <ErrorMessage
-                                name='youtubeLink'
+                                name='youtube_link'
                                 component='div'
                                 className='text-red-500 text-sm mt-1'
                             />
                         </div>
                         <div className='mb-4'>
                             <label
-                                htmlFor='soundcloudLink'
+                                htmlFor='soundcloud_link'
                                 className='block text-gray-700 font-bold mb-2'
                             >
                                 SoundCloud Link
                             </label>
                             <Field
                                 type='text'
-                                id='soundcloudLink'
-                                name='soundcloudLink'
+                                id='soundcloud_link'
+                                name='soundcloud_link'
                                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                                 placeholder='SoundCloud Link'
                             />
                             <ErrorMessage
-                                name='soundcloudLink'
+                                name='soundcloud_link'
                                 component='div'
                                 className='text-red-500 text-sm mt-1'
                             />
