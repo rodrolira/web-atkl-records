@@ -37,10 +37,10 @@ const upload = multer({
 });
 
 // Rutas
-router.post("/releases", upload.single("coverImageUrl"), addRelease);
+router.post("/releases", upload.single("cover_image_url"), addRelease);
 router.get("/releases", getReleases);
 router.get("/releases/:id", fetchReleaseById);
-router.put("/releases/:id", upload.single("coverImageUrl"), updateRelease);
+router.put("/releases/:id", upload.single("cover_image_url"), updateRelease);
 router.delete("/releases/:id", deleteRelease);
 
 export default router;

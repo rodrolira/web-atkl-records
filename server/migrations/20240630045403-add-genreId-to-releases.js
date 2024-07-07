@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 export async function up(queryInterface, Sequelize) {
-  await queryInterface.addColumn("releases", "genreId", {
+  await queryInterface.addColumn("releases", "genre_id", {
     type: Sequelize.INTEGER,
     references: {
       model: "Genres",
@@ -13,5 +13,5 @@ export async function up(queryInterface, Sequelize) {
   });
 }
 export async function down(queryInterface, Sequelize) {
-  await queryInterface.removeColumn("releases", "genreId");
+  await queryInterface.removeColumn("releases", "genre_id");
 }
