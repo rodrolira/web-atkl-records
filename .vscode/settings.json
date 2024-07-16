@@ -10,6 +10,9 @@
     "accessibility.signalOptions.volume": 10,
     "editor.bracketPairColorization.enabled": true,
     "editor.guides.bracketPairs": "active",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
     "bracket-pair-colorizer-2.colors": [
         "#fafafa",
         "#9F51B6",
@@ -18,5 +21,7 @@
         "#9CDD29",
         "#0098FA"
     ],
-    "cssModules.camelCase": true
+    "cssModules.camelCase": true,
+    "workbench.settings.openDefaultSettings": true,
+    "workbench.settings.editor": "json"
 }
