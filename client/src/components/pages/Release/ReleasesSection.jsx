@@ -4,7 +4,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Title from '../../atoms/Title'
 import { useAdminAuth } from '../../../contexts/AdminAuthContext'
-import ReleaseCard from '../../organisms/ReleaseCard'
+import ReleaseCard from './ReleaseCard'
 import { ReleaseContext } from '../../../contexts/ReleaseContext'
 import { useLanguage } from '../../../contexts/LanguageContext';
 import AddReleaseForm from './AddReleaseForm';

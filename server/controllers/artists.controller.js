@@ -1,5 +1,6 @@
 // controllers/artist.controller.js
 import Artist from "../models/artist.model.js";
+import Release from "../models/release.model.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -173,5 +174,24 @@ export const getArtistById = async (req, res) => {
     res.status(200).json(artist);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const getArtistReleases = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const artist = await Artist.findByPk(id, {
+      include: Release, // Incluye los lanzamientos asociados al artista
+    });
+
+    if (!artist) {
+      return res.status(404).json({ message: "Artist not found" });
+    }
+
+    res.status(200).json(artist.releases); // Devuelve los lanzamientos del artista
+  } catch (error) {
+    console.error("Error fetching artist releases:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };

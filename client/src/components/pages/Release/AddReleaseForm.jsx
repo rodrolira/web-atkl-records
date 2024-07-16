@@ -36,8 +36,8 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
         soundcloud_link: '',
         artist_id: [],
     };
-    const artists = useFetchArtists();
-    const genres = useFetchGenres();
+    const { artists, loading: artistsLoading, error: artistsError } = useFetchArtists();
+    const { genres, loading: genresLoading, error: genresError } = useFetchGenres();
     const { createRelease } = useReleases();
 
     const handleSubmit = async (values, actions) => {
@@ -59,6 +59,11 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
             actions.setSubmitting(false);
         }
     };
+
+
+    if (artistsLoading || genresLoading) return <div>Loading...</div>;
+    if (artistsError || genresError) return <div>Error loading data</div>;
+
 
     return (
         <DialogManager>

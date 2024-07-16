@@ -1,20 +1,18 @@
+import React, { useState } from 'react'
 import {
-    // Button,
     Dialog,
-    DialogActions,
     DialogContent,
     DialogTitle,
     Stack,
     TextField,
+    IconButton
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import React, { useState } from 'react'
-import Button from '../atoms/Button'
-import { IconButton } from '@mui/material'
+import Button from '../../atoms/Button'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
-import { useArtists } from '../../contexts/ArtistContext'
-import FileUpload from './FileUpload'
+import { useArtists } from '../../../contexts/ArtistContext'
+import FileUpload from '../../molecules/FileUpload'
 
 const validationSchema = Yup.object().shape({
     artist_name: Yup.string().required('El nombre del artista es requerido'),
@@ -49,10 +47,8 @@ const AddArtistForm = ({ onArtistAdded }) => {
     const closePopup = () => setOpen(false)
 
     const onSubmit = async (values, actions) => {
-        console.log('Submitting values:', values)
         const formData = new FormData()
         Object.keys(values).forEach(key => {
-            console.log(`Appending ${key}: ${values[key]}`)
             formData.append(key, values[key])
         })
 

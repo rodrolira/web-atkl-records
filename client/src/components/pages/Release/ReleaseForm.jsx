@@ -2,8 +2,9 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Stack, TextField, MenuItem } from '@mui/material';
-import Button from '../../atoms/Button';
 import FileUploadRelease from '../../molecules/FileUploadRelease';
+// import Button from '../../atoms/Button';
+import { Button } from 'react-bootstrap';
 
 const ReleaseForm = ({ onSubmit, initialValues, validationSchema, artists, genres, handleClose }) => {
     return (
@@ -122,9 +123,24 @@ const ReleaseForm = ({ onSubmit, initialValues, validationSchema, artists, genre
                                 <TextField {...field} label="Soundcloud Link" variant="outlined" />
                             )}
                         </Field>
-                        <Button className="btn-add" type="submit" variant="contained" color="success" disabled={isSubmitting}>
+
+                        <Field name="description">
+                            {({ field }) => (
+                                <TextField
+                                    {...field}
+                                    label="Description"
+                                    variant="outlined"
+                                    multiline
+                                    rows={4}
+                                />
+                            )}
+                        </Field>
+
+
+                        <Button className="btn-add" type='submit ' variant="contained" color="success" disabled={isSubmitting}>
                             {isSubmitting ? 'Adding...' : 'Add'}
                         </Button>
+
                     </Stack>
                 </Form>
             )}

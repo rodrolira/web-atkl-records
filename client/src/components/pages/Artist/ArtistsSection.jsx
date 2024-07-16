@@ -1,12 +1,12 @@
 // ArtistsSection.jsx
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from 'react'
-import { useLanguage } from '../../contexts/LanguageContext'
-import Title from '../atoms/Title'
-import ArtistCard from './ArtistCard'
-import { useAdminAuth } from '../../contexts/AdminAuthContext'
-import AddArtistForm from '../molecules/AddArtistForm'
-import { useArtists } from '../../contexts/ArtistContext'
+import React, { useEffect } from 'react'
+import { useLanguage } from '../../../contexts/LanguageContext'
+import Title from '../../atoms/Title'
+import { useAdminAuth } from '../../../contexts/AdminAuthContext'
+import AddArtistForm from './AddArtistForm'
+import ArtistList from './ArtistList'
+import { useArtists } from '../../../contexts/ArtistContext'
 
 
 function ArtistsSection() {
@@ -33,14 +33,7 @@ function ArtistsSection() {
                     <AddArtistForm onArtistAdded={handleArtistAdded} />
                 )}
             </div>
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                {artists.map(artist => (
-                    <ArtistCard
-                        key={artist.id} // Añadir el atributo key con un identificador único
-                        artist={artist}
-                    />
-                ))}
-            </div>
+            <ArtistList artists={artists} />
         </div>
     )
 }
