@@ -1,7 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db/sequelize.js";
 import Genre from "./genre.model.js";
-import Artist from "./artist.model.js";
 
 const Release = sequelize.define(
   "Release",
@@ -68,10 +67,5 @@ const Release = sequelize.define(
     tableName: "releases",
   }
 );
-
-Release.belongsToMany(Artist, {
-  through: "release_artists", // Nombre de la tabla que Sequelize creará automáticamente
-  foreignKey: "release_id", // Nombre del campo en la tabla intermedia que referencia Release
-});
 
 export default Release;
