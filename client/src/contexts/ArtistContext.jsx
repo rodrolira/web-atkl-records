@@ -18,21 +18,17 @@ export const useArtists = () => {
     return context
 }
 
-export function ArtistProvider({ children }) {
+export const ArtistProvider = ({ children }) => {
     const [artists, setArtists] = useState([]) // Estado para almacenar la lista de artistas
 
     // Lógica para obtener la lista de artistas
     const fetchArtists = useCallback(async () => {
-        try {
-            const response = await getArtistsRequest();
-            setArtists(response.data);
-        } catch (error) {
-            console.error('Error fetching artists:', error);
-            if (error.response) {
-                console.error('Error:', error.response.data)
-            }
-        }
-    }, []); // Dependencias vacías para que no se redefina
+        // Asegúrate de que este fetch esté funcionando correctamente y devuelva los datos esperados.
+        const response = await getArtistsRequest();
+        setArtists(response.data);
+        return response.data;
+    }, [])
+
 
     // Lógica para crear un artista
     const createArtist = async artist => {

@@ -4,8 +4,11 @@ import Genre from "../models/genre.model.js";
 const getAllGenres = async (req, res) => {
   try {
     const genres = await Genre.findAll();
-    res.json(genres);
+    console.log("Genres:", genres); // Agrega este console.log para verificar los géneros obtenidos
+
+    res.status(200).json(genres);
   } catch (error) {
+    console.error("Error fetching genres:", error);
     res.status(500).json({ error: "Unable to fetch genres" });
   }
 };

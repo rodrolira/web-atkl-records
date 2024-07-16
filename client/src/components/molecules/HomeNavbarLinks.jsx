@@ -16,7 +16,7 @@ const HomeNavbarLinks = () => {
         setActiveItem(to) // Actualiza el estado activo con la nueva ruta
         const section = document.getElementById(to.replace('/', ''))
         if (section) {
-            section.scrollIntoView({ behavior: 'smooth' })
+            section.scrollIntoView({ behavior: 'smooth' })  
         }
     }
 

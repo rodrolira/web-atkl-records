@@ -1,5 +1,4 @@
-AddArtistModal.css
-.modal {
+AddArtistModal.css .modal {
     display: none;
     /* Por defecto, el modal está oculto */
     position: fixed;
@@ -22,7 +21,6 @@ AddArtistModal.css
     /* Color de fondo del modal */
     margin: 5% auto;
     /* Margen automático verticalmente y centrado horizontalmente */
-    padding: 20px;
     border: 1px solid #888;
     width: 80%;
     /* Ancho del modal */

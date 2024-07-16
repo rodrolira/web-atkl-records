@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import AddArtistForm from '../molecules/AddArtistForm' // Importa el formulario de agregar artista
+import AddArtistForm from '../pages/Artist/AddArtistForm' // Importa el formulario de agregar artista
 
 const AddArtistButton = () => {
     const [open, openChange] = useState(false)

@@ -1,26 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import Navbar from '../../organisms/Navbar'
 import Button from '../../atoms/Button'
 import FileUpload from '../../molecules/FileUpload'
 
 import { useArtists } from '../../../contexts/ArtistContext'
-import {
-    getArtistRequest,
-    updateArtistRequest,
-    deleteArtistRequest,
-} from '../../../api/artists'
-import Modal from '../../atoms/Modal'
+import { getArtistRequest, } from '../../../api/artists'
 
 const validationSchema = Yup.object().shape({
     artist_name: Yup.string(),
     image: Yup.mixed(),
 })
 
-function EditArtistModal({ onClose }) {
-    const { id } = useParams()
+function EditArtistModal({ id, onClose }) {
     const navigate = useNavigate()
     const [initialValues, setInitialValues] = useState({
         artist_name: '',
@@ -89,7 +82,7 @@ function EditArtistModal({ onClose }) {
                 onSubmit={handleSubmit}
             >
                 {({ isSubmitting }) => (
-                    <Form className='w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-center'>
+                    <Form className='w-full bg-white shadow-md rounded px-8 pt-2 pb-2 mb-4 text-center'>
                         <h2 className='text-2xl mb-4 font-bold'>Edit Artist</h2>
                         <div className='mb-4'>
                             <label

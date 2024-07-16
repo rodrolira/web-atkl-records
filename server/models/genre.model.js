@@ -18,6 +18,7 @@ const Genre = sequelize.define(
   },
   {
     timestamps: false,
+    tableName: "genres",
   }
 );
 

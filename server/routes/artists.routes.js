@@ -7,6 +7,7 @@ import {
   deleteArtist,
   updateArtist,
   getArtistById,
+  getArtistReleases,
 } from "../controllers/artists.controller.js";
 import multer from "multer";
 
@@ -24,6 +25,7 @@ const upload = multer({ storage });
 
 router.get("/artists", getArtists);
 router.get("/artists/:id", getArtistById);
+router.get("/artists/:id/releases", getArtistReleases);
 
 router.post("/artists", upload.single("image"), addArtist);
 
