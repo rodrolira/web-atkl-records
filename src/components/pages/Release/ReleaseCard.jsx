@@ -9,17 +9,14 @@ import {
     faSoundcloud,
 } from '@fortawesome/free-brands-svg-icons'
 import { Link } from 'react-router-dom'
-import Button from '../atoms/Button'
+import Button from '../../atoms/Button'
 
 function ReleaseCard({
     title,
     artist,
     cover_image_url,
-    release_date,
     is_explicit,
     description,
-    genre_id,
-    release_type,
     bandcamp_link,
     beatport_link,
     spotify_link,

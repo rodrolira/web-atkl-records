@@ -6,10 +6,10 @@ import Button from '../atoms/Button'
 import { useAdminAuth } from '../../contexts/AdminAuthContext'
 
 // Importa ReleaseSection usando importación dinámica
-const ReleaseSection = React.lazy(() => import('../organisms/ReleasesSection'))
+const ReleaseSection = React.lazy(() => import('./Release/ReleasesSection'))
 import Navbar from '../organisms/Navbar'
 
-function ReleasesPage () {
+function ReleasesPage() {
     const { language } = useLanguage()
     const { isAdmin } = useAdminAuth()
 

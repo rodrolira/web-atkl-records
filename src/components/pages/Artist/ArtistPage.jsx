@@ -9,6 +9,7 @@ import ArtistDetails from './ArtistDetails';
 import ArtistReleases from './ArtistReleases';
 import Modal from '../../atoms/Modal';
 import EditArtistModal from './EditArtistModal';
+import ArtistBio from './ArtistBio';
 
 function ArtistPage() {
     const { id } = useParams();
@@ -49,7 +50,11 @@ function ArtistPage() {
             <div className='inline-block w-full mt-32'>
                 <div className='flex mt-12'>
                     <ArtistDetails artist={artist} adminAuthenticated={adminAuthenticated} openEditModal={openEditModal} />
-                    <ArtistReleases releases={artist.releases} />
+                    <div className='w-2/3 p-4 text-white text-center'>
+                        <ArtistBio artist={artist} language="en" />
+                        <ArtistReleases artist={artist} />
+
+                    </div>
                 </div>
             </div>
             {showEditModal && (
