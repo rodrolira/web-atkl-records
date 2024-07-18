@@ -12,9 +12,9 @@ export const useArtists = (id) => {
         fetchArtist(id)
     }, [id])
 
-    const fetchArtist = async (artistId) => {
+    const fetchArtist = async (id) => {
         try {
-            const response = await getArtistRequest(artistId)
+            const response = await getArtistRequest(id)
             setArtist(response.data)
         } catch (error) {
             console.error('Error fetching artist:', error)
