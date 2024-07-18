@@ -65,7 +65,7 @@ export const getReleases = async (req, res) => {
   }
 };
 
-export const fetchReleaseById = async (req, res) => {
+export const getReleaseById = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -103,9 +103,11 @@ export const updateRelease = async (req, res) => {
     if (!title) {
       return res.status(400).json({ error: "Title is required" });
     }
+    console.log(`Updating release with ID: ${id}`);
+    console.log("Update data:", req.body); // Log para verificar los datos recibidos
 
     // Actualizar el release en la base de datos
-    const [updated] = await Release.update(
+    const [updatedRowsCount, updatedRows] = await Release.update(
       {
         title,
         release_date,
@@ -127,24 +129,30 @@ export const updateRelease = async (req, res) => {
       }
     );
 
-    if (!updated) {
+    if (updatedRowsCount === 0) {
       return res.status(404).json({ message: "Release not found" });
     }
 
-    // Busca y devuelve el registro actualizado
-    const updatedRelease = await Release.findByPk(id);
-    res.status(200).json(updatedRelease);
+    res.json(updatedRows[0]); // Devuelve el primer registro actualizado
   } catch (error) {
+    console.error("Error updating release:", error);
     res.status(500).json({ message: error.message });
   }
 };
 
 export const deleteRelease = async (req, res) => {
-  const { id } = req.params;
-
   try {
+    const { id } = req.params;
+    const release = await Release.findByPk(id);
+    if (!release) {
+      return res.status(404).json({ message: "Release not found" });
+    }
     // Eliminar el release de la base de datos
-    await Release.destroy({ where: { id } });
+    await Release.destroy({
+      where: {
+        id,
+      },
+    });
 
     res.status(200).json({ message: "Release deleted successfully" });
   } catch (error) {
