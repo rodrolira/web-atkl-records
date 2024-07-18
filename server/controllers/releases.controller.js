@@ -1,4 +1,5 @@
-// controllers/release.controller.js
+// server/controllers/releases.controller.js
+import Artist from "../models/artist.model.js";
 import Release from "../models/release.model.js";
 
 export const addRelease = async (req, res) => {
@@ -55,7 +56,7 @@ export const addRelease = async (req, res) => {
 
 export const getReleases = async (req, res) => {
   try {
-    const releases = await Release.findAll();
+    const releases = await Release.findAll({ include: Artist });
     res.status(200).json(releases);
   } catch (error) {
     res.status(500).json({ message: error.message });
