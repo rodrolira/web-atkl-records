@@ -5,8 +5,8 @@ import * as Yup from 'yup'
 import Button from '../../atoms/Button'
 import FileUpload from '../../molecules/FileUpload'
 
-import { useArtists } from '../../../contexts/ArtistContext'
 import { getArtistRequest, } from '../../../api/artists'
+import { useArtists } from '../../../hooks/useArtists'
 
 const validationSchema = Yup.object().shape({
     artist_name: Yup.string(),
