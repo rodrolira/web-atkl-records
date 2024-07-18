@@ -1,4 +1,4 @@
-// controllers/artist.controller.js
+// server/controllers/artists.controller.js
 import Artist from "../models/artist.model.js";
 import Release from "../models/release.model.js";
 import User from "../models/user.model.js";
@@ -143,12 +143,25 @@ export const updateArtist = async (req, res) => {
 export const deleteArtist = async (req, res) => {
   try {
     const { id } = req.params;
+    const artist = await Artist.findByPk(id);
+    if (!artist) {
+      return res.status(404).json({ message: "Artist not found" });
+    }
+    // Delete user account
+    await User.destroy({
+      where: {
+        id: artist.user_id,
+      },
+    });
+    // Delete artist
     await Artist.destroy({
       where: {
         id,
       },
     });
-    res.status(200).json({ message: "Artist deleted successfully" });
+    res
+      .status(200)
+      .json({ message: "Artist and user account deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
