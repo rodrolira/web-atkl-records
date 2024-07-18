@@ -1,5 +1,4 @@
 // server/controllers/releases.controller.js
-import Artist from "../models/artist.model.js";
 import Release from "../models/release.model.js";
 
 export const addRelease = async (req, res) => {
@@ -12,6 +11,8 @@ export const addRelease = async (req, res) => {
     release_type,
     artistIds,
   } = req.body;
+  // Verifica si hay un archivo subido para la imagen de portada
+  const cover_image_url = req.file ? req.file.path : null;
 
   // Verifica que los campos obligatorios estén presentes
   if (
@@ -29,9 +30,6 @@ export const addRelease = async (req, res) => {
   }
 
   try {
-    // Verifica si hay un archivo subido para la imagen de portada
-    const cover_image_url = req.file ? req.file.path : null;
-
     // Crear el release
     const newRelease = await Release.create({
       title,
@@ -50,16 +48,20 @@ export const addRelease = async (req, res) => {
   } catch (error) {
     // Handle errors
     console.error("Error adding release:", error);
-    res.status(500).json({ message: "Failed to add release" });
+    return res.status(500).json({ message: "Failed to add release" });
   }
 };
 
 export const getReleases = async (req, res) => {
   try {
-    const releases = await Release.findAll({ include: Artist });
+    const releases = await Release.findAll();
     res.status(200).json(releases);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (error.message === "Artist is not associated to Release!") {
+      res.status(400).json({ message: "Artist is not associated to Release!" });
+    } else {
+      res.status(500).json({ message: error.message });
+    }
   }
 };
 
