@@ -43,7 +43,7 @@ export function ReleaseProvider({ children }) {
     }
 
     // Lógica para obtener un release por ID
-    const getRelease = async id => {
+    const fetchRelease = async id => {
         try {
             const response = await getReleaseRequest(id)
             return response.data
@@ -102,7 +102,7 @@ export function ReleaseProvider({ children }) {
                 createRelease,
                 updateRelease,
                 deleteRelease,
-                getRelease,
+                fetchRelease,
             }}
         >
             {children}

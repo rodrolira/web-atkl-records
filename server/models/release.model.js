@@ -17,7 +17,6 @@ const Release = sequelize.define(
       type: DataTypes.INTEGER,
       references: {
         model: Genre,
-        key: "id",
       },
       allowNull: true, // Adjust this as per your schema
     },
