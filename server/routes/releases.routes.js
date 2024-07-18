@@ -5,7 +5,7 @@ import multer from "multer"; // Importa multer para manejar la carga de archivos
 import {
   addRelease,
   getReleases,
-  fetchReleaseById,
+  getReleaseById,
   updateRelease,
   deleteRelease,
 } from "../controllers/releases.controller.js";
@@ -38,7 +38,7 @@ const upload = multer({
 
 // Rutas
 router.get("/releases", getReleases);
-router.get("/releases/:id", fetchReleaseById);
+router.get("/releases/:id", getReleaseById);
 
 router.post("/releases", upload.single("cover_image_url"), addRelease);
 

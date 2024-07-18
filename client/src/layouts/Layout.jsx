@@ -6,6 +6,7 @@ import LoginAdminPage from '../components/pages/LoginAdminPage'
 import LoginArtistPage from '../components/pages/LoginArtistPage'
 import RegisterPage from '../components/pages/RegisterPage'
 import ReleasesPage from '../components/pages/ReleasesPage'
+
 import NotFound from '../components/pages/NotFound'
 // import { AdminAuthProvider } from '../contexts/AdminAuthContext'
 // import { AuthProvider } from '../contexts/AuthContext'
@@ -22,6 +23,7 @@ import ArtistProfilePage from '../components/pages/Artist/ArtistProfilePage'
 import AdminProtectedRoute from '../AdminProtectedRoute'
 import ArtistsPage from '../components/pages/Artist/ArtistsPage';
 import ArtistPage from '../components/pages/Artist/ArtistPage';
+import EditReleaseModal from '../components/pages/Release/EditReleaseModal'
 
 const Layout = () => {
     return (
@@ -51,6 +53,9 @@ const Layout = () => {
                                         <Route
                                             path='/releases'
                                             element={<ReleasesPage />}
+                                        />
+                                        <Route path="/edit-release/:id"
+                                            element={<EditReleaseModal />}
                                         />
                                         <Route
                                             path='/login'
