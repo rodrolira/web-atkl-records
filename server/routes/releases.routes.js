@@ -1,5 +1,6 @@
 // routes/release.routes.js
 import express from "express";
+const router = express.Router();
 import multer from "multer"; // Importa multer para manejar la carga de archivos
 import {
   addRelease,
@@ -9,7 +10,6 @@ import {
   deleteRelease,
 } from "../controllers/releases.controller.js";
 
-const router = express.Router();
 // Configuración de multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -37,9 +37,11 @@ const upload = multer({
 });
 
 // Rutas
-router.post("/releases", upload.single("cover_image_url"), addRelease);
 router.get("/releases", getReleases);
 router.get("/releases/:id", fetchReleaseById);
+
+router.post("/releases", upload.single("cover_image_url"), addRelease);
+
 router.put("/releases/:id", upload.single("cover_image_url"), updateRelease);
 router.delete("/releases/:id", deleteRelease);
 

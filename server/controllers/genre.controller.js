@@ -4,7 +4,6 @@ import Genre from "../models/genre.model.js";
 const getAllGenres = async (req, res) => {
   try {
     const genres = await Genre.findAll();
-    console.log("Genres:", genres); // Agrega este console.log para verificar los géneros obtenidos
 
     res.status(200).json(genres);
   } catch (error) {

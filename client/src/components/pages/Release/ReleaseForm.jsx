@@ -3,12 +3,12 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Stack, TextField, MenuItem } from '@mui/material';
 import FileUploadRelease from '../../molecules/FileUploadRelease';
-// import Button from '../../atoms/Button';
-import { Button } from 'react-bootstrap';
+import Button from '../../atoms/Button';
+// import { Button } from 'react-bootstrap';
 
-const ReleaseForm = ({ onSubmit, initialValues, validationSchema, artists, genres, handleClose }) => {
+const ReleaseForm = ({ handleSubmit, initialValues, validationSchema, artists, genres, handleClose }) => {
     return (
-        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+        <Formik initialValues={initialValues} validationSchema={validationSchema} handleSubmit={handleSubmit}>
             {({ isSubmitting, setFieldValue }) => (
                 <Form>
                     <Stack spacing={2} margin={2}>
