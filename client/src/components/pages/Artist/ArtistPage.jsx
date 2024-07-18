@@ -1,7 +1,6 @@
-// ArtistPage.jsx
+// client/src/components/pages/Artist/ArtistPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useLanguage } from '../../../contexts/LanguageContext';
 import { getArtistRequest } from '../../../api/artists';
 import Navbar from '../../organisms/Navbar';
 import { useAdminAuth } from '../../../contexts/AdminAuthContext';
