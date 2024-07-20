@@ -5,12 +5,12 @@ import * as Yup from 'yup'
 import Button from '../../atoms/Button'
 import FileUpload from '../../molecules/FileUpload'
 
-import { getArtistRequest, } from '../../../api/artists'
+import { getArtistRequest } from '../../../api/artists'
 import { useArtists } from '../../../hooks/useArtists'
 
 const validationSchema = Yup.object().shape({
     artist_name: Yup.string(),
-    image: Yup.mixed(),
+    image: Yup.mixed()
 })
 
 function EditArtistModal({ id, onClose }) {
@@ -24,7 +24,7 @@ function EditArtistModal({ id, onClose }) {
         soundcloud_link: '',
         bandcamp_link: '',
         role: [], // Initialize as an empty array for multiple selection
-        bio: '',
+        bio: ''
     })
 
     const { updateArtist, deleteArtist } = useArtists()
@@ -44,14 +44,16 @@ function EditArtistModal({ id, onClose }) {
 
     const handleSubmit = async (values, { setSubmitting }) => {
         // Formatear roles seleccionados con "/"
-        const formattedRoles = Array.isArray(values.role) ? values.role.join(' / ') : values.role;
+        const formattedRoles = Array.isArray(values.role)
+            ? values.role.join(' / ')
+            : values.role
 
         const formData = new FormData()
         for (const key in values) {
             formData.append(key, values[key])
         }
         // Añadir roles formateados al FormData
-        formData.set('role', formattedRoles);
+        formData.set('role', formattedRoles)
 
         try {
             await updateArtist(id, formData)

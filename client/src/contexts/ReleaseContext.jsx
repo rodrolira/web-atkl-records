@@ -56,12 +56,12 @@ export function ReleaseProvider({ children }) {
     // Lógica para crear un release
     const createRelease = async release => {
         try {
-            const res = await createReleaseRequest(release);
-            setReleases(prevReleases => [...prevReleases, res.data]);
-            return res.data; // Asegúrate de que esta línea exista
+            const res = await createReleaseRequest(release)
+            setReleases(prevReleases => [...prevReleases, res.data])
+            return res.data // Asegúrate de que esta línea exista
         } catch (error) {
-            console.error('Error creating release:', error);
-            throw error; // Lanza el error para manejarlo en el componente
+            console.error('Error creating release:', error)
+            throw error // Lanza el error para manejarlo en el componente
         }
     }
     // Lógica para actualizar un release
@@ -109,4 +109,3 @@ export function ReleaseProvider({ children }) {
         </ReleaseContext.Provider>
     )
 }
-

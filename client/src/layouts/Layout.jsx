@@ -1,4 +1,4 @@
-//layouts/Layout.jsx
+// layouts/Layout.jsx
 import * as React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from '../components/pages/Home'
@@ -21,8 +21,8 @@ import EditArtist from '../components/pages/Artist/EditArtist'
 import { GenreProvider } from '../contexts/GenreContext'
 import ArtistProfilePage from '../components/pages/Artist/ArtistProfilePage'
 import AdminProtectedRoute from '../AdminProtectedRoute'
-import ArtistsPage from '../components/pages/Artist/ArtistsPage';
-import ArtistPage from '../components/pages/Artist/ArtistPage';
+import ArtistsPage from '../components/pages/Artist/ArtistsPage'
+import ArtistPage from '../components/pages/Artist/ArtistPage'
 import EditReleaseModal from '../components/pages/Release/EditReleaseModal'
 
 const Layout = () => {
@@ -51,7 +51,6 @@ const Layout = () => {
                                             element={<EditArtist />}
                                         />
                                         <Route
-                                            path='/releases'
                                             element={<ReleasesPage />}
                                         />
                                         <Route path="/edit-release/:id"
