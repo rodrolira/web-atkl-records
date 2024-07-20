@@ -1,18 +1,17 @@
-//ReleasesPage.jsx
+// ReleasesPage.jsx
 
 import React, { Suspense } from 'react' // Importa React y Suspense
 import { useLanguage } from '../../contexts/LanguageContext'
 import Button from '../atoms/Button'
 import { useAdminAuth } from '../../contexts/AdminAuthContext'
+import Navbar from '../organisms/Navbar'
 
 // Importa ReleaseSection usando importación dinámica
 const ReleaseSection = React.lazy(() => import('./Release/ReleasesSection'))
-import Navbar from '../organisms/Navbar'
 
 function ReleasesPage() {
     const { language } = useLanguage()
     const { isAdmin } = useAdminAuth()
-
 
     return (
         <div>
@@ -21,16 +20,10 @@ function ReleasesPage() {
                 <div className='flex items-center justify-between'>
                     <a href='/releases' className='mx-auto'></a>
                     {isAdmin && (
-                        <Button
-                            className='btn-add'
-                            children={
-                                language === 'en'
-                                    ? 'Add Release'
-                                    : 'Añadir Lanzamiento'
-                            }
-                        />
-                    )}
-                </div>
+                        <Button className='btn-add'>
+                            {language === 'en' ? 'Add Release' : 'Añadir Lanzamiento'}
+                        </Button>
+                    )}                </div>
                 <Suspense fallback={<div>Loading...</div>}>
                     <ReleaseSection />{' '}
                     {/* Renderiza el componente ReleaseSection */}
