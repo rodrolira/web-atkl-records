@@ -3,12 +3,12 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import Button from '../../atoms/Button'
-import FileUploadRelease from '../../molecules/FileUploadRelease';
+import FileUploadRelease from '../../molecules/FileUploadRelease'
 // import { useReleases } from '../../../contexts/ReleaseContext'
-import { useArtists } from '../../../contexts/ArtistContext';
+import { useArtists } from '../../../contexts/ArtistContext'
 import { useGenres } from '../../../contexts/GenreContext'
 import {
-    getReleaseRequest,
+    getReleaseRequest
 } from '../../../api/releases'
 import { useReleases } from '../../../hooks/useReleases'
 import { MenuItem, Stack, TextField } from '@mui/material'
@@ -26,7 +26,7 @@ const validationSchema = Yup.object().shape({
     spotify_link: Yup.string().url('Invalid URL'),
     apple_music_link: Yup.string().url('Invalid URL'),
     youtube_link: Yup.string().url('Invalid URL'),
-    soundcloud_link: Yup.string().url('Invalid URL'),
+    soundcloud_link: Yup.string().url('Invalid URL')
 })
 
 function EditReleaseModal({ id, onClose }) {
@@ -45,38 +45,37 @@ function EditReleaseModal({ id, onClose }) {
         spotify_link: '',
         apple_music_link: '',
         youtube_link: '',
-        soundcloud_link: '',
+        soundcloud_link: ''
     })
 
     const { updateRelease, deleteRelease } = useReleases()
-    const { artists } = useArtists();
-    const { genres } = useGenres();
+    const { artists } = useArtists()
+    const { genres } = useGenres()
 
     useEffect(() => {
-        console.log('Release ID:', id);
-        fetchRelease(id);
-    }, [id]);
+        console.log('Release ID:', id)
+        fetchRelease(id)
+    }, [id])
 
     const fetchRelease = async (id) => {
         try {
             if (!id) {
-                console.error('Invalid release ID:', id);
-                return;
+                console.error('Invalid release ID:', id)
+                return
             }
-            const response = await getReleaseRequest(id);
-            setInitialValues(response.data);
+            const response = await getReleaseRequest(id)
+            setInitialValues(response.data)
         } catch (error) {
-            console.error('Error fetching release:', error);
+            console.error('Error fetching release:', error)
         }
     }
 
-
-    const onSubmit = async (values, actions) => {
+    const onSubmit = async (values, { setSubmitting }) => {
         const formData = new FormData()
         Object.keys(values).forEach(key => {
             formData.append(key, values[key])
         })
-        console.log('Submitting form with values:', values);
+        console.log('Submitting form with values:', values)
 
         try {
             await updateRelease(id, formData)
@@ -143,15 +142,15 @@ function EditReleaseModal({ id, onClose }) {
                                         error={Boolean(form.errors.artist_id && form.touched.artist_id)}
                                         helperText={form.errors.artist_id && form.touched.artist_id && form.errors.artist_id}
                                         onChange={(e) => {
-                                            const selectedIds = e.target.value;
-                                            setFieldValue('artist_id', selectedIds);
+                                            const selectedIds = e.target.value
+                                            setFieldValue('artist_id', selectedIds)
                                         }}
                                         SelectProps={{
                                             multiple: true,
                                             value: field.value || [],
                                             onChange: (e) => {
-                                                const selectedIds = e.target.value;
-                                                setFieldValue('artist_id', selectedIds);
+                                                const selectedIds = e.target.value
+                                                setFieldValue('artist_id', selectedIds)
                                             },
                                             renderValue: (selected) => (
                                                 <div>
@@ -161,7 +160,7 @@ function EditReleaseModal({ id, onClose }) {
                                                         </MenuItem>
                                                     ))}
                                                 </div>
-                                            ),
+                                            )
                                         }}
                                     >
                                         {artists.map((artist) => (

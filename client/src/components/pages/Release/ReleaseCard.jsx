@@ -8,13 +8,13 @@ import {
     faYoutube,
     faSoundcloud,
 } from '@fortawesome/free-brands-svg-icons'
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useAdminAuth } from '../../../contexts/AdminAuthContext'
 import Button from '../../atoms/Button'
-import Modal from '../../atoms/Modal';
-import { useReleases } from '../../../contexts/ReleaseContext';
+import Modal from '../../atoms/Modal'
+import { useReleases } from '../../../contexts/ReleaseContext'
 import { Link } from 'react-router-dom'
-import EditReleaseModal from './EditReleaseModal';
+import EditReleaseModal from './EditReleaseModal'
 
 function ReleaseCard({
     title,
@@ -27,30 +27,29 @@ function ReleaseCard({
     youtube_link,
     soundcloud_link,
 }) {
+    const { isAuthenticated: adminAuthenticated } = useAdminAuth()
+    const { deleteRelease, releases, setReleases } = useReleases()
+    const [showEditModal, setShowEditModal] = useState(false)
 
-    const { isAuthenticated: adminAuthenticated } = useAdminAuth();
-    const { deleteRelease, releases, setReleases } = useReleases();
-    const [showEditModal, setShowEditModal] = useState(false);
-
-    const handleDelete = async () => {
+    const handleDelete = async (id) => {
         if (window.confirm(`¿Estás seguro de que deseas eliminar el lanzamiento ${title}?`)) {
             try {
-                await deleteRelease(id);
-                const updatedReleases = releases.filter(release => release.id !== id);
-                setReleases(updatedReleases);
+                await deleteRelease(id)
+                const updatedReleases = releases.filter(release => release.id !== id)
+                setReleases(updatedReleases)
             } catch (error) {
-                console.error('Error deleting release:', error);
+                console.error('Error deleting release:', error)
             }
         }
-    };
+    }
 
     const openEditModal = () => {
-        setShowEditModal(true);
-    };
+        setShowEditModal(true)
+    }
 
     const closeEditModal = () => {
-        setShowEditModal(false);
-    };
+        setShowEditModal(false)
+    }
 
     return (
         <>
@@ -87,7 +86,6 @@ function ReleaseCard({
                         </div>
                     )}
                 </div>
-
 
                 <div className='flex justify-center space-x-4 my-4'>
                     {bandcamp_link && (
