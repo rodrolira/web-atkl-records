@@ -23,5 +23,6 @@
     ],
     "cssModules.camelCase": true,
     "workbench.settings.openDefaultSettings": true,
-    "workbench.settings.editor": "json"
+    "workbench.settings.editor": "json",
+    "compile-hero.disable-compile-files-on-did-save-code": false
 }
