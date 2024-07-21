@@ -1,9 +1,9 @@
 // models/release_artist.model.js
-import { DataTypes } from "sequelize";
-import sequelize from "../db/sequelize.js";
+import { DataTypes } from 'sequelize'
+import sequelize from '../db/sequelize.js'
 
 const ReleaseArtist = sequelize.define(
-  "ReleaseArtist",
+  'ReleaseArtist',
   {
     release_id: {
       type: DataTypes.INTEGER,
@@ -16,8 +16,8 @@ const ReleaseArtist = sequelize.define(
   },
   {
     timestamps: true,
-    tableName: "release_artists",
+    tableName: 'release_artists',
   }
-);
+)
 
-export default ReleaseArtist;
+export default ReleaseArtist

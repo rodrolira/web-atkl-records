@@ -1,11 +1,10 @@
 // models/admin.model.js
-import { DataTypes } from "sequelize";
-import bcrypt  from 'bcryptjs';
-import sequelize from '../db/sequelize.js';
-
+import { DataTypes } from 'sequelize'
+import bcrypt from 'bcryptjs'
+import sequelize from '../db/sequelize.js'
 
 const Admin = sequelize.define(
-  "Admin",
+  'Admin',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -29,15 +28,15 @@ const Admin = sequelize.define(
   },
   {
     timestamps: true,
-    tableName: "admins",
+    tableName: 'admins',
   }
-);
+)
 
 // Hash password before saving
 
 Admin.beforeCreate(async (admin) => {
-  const salt = await bcrypt.genSalt(10);
-  admin.password = await bcrypt.hash(admin.password, salt);
+  const salt = await bcrypt.genSalt(10)
+  admin.password = await bcrypt.hash(admin.password, salt)
 })
 
-export default Admin;
+export default Admin

@@ -42,7 +42,7 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
     useEffect(() => {
         fetchArtists()
         fetchGenres()
-    }, [])
+    }, [fetchArtists, fetchGenres])
 
     const handleOpen = () => {
         setOpen(true)
@@ -58,22 +58,21 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
         Object.keys(values).forEach(key => {
             formData.append(key, values[key])
         })
-        console.log('Submitting form with values:', values);
-
+        console.log('Submitting form with values:', values)
 
         try {
-            const newRelease = await createRelease(formData);
-            console.log('Release created successfully:', newRelease);
+            const newRelease = await createRelease(formData)
+            console.log('Release created successfully:', newRelease)
 
-            actions.setSubmitting(false);
-            handleClose();
-            onReleaseAdded && onReleaseAdded(newRelease);
+            actions.setSubmitting(false)
+            handleClose()
+            onReleaseAdded && onReleaseAdded(newRelease)
         } catch (error) {
-            console.error('Error adding release:', error);
-            setError('Failed to add release');
-            actions.setSubmitting(false);
+            console.error('Error adding release:', error)
+            setError('Failed to add release')
+            actions.setSubmitting(false)
         }
-    };
+    }
 
     return (
         <>
@@ -170,15 +169,15 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                                 error={Boolean(form.errors.artist_id && form.touched.artist_id)}
                                                 helperText={form.errors.artist_id && form.touched.artist_id && form.errors.artist_id}
                                                 onChange={(e) => {
-                                                    const selectedIds = e.target.value;
-                                                    setFieldValue('artist_id', selectedIds);
+                                                    const selectedIds = e.target.value
+                                                    setFieldValue('artist_id', selectedIds)
                                                 }}
                                                 SelectProps={{
                                                     multiple: true,
                                                     value: field.value || [],
                                                     onChange: (e) => {
-                                                        const selectedIds = e.target.value;
-                                                        setFieldValue('artist_id', selectedIds);
+                                                        const selectedIds = e.target.value
+                                                        setFieldValue('artist_id', selectedIds)
                                                     },
                                                     renderValue: (selected) => (
                                                         <div>
@@ -244,4 +243,4 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
     )
 }
 
-export default AddReleaseForm;
+export default AddReleaseForm

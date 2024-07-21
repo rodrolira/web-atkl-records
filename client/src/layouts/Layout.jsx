@@ -51,6 +51,7 @@ const Layout = () => {
                                             element={<EditArtist />}
                                         />
                                         <Route
+                                            path='/releases'
                                             element={<ReleasesPage />}
                                         />
                                         <Route path="/edit-release/:id"

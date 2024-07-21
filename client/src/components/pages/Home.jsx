@@ -1,4 +1,4 @@
-//Home.jsx
+// Home.jsx
 
 import React, { useEffect, useContext } from 'react'
 import './Home.css'
@@ -8,8 +8,8 @@ import DemosSection from '../organisms/DemoSection'
 import ContactSection from '../organisms/ContactSection'
 import { useLocation } from 'react-router-dom'
 import Navbar from '../organisms/Navbar'
-import ReleasesSection from './Release/ReleasesSection';
-import ArtistsSection from './Artist/ArtistsSection';
+import ReleasesSection from './Release/ReleasesSection'
+import ArtistsSection from './Artist/ArtistsSection'
 
 function Home() {
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
