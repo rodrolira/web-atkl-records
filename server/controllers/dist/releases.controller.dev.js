@@ -56,9 +56,10 @@ var addRelease = function addRelease(req, res) {
         case 7:
           newRelease = _context.sent;
           _context.next = 10;
-          return regeneratorRuntime.awrap(newRelease.addArtists(artist_id));
+          return regeneratorRuntime.awrap(newRelease.setArtists(artist_id));
 
         case 10:
+          // Usar setArtists para reemplazar artistas
           res.status(201).json(newRelease);
           _context.next = 17;
           break;
@@ -90,7 +91,12 @@ var getReleases = function getReleases(req, res) {
         case 0:
           _context2.prev = 0;
           _context2.next = 3;
-          return regeneratorRuntime.awrap(_releaseModel["default"].findAll());
+          return regeneratorRuntime.awrap(_releaseModel["default"].findAll({
+            include: [{
+              model: _artistModel["default"],
+              as: 'artists'
+            }]
+          }));
 
         case 3:
           releases = _context2.sent;
@@ -134,7 +140,7 @@ var getReleaseById = function getReleaseById(req, res) {
           return regeneratorRuntime.awrap(_releaseModel["default"].findByPk(id, {
             include: [{
               model: _artistModel["default"],
-              as: 'artist_id'
+              as: 'artists'
             }]
           }));
 
@@ -173,14 +179,14 @@ var getReleaseById = function getReleaseById(req, res) {
 exports.getReleaseById = getReleaseById;
 
 var updateRelease = function updateRelease(req, res) {
-  var id, _req$body2, title, release_date, is_explicit, description, genre_id, release_type, cover_image_url, bandcamp_link, beatport_link, spotify_link, apple_music_link, youtube_link, soundcloud_link, _ref, _ref2, updatedRowsCount, updatedRows;
+  var id, _req$body2, title, release_date, is_explicit, description, genre_id, release_type, cover_image_url, bandcamp_link, beatport_link, spotify_link, apple_music_link, youtube_link, soundcloud_link, artist_id, _ref, _ref2, updatedRowsCount, updatedRows, release;
 
   return regeneratorRuntime.async(function updateRelease$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
           id = req.params.id;
-          _req$body2 = req.body, title = _req$body2.title, release_date = _req$body2.release_date, is_explicit = _req$body2.is_explicit, description = _req$body2.description, genre_id = _req$body2.genre_id, release_type = _req$body2.release_type, cover_image_url = _req$body2.cover_image_url, bandcamp_link = _req$body2.bandcamp_link, beatport_link = _req$body2.beatport_link, spotify_link = _req$body2.spotify_link, apple_music_link = _req$body2.apple_music_link, youtube_link = _req$body2.youtube_link, soundcloud_link = _req$body2.soundcloud_link;
+          _req$body2 = req.body, title = _req$body2.title, release_date = _req$body2.release_date, is_explicit = _req$body2.is_explicit, description = _req$body2.description, genre_id = _req$body2.genre_id, release_type = _req$body2.release_type, cover_image_url = _req$body2.cover_image_url, bandcamp_link = _req$body2.bandcamp_link, beatport_link = _req$body2.beatport_link, spotify_link = _req$body2.spotify_link, apple_music_link = _req$body2.apple_music_link, youtube_link = _req$body2.youtube_link, soundcloud_link = _req$body2.soundcloud_link, artist_id = _req$body2.artist_id;
           _context4.prev = 2;
 
           if (title) {
@@ -236,25 +242,32 @@ var updateRelease = function updateRelease(req, res) {
           }));
 
         case 15:
-          res.json(updatedRows[0]); // Devuelve el primer registro actualizado
-
-          _context4.next = 22;
-          break;
+          // Actualizar asociaciones con artistas
+          release = updatedRows[0];
+          _context4.next = 18;
+          return regeneratorRuntime.awrap(release.setArtists(artist_id));
 
         case 18:
-          _context4.prev = 18;
+          // Usar setArtists para reemplazar artistas
+          res.json(release); // Devuelve el primer registro actualizado
+
+          _context4.next = 25;
+          break;
+
+        case 21:
+          _context4.prev = 21;
           _context4.t0 = _context4["catch"](2);
           console.error('Error updating release:', _context4.t0);
           res.status(500).json({
             message: _context4.t0.message
           });
 
-        case 22:
+        case 25:
         case "end":
           return _context4.stop();
       }
     }
-  }, null, null, [[2, 18]]);
+  }, null, null, [[2, 21]]);
 };
 
 exports.updateRelease = updateRelease;

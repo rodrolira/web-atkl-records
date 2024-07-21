@@ -22,8 +22,7 @@ var ReleaseArtist = _sequelize2["default"].define('ReleaseArtist', {
     allowNull: false
   }
 }, {
-  timestamps: true,
-  tableName: 'release_artists'
+  timestamps: true
 });
 
 var _default = ReleaseArtist;

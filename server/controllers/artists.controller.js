@@ -195,7 +195,10 @@ export const getArtistReleases = async (req, res) => {
 
   try {
     const artist = await Artist.findByPk(id, {
-      include: Release, // Incluye los lanzamientos asociados al artista
+      include: {
+        model: Release,
+        as: 'releases',
+      } // Incluye los lanzamientos asociados al artista
     })
 
     if (!artist) {

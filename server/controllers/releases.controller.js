@@ -10,7 +10,7 @@ export const addRelease = async (req, res) => {
     description,
     genre_id,
     release_type,
-    artist_id,
+    artist_id, // Este debería ser un array
   } = req.body
   // Verifica si hay un archivo subido para la imagen de portada
   const cover_image_url = req.file ? req.file.path : null
@@ -43,7 +43,7 @@ export const addRelease = async (req, res) => {
     })
 
     // Añadir asociaciones con artistas
-    await newRelease.addArtists(artist_id)
+    await newRelease.setArtists(artist_id) // Usar setArtists para reemplazar artistas
 
     res.status(201).json(newRelease)
   } catch (error) {
@@ -55,7 +55,9 @@ export const addRelease = async (req, res) => {
 
 export const getReleases = async (req, res) => {
   try {
-    const releases = await Release.findAll()
+    const releases = await Release.findAll({
+      include: [{ model: Artist, as: 'artists' }],
+    })
     res.status(200).json(releases)
   } catch (error) {
     if (error.message === 'Artist is not associated to Release!') {
@@ -71,7 +73,7 @@ export const getReleaseById = async (req, res) => {
 
   try {
     const release = await Release.findByPk(id, {
-      include: [{ model: Artist, as: 'artist_id' }],
+      include: [{ model: Artist, as: 'artists' }],
     })
     if (!release) {
       return res.status(404).json({ message: 'Release not found' })
@@ -99,6 +101,7 @@ export const updateRelease = async (req, res) => {
     apple_music_link,
     youtube_link,
     soundcloud_link,
+    artist_id, // Añadir esta línea
   } = req.body
 
   try {
@@ -138,7 +141,11 @@ export const updateRelease = async (req, res) => {
       return res.status(404).json({ message: 'Release not found' })
     }
 
-    res.json(updatedRows[0]) // Devuelve el primer registro actualizado
+    // Actualizar asociaciones con artistas
+    const release = updatedRows[0]
+    await release.setArtists(artist_id) // Usar setArtists para reemplazar artistas
+
+    res.json(release) // Devuelve el primer registro actualizado
   } catch (error) {
     console.error('Error updating release:', error)
     res.status(500).json({ message: error.message })
