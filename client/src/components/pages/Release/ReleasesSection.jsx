@@ -1,7 +1,7 @@
 // ReleasesSection.jsx
 
 // eslint-disable-next-line react/prop-types, no-unused-vars
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import Title from '../../atoms/Title'
 import { useAdminAuth } from '../../../contexts/AdminAuthContext'
 import ReleaseCard from './ReleaseCard'
@@ -29,18 +29,10 @@ function ReleasesSection() {
             )}
             {releases &&
                 releases.length > 0 &&
-                releases.map((release, index) => (
+                releases.map((release) => (
                     <ReleaseCard
-                        key={index}
-                        title={release.title}
-                        artistName={release.artistName}
-                        cover_image_url={release.cover_image_url}
-                        bandcamp_link={release.bandcamp_link}
-                        beatport_link={release.beatport_link}
-                        spotify_link={release.spotify_link}
-                        apple_music_link={release.apple_music_link}
-                        youtube_link={release.youtube_link}
-                        soundcloud_link={release.soundcloud_link}
+                        key={release.id}
+                        release={release}
                     />
                 ))}
         </div>

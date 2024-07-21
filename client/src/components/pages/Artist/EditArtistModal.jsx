@@ -31,7 +31,6 @@ function EditArtistModal({ id, onClose }) {
 
     useEffect(() => {
         console.log('Artist ID:', id)
-
         fetchArtist(id)
     }, [id])
 

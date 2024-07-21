@@ -9,16 +9,17 @@ import { useGenres } from '../../../contexts/GenreContext'
 import {
     getReleaseRequest
 } from '../../../api/releases'
+// import { useReleases } from '../../../contexts/ReleaseContext'
 import { useReleases } from '../../../hooks/useReleases'
 import { MenuItem, Stack, TextField } from '@mui/material'
 
 const validationSchema = Yup.object().shape({
-    title: Yup.string().required('Title is required'),
-    artist: Yup.string().required('Artist is required'),
+    title: Yup.string(),
+    artist: Yup.string(),
     cover_image_url: Yup.mixed(),
-    release_date: Yup.date().required('Release Date is required'),
+    release_date: Yup.date(),
     description: Yup.string(),
-    genre_id: Yup.string().required('Genre is required'),
+    genre_id: Yup.string(),
     release_type: Yup.string(),
     bandcamp_link: Yup.string().url('Invalid URL'),
     beatport_link: Yup.string().url('Invalid URL'),

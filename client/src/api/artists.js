@@ -3,8 +3,8 @@ import axios from './axios'
 export const getArtistsRequest = () => axios.get('/artists')
 export const getArtistRequest = (id) => axios.get(`/artists/${id}`)
 
-export const getArtistReleases = (id) => {
-    return axios.get(`/artists/${id}/releases`)
+export const getArtistReleases = (id, release_id) => {
+    return axios.get(`/artists/${id}/${release_id}`)
 }
 
 export const createArtistRequest = async (artist) => {
