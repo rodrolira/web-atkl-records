@@ -14,10 +14,6 @@ function ReleasesSection() {
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
     const { releases, fetchReleases, createRelease } = useContext(ReleaseContext)
 
-    useEffect(() => {
-        fetchReleases()
-    }, [fetchReleases])
-
     const handleReleaseAdded = async newRelease => {
         await createRelease([newRelease]) // Agrega el nuevo lanzamiento a la lista de lanzamientos
         fetchReleases()

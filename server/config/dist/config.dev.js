@@ -1,8 +1,17 @@
-import dotenv from 'dotenv'
+"use strict";
 
-dotenv.config()
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
-export default {
+var _dotenv = _interopRequireDefault(require("dotenv"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+_dotenv["default"].config();
+
+var _default = {
   development: {
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -27,4 +36,5 @@ export default {
     dialect: 'postgres',
     port: process.env.DB_PORT
   }
-}
+};
+exports["default"] = _default;

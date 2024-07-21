@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Dialog,
     DialogContent,
     DialogTitle,
     Stack,
     TextField,
-    IconButton
+    IconButton,
+    MenuItem,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import Button from '../../atoms/Button'
@@ -13,6 +14,7 @@ import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { useArtists } from '../../../contexts/ArtistContext'
 import FileUpload from '../../molecules/FileUpload'
+import { getRolesRequest } from '../../../api/artists'
 
 const validationSchema = Yup.object().shape({
     artist_name: Yup.string().required('El nombre del artista es requerido'),
@@ -25,7 +27,7 @@ const validationSchema = Yup.object().shape({
         .required('La contraseña es requerida'),
     bio: Yup.string(),
     image: Yup.mixed(),
-    role: Yup.string().required('El rol es requerido'),
+    role: Yup.array().of(Yup.string()).required('Role is required'),
     bandcamp_link: Yup.string(),
     facebook_link: Yup.string(),
     instagram_link: Yup.string(),
@@ -40,17 +42,25 @@ const validationSchema = Yup.object().shape({
 
 const AddArtistForm = ({ onArtistAdded }) => {
     const [open, setOpen] = useState(false)
-    const { createArtist } = useArtists()
+    const [roles, setRoles] = useState([])
     const [error, setError] = useState(null)
+    const { createArtist } = useArtists()
 
     const openPopup = () => setOpen(true)
     const closePopup = () => setOpen(false)
 
     const onSubmit = async (values, actions) => {
+                // Formatear roles seleccionados con "/"
+        const formattedRoles = Array.isArray(values.role)
+            ? values.role.join(' / ')
+            : values.role
+
         const formData = new FormData()
         Object.keys(values).forEach(key => {
             formData.append(key, values[key])
         })
+        // Añadir roles formateados al FormData
+        formData.set('role', formattedRoles)
 
         try {
             const newArtist = await createArtist(formData)
@@ -63,6 +73,21 @@ const AddArtistForm = ({ onArtistAdded }) => {
             actions.setSubmitting(false)
         }
     }
+
+    // Lógica para obtener los roles
+    useEffect(() => {
+        // Función para obtener los roles desde la API
+        const fetchRoles = async () => {
+            try {
+                const response = await getRolesRequest()
+                setRoles(response.data)
+            } catch (error) {
+                console.error('Error fetching roles:', error)
+            }
+        }
+
+        fetchRoles()
+    }, [])
 
     const renderField = (name, label, type = 'text', autoComplete = 'on') => (
         <Field name={name}>
@@ -117,7 +142,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                             password: '',
                             bio: '',
                             image: '',
-                            role: '',
+                            role: [],
                             bandcamp_link: '',
                             facebook_link: '',
                             instagram_link: '',
@@ -139,18 +164,27 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                     {renderField('email', 'Email')}
                                     {renderField('password', 'Password', 'password', 'current-password')}
                                     <FileUpload />
-                                    <Field name='role'>
+                                    <Field
+                                        as='select'
+                                        multiple
+                                        id='role'
+                                        name='role'
+                                        className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                    >
                                         {({ field, form }) => (
                                             <TextField
                                                 {...field}
-                                                label='Role'
                                                 variant='outlined'
                                                 select
                                                 error={form.errors.role && form.touched.role}
                                                 helperText={form.errors.role && form.touched.role && form.errors.role}
-                                                SelectProps={{ native: true }}
+                                                SelectProps={{
+                                                    native: true,
+                                                    multiple: true,
+                                                }}
+
                                             >
-                                                <option value=''></option>
+                                                <option value='' disabled >Select Role</option>
                                                 <option value='DJ'>DJ</option>
                                                 <option value='Producer'>Producer</option>
                                             </TextField>

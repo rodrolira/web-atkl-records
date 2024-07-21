@@ -1,20 +1,21 @@
 // models/artist.model.js
-import { DataTypes } from "sequelize";
-import sequelize from "../db/sequelize.js";
-import ReleaseArtist from "./release_artist.model.js";
+import { DataTypes } from 'sequelize'
+import sequelize from '../db/sequelize.js'
+import ReleaseArtist from './release_artist.model.js'
+import Release from './release.model.js'
 
 const Artist = sequelize.define(
-  "Artist",
+  'Artist',
   {
     artist_name: {
       type: DataTypes.STRING,
       allowNull: false,
-      field: "artist_name",
+      field: 'artist_name',
     },
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      field: "user_id",
+      field: 'user_id',
     },
     email: {
       type: DataTypes.STRING,
@@ -29,55 +30,54 @@ const Artist = sequelize.define(
       allowNull: true,
     },
     role: {
-      type: DataTypes.ENUM("Dj", "Producer"),
+      type: DataTypes.ENUM('Dj', 'Producer'),
       allowNull: false,
     },
     bandcamp_link: {
       type: DataTypes.STRING(255),
-      field: "bandcamp_link",
+      field: 'bandcamp_link',
     },
     facebook_link: {
       type: DataTypes.STRING(255),
-      field: "facebook_link",
+      field: 'facebook_link',
     },
     instagram_link: {
       type: DataTypes.STRING(255),
-      field: "instagram_link",
+      field: 'instagram_link',
     },
     soundcloud_link: {
       type: DataTypes.STRING(255),
-      field: "soundcloud_link",
+      field: 'soundcloud_link',
     },
     twitter_link: {
       type: DataTypes.STRING(255),
-      field: "twitter_link",
+      field: 'twitter_link',
     },
     youtube_link: {
       type: DataTypes.STRING(255),
-      field: "youtube_link",
+      field: 'youtube_link',
     },
     spotify_link: {
       type: DataTypes.STRING(255),
-      field: "spotify_link",
+      field: 'spotify_link',
     },
     apple_music_link: {
       type: DataTypes.STRING(255),
     },
     beatport_link: {
       type: DataTypes.STRING(255),
-      field: "beatport_link",
+      field: 'beatport_link',
     },
   },
   {
     timestamps: true,
-    tableName: "artists",
+    tableName: 'artists',
   }
-);
-import Release from "./release.model.js"; // Importa Release si es necesario aquí
+) // Importa Release si es necesario aquí
 
 Artist.belongsToMany(Release, {
   through: ReleaseArtist,
-  foreignKey: "artist_id",
-});
+  foreignKey: 'artist_id',
+})
 
-export default Artist;
+export default Artist
