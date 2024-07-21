@@ -13,10 +13,10 @@ import AddArtistButton from './AddArtistButton'
 import AddReleaseButton from './AddReleaseButton'
 import AdminLogoutButton from './AdminLogoutButton'
 
-function NavbarMenu({ userId }) {
+function NavbarMenu() {
     const location = useLocation()
     const { language } = useLanguage()
-    const { isAuthenticated: userAuthenticated } = useAuth()
+    const { isAuthenticated: userAuthenticated, user } = useAuth()
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
 
     return (
@@ -28,50 +28,45 @@ function NavbarMenu({ userId }) {
                         aria-labelledby='dropdownHoverButton'
                     >
                         {adminAuthenticated && !userAuthenticated && (
-                            <li>
-                                <AddArtistButton className='btn-add !capitalize'>
-                                    {language === 'en'
-                                        ? 'Add Artist'
-                                        : 'Agregar Artista'}
-                                </AddArtistButton>
-                            </li>
+                            <>
+                                <li>
+                                    <AddArtistButton className='btn-add !capitalize'>
+                                        {language === 'en'
+                                            ? 'Add Artist'
+                                            : 'Agregar Artista'}
+                                    </AddArtistButton>
+                                </li>
+                                <li>
+                                    <AddReleaseButton className='btn-add'>
+                                        {language === 'en'
+                                            ? 'Add Release'
+                                            : 'Agregar Lanzamiento'}
+                                    </AddReleaseButton>
+                                </li>
+                                <li>
+                                    <Button className='btn-dashboard' href='/admin'>
+                                        {language === 'en'
+                                            ? 'Admin Dashboard'
+                                            : 'Panel de Administrador'}
+                                    </Button>
+                                </li>
+                            </>
                         )}
-                        {adminAuthenticated && !userAuthenticated && (
-                            <li>
-                                <AddReleaseButton className='btn-add'>
-                                    {language === 'en'
-                                        ? 'Add Release'
-                                        : 'Agregar Lanzamiento'}
-                                </AddReleaseButton>
-                            </li>
-                        )}
-                        {adminAuthenticated && !userAuthenticated && (
-                            <li>
-                                <Button className='btn-dashboard' href='/admin'>
-                                    {language === 'en'
-                                        ? 'Admin Dashboard'
-                                        : 'Panel de Administrador'}
-                                </Button>
-                            </li>
-                        )}
-                        {userAuthenticated && (
+                        {userAuthenticated && user && (
                             <li>
                                 <Button
-                                    href={`/users/${userId}`} // Asegúrate de tener la variable userId definida aquí
+                                    href="/profile "// Usa user.id para la ruta del perfil
                                     className='btn-dashboard'
                                 >
                                     {language === 'en' ? 'Profile' : 'Perfil'}
                                 </Button>
                             </li>
                         )}
-
                         {!adminAuthenticated && <DemoButton />}
-                        {/* user login button */}
                         {!adminAuthenticated && !userAuthenticated && (
                             <LoginButton />
                         )}
                         <LanguageMenu />
-
                         {userAuthenticated && <LogoutButton />}
                         {adminAuthenticated && !userAuthenticated && (
                             <AdminLogoutButton />
