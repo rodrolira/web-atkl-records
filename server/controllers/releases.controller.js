@@ -1,5 +1,5 @@
 // server/controllers/releases.controller.js
-import Release from "../models/release.model.js";
+import Release from '../models/release.model.js'
 
 export const addRelease = async (req, res) => {
   const {
@@ -10,9 +10,9 @@ export const addRelease = async (req, res) => {
     genre_id,
     release_type,
     artistIds,
-  } = req.body;
+  } = req.body
   // Verifica si hay un archivo subido para la imagen de portada
-  const cover_image_url = req.file ? req.file.path : null;
+  const cover_image_url = req.file ? req.file.path : null
 
   // Verifica que los campos obligatorios estén presentes
   if (
@@ -25,8 +25,8 @@ export const addRelease = async (req, res) => {
   ) {
     return res.status(400).json({
       message:
-        "title, release_date, genre_id, release_type, and at least one ArtistIds are required",
-    });
+        'title, release_date, genre_id, release_type, and at least one ArtistIds are required',
+    })
   }
 
   try {
@@ -39,49 +39,49 @@ export const addRelease = async (req, res) => {
       genre_id,
       cover_image_url,
       release_type,
-    });
+    })
 
     // Añadir asociaciones con artistas
-    await newRelease.addArtists(artistIds);
+    await newRelease.addArtists(artistIds)
 
-    res.status(201).json(newRelease);
+    res.status(201).json(newRelease)
   } catch (error) {
     // Handle errors
-    console.error("Error adding release:", error);
-    return res.status(500).json({ message: "Failed to add release" });
+    console.error('Error adding release:', error)
+    return res.status(500).json({ message: 'Failed to add release' })
   }
-};
+}
 
 export const getReleases = async (req, res) => {
   try {
-    const releases = await Release.findAll();
-    res.status(200).json(releases);
+    const releases = await Release.findAll()
+    res.status(200).json(releases)
   } catch (error) {
-    if (error.message === "Artist is not associated to Release!") {
-      res.status(400).json({ message: "Artist is not associated to Release!" });
+    if (error.message === 'Artist is not associated to Release!') {
+      res.status(400).json({ message: 'Artist is not associated to Release!' })
     } else {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error.message })
     }
   }
-};
+}
 
 export const getReleaseById = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params
 
   try {
-    const release = await Release.findByPk(id);
+    const release = await Release.findByPk(id)
     if (!release) {
-      return res.status(404).json({ message: "Release not found" });
+      return res.status(404).json({ message: 'Release not found' })
     }
 
-    res.status(200).json(release);
+    res.status(200).json(release)
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message })
   }
-};
+}
 
 export const updateRelease = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params
   const {
     title,
     release_date,
@@ -96,15 +96,17 @@ export const updateRelease = async (req, res) => {
     apple_music_link,
     youtube_link,
     soundcloud_link,
-  } = req.body;
+  } = req.body
 
   try {
     // Validar que el título y otros campos necesarios estén presentes
     if (!title) {
-      return res.status(400).json({ error: "Title is required" });
+      return res
+        .status(400)
+        .json({ error: 'Title is required' })
     }
-    console.log(`Updating release with ID: ${id}`);
-    console.log("Update data:", req.body); // Log para verificar los datos recibidos
+    console.log(`Updating release with ID: ${id}`)
+    console.log('Update data:', req.body) // Log para verificar los datos recibidos
 
     // Actualizar el release en la base de datos
     const [updatedRowsCount, updatedRows] = await Release.update(
@@ -127,35 +129,35 @@ export const updateRelease = async (req, res) => {
         where: { id },
         returning: true, // Devolver el registro actualizado
       }
-    );
+    )
 
     if (updatedRowsCount === 0) {
-      return res.status(404).json({ message: "Release not found" });
+      return res.status(404).json({ message: 'Release not found' })
     }
 
-    res.json(updatedRows[0]); // Devuelve el primer registro actualizado
+    res.json(updatedRows[0]) // Devuelve el primer registro actualizado
   } catch (error) {
-    console.error("Error updating release:", error);
-    res.status(500).json({ message: error.message });
+    console.error('Error updating release:', error)
+    res.status(500).json({ message: error.message })
   }
-};
+}
 
 export const deleteRelease = async (req, res) => {
   try {
-    const { id } = req.params;
-    const release = await Release.findByPk(id);
+    const { id } = req.params
+    const release = await Release.findByPk(id)
     if (!release) {
-      return res.status(404).json({ message: "Release not found" });
+      return res.status(404).json({ message: 'Release not found' })
     }
     // Eliminar el release de la base de datos
     await Release.destroy({
       where: {
         id,
       },
-    });
+    })
 
-    res.status(200).json({ message: "Release deleted successfully" });
+    res.status(200).json({ message: 'Release deleted successfully' })
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message })
   }
-};
+}
