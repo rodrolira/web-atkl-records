@@ -9,10 +9,6 @@ var _sequelize = require("sequelize");
 
 var _sequelize2 = _interopRequireDefault(require("../db/sequelize.js"));
 
-var _release_artistModel = _interopRequireDefault(require("./release_artist.model.js"));
-
-var _releaseModel = _interopRequireDefault(require("./release.model.js"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // models/artist.model.js
@@ -81,12 +77,7 @@ var Artist = _sequelize2["default"].define('Artist', {
 }, {
   timestamps: true,
   tableName: 'artists'
-}); // Importa Release si es necesario aquí
-
-
-Artist.belongsToMany(_releaseModel["default"], {
-  through: _release_artistModel["default"],
-  foreignKey: 'artist_id'
 });
+
 var _default = Artist;
 exports["default"] = _default;

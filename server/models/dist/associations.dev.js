@@ -32,12 +32,17 @@ _releaseModel["default"].belongsTo(_genreModel["default"], {
 _genreModel["default"].hasMany(_releaseModel["default"], {
   foreignKey: 'genre_id',
   as: 'releases'
-});
+}); // Definir la asociación entre Release y Artist (many-to-many)
+
 
 _releaseModel["default"].belongsToMany(_artistModel["default"], {
-  through: 'release_artists'
+  through: 'ReleaseArtist',
+  foreignKey: 'release_id',
+  as: 'artist_id'
 });
 
 _artistModel["default"].belongsToMany(_releaseModel["default"], {
-  through: 'release_artists'
+  through: 'ReleaseArtist',
+  foreignKey: 'artist_id',
+  as: 'releases'
 });

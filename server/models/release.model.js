@@ -1,9 +1,9 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../db/sequelize.js";
-import Genre from "./genre.model.js";
+import { DataTypes } from 'sequelize'
+import sequelize from '../db/sequelize.js'
+import Genre from './genre.model.js'
 
 const Release = sequelize.define(
-  "Release",
+  'Release',
   {
     title: {
       type: DataTypes.STRING,
@@ -33,7 +33,7 @@ const Release = sequelize.define(
       allowNull: true,
     },
     release_type: {
-      type: DataTypes.ENUM("Album", "EP", "Single", "V.A"),
+      type: DataTypes.ENUM('Album', 'EP', 'Single', 'V.A'),
       allowNull: false,
     },
     bandcamp_link: {
@@ -63,8 +63,8 @@ const Release = sequelize.define(
   },
   {
     timestamps: true,
-    tableName: "releases",
+    tableName: 'releases',
   }
-);
+)
 
-export default Release;
+export default Release

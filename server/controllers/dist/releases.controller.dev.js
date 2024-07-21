@@ -7,6 +7,8 @@ exports.deleteRelease = exports.updateRelease = exports.getReleaseById = exports
 
 var _releaseModel = _interopRequireDefault(require("../models/release.model.js"));
 
+var _artistModel = _interopRequireDefault(require("../models/artist.model.js"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
@@ -17,24 +19,25 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+// Importa el modelo Artist
 var addRelease = function addRelease(req, res) {
-  var _req$body, title, release_date, is_explicit, description, genre_id, release_type, artistIds, cover_image_url, newRelease;
+  var _req$body, title, release_date, is_explicit, description, genre_id, release_type, artist_id, cover_image_url, newRelease;
 
   return regeneratorRuntime.async(function addRelease$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          _req$body = req.body, title = _req$body.title, release_date = _req$body.release_date, is_explicit = _req$body.is_explicit, description = _req$body.description, genre_id = _req$body.genre_id, release_type = _req$body.release_type, artistIds = _req$body.artistIds; // Verifica si hay un archivo subido para la imagen de portada
+          _req$body = req.body, title = _req$body.title, release_date = _req$body.release_date, is_explicit = _req$body.is_explicit, description = _req$body.description, genre_id = _req$body.genre_id, release_type = _req$body.release_type, artist_id = _req$body.artist_id; // Verifica si hay un archivo subido para la imagen de portada
 
           cover_image_url = req.file ? req.file.path : null; // Verifica que los campos obligatorios estén presentes
 
-          if (!(!title || !release_date || !genre_id || !release_type || !artistIds || artistIds.length === 0)) {
+          if (!(!title || !release_date || !genre_id || !release_type || !artist_id || artist_id.length === 0)) {
             _context.next = 4;
             break;
           }
 
           return _context.abrupt("return", res.status(400).json({
-            message: 'title, release_date, genre_id, release_type, and at least one ArtistIds are required'
+            message: 'title, release_date, genre_id, release_type, and at least one artist_id are required'
           }));
 
         case 4:
@@ -53,7 +56,7 @@ var addRelease = function addRelease(req, res) {
         case 7:
           newRelease = _context.sent;
           _context.next = 10;
-          return regeneratorRuntime.awrap(newRelease.addArtists(artistIds));
+          return regeneratorRuntime.awrap(newRelease.addArtists(artist_id));
 
         case 10:
           res.status(201).json(newRelease);
@@ -128,7 +131,12 @@ var getReleaseById = function getReleaseById(req, res) {
           id = req.params.id;
           _context3.prev = 1;
           _context3.next = 4;
-          return regeneratorRuntime.awrap(_releaseModel["default"].findByPk(id));
+          return regeneratorRuntime.awrap(_releaseModel["default"].findByPk(id, {
+            include: [{
+              model: _artistModel["default"],
+              as: 'artist_id'
+            }]
+          }));
 
         case 4:
           release = _context3.sent;
