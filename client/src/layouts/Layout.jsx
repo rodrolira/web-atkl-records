@@ -19,11 +19,11 @@ import AdminDashboard from '../admin/AdminDashboard'
 import ProtectedRoute from '../ProtectedRoute'
 import EditArtist from '../components/pages/Artist/EditArtist'
 import { GenreProvider } from '../contexts/GenreContext'
-import ArtistProfilePage from '../components/pages/Artist/ArtistProfilePage'
 import AdminProtectedRoute from '../AdminProtectedRoute'
 import ArtistsPage from '../components/pages/Artist/ArtistsPage'
 import ArtistPage from '../components/pages/Artist/ArtistPage'
 import EditReleaseModal from '../components/pages/Release/EditReleaseModal'
+import ProfilePage from '../components/pages/ProfilePage'
 
 const Layout = () => {
     return (
@@ -80,8 +80,8 @@ const Layout = () => {
                                             element={<NotFound />}
                                         />
                                         <Route
-                                            path='/artists/:id'
-                                            element={<ArtistProfilePage />}
+                                            path='/profile'
+                                            element={<ProfilePage />}
                                         />
                                         <Route
                                             path='/admin'

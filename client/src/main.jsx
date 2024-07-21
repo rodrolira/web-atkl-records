@@ -12,11 +12,11 @@ import { AdminAuthProvider } from './contexts/AdminAuthContext'
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
     <React.StrictMode>
-        <AuthProvider>
-            <AdminAuthProvider>
-            {/* <App /> */}
+        <AdminAuthProvider>
+            <AuthProvider>
+                {/* <App /> */}
                 <Layout />
-            </AdminAuthProvider>
-        </AuthProvider>
+            </AuthProvider>
+        </AdminAuthProvider>
     </React.StrictMode>
 )

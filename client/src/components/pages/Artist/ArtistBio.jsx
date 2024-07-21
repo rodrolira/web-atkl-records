@@ -1,6 +1,6 @@
 // ArtistBio.jsx
-import React from 'react';
-import Title from '../../atoms/Title';
+import React from 'react'
+import Title from '../../atoms/Title'
 
 const ArtistBio = ({ artist, language }) => {
     return (
@@ -10,12 +10,13 @@ const ArtistBio = ({ artist, language }) => {
             </Title>
 
             <p className='text-white'>
-                {artist && artist.bio ? artist.bio :
-                    (language === 'en'
+                {artist && artist.bio
+                    ? artist.bio
+                    : (language === 'en'
                         ? 'No information available'
                         : 'No hay información disponible')}
             </p></>
-    );
-};
+    )
+}
 
-export default ArtistBio;
+export default ArtistBio

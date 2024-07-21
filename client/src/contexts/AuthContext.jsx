@@ -1,11 +1,5 @@
-// AuthContext.jsx
 import React, { useContext, useEffect, useState } from 'react'
-import {
-    registerRequest,
-    loginRequest,
-    verifyUserTokenRequest,
-    logoutRequest,
-} from '../api/auth'
+import { registerRequest, loginRequest, verifyUserTokenRequest, logoutRequest, fetchUserProfile } from '../api/auth'
 
 const AuthContext = React.createContext()
 
@@ -29,7 +23,12 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkLogin = async () => {
             try {
-                await verifyToken()
+                const response = await verifyUserTokenRequest()
+                setUser(response.data.user)
+                setIsAuthenticated(true)
+            } catch (error) {
+                setIsAuthenticated(false)
+                setUser(null)
             } finally {
                 setLoading(false)
             }
@@ -40,9 +39,9 @@ export const AuthProvider = ({ children }) => {
     const signup = async user => {
         try {
             const res = await registerRequest(user)
-            setUser(res.data)
+            setUser(res.data.user)
             setIsAuthenticated(true)
-            localStorage.setItem('user', JSON.stringify(res.data)) // Guarda el usuario en localStorage
+            localStorage.setItem('user', JSON.stringify(res.data.user)) // Guarda el usuario en localStorage
         } catch (error) {
             setErrors([error.response.data.message])
         }
@@ -52,10 +51,9 @@ export const AuthProvider = ({ children }) => {
         try {
             const res = await loginRequest(user)
             const { token, userData } = res.data
-
             setIsAuthenticated(true)
             setUser(userData)
-            localStorage.setItem('token', token) // Guarda el usuario en localStorage
+            localStorage.setItem('token', token) // Guarda el token en localStorage
         } catch (error) {
             setErrors([error.response.data.message])
         }
@@ -69,7 +67,7 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem('user')
             localStorage.removeItem('token')
         } catch (error) {
-            setErrors('Error logging out:', error)
+            setErrors(['Error logging out:', error])
         }
     }
 
@@ -82,17 +80,6 @@ export const AuthProvider = ({ children }) => {
         }
     }, [errors])
 
-    const verifyToken = async () => {
-        try {
-            const res = await verifyUserTokenRequest()
-            setIsAuthenticated(true)
-            setUser(res.data)
-        } catch (error) {
-            setIsAuthenticated(false)
-            setUser(null)
-        }
-    }
-
     return (
         <AuthContext.Provider
             value={{
@@ -103,6 +90,7 @@ export const AuthProvider = ({ children }) => {
                 user,
                 isAuthenticated,
                 errors,
+                fetchUserProfile, // Agregado para obtener el perfil del usuario
             }}
         >
             {children}
