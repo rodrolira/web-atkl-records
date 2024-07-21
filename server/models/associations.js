@@ -15,5 +15,5 @@ Release.belongsTo(Genre, { foreignKey: 'genre_id', as: 'genre' })
 Genre.hasMany(Release, { foreignKey: 'genre_id', as: 'releases' })
 
 // Definir la asociación entre Release y Artist (many-to-many)
-Release.belongsToMany(Artist, { through: 'ReleaseArtist', foreignKey: 'release_id', as: 'artist_id' })
+Release.belongsToMany(Artist, { through: 'ReleaseArtist', foreignKey: 'release_id', as: 'artists' })
 Artist.belongsToMany(Release, { through: 'ReleaseArtist', foreignKey: 'artist_id', as: 'releases' })

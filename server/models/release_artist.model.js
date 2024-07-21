@@ -16,7 +16,6 @@ const ReleaseArtist = sequelize.define(
   },
   {
     timestamps: true,
-    tableName: 'release_artists',
   }
 )
 

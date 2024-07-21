@@ -362,7 +362,10 @@ var getArtistReleases = function getArtistReleases(req, res) {
           _context6.prev = 1;
           _context6.next = 4;
           return regeneratorRuntime.awrap(_artistModel["default"].findByPk(id, {
-            include: _releaseModel["default"] // Incluye los lanzamientos asociados al artista
+            include: {
+              model: _releaseModel["default"],
+              as: 'releases'
+            } // Incluye los lanzamientos asociados al artista
 
           }));
 

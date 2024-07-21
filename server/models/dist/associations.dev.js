@@ -38,7 +38,7 @@ _genreModel["default"].hasMany(_releaseModel["default"], {
 _releaseModel["default"].belongsToMany(_artistModel["default"], {
   through: 'ReleaseArtist',
   foreignKey: 'release_id',
-  as: 'artist_id'
+  as: 'artists'
 });
 
 _artistModel["default"].belongsToMany(_releaseModel["default"], {
