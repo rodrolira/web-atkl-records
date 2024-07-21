@@ -15,11 +15,3 @@ export const verifyUserTokenRequest = () => axios.get('/verify')
 export const logoutRequest = () => axios.post('/logout')
 export const fetchUserProfile = (id) => axios.get(`/profile/${id}`)
 export const getUserProfileRequest = () => axios.get('/profile')
-
-export const registerAdminRequest = (user) => axios.post('/admin/register', user)
-
-export const loginAdminRequest = (user) => axios.post('/admin/login', user)
-
-export const verifyAdminTokenRequest = () => axios.get('/admin/verify')
-
-export const logoutAdminRequest = () => axios.post('/admin/logout')
