@@ -1,12 +1,12 @@
-import React from 'react';
-import Button from '../../atoms/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import React from 'react'
+import Button from '../../atoms/Button'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
-const ArtistName = ({ name, adminAuthenticated, openEditModal }) => (
+const ArtistName = ({ name, adminAuthenticated, userAuthenticated, openEditModal }) => (
     <div className='flex items-center justify-center mb-2'>
         <h1 className='text-2xl font-bold'>{name}</h1>
-        {adminAuthenticated && (
+        {(adminAuthenticated || userAuthenticated) && (
             <Button
                 type='button'
                 onClick={openEditModal}
@@ -17,6 +17,6 @@ const ArtistName = ({ name, adminAuthenticated, openEditModal }) => (
             </Button>
         )}
     </div>
-);
+)
 
-export default ArtistName;
+export default ArtistName

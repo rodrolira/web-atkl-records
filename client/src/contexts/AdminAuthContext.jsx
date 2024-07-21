@@ -5,9 +5,9 @@ import {
     loginAdminRequest,
     verifyAdminTokenRequest,
     logoutAdminRequest,
-} from '../api/auth'
+} from '../api/admin'
 
- const AdminAuthContext = React.createContext()
+const AdminAuthContext = React.createContext()
 
 export const useAdminAuth = () => {
     const context = useContext(AdminAuthContext)
@@ -34,8 +34,6 @@ export const AdminAuthProvider = ({ children }) => {
         checkLogin()
     }, [])
 
-
-
     const signup = async (user) => {
         try {
             const res = await registerAdminRequest(user)
@@ -60,7 +58,6 @@ export const AdminAuthProvider = ({ children }) => {
         }
     }
 
-
     const signout = async () => {
         try {
             await logoutAdminRequest()
@@ -81,7 +78,6 @@ export const AdminAuthProvider = ({ children }) => {
             return () => clearTimeout(timer)
         }
     }, [errors])
-
 
     const verifyToken = async () => {
         try {

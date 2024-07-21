@@ -2,7 +2,7 @@ import React from 'react'
 import MainLayout from '../../layouts/MainLayout'
 import SigninPage from '../templates/SigninPage'
 import { Box, Grid } from '@mui/material'
-import TitleBox from '../TitleBox';
+import TitleBox from '../TitleBox'
 
 const Login = () => {
   return (
