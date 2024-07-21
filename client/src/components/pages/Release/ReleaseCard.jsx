@@ -79,7 +79,9 @@ const ReleaseCard = ({ release }) => {
                 <div className='w-full rounded-t-lg overflow-hidden relative'>
                     <h3 className='text-xl font-bold mt-2'>{currentRelease.title}</h3>
                     <h3 className='text-lg lg:h-auto sm:h-min font-bold mt-2'>
-                        {currentRelease.artists?.map(artist => artist.name).join(', ')}
+                        {currentRelease.artists && currentRelease.artists.length > 0
+                            ? currentRelease.artists.map(artist => artist.artist_name).join(', ')
+                            : 'No Artists'}
                     </h3>
                     <img
                         src={`http://localhost:3000/${currentRelease.cover_image_url}`}
@@ -184,7 +186,7 @@ ReleaseCard.propTypes = {
         title: PropTypes.string,
         cover_image_url: PropTypes.string,
         artists: PropTypes.arrayOf(PropTypes.shape({
-            name: PropTypes.string,
+            artist_name: PropTypes.string,
         })),
         bandcamp_link: PropTypes.string,
         spotify_link: PropTypes.string,

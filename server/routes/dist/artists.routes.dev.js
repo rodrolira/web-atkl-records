@@ -31,7 +31,7 @@ var upload = (0, _multer["default"])({
 });
 router.get('/artists', _artistsController.getArtists);
 router.get('/artists/:id', _artistsController.getArtistById);
-router.get('/artists/:id/:releaseId', _artistsController.getArtistReleases);
+router.get('/artists/:id/releases', _artistsController.getArtistReleases);
 router.post('/artists', upload.single('image'), _artistsController.addArtist);
 router.put('/artists/:id', upload.single('image'), _artistsController.updateArtist);
 router["delete"]('/artists/:id', _artistsController.deleteArtist);

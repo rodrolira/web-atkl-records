@@ -69,7 +69,11 @@ function EditReleaseModal({ id, onClose }) {
     const onSubmit = async (values, { setSubmitting }) => {
         const formData = new FormData()
         for (const key in values) {
-            formData.append(key, values[key])
+            if (Array.isArray(values[key])) {
+                values[key].forEach(value => formData.append(key, value))
+            } else {
+                formData.append(key, values[key])
+            }
         }
         console.log('Submitting form with values:', values)
 

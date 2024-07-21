@@ -13,7 +13,7 @@ import AddArtistButton from './AddArtistButton'
 import AddReleaseButton from './AddReleaseButton'
 import AdminLogoutButton from './AdminLogoutButton'
 
-function NavbarMenu ({ userId }) {
+function NavbarMenu({ userId }) {
     const location = useLocation()
     const { language } = useLanguage()
     const { isAuthenticated: userAuthenticated } = useAuth()
