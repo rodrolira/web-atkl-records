@@ -93,9 +93,11 @@ const ArtistCard = ({ artist }) => {
                     )}
                 </div>
 
-                <h5 className='text-2xl font-bold tracking-tight text-white text-center'>
-                    {currentArtist.artist_name}
-                </h5>
+                <Link to={`/artists/${currentArtist.id}`} className='block relative'>
+                    <h5 className='text-2xl font-bold tracking-tight text-white text-center'>
+                        {currentArtist.artist_name}
+                    </h5>
+                </Link>
                 <h4 className='mb-2 text-xl font-bold tracking-tight text-white text-center'>
                     {currentArtist.role}
                 </h4>
