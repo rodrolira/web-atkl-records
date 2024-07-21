@@ -5,10 +5,12 @@ import NavItem from '../atoms/NavItem'
 import { useLanguage } from '../../contexts/LanguageContext'
 import links from '../../utils/navbarLinks'
 import { useAdminAuth } from '../../contexts/AdminAuthContext'
+import { useUserAuth } from '../../contexts/UserAuthContext'
 
 const HomeNavbarLinks = () => {
     const { language } = useLanguage()
-    const {  isAdmin } = useAdminAuth()
+    const { isAdmin } = useAdminAuth()
+    const { isUser } = useUserAuth()
 
     const [activeItem, setActiveItem] = useState('/') // Inicialmente ningún ítem está activo
 
@@ -16,7 +18,7 @@ const HomeNavbarLinks = () => {
         setActiveItem(to) // Actualiza el estado activo con la nueva ruta
         const section = document.getElementById(to.replace('/', ''))
         if (section) {
-            section.scrollIntoView({ behavior: 'smooth' })  
+            section.scrollIntoView({ behavior: 'smooth' })
         }
     }
 
@@ -50,7 +52,7 @@ const HomeNavbarLinks = () => {
                                 <ul className="items-center md:bg-transparent bg-gray-700 bg-opacity-75 font-semibold flex flex-col md:p-0 w-full sm:border md:space-x-4 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 border-gray-700">
                                     {links.map((link) => {
                                         const showLink = link.authRequired
-                                            ?  isAdmin
+                                            ? isAdmin
                                             : true
 
                                         return (
@@ -65,18 +67,18 @@ const HomeNavbarLinks = () => {
                                                     } // Usa el estado del idioma para determinar el texto del enlace
                                                     isActive={
                                                         activeItem ===
-                                                            link.to ||
+                                                        link.to ||
                                                         (link.to === '/' &&
                                                             activeItem === '')
                                                     } // Verifica si el enlace es 'Home' y si el estado activo está vacío
                                                     onClick={
                                                         link.to ===
-                                                        '/discography'
+                                                            '/discography'
                                                             ? handleDiscographyClick
                                                             : () =>
-                                                                  handleItemClick(
-                                                                      link.to
-                                                                  )
+                                                                handleItemClick(
+                                                                    link.to
+                                                                )
                                                     }
                                                 />
                                             )

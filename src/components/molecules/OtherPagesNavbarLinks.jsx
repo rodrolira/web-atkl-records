@@ -30,9 +30,8 @@ const OtherPagesNavbarLinks = () => {
       <div className='max-w-screen-xl flex flex-1 h-full justify-between mx-auto w-full items-center'>
         <div className='flex items-center h-full w-full justify-end me-4 '>
           <div
-            className={`${
-              isNavbarOpen ? 'md:hidden absolute top-full w-full' : 'hidden'
-            } items-center justify-between lg:flex md:block md:w-auto md:order-1`}
+            className={`${isNavbarOpen ? 'md:hidden absolute top-full w-full' : 'hidden'
+              } items-center justify-between lg:flex md:block md:w-auto md:order-1`}
           >
             <div className='max-w-screen-xl mx-auto w-full'>
               <div className='flex items-center justify-center w-full'>
