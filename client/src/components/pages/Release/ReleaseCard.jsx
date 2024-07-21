@@ -16,8 +16,9 @@ import Modal from '../../atoms/Modal'
 import EditReleaseModal from './EditReleaseModal'
 import { useReleases } from '../../../contexts/ReleaseContext'
 import { getReleaseRequest } from '../../../api/releases'
+import { Link } from 'react-router-dom'
 
-const ReleaseCard = ({ release }) => {
+const ReleaseCard = ({ release, artist }) => {
     const [currentRelease, setCurrentRelease] = useState(release)
     const { deleteRelease, setReleases } = useReleases()
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
@@ -78,11 +79,19 @@ const ReleaseCard = ({ release }) => {
             <div className='max-w-sm w-full mx-auto text-center border text-white rounded-lg shadow bg-black border-gray-700'>
                 <div className='w-full rounded-t-lg overflow-hidden relative'>
                     <h3 className='text-xl font-bold mt-2'>{currentRelease.title}</h3>
-                    <h3 className='text-lg lg:h-auto sm:h-min font-bold mt-2'>
-                        {currentRelease.artists && currentRelease.artists.length > 0
-                            ? currentRelease.artists.map(artist => artist.artist_name).join(', ')
-                            : 'No Artists'}
-                    </h3>
+                    {currentRelease.artists && currentRelease.artists.length > 0
+                        ? (
+                            currentRelease.artists.map(artist => (
+                                <Link to={`/artists/${artist.id}`} className='block relative' key={artist.id}>
+                                    <h3 className='text-lg lg:h-auto sm:h-min font-bold mt-2'>
+                                        {artist.artist_name}
+                                    </h3>
+                                </Link>
+                            ))
+                        )
+                        : (
+                            <h3 className='text-lg lg:h-auto sm:h-min font-bold mt-2'>No Artists</h3>
+                        )}
                     <img
                         src={`http://localhost:3000/${currentRelease.cover_image_url}`}
                         alt={currentRelease.title}
