@@ -1,5 +1,6 @@
 // server/controllers/releases.controller.js
 import Release from '../models/release.model.js'
+import Artist from '../models/artist.model.js' // Importa el modelo Artist
 
 export const addRelease = async (req, res) => {
   const {
@@ -9,7 +10,7 @@ export const addRelease = async (req, res) => {
     description,
     genre_id,
     release_type,
-    artistIds,
+    artist_id,
   } = req.body
   // Verifica si hay un archivo subido para la imagen de portada
   const cover_image_url = req.file ? req.file.path : null
@@ -20,12 +21,12 @@ export const addRelease = async (req, res) => {
     !release_date ||
     !genre_id ||
     !release_type ||
-    !artistIds ||
-    artistIds.length === 0
+    !artist_id ||
+    artist_id.length === 0
   ) {
     return res.status(400).json({
       message:
-        'title, release_date, genre_id, release_type, and at least one ArtistIds are required',
+        'title, release_date, genre_id, release_type, and at least one artist_id are required',
     })
   }
 
@@ -42,7 +43,7 @@ export const addRelease = async (req, res) => {
     })
 
     // Añadir asociaciones con artistas
-    await newRelease.addArtists(artistIds)
+    await newRelease.addArtists(artist_id)
 
     res.status(201).json(newRelease)
   } catch (error) {
@@ -69,7 +70,9 @@ export const getReleaseById = async (req, res) => {
   const { id } = req.params
 
   try {
-    const release = await Release.findByPk(id)
+    const release = await Release.findByPk(id, {
+      include: [{ model: Artist, as: 'artist_id' }],
+    })
     if (!release) {
       return res.status(404).json({ message: 'Release not found' })
     }
