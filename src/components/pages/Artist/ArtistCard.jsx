@@ -1,43 +1,62 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useAdminAuth } from '../../../contexts/AdminAuthContext'
 import Button from '../../atoms/Button'
-import Modal from '../../atoms/Modal';
+import Modal from '../../atoms/Modal'
 import EditArtistModal from './EditArtistModal'
-import { useArtists } from '../../../contexts/ArtistContext';
+import { useArtists } from '../../../contexts/ArtistContext'
 import ArtistLinks from './ArtistLinks'
+import { getArtistRequest } from '../../../api/artists'
 
 const ArtistCard = ({ artist }) => {
-
-    const { deleteArtist, artists, setArtists } = useArtists() // Obtener la función de eliminación del contexto
+    const [currentArtist, setCurrentArtist] = useState(artist)
+    const { deleteArtist, setArtists } = useArtists() // Obtener la función de eliminación del contexto
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
     const [showEditModal, setShowEditModal] = useState(false) // Estado para controlar la visibilidad del modal
 
-    const handleDelete = async () => {
-        if (
-            window.confirm(
-                `¿Estás seguro de que deseas eliminar al artista ${artist.artist_name}?`
-            )
-        ) {
+    useEffect(() => {
+        const fetchArtist = async () => {
             try {
-                await deleteArtist(artist.id) // Llamar a la función de eliminación
-                // Elimina el artista de la lista actual de artistas
-                const updatedArtists = artists.filter(a => a.id !== artist.id)
-                setArtists(updatedArtists) // Actualiza la lista de artistas en el contexto
+                const response = await getArtistRequest(artist.id)
+                setCurrentArtist(response.data)
+            } catch (error) {
+                console.error('Error fetching artist:', error)
+            }
+        }
+
+        fetchArtist()
+    }, [artist.id])
+
+    const handleDelete = async () => {
+        if (window.confirm(`¿Estás seguro de que deseas eliminar al artista ${artist.artist_name}?`)) {
+            try {
+                await deleteArtist(artist.id)
+                setArtists(prevArtists => prevArtists.filter(a => a.id !== artist.id))
             } catch (error) {
                 console.error('Error deleting artist:', error)
             }
         }
     }
+
     const openEditModal = () => {
         setShowEditModal(true)
     }
 
     const closeEditModal = () => {
         setShowEditModal(false)
+        // Fetch artist again to get updated data
+        const fetchArtist = async () => {
+            try {
+                const response = await getArtistRequest(currentArtist.id)
+                setCurrentArtist(response.data)
+            } catch (error) {
+                console.error('Error fetching artist:', error)
+            }
+        }
+        fetchArtist()
     }
 
     return (
@@ -45,11 +64,11 @@ const ArtistCard = ({ artist }) => {
             <div className='bg-black max-w-sm border border-gray-200 rounded-lg shadow dark:border-purple-500 relative'>
                 <div className='w-full rounded-t-lg overflow-hidden relative'>
 
-                    <Link to={`/artists/${artist.id}`} className='block relative'>
+                    <Link to={`/artists/${currentArtist.id}`} className='block relative'>
                         <img
                             className='rounded-t-lg'
-                            src={`http://localhost:3000/${artist.image}`}
-                            alt={artist.artist_name}
+                            src={`http://localhost:3000/${currentArtist.image}`}
+                            alt={currentArtist.artist_name}
                         />
                     </Link>
 
@@ -75,18 +94,18 @@ const ArtistCard = ({ artist }) => {
                 </div>
 
                 <h5 className='text-2xl font-bold tracking-tight text-white text-center'>
-                    {artist.artist_name}
+                    {currentArtist.artist_name}
                 </h5>
                 <h4 className='mb-2 text-xl font-bold tracking-tight text-white text-center'>
-                    {artist.role}
+                    {currentArtist.role}
                 </h4>
-                <ArtistLinks artist={artist} />
+                <ArtistLinks artist={currentArtist} />
             </div >
             {/* Modal de Edición del Artista */}
             {
                 showEditModal && (
                     <Modal onClose={closeEditModal}>
-                        <EditArtistModal id={artist.id} onClose={closeEditModal} />
+                        <EditArtistModal id={currentArtist.id} onClose={closeEditModal} />
                     </Modal>
                 )
             }
