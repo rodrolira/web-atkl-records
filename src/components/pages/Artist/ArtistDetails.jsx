@@ -1,11 +1,8 @@
 // ArtistDetails.jsx
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ArtistName from './ArtistName';
-import ArtistImage from './ArtistImage';
-import Button from '../../atoms/Button';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import ArtistLinks from './ArtistLinks';
+import React from 'react'
+import ArtistName from './ArtistName'
+import ArtistImage from './ArtistImage'
+import ArtistLinks from './ArtistLinks'
 
 const ArtistDetails = ({ artist, adminAuthenticated, openEditModal }) => {
     return (
@@ -21,7 +18,7 @@ const ArtistDetails = ({ artist, adminAuthenticated, openEditModal }) => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default ArtistDetails;
+export default ArtistDetails
