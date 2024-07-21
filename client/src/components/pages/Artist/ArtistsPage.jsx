@@ -1,10 +1,9 @@
-//ArtistsPage.jsx
+// ArtistsPage.jsx
 import React from 'react'
 import Navbar from '../../organisms/Navbar'
-import ArtistsSection from './ArtistsSection';
+import ArtistsSection from './ArtistsSection'
 
 function ArtistsPage({ artistsData }) {
-
     return (
         <div>
             <Navbar />

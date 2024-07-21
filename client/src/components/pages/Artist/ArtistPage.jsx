@@ -1,46 +1,46 @@
 // client/src/components/pages/Artist/ArtistPage.jsx
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { getArtistRequest } from '../../../api/artists';
-import Navbar from '../../organisms/Navbar';
-import { useAdminAuth } from '../../../contexts/AdminAuthContext';
-import ArtistDetails from './ArtistDetails';
-import ArtistReleases from './ArtistReleases';
-import Modal from '../../atoms/Modal';
-import EditArtistModal from './EditArtistModal';
-import ArtistBio from './ArtistBio';
+import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { getArtistRequest } from '../../../api/artists'
+import Navbar from '../../organisms/Navbar'
+import { useAdminAuth } from '../../../contexts/AdminAuthContext'
+import ArtistDetails from './ArtistDetails'
+import ArtistReleases from './ArtistReleases'
+import Modal from '../../atoms/Modal'
+import EditArtistModal from './EditArtistModal'
+import ArtistBio from './ArtistBio'
 
 function ArtistPage() {
-    const { id } = useParams();
-    const [artist, setArtist] = useState(null);
-    const { isAuthenticated: adminAuthenticated } = useAdminAuth();
-    const [showEditModal, setShowEditModal] = useState(false);
-    const [isDataUpdated, setIsDataUpdated] = useState(false);
+    const { id } = useParams()
+    const [artist, setArtist] = useState(null)
+    const { isAuthenticated: adminAuthenticated } = useAdminAuth()
+    const [showEditModal, setShowEditModal] = useState(false)
+    const [isDataUpdated, setIsDataUpdated] = useState(false)
 
     useEffect(() => {
-        fetchArtist();
-    }, [id, isDataUpdated]);
-
-    const fetchArtist = async () => {
-        try {
-            const response = await getArtistRequest(id);
-            setArtist(response.data);
-        } catch (error) {
-            console.error('Error fetching artist:', error);
+        const fetchArtist = async () => {
+            try {
+                const response = await getArtistRequest(id)
+                setArtist(response.data)
+            } catch (error) {
+                console.error('Error fetching artist:', error)
+            }
         }
-    };
+
+        fetchArtist()
+    }, [id, isDataUpdated])
 
     const openEditModal = () => {
-        setShowEditModal(true);
-    };
+        setShowEditModal(true)
+    }
 
     const closeEditModal = () => {
-        setShowEditModal(false);
-        setIsDataUpdated((prev) => !prev);
-    };
+        setShowEditModal(false)
+        setIsDataUpdated((prev) => !prev)
+    }
 
     if (!artist) {
-        return <div>Loading...</div>;
+        return <div>Loading...</div>
     }
 
     return (
@@ -62,7 +62,7 @@ function ArtistPage() {
                 </Modal>
             )}
         </>
-    );
+    )
 }
 
-export default ArtistPage;
+export default ArtistPage

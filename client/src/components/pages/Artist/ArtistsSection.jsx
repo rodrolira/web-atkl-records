@@ -8,7 +8,6 @@ import AddArtistForm from './AddArtistForm'
 import ArtistList from './ArtistList'
 import { useArtists } from '../../../contexts/ArtistContext'
 
-
 function ArtistsSection() {
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
