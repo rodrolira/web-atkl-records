@@ -1,8 +1,6 @@
 // models/artist.model.js
 import { DataTypes } from 'sequelize'
 import sequelize from '../db/sequelize.js'
-import ReleaseArtist from './release_artist.model.js'
-import Release from './release.model.js'
 
 const Artist = sequelize.define(
   'Artist',
@@ -73,11 +71,5 @@ const Artist = sequelize.define(
     timestamps: true,
     tableName: 'artists',
   }
-) // Importa Release si es necesario aquí
-
-Artist.belongsToMany(Release, {
-  through: ReleaseArtist,
-  foreignKey: 'artist_id',
-})
-
+)
 export default Artist
