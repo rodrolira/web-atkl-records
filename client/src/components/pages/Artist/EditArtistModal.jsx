@@ -30,6 +30,8 @@ function EditArtistModal({ id, onClose }) {
     const { updateArtist, deleteArtist } = useArtists()
 
     useEffect(() => {
+        console.log('Artist ID:', id)
+
         fetchArtist(id)
     }, [id])
 

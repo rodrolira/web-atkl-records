@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
     getReleaseRequest,
     updateReleaseRequest,
@@ -7,10 +7,6 @@ import {
 
 export const useReleases = (id) => {
     const [release, setRelease] = useState(null)
-
-    useEffect(() => {
-        fetchRelease(id)
-    }, [id])
 
     const fetchRelease = async (id) => {
         try {
@@ -38,5 +34,5 @@ export const useReleases = (id) => {
         }
     }
 
-    return { release, updateRelease, deleteRelease }
+    return { release, fetchRelease, updateRelease, deleteRelease }
 }

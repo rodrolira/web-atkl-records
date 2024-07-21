@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
     getArtistRequest,
     updateArtistRequest,
@@ -7,10 +7,6 @@ import {
 
 export const useArtists = (id) => {
     const [artist, setArtist] = useState(null)
-
-    useEffect(() => {
-        fetchArtist(id)
-    }, [id])
 
     const fetchArtist = async (id) => {
         try {
@@ -38,5 +34,5 @@ export const useArtists = (id) => {
         }
     }
 
-    return { artist, updateArtist, deleteArtist }
+    return { artist, fetchArtist, updateArtist, deleteArtist }
 }

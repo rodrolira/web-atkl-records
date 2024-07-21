@@ -4,7 +4,6 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import Button from '../../atoms/Button'
 import FileUploadRelease from '../../molecules/FileUploadRelease'
-// import { useReleases } from '../../../contexts/ReleaseContext'
 import { useArtists } from '../../../contexts/ArtistContext'
 import { useGenres } from '../../../contexts/GenreContext'
 import {
@@ -57,13 +56,9 @@ function EditReleaseModal({ id, onClose }) {
         fetchRelease(id)
     }, [id])
 
-    const fetchRelease = async (id) => {
+    const fetchRelease = async release_id => {
         try {
-            if (!id) {
-                console.error('Invalid release ID:', id)
-                return
-            }
-            const response = await getReleaseRequest(id)
+            const response = await getReleaseRequest(release_id)
             setInitialValues(response.data)
         } catch (error) {
             console.error('Error fetching release:', error)
@@ -72,9 +67,9 @@ function EditReleaseModal({ id, onClose }) {
 
     const onSubmit = async (values, { setSubmitting }) => {
         const formData = new FormData()
-        Object.keys(values).forEach(key => {
+        for (const key in values) {
             formData.append(key, values[key])
-        })
+        }
         console.log('Submitting form with values:', values)
 
         try {

@@ -1,5 +1,5 @@
-import React from 'react';
-import ArtistCard from './ArtistCard';
+import React from 'react'
+import ArtistCard from './ArtistCard'
 
 const ArtistList = ({ artists }) => {
     return (
@@ -8,7 +8,7 @@ const ArtistList = ({ artists }) => {
                 <ArtistCard key={artist.id} artist={artist} />
             ))}
         </div>
-    );
-};
+    )
+}
 
-export default ArtistList;
+export default ArtistList
