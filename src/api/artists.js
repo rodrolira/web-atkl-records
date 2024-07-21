@@ -18,3 +18,7 @@ export const updateArtistRequest = async (id, artist) => {
 export const deleteArtistRequest = async (id) => {
     return await axios.delete(`/artists/${id}`)
 }
+
+export const getRolesRequest = async () => {
+    return await axios.get('/roles')
+}
