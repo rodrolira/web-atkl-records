@@ -24,6 +24,7 @@ import ArtistsPage from '../components/pages/Artist/ArtistsPage'
 import ArtistPage from '../components/pages/Artist/ArtistPage'
 import EditReleaseModal from '../components/pages/Release/EditReleaseModal'
 import ProfilePage from '../components/pages/ProfilePage'
+import DiscographyPage from '../components/pages/Discography/DiscographyPage'
 
 const Layout = () => {
     return (
@@ -73,6 +74,10 @@ const Layout = () => {
                                             <Route
                                                 path='/register'
                                                 element={<RegisterPage />}
+                                            />
+                                            <Route
+                                                path='/discography'
+                                                element={<DiscographyPage />}
                                             />
                                         </Route>
                                         <Route

@@ -6,10 +6,9 @@ import { useAdminAuth } from './contexts/AdminAuthContext'
 
 // Ruta protegida para administradores
 const AdminProtectedRoute = () => {
-    const { isAuthenticated } = useAdminAuth()
-    if (!isAuthenticated) {
+    const { isAdminAuthenticated } = useAdminAuth()
+    if (!isAdminAuthenticated) {
         // Redirigir a la página de login si no está autenticado
-        return <Navigate to='/login' replace />
     }
     // Renderizar el contenido protegido si está autenticado
     return <Outlet />

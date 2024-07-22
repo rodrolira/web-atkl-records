@@ -29,6 +29,8 @@ var _contactFormRoutes = _interopRequireDefault(require("./routes/contact-form.r
 
 var _rolesRoutes = _interopRequireDefault(require("./routes/roles.routes.js"));
 
+var _discographyRoutes = _interopRequireDefault(require("./routes/discography.routes.js"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // app.js
@@ -62,7 +64,8 @@ app.use('/api', _releasesRoutes["default"]);
 app.use('/api', _adminRoutes["default"]);
 app.use('/api', _contactFormRoutes["default"]);
 app.use('/api', _genreRoutes["default"]);
-app.use('/api', _rolesRoutes["default"]); // Middleware para manejo de errores
+app.use('/api', _rolesRoutes["default"]);
+app.use('/api', _discographyRoutes["default"]); // Middleware para manejo de errores
 
 app.use(function (err, req, res, next) {
   console.log(err);
