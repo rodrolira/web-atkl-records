@@ -20,15 +20,16 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var router = (0, _express.Router)(); // Crear varios tracks a partir de datos CSV
+// Crear varios tracks a partir de datos CSV
 
 router.post('/discography/bulk', function _callee(req, res) {
-  var tracks, results;
+  var tracks, cleanedTracks, results;
   return regeneratorRuntime.async(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          tracks = req.body; // Verifica que el cuerpo de la solicitud sea un array
+          tracks = req.body;
 
           if (Array.isArray(tracks)) {
             _context.next = 4;
@@ -40,30 +41,44 @@ router.post('/discography/bulk', function _callee(req, res) {
           }));
 
         case 4:
-          _context.next = 6;
+          // Verificar y limpiar los datos antes de insertarlos
+          cleanedTracks = tracks.map(function (track) {
+            return {
+              title: track.title,
+              artist: track.artist,
+              release_title: track.release_title,
+              catalogue: track.catalogue,
+              release_type: track.release_type,
+              release_date: track.release_date,
+              genre: track.genre,
+              file_info: track.file_info,
+              download_url: track.download_url
+            };
+          });
+          _context.next = 7;
           return regeneratorRuntime.awrap(Promise.all(tracks.map(function (track) {
             return _discographyModel["default"].create(track);
           })));
 
-        case 6:
+        case 7:
           results = _context.sent;
           res.status(201).json(results);
-          _context.next = 13;
+          _context.next = 14;
           break;
 
-        case 10:
-          _context.prev = 10;
+        case 11:
+          _context.prev = 11;
           _context.t0 = _context["catch"](0);
           res.status(400).json({
             error: _context.t0.message
           });
 
-        case 13:
+        case 14:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[0, 10]]);
+  }, null, null, [[0, 11]]);
 }); // Crear un nuevo track
 
 router.post('/discography', function _callee2(req, res) {
@@ -97,7 +112,7 @@ router.post('/discography', function _callee2(req, res) {
   }, null, null, [[0, 7]]);
 }); // Obtener todos los tracks
 
-router.get('/', function _callee3(req, res) {
+router.get('/discography', function _callee3(req, res) {
   var tracks;
   return regeneratorRuntime.async(function _callee3$(_context3) {
     while (1) {
@@ -128,7 +143,7 @@ router.get('/', function _callee3(req, res) {
   }, null, null, [[0, 7]]);
 }); // Obtener un track por ID
 
-router.get('/:id', function _callee4(req, res) {
+router.get('/discography/:id', function _callee4(req, res) {
   var track;
   return regeneratorRuntime.async(function _callee4$(_context4) {
     while (1) {
@@ -170,7 +185,7 @@ router.get('/:id', function _callee4(req, res) {
   }, null, null, [[0, 9]]);
 }); // Actualizar un track por ID
 
-router.put('/:id', function _callee5(req, res) {
+router.put('/discography/:id', function _callee5(req, res) {
   var _ref, _ref2, updated, updatedTrack;
 
   return regeneratorRuntime.async(function _callee5$(_context5) {
@@ -228,7 +243,7 @@ router.put('/:id', function _callee5(req, res) {
   }, null, null, [[0, 16]]);
 }); // Eliminar un track por ID
 
-router["delete"]('/:id', function _callee6(req, res) {
+router["delete"]('/discography/:id', function _callee6(req, res) {
   var deleted;
   return regeneratorRuntime.async(function _callee6$(_context6) {
     while (1) {

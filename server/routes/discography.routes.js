@@ -5,16 +5,26 @@ import Discography from '../models/discography.model.js'
 const router = Router()
 
 // Crear varios tracks a partir de datos CSV
+// Crear varios tracks a partir de datos CSV
 router.post('/discography/bulk', async (req, res) => {
     try {
         const tracks = req.body
-
-        // Verifica que el cuerpo de la solicitud sea un array
         if (!Array.isArray(tracks)) {
             return res.status(400).json({ error: 'Los datos deben ser una lista de registros.' })
         }
+         // Verificar y limpiar los datos antes de insertarlos
+        const cleanedTracks = tracks.map(track => ({
+            title: track.title,
+            artist: track.artist,
+            release_title: track.release_title,
+            catalogue: track.catalogue,
+            release_type: track.release_type,
+            release_date: track.release_date,
+            genre: track.genre,
+            file_info: track.file_info,
+            download_url: track.download_url,
+        }))
 
-        // Crea los registros en masa
         const results = await Promise.all(tracks.map(track => Discography.create(track)))
         res.status(201).json(results)
     } catch (error) {
@@ -33,7 +43,7 @@ router.post('/discography', async (req, res) => {
 })
 
 // Obtener todos los tracks
-router.get('/', async (req, res) => {
+router.get('/discography', async (req, res) => {
     try {
         const tracks = await Discography.findAll()
         res.status(200).json(tracks)
@@ -43,7 +53,7 @@ router.get('/', async (req, res) => {
 })
 
 // Obtener un track por ID
-router.get('/:id', async (req, res) => {
+router.get('/discography/:id', async (req, res) => {
     try {
         const track = await Discography.findByPk(req.params.id)
         if (!track) return res.status(404).json({ error: 'Track not found' })
@@ -54,7 +64,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // Actualizar un track por ID
-router.put('/:id', async (req, res) => {
+router.put('/discography/:id', async (req, res) => {
     try {
         const [updated] = await Discography.update(req.body, {
             where: { id: req.params.id }
@@ -71,7 +81,7 @@ router.put('/:id', async (req, res) => {
 })
 
 // Eliminar un track por ID
-router.delete('/:id', async (req, res) => {
+router.delete('/discography/:id', async (req, res) => {
     try {
         const deleted = await Discography.destroy({
             where: { id: req.params.id }
