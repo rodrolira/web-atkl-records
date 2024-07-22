@@ -12,6 +12,7 @@ import adminRoutes from './routes/admin.routes.js'
 import genreRoutes from './routes/genre.routes.js'
 import contactFormRoutes from './routes/contact-form.routes.js'
 import rolesRouter from './routes/roles.routes.js'
+import discographyRoutes from './routes/discography.routes.js'
 
 dotenv.config()
 
@@ -47,6 +48,7 @@ app.use('/api', adminRoutes)
 app.use('/api', contactFormRoutes)
 app.use('/api', genreRoutes)
 app.use('/api', rolesRouter)
+  app.use('/api', discographyRoutes)
 
 // Middleware para manejo de errores
 app.use((err, req, res, next) => {
