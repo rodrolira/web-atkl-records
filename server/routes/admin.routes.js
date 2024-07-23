@@ -30,7 +30,7 @@ router.post('/admin/login', async (req, res) => {
 
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.NODE_ENV === 'dev',
       maxAge: 12 * 60 * 60 * 1000, // 12hrs
     })
 
@@ -53,19 +53,14 @@ router.get('/admin/profile', verifyTokenAdmin, async (req, res) => {
   }
 })
 
-// router.get("/admin/verify", async (req, res) => {
-//   const { token } = req.cookies;
-//   try {
-//     const admin = await validateToken(token);
-//     res.json({ admin });
-//   } catch (error) {
-//     console.error("Error verifying admin token:", error);
-//     res.status(401).json({ message: "Unauthorized" });
-//   }
-// });
-
-router.get('/admin/verify', verifyTokenAdmin, async (req, res) => {
-  res.json({ admin: req.adminId })
+ router.get('/admin/verify', async (req, res) => {
+  const { token } = req.cookies
+  try {
+    const admin = await adminController.verifyTokenAdmin(token)
+    res.json({ admin })
+  } catch (error) {
+    res.status(401).json({ message: 'Unauthorized' })
+  }
 })
 
 export default router

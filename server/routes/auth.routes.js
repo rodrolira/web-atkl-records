@@ -58,13 +58,8 @@ router.get('/verify', async (req, res) => {
   try {
     const user = await userController.verifyTokenUser(token)
     res.json({ user })
-  } catch (error) {
-    if (error.message === 'Token expired') {
-      res.status(401).json({ message: 'Token expired' })
-    } else {
-      console.error('Error verifying user token:', error)
-      res.status(401).json({ message: 'Unauthorized' })
-    }
+    } catch (error) {
+    res.status(401).json({ message: 'Unauthorized' })
   }
 })
 

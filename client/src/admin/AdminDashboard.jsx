@@ -5,27 +5,25 @@ import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/organisms/Navbar'
 
 function AdminDashboard() {
-    const { isAuthenticated, loading } = useAdminAuth()
-    const navigate = useNavigate()
+    // const { isAuthenticated, loading } = useAdminAuth()
+    // const navigate = useNavigate()
 
-    // Si no está autenticado, redirige a la página de login del admin después de que el componente se monte
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/admin/login')
-        }
+    // // Si no está autenticado, redirige a la página de login del admin después de que el componente se monte
+    // useEffect(() => {
+    //     if (!isAuthenticated) {
+    //         navigate('/admin/login')
+    //     }
+    // }, [isAuthenticated, navigate])
 
-    }, [isAuthenticated, navigate])
+    // // Si aún se está cargando la verificación de autenticación, muestra un mensaje de carga
+    // if (loading) {
+    //     return <p>Loading...</p>
+    // }
 
-
-    // Si aún se está cargando la verificación de autenticación, muestra un mensaje de carga
-    if (loading) {
-        return <p>Loading...</p>
-    }
-
-    // Si no está autenticado, no renderiza el contenido del dashboard
-    if (!isAuthenticated) {
-        return null;
-    }
+    // // Si no está autenticado, no renderiza el contenido del dashboard
+    // if (!isAuthenticated) {
+    //     return null
+    // }
 
     return (
         <>

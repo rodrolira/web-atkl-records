@@ -78,7 +78,7 @@ router.post('/admin/login', function _callee2(req, res) {
           token = _context2.sent;
           res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: process.env.NODE_ENV === 'dev',
             maxAge: 12 * 60 * 60 * 1000 // 12hrs
 
           });
@@ -140,32 +140,39 @@ router.get('/admin/profile', _validateToken.verifyTokenAdmin, function _callee3(
       }
     }
   }, null, null, [[0, 7]]);
-}); // router.get("/admin/verify", async (req, res) => {
-//   const { token } = req.cookies;
-//   try {
-//     const admin = await validateToken(token);
-//     res.json({ admin });
-//   } catch (error) {
-//     console.error("Error verifying admin token:", error);
-//     res.status(401).json({ message: "Unauthorized" });
-//   }
-// });
-
-router.get('/admin/verify', _validateToken.verifyTokenAdmin, function _callee4(req, res) {
+});
+router.get('/admin/verify', function _callee4(req, res) {
+  var token, admin;
   return regeneratorRuntime.async(function _callee4$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
+          token = req.cookies.token;
+          _context4.prev = 1;
+          _context4.next = 4;
+          return regeneratorRuntime.awrap(adminController.verifyTokenAdmin(token));
+
+        case 4:
+          admin = _context4.sent;
           res.json({
-            admin: req.adminId
+            admin: admin
+          });
+          _context4.next = 11;
+          break;
+
+        case 8:
+          _context4.prev = 8;
+          _context4.t0 = _context4["catch"](1);
+          res.status(401).json({
+            message: 'Unauthorized'
           });
 
-        case 1:
+        case 11:
         case "end":
           return _context4.stop();
       }
     }
-  });
+  }, null, null, [[1, 8]]);
 });
 var _default = router;
 exports["default"] = _default;

@@ -163,17 +163,9 @@ router.get('/verify', function _callee4(req, res) {
         case 8:
           _context4.prev = 8;
           _context4.t0 = _context4["catch"](1);
-
-          if (_context4.t0.message === 'Token expired') {
-            res.status(401).json({
-              message: 'Token expired'
-            });
-          } else {
-            console.error('Error verifying user token:', _context4.t0);
-            res.status(401).json({
-              message: 'Unauthorized'
-            });
-          }
+          res.status(401).json({
+            message: 'Unauthorized'
+          });
 
         case 11:
         case "end":
