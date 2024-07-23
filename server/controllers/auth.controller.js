@@ -3,6 +3,9 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import User from '../models/user.model.js'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const createToken = (userId) => {
   return jwt.sign({ userId }, process.env.SECRET, {
@@ -83,16 +86,12 @@ export const verifyTokenUser = async (token) => {
     const user = await User.findByPk(decoded.userId)
 
     if (!user) {
-      throw new Error('User not found')
+      throw new Error('Unauthorized')
     }
 
     return user
   } catch (error) {
-    if (error.name === 'TokenExpiredError') {
-      throw new Error('Token expired')
-    } else {
-      throw new Error(`Error verifying user token: ${error.message}`)
-    }
+    throw new Error('Unauthorized')
   }
 }
 
