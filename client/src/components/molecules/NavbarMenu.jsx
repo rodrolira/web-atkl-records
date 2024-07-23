@@ -16,7 +16,7 @@ import AdminLogoutButton from './AdminLogoutButton'
 function NavbarMenu() {
     const location = useLocation()
     const { language } = useLanguage()
-    const { isAuthenticated: userAuthenticated, user } = useAuth()
+    const { isAuthenticated: userAuthenticated } = useAuth()
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
 
     return (
@@ -52,7 +52,7 @@ function NavbarMenu() {
                                 </li>
                             </>
                         )}
-                        {userAuthenticated && user && (
+                        {userAuthenticated && (
                             <li>
                                 <Button
                                     href="/profile "// Usa user.id para la ruta del perfil

@@ -11,9 +11,13 @@ var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
 var _userModel = _interopRequireDefault(require("../models/user.model.js"));
 
+var _dotenv = _interopRequireDefault(require("dotenv"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // user.controller.js
+_dotenv["default"].config();
+
 var createToken = function createToken(userId) {
   return _jsonwebtoken["default"].sign({
     userId: userId
@@ -243,7 +247,7 @@ var verifyTokenUser = function verifyTokenUser(token) {
             break;
           }
 
-          throw new Error('User not found');
+          throw new Error('Unauthorized');
 
         case 7:
           return _context6.abrupt("return", user);
@@ -251,18 +255,9 @@ var verifyTokenUser = function verifyTokenUser(token) {
         case 10:
           _context6.prev = 10;
           _context6.t0 = _context6["catch"](0);
+          throw new Error('Unauthorized');
 
-          if (!(_context6.t0.name === 'TokenExpiredError')) {
-            _context6.next = 16;
-            break;
-          }
-
-          throw new Error('Token expired');
-
-        case 16:
-          throw new Error("Error verifying user token: ".concat(_context6.t0.message));
-
-        case 17:
+        case 13:
         case "end":
           return _context6.stop();
       }
