@@ -7,8 +7,8 @@ import { useAuth } from '../../contexts/AuthContext' // Asegúrate de importar e
 
 const HomeNavbarLinks = () => {
     const { language } = useLanguage()
-    const { isAdmin } = useAdminAuth()
-    const { isUser } = useAuth() // Obtén el estado de autenticación del usuario
+    const { isAuthenticated: userAuthenticated } = useAuth()
+    const { isAuthenticated: adminAuthenticated } = useAdminAuth()
 
     const [activeItem, setActiveItem] = useState('/') // Inicialmente ningún ítem está activo
 
@@ -48,7 +48,7 @@ const HomeNavbarLinks = () => {
                                 <ul className="items-center md:bg-transparent bg-gray-700 bg-opacity-75 font-semibold flex flex-col md:p-0 w-full sm:border md:space-x-4 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 border-gray-700">
                                     {links.map((link) => {
                                         const showLink = link.authRequired
-                                            ? isAdmin || isUser // Muestra el enlace si el usuario o admin están autenticados
+                                            ? adminAuthenticated || userAuthenticated // Muestra el enlace si el usuario o admin están autenticados
                                             : true
 
                                         return (
