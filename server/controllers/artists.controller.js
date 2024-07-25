@@ -147,16 +147,17 @@ export const deleteArtist = async (req, res) => {
     if (!artist) {
       return res.status(404).json({ message: 'Artist not found' })
     }
-    // Delete user account
-    await User.destroy({
-      where: {
-        id: artist.user_id,
-      },
-    })
     // Delete artist
     await Artist.destroy({
       where: {
         id,
+      },
+    })
+
+    // Delete user account
+    await User.destroy({
+      where: {
+        id: artist.user_id,
       },
     })
     res

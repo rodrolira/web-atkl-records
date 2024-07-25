@@ -236,17 +236,17 @@ var deleteArtist = function deleteArtist(req, res) {
 
         case 7:
           _context3.next = 9;
-          return regeneratorRuntime.awrap(_userModel["default"].destroy({
+          return regeneratorRuntime.awrap(_artistModel["default"].destroy({
             where: {
-              id: artist.user_id
+              id: id
             }
           }));
 
         case 9:
           _context3.next = 11;
-          return regeneratorRuntime.awrap(_artistModel["default"].destroy({
+          return regeneratorRuntime.awrap(_userModel["default"].destroy({
             where: {
-              id: id
+              id: artist.user_id
             }
           }));
 
