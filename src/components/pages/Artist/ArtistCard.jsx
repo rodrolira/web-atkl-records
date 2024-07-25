@@ -10,10 +10,12 @@ import EditArtistModal from './EditArtistModal'
 import { useArtists } from '../../../contexts/ArtistContext'
 import ArtistLinks from './ArtistLinks'
 import { getArtistRequest } from '../../../api/artists'
+import { useArtist } from '../../../hooks/useArtist'
 
 const ArtistCard = ({ artist }) => {
     const [currentArtist, setCurrentArtist] = useState(artist)
-    const { deleteArtist, setArtists } = useArtists() // Obtener la función de eliminación del contexto
+    const { setArtists } = useArtists() // Obtener la función de eliminación del contexto
+    const { deleteArtist } = useArtist()
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
     const [showEditModal, setShowEditModal] = useState(false) // Estado para controlar la visibilidad del modal
 
