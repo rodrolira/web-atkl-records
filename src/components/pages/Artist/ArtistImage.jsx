@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const ArtistImage = ({ image, alt }) => (
     <div className='p-4 pb-0 rounded-lg'>
@@ -8,6 +8,6 @@ const ArtistImage = ({ image, alt }) => (
             alt={alt}
         />
     </div>
-);
+)
 
-export default ArtistImage;
+export default ArtistImage

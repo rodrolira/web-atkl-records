@@ -1,6 +1,6 @@
 // ArtistLinks.jsx
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faTwitter,
     faInstagram,
@@ -9,9 +9,9 @@ import {
     faBandcamp,
     faYoutube,
     faSpotify
-} from '@fortawesome/free-brands-svg-icons';
-import { Link } from 'react-router-dom';
-import { PropTypes } from 'prop-types';
+} from '@fortawesome/free-brands-svg-icons'
+import { Link } from 'react-router-dom'
+import { PropTypes } from 'prop-types'
 
 const ArtistLinks = ({ artist }) => (
     <div className='flex space-x-4 text-2xl justify-center my-2 py-2'>
@@ -94,7 +94,7 @@ const ArtistLinks = ({ artist }) => (
         )}
 
     </div>
-);
+)
 
 ArtistLinks.propTypes = {
     artist: PropTypes.shape({
@@ -106,7 +106,6 @@ ArtistLinks.propTypes = {
         youtube_link: PropTypes.string,
         spotify_link: PropTypes.string,
     }).isRequired,
-};
+}
 
-
-export default ArtistLinks;
+export default ArtistLinks
