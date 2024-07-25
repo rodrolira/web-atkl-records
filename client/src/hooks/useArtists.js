@@ -1,3 +1,5 @@
+// hooks/useArtists
+
 import { useState } from 'react'
 import {
     getArtistRequest,

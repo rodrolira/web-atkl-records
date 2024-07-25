@@ -24,11 +24,10 @@ export const ArtistProvider = ({ children }) => {
     // Lógica para obtener la lista de artistas
     const fetchArtists = useCallback(async () => {
         // Asegúrate de que este fetch esté funcionando correctamente y devuelva los datos esperados.
-        const response = await getArtistsRequest();
-        setArtists(response.data);
-        return response.data;
+        const response = await getArtistsRequest()
+        setArtists(response.data)
+        return response.data
     }, [])
-
 
     // Lógica para crear un artista
     const createArtist = async artist => {
