@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react' // Importa React y useEffect
+import React from 'react' // Importa React y useEffect
 import { useLanguage } from '../../contexts/LanguageContext' // Importa el hook useLanguage
 import { Box, Button, Checkbox, colors, Typography } from '@mui/material'
 import CustomInput from '../atoms/CustomInput'
 import Logo from '../atoms/Logo'
-import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useAuth } from '../../contexts/AuthContext'
@@ -11,7 +10,7 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2'
 
 function SigninPage() {
     const { language } = useLanguage() // Usa el hook para obtener language
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const { signin, isAuthenticated, errors: signinErrors } = useAuth() // Obtener la función signin del contexto de autenticación de artistas
 
     // Define validation schema using Yup
@@ -31,12 +30,6 @@ function SigninPage() {
             signin(values)
         },
     })
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            navigate('/')
-        }
-    }, [isAuthenticated, navigate])
 
     return (
         <React.Suspense fallback={<div>Loading...</div>}>
