@@ -1,5 +1,5 @@
 // AdminAuthProvider.jsx
-import React, { useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import {
     registerAdminRequest,
     loginAdminRequest,
@@ -7,15 +7,15 @@ import {
     logoutAdminRequest,
 } from '../api/admin'
 
-const AdminAuthContext = React.createContext()
+const AdminAuthContext = createContext()
 
-export const useAdminAuth = () => {
-    const context = useContext(AdminAuthContext)
-    if (!context) {
-        throw new Error('useAdminAuth must be used within an AdminAuthProvider')
-    }
-    return context
-}
+// export const useAdminAuth = () => {
+//     const context = useContext(AdminAuthContext)
+//     if (!context) {
+//         throw new Error('useAdminAuth must be used within an AdminAuthProvider')
+//     }
+//     return context
+// }
 
 export const AdminAuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -33,6 +33,19 @@ export const AdminAuthProvider = ({ children }) => {
         }
         checkLogin()
     }, [])
+
+    const verifyToken = async () => {
+        try {
+            const res = await verifyAdminTokenRequest()
+            console.log('Token verified, setting isAuthenticated to true')
+            setIsAuthenticated(true)
+            setUser(res.data)
+        } catch (error) {
+            console.log('Admin verification failed:', error)
+            setIsAuthenticated(false)
+            setUser(null)
+        }
+    }
 
     const signup = async (user) => {
         try {
@@ -79,17 +92,6 @@ export const AdminAuthProvider = ({ children }) => {
         }
     }, [errors])
 
-    const verifyToken = async () => {
-        try {
-            const res = await verifyAdminTokenRequest()
-            setIsAuthenticated(true)
-            setUser(res.data)
-        } catch (error) {
-            setIsAuthenticated(false)
-            setUser(null)
-        }
-    }
-
     return (
         <AdminAuthContext.Provider
             value={{
@@ -107,4 +109,6 @@ export const AdminAuthProvider = ({ children }) => {
     )
 }
 
-export default AdminAuthProvider
+export const useAdminAuth = () => {
+    return useContext(AdminAuthContext)
+}
