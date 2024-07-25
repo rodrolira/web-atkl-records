@@ -97,7 +97,7 @@ export const updateArtist = async (req, res) => {
 
   try {
     // Validación de campos obligatorios u otros requerimientos necesarios
-    if (!artist_name) {
+    if (!artist_name || !role) {
       return res
         .status(400)
         .json({ error: 'Artist name and role are required' })
