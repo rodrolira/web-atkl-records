@@ -51,8 +51,13 @@ function EditArtistModal({ id, onClose }) {
 
         const formData = new FormData()
         for (const key in values) {
-            formData.append(key, values[key])
+            if (key === 'image' && values[key]) {
+                formData.append(key, values[key], values[key].name)
+            } else {
+                formData.append(key, values[key])
+            }
         }
+
         // Añadir roles formateados al FormData
         formData.set('role', formattedRoles)
 

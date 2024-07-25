@@ -135,7 +135,7 @@ var updateArtist = function updateArtist(req, res) {
           _req$body2 = req.body, artist_name = _req$body2.artist_name, bio = _req$body2.bio, role = _req$body2.role, image = _req$body2.image, twitter_link = _req$body2.twitter_link, instagram_link = _req$body2.instagram_link, facebook_link = _req$body2.facebook_link, soundcloud_link = _req$body2.soundcloud_link, bandcamp_link = _req$body2.bandcamp_link, youtube_link = _req$body2.youtube_link, spotify_link = _req$body2.spotify_link, apple_music_link = _req$body2.apple_music_link, beatport_link = _req$body2.beatport_link;
           _context2.prev = 2;
 
-          if (artist_name) {
+          if (!(!artist_name || !role)) {
             _context2.next = 5;
             break;
           }
