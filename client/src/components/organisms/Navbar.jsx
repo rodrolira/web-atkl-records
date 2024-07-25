@@ -1,5 +1,5 @@
 import React from 'react'
-import NavbarLogo from '../atoms/NavbarLogo';
+import NavbarLogo from '../atoms/NavbarLogo'
 import NavbarMenu from '../molecules/NavbarMenu'
 import './Navbar.css'
 import { useAuth } from '../../contexts/AuthContext'
