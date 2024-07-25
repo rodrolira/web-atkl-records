@@ -2,7 +2,7 @@
 import React from 'react'
 
 // eslint-disable-next-line react/prop-types
-function Logo ({ isAdminSignin }) {
+function Logo({ isAdminSignin }) {
   const logoClass = isAdminSignin
     ? 'rtl:space-x-reverse max-[320px]:mx-0 lg:block sm:hidden md:hidden sm:mx-auto'
     : 'rtl:space-x-reverse max-[320px]:mx-0 lg:block sm:hidden md:hidden sm:mx-auto'
