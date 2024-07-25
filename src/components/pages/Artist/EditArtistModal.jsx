@@ -6,7 +6,7 @@ import Button from '../../atoms/Button'
 import FileUpload from '../../molecules/FileUpload'
 
 import { getArtistRequest } from '../../../api/artists'
-import { useArtists } from '../../../hooks/useArtists'
+import { useArtist } from '../../../hooks/useArtist'
 
 const validationSchema = Yup.object().shape({
     artist_name: Yup.string(),
@@ -27,7 +27,7 @@ function EditArtistModal({ id, onClose }) {
         bio: ''
     })
 
-    const { updateArtist, deleteArtist } = useArtists()
+    const { updateArtist, deleteArtist } = useArtist()
 
     useEffect(() => {
         console.log('Artist ID:', id)
