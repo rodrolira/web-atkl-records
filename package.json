@@ -12,9 +12,12 @@
     "preview": "vite preview",
     "deploy": "gh-pages -d dist --repo https://github.com/rodrolira/web-atkl-records",
     "predeploy": "npm run build",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "astro": "astro dev",
+    "astro:build": "astro build"
   },
   "dependencies": {
+    "@astrojs/react": "^3.6.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
@@ -29,6 +32,7 @@
     "@neiderruiz/translate-files": "^1.1.6",
     "@vercel/analytics": "^1.2.2",
     "@vercel/speed-insights": "^1.0.10",
+    "astro": "^4.12.2",
     "axios": "^1.6.8",
     "cors": "^2.8.5",
     "debug": "^4.3.4",
