@@ -72,7 +72,6 @@ function EditArtist() {
             } else {
                 formData.append(key, values[key])
             }
-
         }
 
         try {
@@ -158,7 +157,7 @@ function EditArtist() {
                                     className='text-red-500 text-sm mt-1'
                                 />
                                 {/* Mostrar ambos roles seleccionados */}
-                                {values.role.includes('DJ') && values.role.includes('Producer') && (
+                                {({ values }) => values.role.includes('DJ') && values.role.includes('Producer') && (
                                     <div className='mt-2 text-gray-600'>
                                         DJ / Producer
                                     </div>
