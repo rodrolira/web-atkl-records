@@ -53,14 +53,8 @@ router.get('/admin/profile', verifyTokenAdmin, async (req, res) => {
   }
 })
 
- router.get('/admin/verify', async (req, res) => {
-  const { token } = req.cookies
-  try {
-    const admin = await adminController.verifyTokenAdmin(token)
-    res.json({ admin })
-  } catch (error) {
-    res.status(401).json({ message: 'Unauthorized' })
-  }
+router.get('/admin/verify', verifyTokenAdmin, (req, res) => {
+  res.status(200).json({ message: 'Token is valid', adminId: req.adminId })
 })
 
 export default router

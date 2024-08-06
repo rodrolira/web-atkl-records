@@ -12,18 +12,19 @@ dotenv.config()
       expiresIn: '12h',
     })
   }
-export const createAdmin = async ({ username, email, password }) => {
-  try {
-    const newAdmin = await Admin.create({
-      username,
-      email,
-      password,
-    })
-    return newAdmin
-  } catch (error) {
-    throw new Error(`Error creating admin: ${error.message}`)
+
+  export const createAdmin = async ({ username, email, password }) => {
+    try {
+      const newAdmin = await Admin.create({
+        username,
+        email,
+        password,
+      })
+      return newAdmin
+    } catch (error) {
+      throw new Error(`Error creating admin: ${error.message}`)
+    }
   }
-}
 
 export const findAdminByEmail = async (email) => {
   try {
@@ -81,7 +82,7 @@ export const profileAdmin = async (adminId) => {
   }
 }
 
- export const verifyTokenAdmin = async (token) => {
+export const verifyTokenAdmin = async (token) => {
   try {
     const decoded = jwt.verify(token, process.env.SECRET)
     const admin = await Admin.findByPk(decoded.adminId)
