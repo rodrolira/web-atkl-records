@@ -25,9 +25,10 @@ export const AdminAuthProvider = ({ children }) => {
 
     useEffect(() => {
         const checkLogin = async () => {
-            try {
-                await verifyToken() // Verificar el token al cargar la página
-            } finally {
+            const token = localStorage.getItem('token')
+            if (token) {
+                await verifyToken(token)
+            } else {
                 setLoading(false)
             }
         }
@@ -37,13 +38,14 @@ export const AdminAuthProvider = ({ children }) => {
     const verifyToken = async () => {
         try {
             const res = await verifyAdminTokenRequest()
-            console.log('Token verified, setting isAuthenticated to true')
             setIsAuthenticated(true)
-            setUser(res.data)
+            setUser(res.data.admin)
         } catch (error) {
             console.log('Admin verification failed:', error)
             setIsAuthenticated(false)
             setUser(null)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -53,6 +55,7 @@ export const AdminAuthProvider = ({ children }) => {
             setUser(res.data)
             setIsAuthenticated(true)
             localStorage.setItem('adminUser', JSON.stringify(res.data))
+            localStorage.setItem('token', res.data.token)
         } catch (error) {
             setErrors([error.response.data.message])
         }
