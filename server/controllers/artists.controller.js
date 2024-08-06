@@ -36,6 +36,12 @@ export const addArtist = async (req, res) => {
   }
 
   try {
+        // Verificar si el correo electrónico ya está en uso
+    const existingUser = await User.findOne({ where: { email } })
+    if (existingUser) {
+      return res.status(400).json({ message: 'Email already in use' })
+    }
+
     // Crear usuario
     const newUser = await User.create({
       username,
@@ -43,12 +49,15 @@ export const addArtist = async (req, res) => {
       password: await bcrypt.hash(password, 10),
     })
 
+        // Formatear roles seleccionados con "/"
+        const formattedRoles = Array.isArray(role) ? role.join(' / ') : role
+
     // Crear artista asociado al usuario
     const newArtist = await Artist.create({
       artist_name,
       user_id: newUser.id,
       email,
-      role,
+      role: formattedRoles,
       bio,
       image,
       bandcamp_link,
@@ -106,12 +115,15 @@ export const updateArtist = async (req, res) => {
     console.log(`Updating artist with ID: ${id}`)
     console.log('Update data:', req.body) // Log para verificar los datos recibidos
 
+    // Formatear roles seleccionados con "/"
+    const formattedRoles = Array.isArray(role) ? role.join(' / ') : role
+
     // Lógica de actualización en la base de datos
     const [updatedRowsCount, updatedRows] = await Artist.update(
       {
         artist_name,
         bio,
-        role,
+        role: formattedRoles,
         image,
         twitter_link,
         instagram_link,
