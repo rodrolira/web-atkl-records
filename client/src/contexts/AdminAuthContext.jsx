@@ -9,13 +9,13 @@ import {
 
 const AdminAuthContext = createContext()
 
-// export const useAdminAuth = () => {
-//     const context = useContext(AdminAuthContext)
-//     if (!context) {
-//         throw new Error('useAdminAuth must be used within an AdminAuthProvider')
-//     }
-//     return context
-// }
+export const useAdminAuth = () => {
+    const context = useContext(AdminAuthContext)
+    if (!context) {
+        throw new Error('useAdminAuth must be used within an AdminAuthProvider')
+    }
+    return context
+}
 
 export const AdminAuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -110,8 +110,4 @@ export const AdminAuthProvider = ({ children }) => {
             {children}
         </AdminAuthContext.Provider>
     )
-}
-
-export const useAdminAuth = () => {
-    return useContext(AdminAuthContext)
 }
