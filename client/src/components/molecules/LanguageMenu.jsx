@@ -83,7 +83,7 @@ const LanguageMenu = () => {
                 className={`block px-2 py-2 text-sm w-full text-white hover:rounded-b-xl  hover:bg-gray-600 ${
                   selectedLanguage === 'ES' ? '!bg-gray-600' : '' // Agregar clase condicional si el idioma es español
                 }`}
-                onClick={() => handleChangeLanguage('ES')}
+                onClick={() => handleChangeLanguage('es')}
               >
                 <div className='inline-flex items-center'>
                   <ReactCountryFlag

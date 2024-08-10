@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { createContext, useContext, useState } from 'react'
 import PropTypes from 'prop-types'
+import i18n from '../i18n' // Asegúrate de que la ruta sea correcta
 
 const LanguageContext = createContext()
 
@@ -12,6 +13,7 @@ export const LanguageProvider = ({ children }) => {
 
     const changeLanguage = (newLanguage) => {
         setLanguage(newLanguage)
+        i18n.changeLanguage(newLanguage) // Cambia el idioma en i18next
     }
 
     return (

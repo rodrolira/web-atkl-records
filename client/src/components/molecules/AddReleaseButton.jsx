@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import Button from '../atoms/Button'
-import AddReleaseForm from '../pages/Release/AddReleaseForm';
+import AddReleaseForm from '../pages/Release/AddReleaseForm'
 
 const AddReleaseButton = () => {
     const [open, openChange] = useState(false)
