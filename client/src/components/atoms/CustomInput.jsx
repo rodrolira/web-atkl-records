@@ -8,7 +8,7 @@ import {
     Paper,
     Typography,
 } from '@mui/material'
-import { colors } from '/src/theme'
+import { colors } from '../theme'
 import PropTypes from 'prop-types'
 
 // eslint-disable-next-line react/display-name
@@ -71,9 +71,11 @@ const CustomInput = React.forwardRef(
                                         }
                                         edge="end"
                                     >
-                                        {showPassword ? (
+                                        {showPassword
+? (
                                             <VisibilityOff />
-                                        ) : (
+                                        )
+: (
                                             <Visibility />
                                         )}
                                     </IconButton>
@@ -96,6 +98,5 @@ CustomInput.propTypes = {
     name: PropTypes.string,
     onChange: PropTypes.func,
 }
-
 
 export default CustomInput

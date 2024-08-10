@@ -5,7 +5,8 @@ import './Button.css'
 
 const Button = ({ href, onClick, children, className }) => (
     <div className='mx-2'>
-        {href ? (
+        {href
+? (
             <a
                 href={href}
                 rel='noopener noreferrer'
@@ -13,7 +14,8 @@ const Button = ({ href, onClick, children, className }) => (
             >
                 {children}
             </a>
-        ) : (
+        )
+: (
             <button
                 onClick={onClick}
                 className={`h-full text-white font-medium rounded-lg text-sm text-center items-center ${className}`}
