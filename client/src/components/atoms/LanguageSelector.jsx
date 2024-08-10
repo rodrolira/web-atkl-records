@@ -1,7 +1,9 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 const LanguageSelector = () => {
+  const { t } = useTranslation()
   const { changeLanguage } = useLanguage()
 
   const handleChangeLanguage = newLanguage => {
@@ -10,8 +12,8 @@ const LanguageSelector = () => {
 
   return (
     <div>
-      <button onClick={() => handleChangeLanguage('en')}>English</button>
-      <button onClick={() => handleChangeLanguage('es')}>Español</button>
+      <button onClick={() => handleChangeLanguage('en')}>{t('english')}</button>
+      <button onClick={() => handleChangeLanguage('es')}>{t('spanish')}</button>
     </div>
   )
 }
