@@ -26,7 +26,7 @@ function EditArtistModal({ id, onClose }) {
         facebook_link: '',
         soundcloud_link: '',
         bandcamp_link: '',
-        role: [], // Initialize as an empty array for multiple selection
+        roleIds: [], // Initialize as an empty array for multiple selection
         bio: ''
     })
     const [roles, setRoles] = useState([])
@@ -40,23 +40,29 @@ function EditArtistModal({ id, onClose }) {
     const fetchArtist = async artist_id => {
         try {
             const response = await getArtistRequest(artist_id)
-            setInitialValues(response.data)
+            console.log('Artist:', response.data)
+            const roles = response.data?.roles ?? []
+            console.log('Roles:', roles) // Verifica los roles antes de usarlos
+
+            setInitialValues({
+                ...response.data,
+                roleIds: roles.map(role => role.id)
+            })
         } catch (error) {
             console.error('Error fetching artist:', error)
         }
     }
 
     const handleSubmit = async (values, { setSubmitting }) => {
-        // Formatear roles seleccionados con "/"
-        const formattedRoles = Array.isArray(values.role)
-            ? values.role.join(' / ')
-            : values.role
-
-            const formData = new FormData()
-            Object.keys(values).forEach(key => {
+        const formData = new FormData()
+        Object.keys(values).forEach(key => {
+            // Si `roleIds` es un array, conviértelo a una cadena separada por comas
+            if (key === 'roleIds') {
+                formData.append(key, values[key].join(','))
+            } else {
                 formData.append(key, values[key])
-            })
-            formData.set('role', formattedRoles)
+            }
+        })
         try {
             await updateArtist(id, formData)
             onClose()
@@ -128,29 +134,15 @@ function EditArtistModal({ id, onClose }) {
                             <FileUpload />
                         </div>
                         <FormControl fullWidth variant='outlined'>
-                                        <InputLabel>{t('addArtist.selectRole')}</InputLabel>
-                                        <Field name='role'>
-                                            {({ field, form }) => (
-                                                <Select
-                                                    {...field}
-                                                    multiple
-                                                    label={t('addArtist.selectRole')}
-                                                    onChange={(event) => setFieldValue('role', event.target.value)}
-                                                    value={Array.isArray(values.role) ? values.role : []}
-                                                    error={form.errors.role && form.touched.role}
-                                                    renderValue={(selected) =>
-                                                        Array.isArray(selected) ? selected.join(' / ') : ''
-                                                    }
-                                                >
-                                                    {roles.map((role) => (
-                                                        <MenuItem key={role.id} value={role.label}>
-                                                            {role.label}
-                                                        </MenuItem>
-                                                    ))}
-                                                </Select>
-                                            )}
-                                        </Field>
-                                    </FormControl>
+                            <InputLabel>{t('addArtist.selectRole')}</InputLabel>
+                            <Field as={Select} name='roleIds' multiple>
+                            {roles.map(role => (
+                                    <MenuItem key={role.id} value={role.id}>
+                                        {role.label}
+                                    </MenuItem>
+                                ))}
+                            </Field>
+                        </FormControl>
                         <div className='mb-4'>
                             <label
                                 htmlFor='bio'
