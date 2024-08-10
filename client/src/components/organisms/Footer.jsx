@@ -1,56 +1,60 @@
-// eslint-disable-next-line no-unused-vars
 import React from 'react'
 import { Typography } from '@mui/material'
-import { useLanguage } from '../../contexts/LanguageContext'
+import { useTranslation } from 'react-i18next'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBandcamp, faInstagram, faSoundcloud, faYoutube } from '@fortawesome/free-brands-svg-icons'
+import { Link } from 'react-router-dom'
 
-const SITEMAP_EN = [
-    {
-        title: 'Label',
-        links: ['About Us', 'Artists', 'Releases', 'Send Demo'],
-    },
-    {
-        title: 'Links',
-        links: ['Instagram', 'Soundcloud', 'Beatport', 'Bandcamp'],
-    },
-    {
-        title: 'Services',
-        links: ['Booking', 'Mastering', 'Free Releases', 'Affiliate Program'],
-    },
-    {
-        title: 'Products',
-        links: ['Events', 'Discography', 'Merchandising', 'Sample Packs'],
-    },
-]
-
-const SITEMAP_ES = [
-    {
-        title: 'Sello Discografico',
-        links: ['Sobre nosotros', 'Artistas', 'Lanzamientos', 'Envía tu Demo'],
-    },
-    {
-        title: 'Redes Sociales',
-        links: ['Instagram', 'Soundcloud', 'Beatport', 'Bandcamp'],
-    },
-    {
-        title: 'Servicios',
-        links: [
-            'Booking',
-            'Mastering',
-            'Lanzamientos gratuitos',
-            'Programa de afiliados',
-        ],
-    },
-    {
-        title: 'Productos',
-        links: ['Eventos', 'Discografía', 'Merchandising', 'Pack de Samples'],
-    },
-]
+const SITEMAP = {
+    en: [
+        {
+            title: 'Label',
+            links: ['About Us', 'Artists', 'Releases', 'Send Demo'],
+        },
+        {
+            title: 'Links',
+            links: ['Instagram', 'Soundcloud', 'Beatport', 'Bandcamp'],
+        },
+        {
+            title: 'Services',
+            links: ['Booking', 'Mastering', 'Free Releases', 'Affiliate Program'],
+        },
+        {
+            title: 'Products',
+            links: ['Events', 'Discography', 'Merchandising', 'Sample Packs'],
+        },
+    ],
+    es: [
+        {
+            title: 'Sello Discográfico',
+            links: ['Sobre nosotros', 'Artistas', 'Lanzamientos', 'Envía tu Demo'],
+        },
+        {
+            title: 'Redes Sociales',
+            links: ['Instagram', 'Soundcloud', 'Beatport', 'Bandcamp'],
+        },
+        {
+            title: 'Servicios',
+            links: [
+                'Booking',
+                'Mastering',
+                'Lanzamientos gratuitos',
+                'Programa de afiliados',
+            ],
+        },
+        {
+            title: 'Productos',
+            links: ['Eventos', 'Discografía', 'Merchandising', 'Pack de Samples'],
+        },
+    ],
+}
 
 const currentYear = new Date().getFullYear()
 
-function Footer (isAdminLogin) {
-    const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
-    const sitemap = language === 'en' ? SITEMAP_EN : SITEMAP_ES // Selecciona el sitemap según el idioma
+function Footer({ isAdminLogin }) {
+    const { t, i18n } = useTranslation()
+    const language = i18n.language
+    const sitemap = SITEMAP[language] || SITEMAP.en
 
     const footerClass = isAdminLogin ? 'admin-login-footer' : ''
 
@@ -65,7 +69,7 @@ function Footer (isAdminLogin) {
                                 color='white'
                                 className='mb-4 font-bold uppercase opacity-50'
                             >
-                                {title}
+                                {t(title)}
                             </Typography>
                             <ul className='space-y-1'>
                                 {links.map((link, key) => (
@@ -75,12 +79,12 @@ function Footer (isAdminLogin) {
                                         color='white'
                                         className='font-normal'
                                     >
-                                        <a
-                                            href='#'
+                                        <Link
+                                            to={link}
                                             className='inline-block py-1 pr-2 transition-transform hover:scale-105'
                                         >
-                                            {link}
-                                        </a>
+                                            {t(link)}
+                                        </Link>
                                     </Typography>
                                 ))}
                             </ul>
@@ -96,68 +100,29 @@ function Footer (isAdminLogin) {
                         <a href='https://material-tailwind.com/'>
                             ATKL Records
                         </a>
-                        .{' '}
-                        {language === 'en'
-                            ? 'All Rights Reserved.'
-                            : 'Todos los Derechos Reservados.'}{' '}
+                        . {t('All Rights Reserved.')}
                     </Typography>
-                    <div className='flex gap-4 text-white sm:justify-center'>
-                        <Typography
-                            as='a'
-                            href='#'
-                            className='opacity-80 transition-opacity hover:opacity-100'
-                        >
-                            <svg
-                                className='h-5 w-5'
-                                fill='currentColor'
-                                viewBox='0 0 24 24'
-                                aria-hidden='true'
-                            >
-                                {/* Icono de red social 1 */}
-                            </svg>
-                        </Typography>
-                        <Typography
-                            as='a'
-                            href='#'
-                            className='opacity-80 transition-opacity hover:opacity-100'
-                        >
-                            <svg
-                                className='h-5 w-5'
-                                fill='currentColor'
-                                viewBox='0 0 24 24'
-                                aria-hidden='true'
-                            >
-                                {/* Icono de red social 2 */}
-                            </svg>
-                        </Typography>
-                        <Typography
-                            as='a'
-                            href='#'
-                            className='opacity-80 transition-opacity hover:opacity-100'
-                        >
-                            <svg
-                                className='h-5 w-5'
-                                fill='currentColor'
-                                viewBox='0 0 24 24'
-                                aria-hidden='true'
-                            >
-                                {/* Icono de red social 3 */}
-                            </svg>
-                        </Typography>
-                        <Typography
-                            as='a'
-                            href='#'
-                            className='opacity-80 transition-opacity hover:opacity-100'
-                        >
-                            <svg
-                                className='h-5 w-5'
-                                fill='currentColor'
-                                viewBox='0 0 24 24'
-                                aria-hidden='true'
-                            >
-                                {/* Icono de red social 4 */}
-                            </svg>
-                        </Typography>
+                    <div className='flex gap-4 text-white sm:justify-center px-4'>
+                        <Link to='https://www.instagram.com/atklrecords/' target='_blank' rel='noopener noreferrer'>
+                            <i>
+                                <FontAwesomeIcon icon={faInstagram} size='2x' />
+                            </i>
+                        </Link>
+                        <Link to='https://soundcloud.com/atklrecords' target='_blank' rel='noopener noreferrer'>
+                            <i>
+                                <FontAwesomeIcon icon={faSoundcloud} size='2x' />
+                            </i>
+                        </Link>
+                        <Link to='https://www.bandcamp.com/atklrecords' target='_blank' rel='noopener noreferrer'>
+                            <i>
+                                <FontAwesomeIcon icon={faBandcamp} size='2x' />
+                            </i>
+                        </Link>
+                        <Link to='https://www.youtube.com/channel/UC-9-kyTW8ZkZNDHQyHvryaw' target='_blank' rel='noopener noreferrer'>
+                            <i>
+                                <FontAwesomeIcon icon={faYoutube} size='2x' />
+                            </i>
+                        </Link>
                     </div>
                 </div>
             </div>
