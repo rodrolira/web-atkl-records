@@ -1,20 +1,22 @@
-// routes/roles.js
+// routes/roles.routes.js
 import express from 'express'
 import Artist from '../models/artist.model.js'
 import { Sequelize } from 'sequelize'
+import sequelize from '../db/sequelize.js'
 
 const router = express.Router()
 
 // Endpoint para obtener los roles únicos
 router.get('/roles', async (req, res) => {
   try {
-    // Obtener todos los roles únicos de la base de datos
-  const roles = await Artist.findAll({
-      attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('role')), 'role']],
-      raw: true,
-    })
+    // Consulta para obtener los valores de la enumeración
+    const query = `
+      SELECT unnest(enum_range(NULL::enum_artists_role)) AS role
+    `
+      const [results] = await sequelize.query(query) // Use Sequelize.query instead of sequelize.query
+
     // Formatear los roles como una lista de objetos con id y label
-    const formattedRoles = roles.map((role, index) => ({
+    const formattedRoles = results.map((role, index) => ({
       id: index + 1, // o usa un identificador único si tienes uno
       value: role.role,
       label: role.role
