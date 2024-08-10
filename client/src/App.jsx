@@ -6,7 +6,7 @@ import { AuthProvider } from './contexts/AuthContext'
 import { GenreProvider } from './contexts/GenreContext'
 import { ReleaseProvider } from './contexts/ReleaseContext'
 import { ArtistProvider } from './contexts/ArtistContext'
-import { LanguageProvider } from './contexts/LanguageContext'
+// import { LanguageProvider } from './contexts/LanguageContext'
 
 const App = () => {
     return (
@@ -16,11 +16,11 @@ const App = () => {
                     <GenreProvider>
                         <ReleaseProvider>
                             <ArtistProvider>
-                                <LanguageProvider >
+                                {/* <LanguageProvider > */}
                                     <Layout>
                                         <AppRouter />
                                     </Layout>
-                                </LanguageProvider>
+                                {/* </LanguageProvider> */}
                             </ArtistProvider>
                         </ReleaseProvider>
                     </GenreProvider>

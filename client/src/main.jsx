@@ -11,13 +11,15 @@ import './index.css'
 // import { GenreProvider } from './contexts/GenreContext'
 // import { ReleaseProvider } from './contexts/ReleaseContext'
 // import { ArtistProvider } from './contexts/ArtistContext'
-// import { LanguageProvider } from './contexts/LanguageContext'
+import { LanguageProvider } from './contexts/LanguageContext'
+import './i18n'
 // import { BrowserRouter } from 'react-router-dom'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
     <React.StrictMode>
-
+        <LanguageProvider>
         <App />
+        </LanguageProvider>
     </React.StrictMode>
 )
