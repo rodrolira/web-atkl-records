@@ -42,8 +42,10 @@ export const addRelease = async (req, res) => {
       release_type,
     })
 
-    // Añadir asociaciones con artistas
-    await newRelease.setArtists(artist_id) // Usar setArtists para reemplazar artistas
+     // Asocia los artistas con el lanzamiento
+     if (artist_id && artist_id.length > 0) {
+      await newRelease.setArtists(artist_id)
+    }
 
     res.status(201).json(newRelease)
   } catch (error) {
