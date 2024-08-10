@@ -27,10 +27,6 @@ const Artist = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    role: {
-      type: DataTypes.ENUM('Dj', 'Producer'),
-      allowNull: false,
-    },
     bandcamp_link: {
       type: DataTypes.STRING(255),
       field: 'bandcamp_link',
