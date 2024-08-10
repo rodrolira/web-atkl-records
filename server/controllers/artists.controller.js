@@ -5,6 +5,7 @@ import User from '../models/user.model.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import sequelize from '../db/sequelize.js'
 
 dotenv.config()
 
@@ -29,16 +30,19 @@ export const addArtist = async (req, res) => {
   // Verifica si hay un archivo subido
   const image = req.file ? req.file.path : null
 
-  if (!artist_name || !email || !username || !password) {
+  if (!artist_name || !email || !password) {
     return res.status(400).json({
-      message: 'artist_name, username, email, and password are required',
+      message: 'artist_name, email, and password are required',
     })
   }
+
+  const transaction = await sequelize.transaction()
 
   try {
         // Verificar si el correo electrónico ya está en uso
     const existingUser = await User.findOne({ where: { email } })
     if (existingUser) {
+      await transaction.rollback()
       return res.status(400).json({ message: 'Email already in use' })
     }
 
@@ -47,10 +51,14 @@ export const addArtist = async (req, res) => {
       username,
       email,
       password: await bcrypt.hash(password, 10),
-    })
+    }, { transaction })
 
         // Formatear roles seleccionados con "/"
-        const formattedRoles = Array.isArray(role) ? role.join(' / ') : role
+        const formattedRoles = Array.isArray(role)
+        ? role.join(' / ')
+        : typeof role === 'string'
+        ? role
+         : ''
 
     // Crear artista asociado al usuario
     const newArtist = await Artist.create({
@@ -69,7 +77,10 @@ export const addArtist = async (req, res) => {
       spotify_link,
       apple_music_link,
       beatport_link,
-    })
+    }, { transaction })
+
+    // Commit transaction
+    await transaction.commit()
 
     const token = jwt.sign({ email }, process.env.SECRET, { expiresIn: '12h' })
 
@@ -79,6 +90,7 @@ export const addArtist = async (req, res) => {
 
     res.status(201).json(newArtist)
   } catch (error) {
+    await transaction.rollback()
     console.error(`Error adding artist: ${error.message}`, error)
     return res
       .status(500)
@@ -104,19 +116,22 @@ export const updateArtist = async (req, res) => {
     beatport_link,
   } = req.body
 
-  try {
     // Validación de campos obligatorios u otros requerimientos necesarios
-    if (!artist_name || !role) {
+    if (!artist_name) {
       return res
         .status(400)
-        .json({ error: 'Artist name and role are required' })
+        .json({ error: 'Artist name are required' })
     }
 
     console.log(`Updating artist with ID: ${id}`)
     console.log('Update data:', req.body) // Log para verificar los datos recibidos
-
+    try {
     // Formatear roles seleccionados con "/"
-    const formattedRoles = Array.isArray(role) ? role.join(' / ') : role
+    const formattedRoles = Array.isArray(role)
+    ? role.join(' / ')
+    : typeof role === 'string'
+    ? role
+    : ''
 
     // Lógica de actualización en la base de datos
     const [updatedRowsCount, updatedRows] = await Artist.update(
