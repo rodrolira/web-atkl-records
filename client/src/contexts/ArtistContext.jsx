@@ -5,6 +5,7 @@ import { createContext, useContext, useState, useCallback } from 'react'
 import {
     createArtistRequest,
     deleteArtistRequest,
+    getArtistRequest,
     getArtistsRequest,
     updateArtistRequest,
 } from '../api/artists'
@@ -23,7 +24,16 @@ export const useArtists = () => {
 
 export const ArtistProvider = ({ children }) => {
     const [artists, setArtists] = useState([]) // Estado para almacenar la lista de artistas
-
+    const [error, setError] = useState(null)
+    const [artist, setArtist] = useState(null)
+    const fetchArtist = async (artist) => {
+        try {
+            const response = await getArtistRequest(artist)
+            setArtist(response.data)
+        } catch (error) {
+            setError(error)
+        }
+    }
     // Lógica para obtener la lista de artistas
     const fetchArtists = useCallback(async () => {
         // Asegúrate de que este fetch esté funcionando correctamente y devuelva los datos esperados.
@@ -45,6 +55,25 @@ export const ArtistProvider = ({ children }) => {
         }
     }
 
+    const updateArtist = async (artist, updatedArtist) => {
+        try {
+            await updateArtistRequest(artist, updatedArtist)
+            fetchArtist(artist)
+        } catch (error) {
+            setError(error)
+        }
+    }
+
+    // Lógica para eliminar un artista
+    const deleteArtist = async (artist) => {
+        try {
+            await deleteArtistRequest(artist)
+            setArtist(null)
+        } catch (error) {
+            setError(error)
+        }
+    }
+
     return (
         <ArtistContext.Provider
             value={{
@@ -52,6 +81,13 @@ export const ArtistProvider = ({ children }) => {
                 setArtists,
                 createArtist,
                 fetchArtists,
+                fetchArtist,
+                artist,
+                setArtist,
+                error,
+                setError,
+                updateArtist,
+                deleteArtist,
             }}
         >
             {children}
