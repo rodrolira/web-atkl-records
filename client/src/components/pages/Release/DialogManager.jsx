@@ -1,12 +1,12 @@
 // DialogManager.jsx
-import React, { useState } from 'react';
-import { Dialog } from '@mui/material';
-import Button from '../../atoms/Button';
+import React, { useState } from 'react'
+import { Dialog } from '@mui/material'
+import Button from '../../atoms/Button'
 
 const DialogManager = ({ children }) => {
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [open, setOpen] = useState(false)
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
 
     return (
         <>
@@ -17,7 +17,7 @@ const DialogManager = ({ children }) => {
                 {children(handleClose)}
             </Dialog>
         </>
-    );
-};
+    )
+}
 
-export default DialogManager;
+export default DialogManager
