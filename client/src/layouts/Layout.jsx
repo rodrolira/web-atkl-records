@@ -9,8 +9,9 @@ const Layout = ({ children }) => {
             <div className='layout'>
                 <BrowserRouter>
                     {children}
+                    <Footer />
+
                 </BrowserRouter>
-                <Footer />
 
             </div>
         </div>
