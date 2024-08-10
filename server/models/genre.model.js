@@ -1,9 +1,9 @@
 // models/genre.model.js
-import { DataTypes } from "sequelize";
-import sequelize from "../db/sequelize.js";
+import { DataTypes } from 'sequelize'
+import sequelize from '../db/sequelize.js'
 
 const Genre = sequelize.define(
-  "Genre",
+  'Genre',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -18,8 +18,8 @@ const Genre = sequelize.define(
   },
   {
     timestamps: false,
-    tableName: "genres",
+    tableName: 'genres',
   }
-);
+)
 
-export default Genre;
+export default Genre
