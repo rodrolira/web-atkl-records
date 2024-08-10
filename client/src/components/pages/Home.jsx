@@ -1,13 +1,13 @@
 // Home.jsx
 
-import React, { useEffect, useContext } from 'react'
-import './Home.css'
+import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
+import './Home.css'
+import Navbar from '../organisms/Navbar'
 import AboutSection from '../organisms/AboutSection'
 import DemosSection from '../organisms/DemoSection'
 import ContactSection from '../organisms/ContactSection'
-import { useLocation } from 'react-router-dom'
-import Navbar from '../organisms/Navbar'
 import ReleasesSection from './Release/ReleasesSection'
 import ArtistsSection from './Artist/ArtistsSection'
 

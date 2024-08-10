@@ -1,10 +1,9 @@
 import React from 'react'
 import { FaUser, FaUserMinus, FaUserPlus } from 'react-icons/fa'
-import { FiActivity } from 'react-icons/fi'
+import { FiGauge } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import Logo from '../components/atoms/Logo'
 import Button from './Button'
-import Footer from '../components/organisms/Footer'
 
 const NavBar = () => (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#22581d] px-10 py-3">
@@ -38,7 +37,7 @@ const NavBar = () => (
       <Button text="Add Artist" colorClass="bg-[#24db13] text-[#122e0f]" />
       <Button text="Add Release" colorClass="bg-[#22581d] text-white" />
       <Button text="" colorClass="bg-[#22581d] text-white">
-        <FiActivity size={20} />
+        <FiGauge size={20} />
       </Button>
     </div>
   )
@@ -159,7 +158,6 @@ const NavBar = () => (
             </ContentSection>
           </div>
         </div>
-          <Footer />
       </div>
     )
   }
