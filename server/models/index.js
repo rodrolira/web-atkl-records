@@ -11,7 +11,9 @@ import './release.model.js'; // Importa el modelo Release
 import './artist.model.js';  // Importa el modelo Artist
 import './genre.model.js';   // Importa el modelo Genre
 import './user.model.js';   // Importa el modelo User
-import './releaseArtist.model.js'; // Importa el modelo ReleaseArtist
+import './release_artist.model.js'; // Importa el modelo ReleaseArtist
+import './role.model.js'; // Importa el modelo Role
+import './artist_role.model.js'; // Importa el modelo ArtistRole
 import './associations.js';  // Importa el archivo de asociaciones
 
 const basename = _basename(__filename)
