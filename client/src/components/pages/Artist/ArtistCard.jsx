@@ -61,6 +61,11 @@ const ArtistCard = ({ artist }) => {
         fetchArtist()
     }
 
+        // Concatenar roles con '/'
+        const rolesText = currentArtist.Roles && currentArtist.Roles.length > 0
+        ? currentArtist.Roles.map(role => role.label).join(' / ')
+        : 'No roles assigned'
+
     return (
         <>
             <div className='bg-black max-w-sm border border-gray-200 rounded-lg shadow dark:border-purple-500 relative'>
@@ -96,13 +101,15 @@ const ArtistCard = ({ artist }) => {
                 </div>
 
                 <Link to={`/artists/${currentArtist.id}`} className='block relative'>
-                    <h5 className='text-2xl font-bold tracking-tight text-white text-center'>
+                    <h5 className='text-2xl font-bold tracking-tight text-white text-center mb-2'>
                         {currentArtist.artist_name}
                     </h5>
                 </Link>
-                <h4 className='mb-2 text-xl font-bold tracking-tight text-white text-center'>
-                    {currentArtist.role}
-                </h4>
+                {/* Mostrar los roles */}
+                <div className='mb-2 text-xl font-bold tracking-tight text-white text-center'>
+                {rolesText}
+                </div>
+
                 <ArtistLinks artist={currentArtist} />
             </div >
             {/* Modal de Edición del Artista */}
@@ -122,6 +129,10 @@ ArtistCard.propTypes = {
         id: PropTypes.number.isRequired,
         artist_name: PropTypes.string.isRequired,
         image: PropTypes.string,
+        Roles: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.number,
+            label: PropTypes.string,
+        }))
     }).isRequired,
 }
 
