@@ -5,8 +5,10 @@ import * as Yup from 'yup'
 import Button from '../../atoms/Button'
 import FileUpload from '../../molecules/FileUpload'
 
-import { getArtistRequest } from '../../../api/artists'
-import { useArtist } from '../../../hooks/useArtist'
+import { getArtistRequest, getRolesRequest } from '../../../api/artists'
+import { useArtists } from '../../../contexts/ArtistContext'
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 const validationSchema = Yup.object().shape({
     artist_name: Yup.string(),
@@ -14,6 +16,7 @@ const validationSchema = Yup.object().shape({
 })
 
 function EditArtistModal({ id, onClose }) {
+    const { t } = useTranslation()
     const navigate = useNavigate()
     const [initialValues, setInitialValues] = useState({
         artist_name: '',
@@ -26,8 +29,8 @@ function EditArtistModal({ id, onClose }) {
         role: [], // Initialize as an empty array for multiple selection
         bio: ''
     })
-
-    const { updateArtist, deleteArtist } = useArtist()
+    const [roles, setRoles] = useState([])
+    const { updateArtist, deleteArtist } = useArtists()
 
     useEffect(() => {
         console.log('Artist ID:', id)
@@ -49,18 +52,11 @@ function EditArtistModal({ id, onClose }) {
             ? values.role.join(' / ')
             : values.role
 
-        const formData = new FormData()
-        for (const key in values) {
-            if (key === 'image' && values[key]) {
-                formData.append(key, values[key], values[key].name)
-            } else {
+            const formData = new FormData()
+            Object.keys(values).forEach(key => {
                 formData.append(key, values[key])
-            }
-        }
-
-        // Añadir roles formateados al FormData
-        formData.set('role', formattedRoles)
-
+            })
+            formData.set('role', formattedRoles)
         try {
             await updateArtist(id, formData)
             onClose()
@@ -81,6 +77,20 @@ function EditArtistModal({ id, onClose }) {
         }
     }
 
+    useEffect(() => {
+        const fetchRoles = async () => {
+            try {
+                const response = await getRolesRequest()
+                if (response && response.data) {
+                    setRoles(response.data)
+                }
+            } catch (error) {
+                console.error('Error fetching roles:', error)
+            }
+        }
+        fetchRoles()
+    }, [])
+
     return (
         <div className='flex flex-col items-center justify-center'>
             <Formik
@@ -89,7 +99,7 @@ function EditArtistModal({ id, onClose }) {
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
-                {({ isSubmitting }) => (
+                {({ isSubmitting, setFieldValue, values }) => (
                     <Form className='w-full bg-white shadow-md rounded px-8 pt-2 pb-2 mb-4 text-center'>
                         <h2 className='text-2xl mb-4 font-bold'>Edit Artist</h2>
                         <div className='mb-4'>
@@ -117,29 +127,30 @@ function EditArtistModal({ id, onClose }) {
                         <div className='mb-4'>
                             <FileUpload />
                         </div>
-                        <div className='mb-4'>
-                            <label
-                                htmlFor='role'
-                                className='block text-gray-700 font-bold mb-2'
-                            >
-                                Role
-                            </label>
-                            <Field
-                                as='select'
-                                multiple
-                                id='role'
-                                name='role'
-                                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                            >
-                                <option value='DJ'>DJ</option>
-                                <option value='Producer'>Producer</option>
-                            </Field>
-                            <ErrorMessage
-                                name='role'
-                                component='div'
-                                className='text-red-500 text-sm mt-1'
-                            />
-                        </div>
+                        <FormControl fullWidth variant='outlined'>
+                                        <InputLabel>{t('addArtist.selectRole')}</InputLabel>
+                                        <Field name='role'>
+                                            {({ field, form }) => (
+                                                <Select
+                                                    {...field}
+                                                    multiple
+                                                    label={t('addArtist.selectRole')}
+                                                    onChange={(event) => setFieldValue('role', event.target.value)}
+                                                    value={Array.isArray(values.role) ? values.role : []}
+                                                    error={form.errors.role && form.touched.role}
+                                                    renderValue={(selected) =>
+                                                        Array.isArray(selected) ? selected.join(' / ') : ''
+                                                    }
+                                                >
+                                                    {roles.map((role) => (
+                                                        <MenuItem key={role.id} value={role.label}>
+                                                            {role.label}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            )}
+                                        </Field>
+                                    </FormControl>
                         <div className='mb-4'>
                             <label
                                 htmlFor='bio'

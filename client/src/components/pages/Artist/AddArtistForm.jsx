@@ -6,6 +6,9 @@ import {
     Stack,
     TextField,
     IconButton,
+    FormControl,
+    InputLabel,
+    Select,
     MenuItem,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
@@ -15,32 +18,10 @@ import * as Yup from 'yup'
 import { useArtists } from '../../../contexts/ArtistContext'
 import FileUpload from '../../molecules/FileUpload'
 import { getRolesRequest } from '../../../api/artists'
-
-const validationSchema = Yup.object().shape({
-    artist_name: Yup.string().required('El nombre del artista es requerido'),
-    username: Yup.string().required('El nombre de usuario es requerido'),
-    email: Yup.string()
-        .email('Correo electrónico inválido')
-        .required('El correo electrónico es requerido'),
-    password: Yup.string()
-        .min(6, 'La contraseña debe tener al menos 6 caracteres')
-        .required('La contraseña es requerida'),
-    bio: Yup.string(),
-    image: Yup.mixed(),
-    role: Yup.array().of(Yup.string()).required('Role is required'),
-    bandcamp_link: Yup.string(),
-    facebook_link: Yup.string(),
-    instagram_link: Yup.string(),
-    soundcloud_link: Yup.string(),
-    twitterLink: Yup.string(),
-    youtube_link: Yup.string(),
-    spotify_link: Yup.string(),
-    beatport_link: Yup.string(),
-    apple_music_link: Yup.string(),
-
-})
+import { useTranslation } from 'react-i18next'
 
 const AddArtistForm = ({ onArtistAdded }) => {
+    const { t } = useTranslation()
     const [open, setOpen] = useState(false)
     const [roles, setRoles] = useState([])
     const [error, setError] = useState(null)
@@ -50,7 +31,6 @@ const AddArtistForm = ({ onArtistAdded }) => {
     const closePopup = () => setOpen(false)
 
     const onSubmit = async (values, actions) => {
-                // Formatear roles seleccionados con "/"
         const formattedRoles = Array.isArray(values.role)
             ? values.role.join(' / ')
             : values.role
@@ -59,7 +39,6 @@ const AddArtistForm = ({ onArtistAdded }) => {
         Object.keys(values).forEach(key => {
             formData.append(key, values[key])
         })
-        // Añadir roles formateados al FormData
         formData.set('role', formattedRoles)
 
         try {
@@ -69,18 +48,20 @@ const AddArtistForm = ({ onArtistAdded }) => {
             onArtistAdded && onArtistAdded(newArtist)
         } catch (error) {
             console.error('Error adding artist:', error)
-            setError('Failed to add artist')
+            setError(t('error.addArtist'))
             actions.setSubmitting(false)
         }
     }
 
-    // Lógica para obtener los roles
     useEffect(() => {
-        // Función para obtener los roles desde la API
         const fetchRoles = async () => {
             try {
                 const response = await getRolesRequest()
-                setRoles(response.data)
+                if (response && response.data) {
+                setRoles(response.data) // Ensure roles are objects
+            } else {
+                console.error('Unexpected response format:', response)
+            }
             } catch (error) {
                 console.error('Error fetching roles:', error)
             }
@@ -94,7 +75,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
             {({ field, form }) => (
                 <TextField
                     {...field}
-                    label={label}
+                    label={t(label)}
                     variant='outlined'
                     type={type}
                     autoComplete={autoComplete}
@@ -108,7 +89,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
     return (
         <>
             <Button onClick={openPopup} className='btn-add mx-auto' variant='contained'>
-                Add Artist
+                {t('addArtist.title')}
             </Button>
             <Dialog
                 open={open}
@@ -128,7 +109,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                 scroll='body'
             >
                 <DialogTitle style={{ textAlign: 'center' }}>
-                    Add Artist
+                    {t('addArtist.title')}
                     <IconButton style={{ float: 'right' }} onClick={closePopup}>
                         <CloseIcon color='error' />
                     </IconButton>
@@ -151,66 +132,91 @@ const AddArtistForm = ({ onArtistAdded }) => {
                             youtube_link: '',
                             spotify_link: '',
                             beatport_link: '',
-
+                            apple_music_link: '',
                         }}
-                        validationSchema={validationSchema}
+                        validationSchema={Yup.object().shape({
+                            artist_name: Yup.string().required(t('addArtist.validation.artistNameRequired')),
+                            username: Yup.string().required(t('addArtist.validation.usernameRequired')),
+                            email: Yup.string()
+                                .email(t('addArtist.validation.invalidEmail'))
+                                .required(t('addArtist.validation.emailRequired')),
+                            password: Yup.string()
+                                .min(6, t('addArtist.validation.passwordMin'))
+                                .required(t('addArtist.validation.passwordRequired')),
+                            bio: Yup.string(),
+                            image: Yup.mixed(),
+                            role: Yup.array().of(Yup.string()).required(t('addArtist.validation.roleRequired')),
+                            bandcamp_link: Yup.string(),
+                            facebook_link: Yup.string(),
+                            instagram_link: Yup.string(),
+                            soundcloud_link: Yup.string(),
+                            twitterLink: Yup.string(),
+                            youtube_link: Yup.string(),
+                            spotify_link: Yup.string(),
+                            beatport_link: Yup.string(),
+                            apple_music_link: Yup.string(),
+                        })}
                         onSubmit={onSubmit}
                     >
-                        {({ isSubmitting }) => (
+                        {({ isSubmitting, setFieldValue, values }) => (
                             <Form>
                                 <Stack spacing={2} margin={2}>
-                                    {renderField('artist_name', 'Artist Name')}
-                                    {renderField('username', 'Username')}
-                                    {renderField('email', 'Email')}
-                                    {renderField('password', 'Password', 'password', 'current-password')}
+                                    {renderField('artist_name', 'artistName')}
+                                    {renderField('username', 'username')}
+                                    {renderField('email', 'email')}
+                                    {renderField('password', 'password', 'password', 'current-password')}
                                     <FileUpload />
-                                    <Field
-                                        as='select'
-                                        multiple
-                                        id='role'
-                                        name='role'
-                                        className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                                    >
-                                        {({ field, form }) => (
-                                            <TextField
-                                                {...field}
-                                                variant='outlined'
-                                                select
-                                                error={form.errors.role && form.touched.role}
-                                                helperText={form.errors.role && form.touched.role && form.errors.role}
-                                                SelectProps={{
-                                                    native: true,
-                                                    multiple: true,
-                                                }}
+                                    <FormControl fullWidth variant='outlined'>
+                                        <InputLabel>{t('addArtist.selectRole')}</InputLabel>
+                                        <Field name='role'>
+                                            {({ field, form }) => (
+                                                <Select
+                                                    {...field}
+                                                    multiple
+                                                    label={t('addArtist.selectRole')}
+                                                    onChange={(event) => setFieldValue('role', event.target.value)}
+                                                    value={values.role}
+                                                    error={form.errors.role && form.touched.role}
+                                                    renderValue={(selected) => selected.join(' / ')}
+                                                    >
+                                                    {roles.map((role) => (
+                                                        <MenuItem key={role.id} value={role.label}>
+                                                            {role.label}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            )}
+                                        </Field>
+                                    </FormControl>
 
-                                            >
-                                                <option value='' disabled >Select Role</option>
-                                                <option value='DJ'>DJ</option>
-                                                <option value='Producer'>Producer</option>
-                                            </TextField>
-                                        )}
-                                    </Field>
-                                    {renderField('bio', 'Bio')}
-                                    {renderField('bandcamp_link', 'Bandcamp Link')}
-                                    {renderField('beatport_link', 'Beatport Link')}
-                                    {renderField('facebook_link', 'Facebook Link')}
-                                    {renderField('instagram_link', 'Instagram Link')}
-                                    {renderField('soundcloud_link', 'Soundcloud Link')}
-                                    {renderField('twitterLink', 'Twitter Link')}
-                                    {renderField('youtube_link', 'Youtube Link')}
-                                    {renderField('spotify_link', 'Spotify Link')}
-                                    {renderField('apple_music_link', 'Apple Music Link')}
-
-                                    <Button
-                                        className='btn-add'
-                                        type='submit'
-                                        variant='contained'
-                                        color='success'
-                                        disabled={isSubmitting}
-                                    >
-                                        {isSubmitting ? 'Adding...' : 'Add'}
+                                    <Stack spacing={1}>
+                                        <TextField
+                                            label={t('addArtist.bio')}
+                                            name='bio'
+                                            multiline
+                                            rows={4}
+                                            variant='outlined'
+                                        />
+                                    </Stack>
+                                    <Stack spacing={2}>
+                                        {['bandcamp_link', 'facebook_link', 'instagram_link', 'soundcloud_link', 'twitter_link', 'youtube_link', 'spotify_link', 'beatport_link', 'apple_music_link'].map((linkField, index) => (
+                                            <Field key={index} name={linkField}>
+                                                {({ field, form }) => (
+                                                    <TextField
+                                                        {...field}
+                                                        label={t(linkField)}
+                                                        variant='outlined'
+                                                        error={form.errors[linkField] && form.touched[linkField]}
+                                                        helperText={form.errors[linkField] && form.touched[linkField] && form.errors[linkField]}
+                                                    />
+                                                )}
+                                            </Field>
+                                        ))}
+                                    </Stack>
+                                    {error && <div className='text-red-500'>{error}</div>}
+                                    <Button type='submit' disabled={isSubmitting} variant='contained' className='btn-add mx-auto flex justify-center' >
+                                        {t('submit')}
                                     </Button>
-                                    {error && <div style={{ color: 'red' }}>{error}</div>}
                                 </Stack>
                             </Form>
                         )}
