@@ -2,6 +2,7 @@
 import Artist from '../models/artist.model.js'
 import Release from '../models/release.model.js'
 import User from '../models/user.model.js'
+import Role from '../models/role.model.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
@@ -16,7 +17,7 @@ export const addArtist = async (req, res) => {
     username,
     password,
     bio,
-    role,
+    roleIds, // List of role IDs
     bandcamp_link,
     facebook_link,
     instagram_link,
@@ -39,7 +40,7 @@ export const addArtist = async (req, res) => {
   const transaction = await sequelize.transaction()
 
   try {
-        // Verificar si el correo electrónico ya está en uso
+    // Verificar si el correo electrónico ya está en uso
     const existingUser = await User.findOne({ where: { email } })
     if (existingUser) {
       await transaction.rollback()
@@ -53,19 +54,12 @@ export const addArtist = async (req, res) => {
       password: await bcrypt.hash(password, 10),
     }, { transaction })
 
-        // Formatear roles seleccionados con "/"
-        const formattedRoles = Array.isArray(role)
-        ? role.join(' / ')
-        : typeof role === 'string'
-        ? role
-         : ''
-
     // Crear artista asociado al usuario
     const newArtist = await Artist.create({
       artist_name,
       user_id: newUser.id,
       email,
-      role: formattedRoles,
+      roleIds, // List of role IDs
       bio,
       image,
       bandcamp_link,
@@ -78,6 +72,17 @@ export const addArtist = async (req, res) => {
       apple_music_link,
       beatport_link,
     }, { transaction })
+
+    // Asociar roles con el artista
+    if (roleIds && roleIds.length > 0) {
+      const roles = await Role.findAll({
+        where: {
+          id: roleIds,
+        },
+        transaction
+      })
+      await newArtist.addRoles(roles, { transaction })
+    }
 
     // Commit transaction
     await transaction.commit()
@@ -100,70 +105,29 @@ export const addArtist = async (req, res) => {
 
 export const updateArtist = async (req, res) => {
   const { id } = req.params
-  const {
-    artist_name,
-    bio,
-    role,
-    image,
-    twitter_link,
-    instagram_link,
-    facebook_link,
-    soundcloud_link,
-    bandcamp_link,
-    youtube_link,
-    spotify_link,
-    apple_music_link,
-    beatport_link,
-  } = req.body
+  const updateData = req.body
 
-    // Validación de campos obligatorios u otros requerimientos necesarios
-    if (!artist_name) {
-      return res
-        .status(400)
-        .json({ error: 'Artist name are required' })
+  try {
+    // Actualizar datos del artista
+    await Artist.update(updateData, { where: { id } })
+
+    // Actualizar roles si se proporcionan
+    if (updateData.roleIds) {
+      const roleIds = updateData.roleIds.split(',').map(id => parseInt(id, 10))
+      const artist = await Artist.findByPk(id)
+      const roles = await Role.findAll({ where: { id: roleIds } })
+      await artist.setRoles(roles)
     }
 
-    console.log(`Updating artist with ID: ${id}`)
-    console.log('Update data:', req.body) // Log para verificar los datos recibidos
-    try {
-    // Formatear roles seleccionados con "/"
-    const formattedRoles = Array.isArray(role)
-    ? role.join(' / ')
-    : typeof role === 'string'
-    ? role
-    : ''
+    // Obtener el artista actualizado
+    const updatedArtist = await Artist.findByPk(id, {
+      include: [Role] // Incluye roles asociados
+    })
 
-    // Lógica de actualización en la base de datos
-    const [updatedRowsCount, updatedRows] = await Artist.update(
-      {
-        artist_name,
-        bio,
-        role: formattedRoles,
-        image,
-        twitter_link,
-        instagram_link,
-        facebook_link,
-        soundcloud_link,
-        bandcamp_link,
-        youtube_link,
-        spotify_link,
-        apple_music_link,
-        beatport_link,
-      },
-      {
-        where: { id },
-        returning: true, // Para devolver el registro actualizado
-      }
-    )
-
-    if (updatedRowsCount === 0) {
-      return res.status(404).json({ error: 'Artist not found' })
-    }
-
-    res.json(updatedRows[0]) // Devuelve el primer registro actualizado
+    res.json(updatedArtist)
   } catch (error) {
     console.error('Error updating artist:', error)
-    res.status(500).json({ error: 'Internal server error' })
+    res.status(500).json({ message: 'Error updating artist' })
   }
 }
 
@@ -208,7 +172,12 @@ export const getArtistById = async (req, res) => {
   const { id } = req.params
 
   try {
-    const artist = await Artist.findByPk(id)
+    const artist = await Artist.findByPk(id, {
+      include: {
+        model: Role,
+        as: 'Roles',
+      },
+    })
     if (!artist) {
       return res.status(404).json({ message: 'Artist not found' })
     }
