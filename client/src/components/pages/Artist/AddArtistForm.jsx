@@ -31,15 +31,14 @@ const AddArtistForm = ({ onArtistAdded }) => {
     const closePopup = () => setOpen(false)
 
     const onSubmit = async (values, actions) => {
-        const formattedRoles = Array.isArray(values.role)
-            ? values.role.join(' / ')
-            : values.role
-
         const formData = new FormData()
         Object.keys(values).forEach(key => {
-            formData.append(key, values[key])
+            if (key === 'roleIds') {
+                formData.append(key, values[key].join(','))
+            } else {
+                formData.append(key, values[key])
+            }
         })
-        formData.set('role', formattedRoles)
 
         try {
             const newArtist = await createArtist(formData)
@@ -58,10 +57,10 @@ const AddArtistForm = ({ onArtistAdded }) => {
             try {
                 const response = await getRolesRequest()
                 if (response && response.data) {
-                setRoles(response.data) // Ensure roles are objects
-            } else {
-                console.error('Unexpected response format:', response)
-            }
+                    setRoles(response.data)
+                } else {
+                    console.error('Unexpected response format:', response)
+                }
             } catch (error) {
                 console.error('Error fetching roles:', error)
             }
@@ -123,12 +122,12 @@ const AddArtistForm = ({ onArtistAdded }) => {
                             password: '',
                             bio: '',
                             image: '',
-                            role: [],
+                            roleIds: [], // Initialize as an empty array for multiple selection
                             bandcamp_link: '',
                             facebook_link: '',
                             instagram_link: '',
                             soundcloud_link: '',
-                            twitterLink: '',
+                            twitter_link: '',
                             youtube_link: '',
                             spotify_link: '',
                             beatport_link: '',
@@ -145,12 +144,12 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                 .required(t('addArtist.validation.passwordRequired')),
                             bio: Yup.string(),
                             image: Yup.mixed(),
-                            role: Yup.array().of(Yup.string()).required(t('addArtist.validation.roleRequired')),
+                            roleIds: Yup.array().of(Yup.string()).required(t('addArtist.validation.roleRequired')),
                             bandcamp_link: Yup.string(),
                             facebook_link: Yup.string(),
                             instagram_link: Yup.string(),
                             soundcloud_link: Yup.string(),
-                            twitterLink: Yup.string(),
+                            twitter_link: Yup.string(),
                             youtube_link: Yup.string(),
                             spotify_link: Yup.string(),
                             beatport_link: Yup.string(),
@@ -168,17 +167,17 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                     <FileUpload />
                                     <FormControl fullWidth variant='outlined'>
                                         <InputLabel>{t('addArtist.selectRole')}</InputLabel>
-                                        <Field name='role'>
+                                        <Field name='roleIds'>
                                             {({ field, form }) => (
                                                 <Select
                                                     {...field}
                                                     multiple
                                                     label={t('addArtist.selectRole')}
-                                                    onChange={(event) => setFieldValue('role', event.target.value)}
-                                                    value={values.role}
-                                                    error={form.errors.role && form.touched.role}
+                                                    onChange={(event) => setFieldValue('roleIds', event.target.value)}
+                                                    value={values.roleIds}
+                                                    error={form.errors.roleIds && form.touched.roleIds}
                                                     renderValue={(selected) => selected.join(' / ')}
-                                                    >
+                                                >
                                                     {roles.map((role) => (
                                                         <MenuItem key={role.id} value={role.label}>
                                                             {role.label}
@@ -214,7 +213,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                         ))}
                                     </Stack>
                                     {error && <div className='text-red-500'>{error}</div>}
-                                    <Button type='submit' disabled={isSubmitting} variant='contained' className='btn-add mx-auto flex justify-center' >
+                                    <Button type='submit' disabled={isSubmitting} variant='contained' className='btn-add mx-auto flex justify-center'>
                                         {t('submit')}
                                     </Button>
                                 </Stack>
