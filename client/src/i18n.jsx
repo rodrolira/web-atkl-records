@@ -14,7 +14,15 @@ const resources = {
         submit: 'Submit',
         subscribe_message: 'Subscribe to receive the latest releases for free by email',
         description_optional: 'Description (Optional)',
-        form_sent_success: 'Form successfully submitted'
+        form_sent_success: 'Form successfully submitted',
+        send_demo: 'Send Demo',
+        upload_cover_image: 'Upload Cover Image',
+        upload_profile_image: 'Upload Profile Image',
+        languageMenu: {
+            english: 'EN',
+            spanish: 'ES',
+            language: 'US'
+        }
 
     }
   },
@@ -30,7 +38,15 @@ const resources = {
         submit: 'Enviar',
         subscribe_message: 'Suscribirse para recibir las últimas actualizaciones gratis por correo electrónico',
         description_optional: 'Descripción (Opcional)',
-        form_sent_success: 'Formulario enviado con éxito'
+        form_sent_success: 'Formulario enviado con éxito',
+        send_demo: 'Enviar Demo',
+        upload_cover_image: 'Subir Portada',
+        upload_profile_image: 'Subir Imagen de Perfil',
+        languageMenu: {
+            english: 'EN',
+            spanish: 'ES',
+            language: 'ES'
+        }
         // Agrega más traducciones aquí
     }
   }

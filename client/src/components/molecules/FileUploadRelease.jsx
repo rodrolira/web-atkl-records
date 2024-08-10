@@ -1,8 +1,10 @@
 import React from 'react'
 import { useField, useFormikContext } from 'formik'
 import { FormGroup, FormControl, FormLabel } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 
 const FileUploadRelease = () => {
+    const { t } = useTranslation()
     const [field, meta, helpers] = useField('cover_image_url')
     const { setFieldValue } = useFormikContext()
     const { error, touched } = meta
@@ -12,7 +14,7 @@ const FileUploadRelease = () => {
     return (
         <FormGroup className='mb-3' controlId='cover_image_url'>
             <FormLabel className='block text-gray-700 font-bold mb-2'>
-                Upload Profile Image
+                {t('upload_cover_image')}
             </FormLabel>
             <FormControl
                 name='cover_image_url'
