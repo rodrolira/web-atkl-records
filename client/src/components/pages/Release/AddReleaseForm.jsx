@@ -54,16 +54,30 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
     }
 
     const onSubmit = async (values, actions) => {
+        console.log('Submitted values:', values)
+
         const formData = new FormData()
+
+        // Maneja los arrays y archivos correctamente
         Object.keys(values).forEach(key => {
-            formData.append(key, values[key])
+            console.log(`Appending key: ${key}, value: ${values[key]}`)
+
+            if (Array.isArray(values[key])) {
+                values[key].forEach((value, index) => {
+                    formData.append(`${key}[${index}]`, value)
+                })
+            } else if (values[key] instanceof File) {
+                formData.append(key, values[key])
+            } else {
+                formData.append(key, values[key])
+            }
         })
-        console.log('Submitting form with values:', values)
+
+        console.log('FormData:', formData)
 
         try {
             const newRelease = await createRelease(formData)
             console.log('Release created successfully:', newRelease)
-
             actions.setSubmitting(false)
             handleClose()
             onReleaseAdded && onReleaseAdded(newRelease)
@@ -229,7 +243,7 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                             <TextField {...field} label="Soundcloud Link" variant="outlined" />
                                         )}
                                     </Field>
-                                    <Button className="btn-add" type="submit" variant="contained" color="success" disabled={isSubmitting}>
+                                    <Button className="btn-add flex justify-center mx-auto" type="submit" variant="contained" color="success" disabled={isSubmitting}>
                                         {isSubmitting ? 'Adding...' : 'Add'}
                                     </Button>
                                     {error && <div style={{ color: 'red' }}>{error}</div>}
