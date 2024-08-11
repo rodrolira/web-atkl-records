@@ -21,13 +21,13 @@ const app = express()
 // Middleware para servir archivos estáticos
 app.use('/uploads', express.static('uploads'))
 
-// app.use(
-//   cors({
-//     origin: 'https://atkl-react2-fzwl.vercel.app',
-//     credentials: true,
-//     exposedHeaders: 'Access-Control-Allow-Origin' // Agrega esta línea
-//   })
-// )
+app.use(
+  cors({
+      origin: 'https://atkl-react2-fzwl.vercel.app',
+    credentials: true,
+    exposedHeaders: 'Access-Control-Allow-Origin' // Agrega esta línea
+  })
+)
 app.use(
   cors({
     origin: 'http://localhost:5173',
