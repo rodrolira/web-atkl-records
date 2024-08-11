@@ -1,8 +1,5 @@
 import Select from 'react-select'
-<<<<<<< HEAD
 import { useTranslation } from 'react-i18next'
-=======
->>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
 
 const MultiSelect = ({
     field,
@@ -11,11 +8,8 @@ const MultiSelect = ({
     isMulti = false,
     placeholder = 'Select',
 }) => {
-<<<<<<< HEAD
     const { t } = useTranslation()
 
-=======
->>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
     const onChange = (option) => {
         form.setFieldValue(
             field.name,
@@ -42,11 +36,7 @@ const MultiSelect = ({
             onChange={isMulti ? onChange : (option) => form.setFieldValue(field.name, option.value)}
             onBlur={field.onBlur}
             isMulti={isMulti}
-<<<<<<< HEAD
             placeholder={t(placeholder)} // Traducir el placeholder
-=======
-            placeholder={placeholder}
->>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
         />
     )
 }

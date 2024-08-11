@@ -9,14 +9,9 @@ const Layout = ({ children }) => {
             <div className='layout'>
                 <BrowserRouter>
                     {children}
-<<<<<<< HEAD
                     <Footer />
 
                 </BrowserRouter>
-=======
-                </BrowserRouter>
-                <Footer />
->>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
 
             </div>
         </div>

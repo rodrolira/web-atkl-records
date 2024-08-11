@@ -1,7 +1,6 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
-<<<<<<< HEAD
 const resources = {
   en: {
     translation: {
@@ -194,8 +193,5 @@ i18n.use(initReactI18next).init({
     escapeValue: false // React ya se encarga de esto
   }
 })
-=======
-i18n.use(initReactI18next)
->>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
 
 export default i18n
