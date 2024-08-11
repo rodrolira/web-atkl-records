@@ -1,5 +1,6 @@
 // Home.jsx
 
+<<<<<<< HEAD
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
@@ -8,6 +9,16 @@ import Navbar from '../organisms/Navbar'
 import AboutSection from '../organisms/AboutSection'
 import DemosSection from '../organisms/DemoSection'
 import ContactSection from '../organisms/ContactSection'
+=======
+import React, { useEffect, useContext } from 'react'
+import './Home.css'
+import { useLanguage } from '../../contexts/LanguageContext'
+import AboutSection from '../organisms/AboutSection'
+import DemosSection from '../organisms/DemoSection'
+import ContactSection from '../organisms/ContactSection'
+import { useLocation } from 'react-router-dom'
+import Navbar from '../organisms/Navbar'
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
 import ReleasesSection from './Release/ReleasesSection'
 import ArtistsSection from './Artist/ArtistsSection'
 

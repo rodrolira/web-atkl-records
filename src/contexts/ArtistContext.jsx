@@ -5,7 +5,10 @@ import { createContext, useContext, useState, useCallback } from 'react'
 import {
     createArtistRequest,
     deleteArtistRequest,
+<<<<<<< HEAD
     getArtistRequest,
+=======
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
     getArtistsRequest,
     updateArtistRequest,
 } from '../api/artists'
@@ -24,6 +27,7 @@ export const useArtists = () => {
 
 export const ArtistProvider = ({ children }) => {
     const [artists, setArtists] = useState([]) // Estado para almacenar la lista de artistas
+<<<<<<< HEAD
     const [error, setError] = useState(null)
     const [artist, setArtist] = useState(null)
     const fetchArtist = async (artist) => {
@@ -34,6 +38,9 @@ export const ArtistProvider = ({ children }) => {
             setError(error)
         }
     }
+=======
+
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
     // Lógica para obtener la lista de artistas
     const fetchArtists = useCallback(async () => {
         // Asegúrate de que este fetch esté funcionando correctamente y devuelva los datos esperados.
@@ -55,6 +62,7 @@ export const ArtistProvider = ({ children }) => {
         }
     }
 
+<<<<<<< HEAD
     const updateArtist = async (artist, updatedArtist) => {
         try {
             await updateArtistRequest(artist, updatedArtist)
@@ -74,6 +82,8 @@ export const ArtistProvider = ({ children }) => {
         }
     }
 
+=======
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
     return (
         <ArtistContext.Provider
             value={{
@@ -81,6 +91,7 @@ export const ArtistProvider = ({ children }) => {
                 setArtists,
                 createArtist,
                 fetchArtists,
+<<<<<<< HEAD
                 fetchArtist,
                 artist,
                 setArtist,
@@ -88,6 +99,8 @@ export const ArtistProvider = ({ children }) => {
                 setError,
                 updateArtist,
                 deleteArtist,
+=======
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
             }}
         >
             {children}

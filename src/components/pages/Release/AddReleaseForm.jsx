@@ -54,6 +54,7 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
     }
 
     const onSubmit = async (values, actions) => {
+<<<<<<< HEAD
         console.log('Submitted values:', values)
 
         const formData = new FormData()
@@ -74,10 +75,21 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
         })
 
         console.log('FormData:', formData)
+=======
+        const formData = new FormData()
+        Object.keys(values).forEach(key => {
+            formData.append(key, values[key])
+        })
+        console.log('Submitting form with values:', values)
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
 
         try {
             const newRelease = await createRelease(formData)
             console.log('Release created successfully:', newRelease)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
             actions.setSubmitting(false)
             handleClose()
             onReleaseAdded && onReleaseAdded(newRelease)
@@ -243,7 +255,11 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                             <TextField {...field} label="Soundcloud Link" variant="outlined" />
                                         )}
                                     </Field>
+<<<<<<< HEAD
                                     <Button className="btn-add flex justify-center mx-auto" type="submit" variant="contained" color="success" disabled={isSubmitting}>
+=======
+                                    <Button className="btn-add" type="submit" variant="contained" color="success" disabled={isSubmitting}>
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
                                         {isSubmitting ? 'Adding...' : 'Add'}
                                     </Button>
                                     {error && <div style={{ color: 'red' }}>{error}</div>}

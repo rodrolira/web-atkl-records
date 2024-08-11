@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react'
 import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
@@ -55,6 +56,61 @@ function Footer({ isAdminLogin }) {
     const { t, i18n } = useTranslation()
     const language = i18n.language
     const sitemap = SITEMAP[language] || SITEMAP.en
+=======
+// eslint-disable-next-line no-unused-vars
+import React from 'react'
+import { Typography } from '@mui/material'
+import { useLanguage } from '../../contexts/LanguageContext'
+
+const SITEMAP_EN = [
+    {
+        title: 'Label',
+        links: ['About Us', 'Artists', 'Releases', 'Send Demo'],
+    },
+    {
+        title: 'Links',
+        links: ['Instagram', 'Soundcloud', 'Beatport', 'Bandcamp'],
+    },
+    {
+        title: 'Services',
+        links: ['Booking', 'Mastering', 'Free Releases', 'Affiliate Program'],
+    },
+    {
+        title: 'Products',
+        links: ['Events', 'Discography', 'Merchandising', 'Sample Packs'],
+    },
+]
+
+const SITEMAP_ES = [
+    {
+        title: 'Sello Discografico',
+        links: ['Sobre nosotros', 'Artistas', 'Lanzamientos', 'Envía tu Demo'],
+    },
+    {
+        title: 'Redes Sociales',
+        links: ['Instagram', 'Soundcloud', 'Beatport', 'Bandcamp'],
+    },
+    {
+        title: 'Servicios',
+        links: [
+            'Booking',
+            'Mastering',
+            'Lanzamientos gratuitos',
+            'Programa de afiliados',
+        ],
+    },
+    {
+        title: 'Productos',
+        links: ['Eventos', 'Discografía', 'Merchandising', 'Pack de Samples'],
+    },
+]
+
+const currentYear = new Date().getFullYear()
+
+function Footer (isAdminLogin) {
+    const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
+    const sitemap = language === 'en' ? SITEMAP_EN : SITEMAP_ES // Selecciona el sitemap según el idioma
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
 
     const footerClass = isAdminLogin ? 'admin-login-footer' : ''
 
@@ -69,7 +125,11 @@ function Footer({ isAdminLogin }) {
                                 color='white'
                                 className='mb-4 font-bold uppercase opacity-50'
                             >
+<<<<<<< HEAD
                                 {t(title)}
+=======
+                                {title}
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
                             </Typography>
                             <ul className='space-y-1'>
                                 {links.map((link, key) => (
@@ -79,12 +139,21 @@ function Footer({ isAdminLogin }) {
                                         color='white'
                                         className='font-normal'
                                     >
+<<<<<<< HEAD
                                         <Link
                                             to={link}
                                             className='inline-block py-1 pr-2 transition-transform hover:scale-105'
                                         >
                                             {t(link)}
                                         </Link>
+=======
+                                        <a
+                                            href='#'
+                                            className='inline-block py-1 pr-2 transition-transform hover:scale-105'
+                                        >
+                                            {link}
+                                        </a>
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
                                     </Typography>
                                 ))}
                             </ul>
@@ -100,6 +169,7 @@ function Footer({ isAdminLogin }) {
                         <a href='https://material-tailwind.com/'>
                             ATKL Records
                         </a>
+<<<<<<< HEAD
                         . {t('All Rights Reserved.')}
                     </Typography>
                     <div className='flex gap-4 text-white sm:justify-center px-4'>
@@ -123,6 +193,70 @@ function Footer({ isAdminLogin }) {
                                 <FontAwesomeIcon icon={faYoutube} size='2x' />
                             </i>
                         </Link>
+=======
+                        .{' '}
+                        {language === 'en'
+                            ? 'All Rights Reserved.'
+                            : 'Todos los Derechos Reservados.'}{' '}
+                    </Typography>
+                    <div className='flex gap-4 text-white sm:justify-center'>
+                        <Typography
+                            as='a'
+                            href='#'
+                            className='opacity-80 transition-opacity hover:opacity-100'
+                        >
+                            <svg
+                                className='h-5 w-5'
+                                fill='currentColor'
+                                viewBox='0 0 24 24'
+                                aria-hidden='true'
+                            >
+                                {/* Icono de red social 1 */}
+                            </svg>
+                        </Typography>
+                        <Typography
+                            as='a'
+                            href='#'
+                            className='opacity-80 transition-opacity hover:opacity-100'
+                        >
+                            <svg
+                                className='h-5 w-5'
+                                fill='currentColor'
+                                viewBox='0 0 24 24'
+                                aria-hidden='true'
+                            >
+                                {/* Icono de red social 2 */}
+                            </svg>
+                        </Typography>
+                        <Typography
+                            as='a'
+                            href='#'
+                            className='opacity-80 transition-opacity hover:opacity-100'
+                        >
+                            <svg
+                                className='h-5 w-5'
+                                fill='currentColor'
+                                viewBox='0 0 24 24'
+                                aria-hidden='true'
+                            >
+                                {/* Icono de red social 3 */}
+                            </svg>
+                        </Typography>
+                        <Typography
+                            as='a'
+                            href='#'
+                            className='opacity-80 transition-opacity hover:opacity-100'
+                        >
+                            <svg
+                                className='h-5 w-5'
+                                fill='currentColor'
+                                viewBox='0 0 24 24'
+                                aria-hidden='true'
+                            >
+                                {/* Icono de red social 4 */}
+                            </svg>
+                        </Typography>
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
                     </div>
                 </div>
             </div>

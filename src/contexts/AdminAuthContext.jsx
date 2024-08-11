@@ -9,6 +9,7 @@ import {
 
 const AdminAuthContext = createContext()
 
+<<<<<<< HEAD
 export const useAdminAuth = () => {
     const context = useContext(AdminAuthContext)
     if (!context) {
@@ -16,6 +17,15 @@ export const useAdminAuth = () => {
     }
     return context
 }
+=======
+// export const useAdminAuth = () => {
+//     const context = useContext(AdminAuthContext)
+//     if (!context) {
+//         throw new Error('useAdminAuth must be used within an AdminAuthProvider')
+//     }
+//     return context
+// }
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
 
 export const AdminAuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -25,10 +35,16 @@ export const AdminAuthProvider = ({ children }) => {
 
     useEffect(() => {
         const checkLogin = async () => {
+<<<<<<< HEAD
             const token = localStorage.getItem('token')
             if (token) {
                 await verifyToken(token)
             } else {
+=======
+            try {
+                await verifyToken() // Verificar el token al cargar la página
+            } finally {
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
                 setLoading(false)
             }
         }
@@ -38,14 +54,23 @@ export const AdminAuthProvider = ({ children }) => {
     const verifyToken = async () => {
         try {
             const res = await verifyAdminTokenRequest()
+<<<<<<< HEAD
             setIsAuthenticated(true)
             setUser(res.data.admin)
+=======
+            console.log('Token verified, setting isAuthenticated to true')
+            setIsAuthenticated(true)
+            setUser(res.data)
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
         } catch (error) {
             console.log('Admin verification failed:', error)
             setIsAuthenticated(false)
             setUser(null)
+<<<<<<< HEAD
         } finally {
             setLoading(false)
+=======
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
         }
     }
 
@@ -55,7 +80,10 @@ export const AdminAuthProvider = ({ children }) => {
             setUser(res.data)
             setIsAuthenticated(true)
             localStorage.setItem('adminUser', JSON.stringify(res.data))
+<<<<<<< HEAD
             localStorage.setItem('token', res.data.token)
+=======
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
         } catch (error) {
             setErrors([error.response.data.message])
         }
@@ -111,3 +139,10 @@ export const AdminAuthProvider = ({ children }) => {
         </AdminAuthContext.Provider>
     )
 }
+<<<<<<< HEAD
+=======
+
+export const useAdminAuth = () => {
+    return useContext(AdminAuthContext)
+}
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96

@@ -61,11 +61,14 @@ const ArtistCard = ({ artist }) => {
         fetchArtist()
     }
 
+<<<<<<< HEAD
         // Concatenar roles con '/'
         const rolesText = currentArtist.Roles && currentArtist.Roles.length > 0
         ? currentArtist.Roles.map(role => role.label).join(' / ')
         : 'No roles assigned'
 
+=======
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
     return (
         <>
             <div className='bg-black max-w-sm border border-gray-200 rounded-lg shadow dark:border-purple-500 relative'>
@@ -101,6 +104,7 @@ const ArtistCard = ({ artist }) => {
                 </div>
 
                 <Link to={`/artists/${currentArtist.id}`} className='block relative'>
+<<<<<<< HEAD
                     <h5 className='text-2xl font-bold tracking-tight text-white text-center mb-2'>
                         {currentArtist.artist_name}
                     </h5>
@@ -110,6 +114,15 @@ const ArtistCard = ({ artist }) => {
                 {rolesText}
                 </div>
 
+=======
+                    <h5 className='text-2xl font-bold tracking-tight text-white text-center'>
+                        {currentArtist.artist_name}
+                    </h5>
+                </Link>
+                <h4 className='mb-2 text-xl font-bold tracking-tight text-white text-center'>
+                    {currentArtist.role}
+                </h4>
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
                 <ArtistLinks artist={currentArtist} />
             </div >
             {/* Modal de Edición del Artista */}
@@ -129,10 +142,13 @@ ArtistCard.propTypes = {
         id: PropTypes.number.isRequired,
         artist_name: PropTypes.string.isRequired,
         image: PropTypes.string,
+<<<<<<< HEAD
         Roles: PropTypes.arrayOf(PropTypes.shape({
             id: PropTypes.number,
             label: PropTypes.string,
         }))
+=======
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
     }).isRequired,
 }
 

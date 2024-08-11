@@ -1,5 +1,6 @@
 import axios from './axios'
 
+<<<<<<< HEAD
 const getAuthHeaders = () => {
     const token = localStorage.getItem('token')
     if (!token) {
@@ -38,3 +39,12 @@ export const loginAdminRequest = async (user) => {
 export const verifyAdminTokenRequest = () => axios.get('/admin/verify', getAuthHeaders())
 
 export const logoutAdminRequest = () => axios.post('/admin/logout', {}, getAuthHeaders())
+=======
+export const registerAdminRequest = (user) => axios.post('/admin/register', user)
+
+export const loginAdminRequest = (user) => axios.post('/admin/login', user)
+
+export const verifyAdminTokenRequest = () => axios.get('/admin/verify')
+
+export const logoutAdminRequest = () => axios.post('/admin/logout')
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96

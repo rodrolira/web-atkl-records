@@ -8,7 +8,11 @@ import {
     Paper,
     Typography,
 } from '@mui/material'
+<<<<<<< HEAD
 import { colors } from '../theme'
+=======
+import { colors } from '/src/theme'
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
 import PropTypes from 'prop-types'
 
 // eslint-disable-next-line react/display-name
@@ -71,11 +75,17 @@ const CustomInput = React.forwardRef(
                                         }
                                         edge="end"
                                     >
+<<<<<<< HEAD
                                         {showPassword
 ? (
                                             <VisibilityOff />
                                         )
 : (
+=======
+                                        {showPassword ? (
+                                            <VisibilityOff />
+                                        ) : (
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
                                             <Visibility />
                                         )}
                                     </IconButton>
@@ -99,4 +109,8 @@ CustomInput.propTypes = {
     onChange: PropTypes.func,
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
 export default CustomInput

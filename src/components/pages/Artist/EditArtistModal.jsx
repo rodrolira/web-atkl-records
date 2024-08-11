@@ -5,10 +5,15 @@ import * as Yup from 'yup'
 import Button from '../../atoms/Button'
 import FileUpload from '../../molecules/FileUpload'
 
+<<<<<<< HEAD
 import { getArtistRequest, getRolesRequest } from '../../../api/artists'
 import { useArtists } from '../../../contexts/ArtistContext'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+=======
+import { getArtistRequest } from '../../../api/artists'
+import { useArtist } from '../../../hooks/useArtist'
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
 
 const validationSchema = Yup.object().shape({
     artist_name: Yup.string(),
@@ -16,7 +21,10 @@ const validationSchema = Yup.object().shape({
 })
 
 function EditArtistModal({ id, onClose }) {
+<<<<<<< HEAD
     const { t } = useTranslation()
+=======
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
     const navigate = useNavigate()
     const [initialValues, setInitialValues] = useState({
         artist_name: '',
@@ -26,11 +34,19 @@ function EditArtistModal({ id, onClose }) {
         facebook_link: '',
         soundcloud_link: '',
         bandcamp_link: '',
+<<<<<<< HEAD
         roleIds: [], // Initialize as an empty array for multiple selection
         bio: ''
     })
     const [roles, setRoles] = useState([])
     const { updateArtist, deleteArtist } = useArtists()
+=======
+        role: [], // Initialize as an empty array for multiple selection
+        bio: ''
+    })
+
+    const { updateArtist, deleteArtist } = useArtist()
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
 
     useEffect(() => {
         console.log('Artist ID:', id)
@@ -40,6 +56,7 @@ function EditArtistModal({ id, onClose }) {
     const fetchArtist = async artist_id => {
         try {
             const response = await getArtistRequest(artist_id)
+<<<<<<< HEAD
             console.log('Artist:', response.data)
             const roles = response.data?.roles ?? []
             console.log('Roles:', roles) // Verifica los roles antes de usarlos
@@ -48,12 +65,16 @@ function EditArtistModal({ id, onClose }) {
                 ...response.data,
                 roleIds: roles.map(role => role.id)
             })
+=======
+            setInitialValues(response.data)
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
         } catch (error) {
             console.error('Error fetching artist:', error)
         }
     }
 
     const handleSubmit = async (values, { setSubmitting }) => {
+<<<<<<< HEAD
         const formData = new FormData()
         Object.keys(values).forEach(key => {
             // Si `roleIds` es un array, conviértelo a una cadena separada por comas
@@ -63,6 +84,25 @@ function EditArtistModal({ id, onClose }) {
                 formData.append(key, values[key])
             }
         })
+=======
+        // Formatear roles seleccionados con "/"
+        const formattedRoles = Array.isArray(values.role)
+            ? values.role.join(' / ')
+            : values.role
+
+        const formData = new FormData()
+        for (const key in values) {
+            if (key === 'image' && values[key]) {
+                formData.append(key, values[key], values[key].name)
+            } else {
+                formData.append(key, values[key])
+            }
+        }
+
+        // Añadir roles formateados al FormData
+        formData.set('role', formattedRoles)
+
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
         try {
             await updateArtist(id, formData)
             onClose()
@@ -83,6 +123,7 @@ function EditArtistModal({ id, onClose }) {
         }
     }
 
+<<<<<<< HEAD
     useEffect(() => {
         const fetchRoles = async () => {
             try {
@@ -97,6 +138,8 @@ function EditArtistModal({ id, onClose }) {
         fetchRoles()
     }, [])
 
+=======
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
     return (
         <div className='flex flex-col items-center justify-center'>
             <Formik
@@ -105,7 +148,11 @@ function EditArtistModal({ id, onClose }) {
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
+<<<<<<< HEAD
                 {({ isSubmitting, setFieldValue, values }) => (
+=======
+                {({ isSubmitting }) => (
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
                     <Form className='w-full bg-white shadow-md rounded px-8 pt-2 pb-2 mb-4 text-center'>
                         <h2 className='text-2xl mb-4 font-bold'>Edit Artist</h2>
                         <div className='mb-4'>
@@ -133,6 +180,7 @@ function EditArtistModal({ id, onClose }) {
                         <div className='mb-4'>
                             <FileUpload />
                         </div>
+<<<<<<< HEAD
                         <FormControl fullWidth variant='outlined'>
                             <InputLabel>{t('addArtist.selectRole')}</InputLabel>
                             <Field as={Select} name='roleIds' multiple>
@@ -143,6 +191,31 @@ function EditArtistModal({ id, onClose }) {
                                 ))}
                             </Field>
                         </FormControl>
+=======
+                        <div className='mb-4'>
+                            <label
+                                htmlFor='role'
+                                className='block text-gray-700 font-bold mb-2'
+                            >
+                                Role
+                            </label>
+                            <Field
+                                as='select'
+                                multiple
+                                id='role'
+                                name='role'
+                                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                            >
+                                <option value='DJ'>DJ</option>
+                                <option value='Producer'>Producer</option>
+                            </Field>
+                            <ErrorMessage
+                                name='role'
+                                component='div'
+                                className='text-red-500 text-sm mt-1'
+                            />
+                        </div>
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
                         <div className='mb-4'>
                             <label
                                 htmlFor='bio'

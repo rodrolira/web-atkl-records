@@ -14,7 +14,11 @@ import { Link } from 'react-router-dom'
 import { PropTypes } from 'prop-types'
 
 const ArtistLinks = ({ artist }) => (
+<<<<<<< HEAD
     <div className='flex space-x-4 text-2xl justify-center mb-2'>
+=======
+    <div className='flex space-x-4 text-2xl justify-center my-2 py-2'>
+>>>>>>> 8bdbd8a2f72f04acc13eaae10f9f32042ff8ae96
         {artist.twitter_link && (
             <Link
                 to={artist.twitter_link}
