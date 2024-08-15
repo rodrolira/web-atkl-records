@@ -1,17 +1,23 @@
-"use strict";
+'use strict'
 
 /** @type {import('sequelize-cli').Migration} */
 export async function up(queryInterface, Sequelize) {
-  await queryInterface.addColumn("releases", "genre_id", {
-    type: Sequelize.INTEGER,
+  const tableInfo = await queryInterface.describeTable('releases')
+  if (!tableInfo.genre_id) {
+    await queryInterface.addColumn('releases', 'genre_id', {
+      type: Sequelize.INTEGER,
     references: {
-      model: "Genres",
-      key: "id",
+      model: 'Genres',
+      key: 'id',
     },
-    onUpdate: "CASCADE",
-    onDelete: "SET NULL",
-  });
+    onUpdate: 'CASCADE',
+      onDelete: 'SET NULL',
+    })
+  }
 }
 export async function down(queryInterface, Sequelize) {
-  await queryInterface.removeColumn("releases", "genre_id");
+  const tableInfo = await queryInterface.describeTable('releases')
+  if (tableInfo.genre_id) {
+    await queryInterface.removeColumn('releases', 'genre_id')
+  }
 }

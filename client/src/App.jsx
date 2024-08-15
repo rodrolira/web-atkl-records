@@ -13,8 +13,8 @@ const App = () => {
         <>
             <AdminAuthProvider>
                 <AuthProvider>
-                    <GenreProvider>
                         <ReleaseProvider>
+                    <GenreProvider>
                             <ArtistProvider>
                                 {/* <LanguageProvider > */}
                                     <Layout>
@@ -22,8 +22,8 @@ const App = () => {
                                     </Layout>
                                 {/* </LanguageProvider> */}
                             </ArtistProvider>
-                        </ReleaseProvider>
                     </GenreProvider>
+                        </ReleaseProvider>
                 </AuthProvider>
             </AdminAuthProvider>
             {/* </AdminAuthProvider> */}

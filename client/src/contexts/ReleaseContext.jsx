@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useState, useCallback } from 'react'
 import {
     getReleasesRequest,
     getReleaseRequest,
@@ -13,6 +13,7 @@ export const useReleases = () => {
     const context = useContext(ReleaseContext)
 
     if (!context) {
+        console.log('useReleases must be used within a ReleaseProvider')
         throw new Error('useReleases must be used within a ReleaseProvider')
     }
 
@@ -23,13 +24,8 @@ export function ReleaseProvider({ children }) {
     const [releases, setReleases] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
-
-    useEffect(() => {
-        fetchReleases() // Carga la lista de releases al montar el contexto
-    }, [])
-
     // Lógica para obtener la lista de releases
-    const fetchReleases = async () => {
+    const fetchReleases = useCallback(async () => {
         setLoading(true)
         try {
             const response = await getReleasesRequest()
@@ -40,7 +36,7 @@ export function ReleaseProvider({ children }) {
             setError('Failed to fetch releases')
             setLoading(false)
         }
-    }
+    }, [])
 
     // Lógica para obtener un release por ID
     const fetchRelease = async id => {
@@ -61,7 +57,6 @@ export function ReleaseProvider({ children }) {
             return res.data // Asegúrate de que esta línea exista
         } catch (error) {
             console.error('Error creating release:', error)
-            throw error // Lanza el error para manejarlo en el componente
         }
     }
     // Lógica para actualizar un release

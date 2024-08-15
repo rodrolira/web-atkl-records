@@ -14,12 +14,12 @@ const NavBar = () => (
       </div>
       <nav className="flex flex-1 justify-end gap-8">
         <div className="flex items-center gap-9">
-          <NavItem link="#" text="Home" />
-          <NavItem link="#" text="Artists" />
-          <NavItem link="#" text="Releases" />
-          <NavItem link="#" text="About" />
-          <NavItem link="#" text="Services" />
-          <NavItem link="#" text="Contact" />
+          <NavItem link="/" text="Home" />
+          <NavItem link="/artists" text="Artists" />
+          <NavItem link="/releases" text="Releases" />
+          <NavItem link="/about" text="About" />
+          <NavItem link="/services" text="Services" />
+          <NavItem link="/contact" text="Contact" />
         </div>
         <UserActions />
         <ProfileImage />

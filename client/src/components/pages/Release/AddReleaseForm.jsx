@@ -6,21 +6,28 @@ import {
     Stack,
     TextField,
     MenuItem,
+    FormControl,
+    InputLabel,
+    Select,
+    IconButton,
 } from '@mui/material'
-import Button from '../../atoms/Button'
+import CloseIcon from '@mui/icons-material/Close'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { useReleases } from '../../../contexts/ReleaseContext'
 import { useArtists } from '../../../contexts/ArtistContext'
 import { useGenres } from '../../../contexts/GenreContext'
 import FileUploadRelease from '../../molecules/FileUploadRelease'
+import { Button } from 'flowbite-react'
+import { createReleaseRequest } from '../../../api/releases'
+import { useTranslation } from 'react-i18next'
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
     release_date: Yup.date().required('Release date is required'),
     genre_id: Yup.number().required('Genre is required'),
     release_type: Yup.string().required('Release type is required'),
-    artist_id: Yup.array().of(Yup.number().min(1, 'At least one artist is required')),
+    artist_id: Yup.array().of(Yup.number()).min(1, 'At least one artist is required'),
     bandcamp_link: Yup.string(),
     beatport_link: Yup.string(),
     spotify_link: Yup.string(),
@@ -29,39 +36,22 @@ const validationSchema = Yup.object().shape({
     soundcloud_link: Yup.string(),
     cover_image_url: Yup.mixed(),
     description: Yup.string(),
-
 })
 
 const AddReleaseForm = ({ onReleaseAdded }) => {
+    const { t } = useTranslation()
     const [open, setOpen] = useState(false)
-    const { createRelease } = useReleases()
     const [error, setError] = useState(null)
+    const { createRelease } = useReleases()
     const { artists, fetchArtists } = useArtists()
     const { genres, fetchGenres } = useGenres()
 
-    useEffect(() => {
-        fetchArtists()
-        fetchGenres()
-    }, [fetchArtists, fetchGenres])
-
-    const handleOpen = () => {
-        setOpen(true)
-    }
-
-    const handleClose = () => {
-        setOpen(false)
-        setError(null)
-    }
+    const openPopup = () => setOpen(true)
+    const closePopup = () => setOpen(false)
 
     const onSubmit = async (values, actions) => {
-        console.log('Submitted values:', values)
-
         const formData = new FormData()
-
-        // Maneja los arrays y archivos correctamente
         Object.keys(values).forEach(key => {
-            console.log(`Appending key: ${key}, value: ${values[key]}`)
-
             if (Array.isArray(values[key])) {
                 values[key].forEach((value, index) => {
                     formData.append(`${key}[${index}]`, value)
@@ -73,13 +63,10 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
             }
         })
 
-        console.log('FormData:', formData)
-
         try {
-            const newRelease = await createRelease(formData)
-            console.log('Release created successfully:', newRelease)
+            const newRelease = await createReleaseRequest(formData)
             actions.setSubmitting(false)
-            handleClose()
+            closePopup()
             onReleaseAdded && onReleaseAdded(newRelease)
         } catch (error) {
             console.error('Error adding release:', error)
@@ -88,14 +75,19 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
         }
     }
 
+    useEffect(() => {
+        fetchArtists()
+        fetchGenres()
+    }, [fetchArtists, fetchGenres])
+
     return (
         <>
-            <Button onClick={handleOpen} className="btn-add mx-auto" variant="contained">
+            <Button color='success' onClick={openPopup} className="mx-auto" variant="contained">
                 Add Release
             </Button>
             <Dialog
                 open={open}
-                onClose={handleClose}
+                onClose={closePopup}
                 fullWidth
                 maxWidth="sm"
                 PaperProps={{
@@ -110,7 +102,12 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                 }}
                 scroll="body"
             >
-                <DialogTitle style={{ textAlign: 'center' }}>Add Release</DialogTitle>
+                <DialogTitle style={{ textAlign: 'center' }}>
+                    {t('Add Release')}
+                    <IconButton style={{ float: 'right' }} onClick={closePopup}>
+                        <CloseIcon color='error' />
+                    </IconButton>
+                </DialogTitle>
                 <DialogContent>
                     <Formik
                         initialValues={{
@@ -118,18 +115,20 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                             release_date: '',
                             genre_id: '',
                             release_type: '',
+                            artist_id: [],
                             bandcamp_link: '',
                             beatport_link: '',
                             spotify_link: '',
                             apple_music_link: '',
                             youtube_link: '',
                             soundcloud_link: '',
-                            artist_id: [], // Use artist_id instead of artist_id
+                            cover_image_url: '',
+                            description: '',
                         }}
                         validationSchema={validationSchema}
                         onSubmit={onSubmit}
                     >
-                        {({ isSubmitting, setFieldValue }) => (
+                        {({ isSubmitting, setFieldValue, values }) => (
                             <Form>
                                 <Stack spacing={2} margin={2}>
                                     <Field name="title">
@@ -154,65 +153,68 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                             />
                                         )}
                                     </Field>
-                                    <Field name="genre_id">
-                                        {({ field, form }) => (
-                                            <TextField
-                                                {...field}
-                                                select
-                                                label="Genre"
-                                                variant="outlined"
-                                                error={form.errors.genre_id && form.touched.genre_id}
-                                                helperText={form.errors.genre_id && form.touched.genre_id && form.errors.genre_id}
-                                                onChange={(e) => setFieldValue('genre_id', e.target.value)}
-                                            >
-                                                {genres.map((genre) => (
-                                                    <MenuItem key={genre.id} value={genre.id}>
-                                                        {genre.name}
-                                                    </MenuItem>
-                                                ))}
-                                            </TextField>
-                                        )}
-                                    </Field>
-                                    <Field name="artist_id">
-                                        {({ field, form }) => (
-                                            <TextField
-                                                {...field}
-                                                select
-                                                label="Artist"
-                                                variant="outlined"
-                                                error={Boolean(form.errors.artist_id && form.touched.artist_id)}
-                                                helperText={form.errors.artist_id && form.touched.artist_id && form.errors.artist_id}
-                                                onChange={(e) => {
-                                                    const selectedIds = e.target.value
-                                                    setFieldValue('artist_id', selectedIds)
-                                                }}
-                                                SelectProps={{
-                                                    multiple: true,
-                                                    value: field.value || [],
-                                                    onChange: (e) => {
-                                                        const selectedIds = e.target.value
-                                                        setFieldValue('artist_id', selectedIds)
-                                                    },
-                                                    renderValue: (selected) => (
+                                    <FormControl fullWidth variant='outlined'>
+                                        <InputLabel>Genre</InputLabel>
+                                        <Field name='genre_id'>
+                                            {({ field, form }) => (
+                                                <Select
+                                                    {...field}
+                                                    label="Genre"
+                                                    onChange={(e) => setFieldValue('genre_id', e.target.value)}
+                                                    value={values.genre_id}
+                                                    error={form.errors.genre_id && form.touched.genre_id}
+                                                >
+                                                    {genres.map((genre) => (
+                                                        <MenuItem key={genre.id} value={genre.id}>
+                                                            {genre.name}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            )}
+                                        </Field>
+                                    </FormControl>
+                                    <FormControl fullWidth variant='outlined'>
+                                        <InputLabel>Artist</InputLabel>
+                                        <Field name='artist_id'>
+                                            {({ field, form }) => (
+                                                <Select
+                                                    {...field}
+                                                    multiple
+                                                    label="Artist"
+                                                    value={values.artist_id}
+                                                    onChange={(e) => setFieldValue('artist_id', e.target.value)}
+                                                    renderValue={(selected) => (
                                                         <div>
                                                             {selected.map(id => (
-                                                                <MenuItem key={id} value={id}>
+                                                                <div key={id}>
                                                                     {artists.find(artist => artist.id === id)?.artist_name}
-                                                                </MenuItem>
+                                                                </div>
                                                             ))}
                                                         </div>
-                                                    ),
-                                                }}
-                                            >
-                                                {artists.map((artist) => (
-                                                    <MenuItem key={artist.id} value={artist.id}>
-                                                        {artist.artist_name}
-                                                    </MenuItem>
-                                                ))}
-                                            </TextField>
+                                                    )}
+                                                    error={Boolean(form.errors.artist_id && form.touched.artist_id)}
+                                                >
+                                                    {artists.map((artist) => (
+                                                        <MenuItem key={artist.id} value={artist.id}>
+                                                            {artist.artist_name}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            )}
+                                        </Field>
+                                    </FormControl>
+                                    <FileUploadRelease />
+                                    <Field name="description">
+                                        {({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                label="Description"
+                                                variant="outlined"
+                                                multiline
+                                                rows={4}
+                                            />
                                         )}
                                     </Field>
-                                    <FileUploadRelease />
                                     <Field name="bandcamp_link">
                                         {({ field }) => (
                                             <TextField {...field} label="Bandcamp Link" variant="outlined" />
@@ -243,7 +245,7 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                             <TextField {...field} label="Soundcloud Link" variant="outlined" />
                                         )}
                                     </Field>
-                                    <Button className="btn-add flex justify-center mx-auto" type="submit" variant="contained" color="success" disabled={isSubmitting}>
+                                    <Button className="flex justify-center mx-auto" type="submit" variant="contained" color="success" disabled={isSubmitting}>
                                         {isSubmitting ? 'Adding...' : 'Add'}
                                     </Button>
                                     {error && <div style={{ color: 'red' }}>{error}</div>}
