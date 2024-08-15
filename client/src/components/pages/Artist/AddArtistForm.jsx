@@ -12,14 +12,14 @@ import {
     MenuItem,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-// import Button from '../../atoms/Button'
+import Button from '../../atoms/Button'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { useArtists } from '../../../contexts/ArtistContext'
 import FileUpload from '../../molecules/FileUpload'
 import { getRolesRequest } from '../../../api/artists'
 import { useTranslation } from 'react-i18next'
-import { Button } from 'flowbite-react'
+// import { Button } from 'flowbite-react'
 
 const AddArtistForm = ({ onArtistAdded }) => {
     const { t } = useTranslation()
@@ -88,7 +88,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
 
     return (
         <>
-            <Button onClick={openPopup} className='mx-auto' color='success' variant='contained'>
+            <Button onClick={openPopup} className='mx-auto' colorClass='bg-[#24db13] text-[#122e0f]' >
                 {t('addArtist.title')}
             </Button>
             <Dialog
@@ -214,7 +214,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                         ))}
                                     </Stack>
                                     {error && <div className='text-red-500'>{error}</div>}
-                                    <Button type='submit' disabled={isSubmitting} variant='contained' className='btn-add mx-auto flex justify-center'>
+                                    <Button type='submit' color='success' disabled={isSubmitting} variant='contained' className='mx-auto flex justify-center'>
                                         {t('submit')}
                                     </Button>
                                 </Stack>
