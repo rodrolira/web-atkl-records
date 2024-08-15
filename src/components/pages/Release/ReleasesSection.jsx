@@ -8,6 +8,7 @@ import ReleaseCard from './ReleaseCard'
 import { useReleases } from '../../../contexts/ReleaseContext'
 import { useLanguage } from '../../../contexts/LanguageContext'
 import AddReleaseForm from './AddReleaseForm'
+import ReleaseList from './ReleaseList'
 
 function ReleasesSection() {
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
@@ -31,14 +32,7 @@ function ReleasesSection() {
             {adminAuthenticated && (
                 <AddReleaseForm onReleaseAdded={handleReleaseAdded} />
             )}
-            {releases &&
-                releases.length > 0 &&
-                releases.map((release) => (
-                    <ReleaseCard
-                        key={release.id}
-                        release={release}
-                    />
-                ))}
+            <ReleaseList releases={releases} />
         </div>
     )
 }

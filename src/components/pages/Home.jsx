@@ -25,7 +25,7 @@ function Home() {
     }, [location])
 
     return (
-        <div id="home" className="home  bg-[#122e0f]">
+        <div id="home" className="home">
             <Navbar />
             <div className="parallax-container flex">
                 <div className="parallax-content flex w-full">

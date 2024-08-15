@@ -8,11 +8,11 @@ import { useLanguage } from '../../contexts/LanguageContext'
 import { useAuth } from '../../contexts/AuthContext'
 import { useAdminAuth } from '../../contexts/AdminAuthContext'
 import LogoutButton from './LogoutButton'
-// import Button from '../atoms/Button'
+import Button from '../atoms/Button'
 import AddArtistButton from './AddArtistButton'
 import AddReleaseButton from './AddReleaseButton'
 import AdminLogoutButton from './AdminLogoutButton'
-import { Button } from 'flowbite-react'
+// import { Button } from 'flowbite-react'
 
 function NavbarMenu() {
     const location = useLocation()
@@ -45,7 +45,7 @@ function NavbarMenu() {
                                     </AddReleaseButton>
                                 </li>
                                 <li>
-                                    <Button href='/admin'>
+                                    <Button href='/admin' className='mx-auto flex justify-center' colorClass='bg-[#22581d] text-white' >
                                         {language === 'en'
                                             ? 'Admin Dashboard'
                                             : 'Panel de Administrador'}

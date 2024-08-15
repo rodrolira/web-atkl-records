@@ -18,31 +18,16 @@ import { useReleases } from '../../../contexts/ReleaseContext'
 import { useArtists } from '../../../contexts/ArtistContext'
 import { useGenres } from '../../../contexts/GenreContext'
 import FileUploadRelease from '../../molecules/FileUploadRelease'
-import { Button } from 'flowbite-react'
+// import { Button } from 'flowbite-react'
+import Button from '../../atoms/Button'
 import { createReleaseRequest } from '../../../api/releases'
 import { useTranslation } from 'react-i18next'
-
-const validationSchema = Yup.object().shape({
-    title: Yup.string().required('Title is required'),
-    release_date: Yup.date().required('Release date is required'),
-    genre_id: Yup.number().required('Genre is required'),
-    release_type: Yup.string().required('Release type is required'),
-    artist_id: Yup.array().of(Yup.number()).min(1, 'At least one artist is required'),
-    bandcamp_link: Yup.string(),
-    beatport_link: Yup.string(),
-    spotify_link: Yup.string(),
-    apple_music_link: Yup.string(),
-    youtube_link: Yup.string(),
-    soundcloud_link: Yup.string(),
-    cover_image_url: Yup.mixed(),
-    description: Yup.string(),
-})
 
 const AddReleaseForm = ({ onReleaseAdded }) => {
     const { t } = useTranslation()
     const [open, setOpen] = useState(false)
     const [error, setError] = useState(null)
-    const { createRelease } = useReleases()
+    const { createRelease, fetchReleases } = useReleases()
     const { artists, fetchArtists } = useArtists()
     const { genres, fetchGenres } = useGenres()
 
@@ -67,6 +52,7 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
             const newRelease = await createReleaseRequest(formData)
             actions.setSubmitting(false)
             closePopup()
+            await fetchReleases()
             onReleaseAdded && onReleaseAdded(newRelease)
         } catch (error) {
             console.error('Error adding release:', error)
@@ -82,8 +68,8 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
 
     return (
         <>
-            <Button color='success' onClick={openPopup} className="mx-auto" variant="contained">
-                Add Release
+            <Button onClick={openPopup} className='mx-auto' colorClass='bg-[#24db13] text-[#122e0f]' >
+            Add Release
             </Button>
             <Dialog
                 open={open}
@@ -125,7 +111,21 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                             cover_image_url: '',
                             description: '',
                         }}
-                        validationSchema={validationSchema}
+                        validationSchema={Yup.object().shape({
+                            title: Yup.string().required('Title is required'),
+                            release_date: Yup.date().required('Release date is required'),
+                            genre_id: Yup.number().required('Genre is required'),
+                            release_type: Yup.string().required('Release type is required'),
+                            artist_id: Yup.array().of(Yup.number()).min(1, 'At least one artist is required'),
+                            bandcamp_link: Yup.string(),
+                            beatport_link: Yup.string(),
+                            spotify_link: Yup.string(),
+                            apple_music_link: Yup.string(),
+                            youtube_link: Yup.string(),
+                            soundcloud_link: Yup.string(),
+                            cover_image_url: Yup.mixed(),
+                            description: Yup.string(),
+                        })}
                         onSubmit={onSubmit}
                     >
                         {({ isSubmitting, setFieldValue, values }) => (
@@ -204,6 +204,22 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                         </Field>
                                     </FormControl>
                                     <FileUploadRelease />
+                                    <Field name="release_type">
+                                        {({ field, form }) => (
+                                            <Select
+                                                {...field}
+                                                label="Release Type"
+                                                variant="outlined"
+                                                error={form.errors.release_type && form.touched.release_type}
+                                                helperText={form.errors.release_type && form.touched.release_type && form.errors.release_type}
+                                            >
+                                                <MenuItem value="Album">Album</MenuItem>
+                                                <MenuItem value="Single">Single</MenuItem>
+                                                <MenuItem value="EP">EP</MenuItem>
+                                            </Select>
+                                        )}
+                                    </Field>
+
                                     <Field name="description">
                                         {({ field }) => (
                                             <TextField
