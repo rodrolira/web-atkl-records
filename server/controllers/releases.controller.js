@@ -6,11 +6,16 @@ export const addRelease = async (req, res) => {
   const {
     title,
     release_date,
-    is_explicit,
     description,
     genre_id,
     release_type,
     artist_id, // Este debería ser un array
+    bandcamp_link,
+    beatport_link,
+    spotify_link,
+    apple_music_link,
+    youtube_link,
+    soundcloud_link,
   } = req.body
   // Verifica si hay un archivo subido para la imagen de portada
   const cover_image_url = req.file ? req.file.path : null
@@ -18,9 +23,7 @@ export const addRelease = async (req, res) => {
   // Verifica que los campos obligatorios estén presentes
   if (
     !title ||
-    !release_date ||
     !genre_id ||
-    !release_type ||
     !artist_id ||
     artist_id.length === 0
   ) {
@@ -35,15 +38,20 @@ export const addRelease = async (req, res) => {
     const newRelease = await Release.create({
       title,
       release_date,
-      is_explicit,
       description,
       genre_id,
       cover_image_url,
       release_type,
+      bandcamp_link,
+      beatport_link,
+      spotify_link,
+      apple_music_link,
+      youtube_link,
+      soundcloud_link,
     })
 
-     // Asocia los artistas con el lanzamiento
-     if (artist_id && artist_id.length > 0) {
+    // Asocia los artistas con el lanzamiento
+    if (artist_id && artist_id.length > 0) {
       await newRelease.setArtists(artist_id)
     }
 
@@ -92,7 +100,6 @@ export const updateRelease = async (req, res) => {
   const {
     title,
     release_date,
-    is_explicit,
     description,
     genre_id,
     release_type,
@@ -121,8 +128,7 @@ export const updateRelease = async (req, res) => {
       {
         title,
         release_date,
-        is_explicit,
-        description,
+          description,
         genre_id,
         release_type,
         cover_image_url,
