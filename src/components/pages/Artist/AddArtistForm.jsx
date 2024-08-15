@@ -12,13 +12,14 @@ import {
     MenuItem,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import Button from '../../atoms/Button'
+// import Button from '../../atoms/Button'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { useArtists } from '../../../contexts/ArtistContext'
 import FileUpload from '../../molecules/FileUpload'
 import { getRolesRequest } from '../../../api/artists'
 import { useTranslation } from 'react-i18next'
+import { Button } from 'flowbite-react'
 
 const AddArtistForm = ({ onArtistAdded }) => {
     const { t } = useTranslation()
@@ -87,7 +88,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
 
     return (
         <>
-            <Button onClick={openPopup} className='btn-add mx-auto' variant='contained'>
+            <Button onClick={openPopup} className='mx-auto' color='success' variant='contained'>
                 {t('addArtist.title')}
             </Button>
             <Dialog

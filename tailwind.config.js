@@ -11,6 +11,7 @@ export default {
         './node_modules/flowbite-react/**/*.js',
         './node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}',
         './node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}',
+        flowbite.content(),
     ],
     theme: {
         extend: {},

@@ -8,10 +8,11 @@ import { useLanguage } from '../../contexts/LanguageContext'
 import { useAuth } from '../../contexts/AuthContext'
 import { useAdminAuth } from '../../contexts/AdminAuthContext'
 import LogoutButton from './LogoutButton'
-import Button from '../atoms/Button'
+// import Button from '../atoms/Button'
 import AddArtistButton from './AddArtistButton'
 import AddReleaseButton from './AddReleaseButton'
 import AdminLogoutButton from './AdminLogoutButton'
+import { Button } from 'flowbite-react'
 
 function NavbarMenu() {
     const location = useLocation()
@@ -24,19 +25,19 @@ function NavbarMenu() {
             <div className='flex items-center justify-end h-[50%]'>
                 <div className='z-10 flex divide-y rounded-lg text-center '>
                     <ul
-                        className='py-2 text-sm flex text-white dark:text-white sm:font-normal'
+                        className='py-2 text-sm  flex text-white dark:text-white sm:font-normal'
                         aria-labelledby='dropdownHoverButton'
                     >
                         {adminAuthenticated && !userAuthenticated && (
                             <>
-                                <li>
-                                    <AddArtistButton className='btn-add !capitalize'>
+                                <li className='mx-1'>
+                                    <AddArtistButton className='!capitalize'>
                                         {language === 'en'
                                             ? 'Add Artist'
                                             : 'Agregar Artista'}
                                     </AddArtistButton>
                                 </li>
-                                <li>
+                                <li className='mx-1'>
                                     <AddReleaseButton className='btn-add'>
                                         {language === 'en'
                                             ? 'Add Release'
@@ -44,7 +45,7 @@ function NavbarMenu() {
                                     </AddReleaseButton>
                                 </li>
                                 <li>
-                                    <Button className='btn-dashboard' href='/admin'>
+                                    <Button href='/admin'>
                                         {language === 'en'
                                             ? 'Admin Dashboard'
                                             : 'Panel de Administrador'}
@@ -55,8 +56,8 @@ function NavbarMenu() {
                         {userAuthenticated && (
                             <li>
                                 <Button
+                                    color='blue'
                                     href="/profile "// Usa user.id para la ruta del perfil
-                                    className='btn-dashboard'
                                 >
                                     {language === 'en' ? 'Profile' : 'Perfil'}
                                 </Button>

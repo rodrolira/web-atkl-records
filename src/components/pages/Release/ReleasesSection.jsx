@@ -1,21 +1,25 @@
 // ReleasesSection.jsx
 
 // eslint-disable-next-line react/prop-types, no-unused-vars
-import React, { useContext } from 'react'
+import React, { useEffect } from 'react'
 import Title from '../../atoms/Title'
 import { useAdminAuth } from '../../../contexts/AdminAuthContext'
 import ReleaseCard from './ReleaseCard'
-import { ReleaseContext } from '../../../contexts/ReleaseContext'
+import { useReleases } from '../../../contexts/ReleaseContext'
 import { useLanguage } from '../../../contexts/LanguageContext'
 import AddReleaseForm from './AddReleaseForm'
 
 function ReleasesSection() {
     const { language } = useLanguage() // Obtiene el estado del idioma desde el contexto
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
-    const { releases, fetchReleases, createRelease } = useContext(ReleaseContext)
+    const { releases, fetchReleases, createRelease } = useReleases()
+
+    useEffect(() => {
+        fetchReleases()
+    }, [fetchReleases])
 
     const handleReleaseAdded = async newRelease => {
-        await createRelease([newRelease]) // Agrega el nuevo lanzamiento a la lista de lanzamientos
+        await createRelease(newRelease) // Agrega el nuevo lanzamiento a la lista de lanzamientos
         fetchReleases()
     }
 
