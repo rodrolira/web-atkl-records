@@ -7,12 +7,9 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-  const createToken = (adminId) => {
-    return jwt.sign({ adminId }, process.env.SECRET, {
-      expiresIn: '12h',
-    })
-  }
-
+const createToken = (adminId) => {
+  return jwt.sign({ adminId }, process.env.SECRET, { expiresIn: '1h' })
+}
   export const createAdmin = async ({ username, email, password }) => {
     try {
       const newAdmin = await Admin.create({
@@ -61,6 +58,7 @@ export const loginAdmin = async (username, password) => {
     }
 
 const token = createToken(admin.id)
+console.log('Generated token:', token) // Verificar el token en el servidor
 
     return token
   } catch (error) {
@@ -85,10 +83,11 @@ export const profileAdmin = async (adminId) => {
 export const verifyTokenAdmin = async (token) => {
   try {
     const decoded = jwt.verify(token, process.env.SECRET)
+
     const admin = await Admin.findByPk(decoded.adminId)
 
     if (!admin) {
-      throw new Error('Unauthorized')
+      throw new Error('Admin not found')
     }
 
     return admin

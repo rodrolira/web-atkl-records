@@ -8,7 +8,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const createToken = (userId) => {
-  return jwt.sign({ userId }, process.env.SECRET, {
+  return jwt.sign({ userId, role: 'user' }, process.env.SECRET, {
     expiresIn: '12h',
   })
 }
@@ -83,6 +83,10 @@ export const profileUser = async (userId) => {
 export const verifyTokenUser = async (token) => {
   try {
     const decoded = jwt.verify(token, process.env.SECRET)
+    if (decoded.role !== 'user') {
+      throw new Error('Unauthorized')
+    }
+
     const user = await User.findByPk(decoded.userId)
 
     if (!user) {
