@@ -1,4 +1,3 @@
-import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import Footer from '../components/organisms/Footer'
 import '../App.css'

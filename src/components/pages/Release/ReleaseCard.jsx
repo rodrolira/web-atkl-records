@@ -9,7 +9,7 @@ import {
     faYoutube,
     faSoundcloud,
 } from '@fortawesome/free-brands-svg-icons'
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, fas, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useAdminAuth } from '../../../contexts/AdminAuthContext'
 import Button from '../../atoms/Button'
 import Modal from '../../atoms/Modal'
@@ -40,9 +40,9 @@ const ReleaseCard = ({ release, artist }) => {
     }, [release?.id])
 
     const handleDelete = async () => {
-        if (currentRelease?.id && window.confirm(`¿Estás seguro de que deseas eliminar el lanzamiento ${currentRelease.title}?`)) {
+        if (window.confirm(`¿Estás seguro de que deseas eliminar el lanzamiento ${currentRelease.title}?`)) {
             try {
-                await deleteRelease(currentRelease.id)
+                await deleteRelease(release.id)
                 setReleases(prevReleases => prevReleases.filter(r => r.id !== currentRelease.id))
             } catch (error) {
                 console.error('Error deleting release:', error)
@@ -100,21 +100,20 @@ const ReleaseCard = ({ release, artist }) => {
 
                     {adminAuthenticated && (
                         <div className='absolute top-2 right-2 flex space-x-2'>
-                            <Button
-                                aria-label='Edit Release'
-                                className='text-yellow-400 hover:text-yellow-500 text-xl'
+                            <button
+                                className='text-xl mx-2 text-yellow-400 hover:text-yellow-500'
                                 onClick={openEditModal}
                             >
                                 <FontAwesomeIcon icon={faEdit} />
-                            </Button>
+                            </button>
 
-                            <Button
+                            <button
                                 onClick={handleDelete}
                                 aria-label='Delete Release'
-                                className='text-red-400 hover:text-red-500 text-xl'
+                                className='text-red-400 hover:text-red-500 text-xl mx-2'
                             >
                                 <FontAwesomeIcon icon={faTrash} />
-                            </Button>
+                            </button>
                         </div>
                     )}
                 </div>
@@ -167,13 +166,14 @@ const ReleaseCard = ({ release, artist }) => {
                             rel='noopener noreferrer'
                             className='text-gray-400 hover:text-orange-500'
                         >
-                            <FontAwesomeIcon icon={faSoundcloud} size='2x' />
+                            <FontAwesomeIcon icon={faSoundcloud} size='2x' className='hover:text-orange-500' />
                         </a>
                     )}
                 </div>
+                <div className='my-2'>
                 {currentRelease.bandcamp_link && (
-                    <Button href={currentRelease.bandcamp_link} className="btn-buy h-10 mx-auto mb-4">
-                        Comprar
+                        <Button href={currentRelease.bandcamp_link} className="mb-4" colorClass="bg-green-500 hover:bg-green-600 text-black">
+                        <p className='font-semibold'>Comprar</p>
                     </Button>
                 )}
             </div>
@@ -185,6 +185,7 @@ const ReleaseCard = ({ release, artist }) => {
                     />
                 </Modal>
             )}
+            </div>
         </>
     )
 }

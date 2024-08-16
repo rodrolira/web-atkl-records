@@ -10,15 +10,15 @@ import { ArtistProvider } from './contexts/ArtistContext'
 
 const App = () => {
     return (
-        <>
-            <AdminAuthProvider>
-                <AuthProvider>
-                        <ReleaseProvider>
-                    <GenreProvider>
-                            <ArtistProvider>
+        <div data-testid="app">
+            <AdminAuthProvider data-testid="admin-auth-provider">
+                <AuthProvider data-testid="auth-provider">
+                        <ReleaseProvider data-testid="release-provider">
+                    <GenreProvider data-testid="genre-provider">
+                            <ArtistProvider data-testid="artist-provider">
                                 {/* <LanguageProvider > */}
-                                    <Layout>
-                                        <AppRouter />
+                                    <Layout data-testid="layout">
+                                        <AppRouter data-testid="app-router" />
                                     </Layout>
                                 {/* </LanguageProvider> */}
                             </ArtistProvider>
@@ -27,7 +27,7 @@ const App = () => {
                 </AuthProvider>
             </AdminAuthProvider>
             {/* </AdminAuthProvider> */}
-        </>
+        </div>
     )
 }
 

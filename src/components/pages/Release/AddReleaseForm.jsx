@@ -261,7 +261,7 @@ const AddReleaseForm = ({ onReleaseAdded }) => {
                                             <TextField {...field} label="Soundcloud Link" variant="outlined" />
                                         )}
                                     </Field>
-                                    <Button className="flex justify-center mx-auto" type="submit" variant="contained" color="success" disabled={isSubmitting}>
+                                    <Button className="flex justify-center mx-auto" type="submit" colorClass='bg-[#24db13] text-[#122e0f]' disabled={isSubmitting}>
                                         {isSubmitting ? 'Adding...' : 'Add'}
                                     </Button>
                                     {error && <div style={{ color: 'red' }}>{error}</div>}

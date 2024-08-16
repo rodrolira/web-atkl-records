@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Button = ({ href, onClick, children, text, colorClass }) => (
-    <div className='mx-2'>
+    <div className='mx-auto flex justify-center'>
         {href
 ? (
             <a
                 href={href}
                 rel='noopener noreferrer'
-                className={`flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 text-sm font-bold leading-normal tracking-[0.015em] ${colorClass}`}
+                className={`flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 text-sm leading-normal tracking-[0.015em] ${colorClass}`}
             >
                 <span className="truncate">{text || children}</span>
             </a>
@@ -16,7 +16,7 @@ const Button = ({ href, onClick, children, text, colorClass }) => (
 : (
             <button
                 onClick={onClick}
-                className={`flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 text-sm font-bold leading-normal tracking-[0.015em] ${colorClass}`}
+                className={`flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 text-sm leading-normal tracking-[0.015em] ${colorClass}`}
             >
                 <span className="truncate">{text || children}</span>
             </button>

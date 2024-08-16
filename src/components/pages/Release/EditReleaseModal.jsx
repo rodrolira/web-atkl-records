@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import Button from '../../atoms/Button'
@@ -11,7 +11,7 @@ import {
 } from '../../../api/releases'
 // import { useReleases } from '../../../contexts/ReleaseContext'
 import { useReleases } from '../../../hooks/useReleases'
-import { MenuItem, Stack, TextField } from '@mui/material'
+import { MenuItem, Select, Stack, TextField } from '@mui/material'
 
 const validationSchema = Yup.object().shape({
     title: Yup.string(),
@@ -106,7 +106,7 @@ function EditReleaseModal({ id, onClose }) {
                 onSubmit={onSubmit}
             >
                 {({ isSubmitting, setFieldValue }) => (
-                    <Form className='w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-center'>
+                    <Form className='w-full bg-white shadow-md rounded px-8 text-center'>
                         <Stack spacing={2} margin={2}>
 
                             <h2 className='text-2xl mb-4 font-bold'>Edit Release</h2>
@@ -251,27 +251,28 @@ function EditReleaseModal({ id, onClose }) {
                                 component='div'
                                 className='text-red-500 text-sm mt-1'
                             />
-                            <div className='mb-4'>
+                            <div className='mb-4 w-full'>
                                 <label
                                     htmlFor='release_type'
                                     className='block text-gray-700 font-bold mb-2'
                                 >
                                     Release Type
                                 </label>
-                                <Field
-                                    as='select'
-                                    id='release_type'
-                                    name='release_type'
-                                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                                >
-                                    <option value=''>Select Release Type</option>
-                                    {/* Add your release type options here */}
+                                <Field name="release_type" className='w-full'>
+                                        {({ field, form }) => (
+                                            <Select
+                                                {...field}
+                                                label="Release Type"
+                                                variant="outlined"
+                                                error={form.errors.release_type && form.touched.release_type}
+                                                helperText={form.errors.release_type && form.touched.release_type && form.errors.release_type}
+                                            >
+                                                <MenuItem value="Album">Album</MenuItem>
+                                                <MenuItem value="Single">Single</MenuItem>
+                                                <MenuItem value="EP">EP</MenuItem>
+                                        </Select>
+                                    )}
                                 </Field>
-                                <ErrorMessage
-                                    name='release_type'
-                                    component='div'
-                                    className='text-red-500 text-sm mt-1'
-                                />
                             </div>
                             <div className='mb-4'>
                                 <label
@@ -394,26 +395,29 @@ function EditReleaseModal({ id, onClose }) {
                                 />
                             </div>
                             <div className='flex items-center justify-between'>
-                                <Link
-                                    type='button'
-                                    onClick={onClose} // Cambia a navigate para cerrar el modal
-                                    className='btn btn-cancel'
-                                >
-                                    Cancel
-                                </Link>
-                                <button
-                                    type='submit'
-                                    className='btn btn-save'
-                                    disabled={isSubmitting}
-                                >
-                                    Save
-                                </button>
                                 <Button
                                     type='button'
-                                    className='btn btn-delete'
+                                    onClick={onClose} // Cambia a navigate para cerrar el modal
+                                    className='btn'
+                                    colorClass='bg-gray-500 hover:bg-gray-600 text-white '
+                                >
+                                    <p className='font-semibold'>Cancel</p>
+                                </Button>
+                                <Button
+                                    type='submit'
+                                    className='btn'
+                                    colorClass='bg-green-500 hover:bg-green-6000'
+                                    disabled={isSubmitting}
+                                >
+                                    <p className='font-semibold'>Save</p>
+                                </Button>
+                                <Button
+                                    type='button'
+                                    colorClass='bg-red-500 hover:bg-red-600 text-white'
+                                    className='btn'
                                     onClick={handleDelete}
                                 >
-                                    Delete
+                                    <p className='font-semibold'>Delete</p>
                                 </Button>
                             </div>
                         </Stack>

@@ -32,7 +32,7 @@ const resources = {
         languageMenu: {
             english: 'EN',
             spanish: 'ES',
-            language: 'US'
+            language: 'EN'
         },
         aboutSection: {
           title: 'About',
