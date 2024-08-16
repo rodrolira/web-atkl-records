@@ -1,7 +1,7 @@
 import axios from './axios'
 
 const getAuthHeaders = () => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('adminToken')
     if (!token) {
         console.error('No token found in localStorage')
         return {}
@@ -35,6 +35,6 @@ export const loginAdminRequest = async (user) => {
     }
 }
 
-export const verifyAdminTokenRequest = () => axios.get('/admin/verify', getAuthHeaders())
+export const verifyAdminTokenRequest = () => axios.get('/admin/verify')
 
 export const logoutAdminRequest = () => axios.post('/admin/logout', {}, getAuthHeaders())

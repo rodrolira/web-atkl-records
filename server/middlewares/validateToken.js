@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export const verifyTokenAdmin = (req, res, next) => {
-  const token = req.cookies.token || req.headers.authorization?.split(' ')[1]
+  const token = req.headers.authorization
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized' })
   }

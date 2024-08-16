@@ -25,7 +25,7 @@ export const AdminAuthProvider = ({ children }) => {
 
     useEffect(() => {
         const checkLogin = async () => {
-            const token = localStorage.getItem('token')
+            const token = localStorage.getItem('adminToken')
             if (token) {
                 await verifyToken(token)
             } else {
@@ -54,8 +54,7 @@ export const AdminAuthProvider = ({ children }) => {
             const res = await registerAdminRequest(user)
             setUser(res.data)
             setIsAuthenticated(true)
-            localStorage.setItem('adminUser', JSON.stringify(res.data))
-            localStorage.setItem('token', res.data.token)
+            localStorage.setItem('adminToken', res.data.token)
         } catch (error) {
             setErrors([error.response.data.message])
         }
@@ -68,7 +67,7 @@ export const AdminAuthProvider = ({ children }) => {
 
             setIsAuthenticated(true)
             setUser(adminData)
-            localStorage.setItem('token', token)
+            localStorage.setItem('adminToken', token)
         } catch (error) {
             setErrors([error.response.data.message])
         }
@@ -79,8 +78,7 @@ export const AdminAuthProvider = ({ children }) => {
             await logoutAdminRequest()
             setIsAuthenticated(false)
             setUser(null)
-            localStorage.removeItem('adminUser')
-            localStorage.removeItem('token')
+            localStorage.removeItem('adminToken')
         } catch (error) {
             setErrors([error.response.data.message])
         }
