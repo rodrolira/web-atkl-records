@@ -23,7 +23,7 @@ function ArtistsSection() {
     }
 
     return (
-        <div className='inline-block py-16' id='artists'>
+        <div className='grid grid-cols-1 gap-4 p-16' id='artists'>
             <div className='mb-4 mx-auto'>
                 <a href='/artists' className='mx-auto'>
                     <Title>{language === 'en' ? 'Artists' : 'Artistas'}</Title>

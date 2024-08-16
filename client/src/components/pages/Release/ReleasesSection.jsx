@@ -25,7 +25,7 @@ function ReleasesSection() {
     }
 
     return (
-        <div className='grid gap-4 py-16 inline-block' id='releases'>
+        <div className='grid grid-cols-1 gap-4  p-16 inline-block' id='releases'>
             <a href='/releases' className='mx-auto'>
                 <Title>{language === 'en' ? 'Releases' : 'Lanzamientos'}</Title>
             </a>

@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { createContext, useContext, useState } from 'react'
 import PropTypes from 'prop-types'
-import i18n from '../i18n' // Asegúrate de que la ruta sea correcta
+import i18n from '../i18n.js' // Asegúrate de que la ruta sea correcta
 
 const LanguageContext = createContext()
 
