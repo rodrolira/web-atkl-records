@@ -16,7 +16,7 @@ module.exports = {
         'react/jsx-no-target-blank': 'off',
         'react-refresh/only-export-components': 'off',
         'react/prop-types': 'off',
-        'no-unused-vars': 'off',
+        "no-unused-vars": ["error", { "varsIgnorePattern": "React" }],
         indent: 'off',
         'space-before-function-paren': 'off',
         camelcase: 'off',
