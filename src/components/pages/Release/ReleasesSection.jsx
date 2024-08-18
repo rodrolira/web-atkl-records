@@ -4,7 +4,6 @@
 import React, { useEffect } from 'react'
 import Title from '../../atoms/Title'
 import { useAdminAuth } from '../../../contexts/AdminAuthContext'
-import ReleaseCard from './ReleaseCard'
 import { useReleases } from '../../../contexts/ReleaseContext'
 import { useLanguage } from '../../../contexts/LanguageContext'
 import AddReleaseForm from './AddReleaseForm'
@@ -25,7 +24,7 @@ function ReleasesSection() {
     }
 
     return (
-        <div className='grid grid-cols-1 gap-4  p-16 inline-block' id='releases'>
+        <div className='grid grid-cols-1 gap-4  p-16' id='releases'>
             <a href='/releases' className='mx-auto'>
                 <Title>{language === 'en' ? 'Releases' : 'Lanzamientos'}</Title>
             </a>

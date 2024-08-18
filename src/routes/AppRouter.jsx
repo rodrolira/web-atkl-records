@@ -2,7 +2,7 @@
 
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Home from '../components/pages/Home'
-import AdminDashboard from '../admin/AdminDashboard'
+import AdminDashboard from '../components/pages/Admin/AdminDashboard'
 import EditReleaseModal from '../components/pages/Release/EditReleaseModal'
 import EditArtist from '../components/pages/Artist/EditArtist'
 import DiscographyPage from '../components/pages/Discography/DiscographyPage'
@@ -23,6 +23,7 @@ const AppRouter = () => {
     const { isAuthenticated: userAuthenticated } = useAuth()
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
     return (
+        <div data-testid="app-router">
         <Routes>
             {/* Public Routes */}
             <Route path='/' element={<Home />} />
@@ -59,8 +60,9 @@ const AppRouter = () => {
             </Route>
 
             {/* Redirect to NotFound for unknown paths */}
-            <Route path='*' element={<NotFound />} />
-        </Routes>
+                <Route path='*' element={<NotFound />} />
+            </Routes>
+        </div>
     )
 }
 

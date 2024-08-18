@@ -1,4 +1,5 @@
-import React from 'react' // Importa React y useEffect
+/* eslint-disable no-unused-vars */
+import React, { useEffect } from 'react' // Importa React y useEffect
 import { useLanguage } from '../../contexts/LanguageContext' // Importa el hook useLanguage
 import { Box, Button, Checkbox, colors, Typography } from '@mui/material'
 import CustomInput from '../atoms/CustomInput'
@@ -7,11 +8,18 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useAuth } from '../../contexts/AuthContext'
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
+import { useNavigate } from 'react-router-dom'
 
 function SigninPage() {
     const { language } = useLanguage() // Usa el hook para obtener language
-    // const navigate = useNavigate()
     const { signin, isAuthenticated, errors: signinErrors } = useAuth() // Obtener la función signin del contexto de autenticación de artistas
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/') // Navigate to the home page on successful login
+        }
+    }, [isAuthenticated, navigate])
 
     // Define validation schema using Yup
     const validationSchema = Yup.object({
@@ -26,8 +34,11 @@ function SigninPage() {
             password: '',
         },
         validationSchema,
-        onSubmit: (values) => {
-            signin(values)
+        onSubmit: async (values) => {
+            await signin(values)
+            if (isAuthenticated) {
+                navigate('/') // Navigate to the home page on successful login
+            }
         },
     })
 

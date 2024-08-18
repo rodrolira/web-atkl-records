@@ -1,14 +1,9 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const ContactForm = () => {
   const { t } = useTranslation()
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    description: '',
-  })
+  const [formData, setFormData] = useState({ name: '', email: '', description: '' })
   const [formSubmitted, setFormSubmitted] = useState(false)
 
   const handleChange = (e) => {
@@ -17,28 +12,18 @@ const ContactForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
     try {
-      const response = await fetch(
-        'http://localhost:3000/api/submit-form',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        }
-      )
+      const response = await fetch('http://localhost:3000/api/submit-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
 
       if (!response.ok) {
         throw new Error(t('error_submitting_form'))
       }
 
-      setFormData({
-        name: '',
-        email: '',
-        description: '',
-      })
+      setFormData({ name: '', email: '', description: '' })
       setFormSubmitted(true)
       console.log(t('form_sent_success'))
     } catch (error) {
@@ -48,25 +33,13 @@ const ContactForm = () => {
 
   return (
     <div>
-      {formSubmitted && (
-        <div className="text-green-500">
-          {t('form_sent_success')}
-        </div>
-      )}
-
-      <div className="max-w-md mx-auto text-white rounded px-8 pt-6 pb-8 mb-4 ">
-        <h2 className="text-2xl font-bold mb-4 text-center">
-          {t('subscribe')}
-        </h2>
-        <p className="text-center mb-4">
-          {t('subscribe_message')}
-        </p>
+      {formSubmitted && <div className="text-green-500">{t('form_sent_success')}</div>}
+      <div className="max-w-md mx-auto text-white rounded px-8 pt-6 pb-8 mb-4">
+        <h2 className="text-2xl font-bold mb-4 text-center">{t('subscribe')}</h2>
+        <p className="text-center mb-4">{t('subscribe_message')}</p>
         <form onSubmit={handleSubmit} className="text-white">
           <div className="mb-4">
-            <label
-              className="block text-sm font-bold mb-2"
-              htmlFor="name"
-            >
+            <label className="block text-sm font-bold mb-2" htmlFor="name">
               {t('name')}
             </label>
             <input
@@ -81,10 +54,7 @@ const ContactForm = () => {
             />
           </div>
           <div className="mb-4">
-            <label
-              className="block text-sm font-bold mb-2"
-              htmlFor="email"
-            >
+            <label className="block text-sm font-bold mb-2" htmlFor="email">
               {t('email')}
             </label>
             <input
@@ -99,10 +69,7 @@ const ContactForm = () => {
             />
           </div>
           <div className="mb-4">
-            <label
-              className="block text-sm font-bold mb-2"
-              htmlFor="description"
-            >
+            <label className="block text-sm font-bold mb-2" htmlFor="description">
               {t('description_optional')}
             </label>
             <textarea

@@ -1,9 +1,10 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
-const resources = {
-  en: {
-    translation: {
+i18n.use(initReactI18next).init({
+  resources: {
+    en: {
+      translation: {
         english: 'English',
         spanish: 'Spanish',
         logout: 'Logout',
@@ -78,22 +79,20 @@ const resources = {
               dj: 'DJ',
               producer: 'Producer'
             },
-            selectRole: 'Select Role',
-
-            validation: {
-                artistNameRequired: 'Artist name is required',
-                usernameRequired: 'Username is required',
-                emailRequired: 'Email is required',
-                invalidEmail: 'Invalid email address',
-                passwordRequired: 'Password is required',
-                passwordMin: 'Password must be at least 6 characters',
-                roleRequired: 'At least one role is required',
-            },
-        }
-    }
-  },
-  es: {
-    translation: {
+        },
+        validation: {
+            artistNameRequired: 'Artist name is required',
+            usernameRequired: 'Username is required',
+            emailRequired: 'Email is required',
+            invalidEmail: 'Invalid email address',
+            passwordRequired: 'Password is required',
+            passwordMin: 'Password must be at least 6 characters',
+            roleRequired: 'At least one role is required',
+        },
+      }
+    },
+    es: {
+      translation: {
         english: 'Inglés',
         spanish: 'Español',
         logout: 'Cerrar sesión',
@@ -109,8 +108,6 @@ const resources = {
         upload_cover_image: 'Subir Portada',
         upload_profile_image: 'Subir Imagen de Perfil',
         artistName: 'Nombre del Artista',
-        username: 'Nombre de Usuario',
-        password: 'Contraseña',
         image: 'Imagen',
         bandcamp_link: 'Enlace de Bandcamp',
         facebook_link: 'Enlace de Facebook',
@@ -134,60 +131,58 @@ const resources = {
           title: 'Contáctanos'
         },
         footer: {
-            label: 'Mapa del sitio',
-            aboutUs: 'Sobre Nosotros',
-            artists: 'Artistas',
-            releases: 'Lanzamientos',
-            sendDemo: 'Enviar Demo',
-            instagram: 'Instagram',
-            soundcloud: 'SoundCloud',
-            beatport: 'Beatport',
-            bandcamp: 'Bandcamp',
-            booking: 'Reservas',
-            mastering: 'Masterización',
-            freeReleases: 'Lanzamientos Gratuitos',
-            affiliateProgram: 'Programa de Afiliados',
-            events: 'Eventos',
-            discography: 'Discografía',
-            merchandising: 'Merchandising',
-            samplePacks: 'Paquetes de Muestras',
-            rightsReserved: 'Todos los Derechos Reservados'
+          label: 'Mapa del sitio',
+          aboutUs: 'Sobre Nosotros',
+          artists: 'Artistas',
+          releases: 'Lanzamientos',
+          sendDemo: 'Enviar Demo',
+          instagram: 'Instagram',
+          soundcloud: 'SoundCloud',
+          beatport: 'Beatport',
+          bandcamp: 'Bandcamp',
+          booking: 'Booking',
+          mastering: 'Mastering',
+          freeReleases: 'Lanzamientos Gratuitos',
+          affiliateProgram: 'Programa de Afiliados',
+          events: 'Eventos',
+          discography: 'Discografía',
+          merchandising: 'Merchandising',
+          samplePacks: 'Paquetes de Muestras',
+          rightsReserved: 'Todos los Derechos Reservados'
         },
         login: {
-            email: 'Correo Electrónico',
+            email: 'Correo electrónico',
             password: 'Contraseña',
-            login: 'Iniciar Sesión',
-            failed: 'Error al iniciar sesión. Verifica tus credenciales e intenta de nuevo.',
+            login: 'Iniciar sesión',
+            failed: 'Inicio de sesión fallido. Por favor, verifica tus credenciales y vuelve a intentarlo.',
             welcome: 'Bienvenido a ATKL Records',
         },
         addArtist: {
-            title: 'Nuevo Artista',
-            artistName: 'Nombre del Artista',
-            username: 'Nombre de Usuario',
-            password: 'Contraseña',
-            bio: 'Biografía',
-            role: {
-              role: 'Rol',
-              dj: 'DJ',
-              producer: 'Productor'
-            },
-            selectRole: 'Selecciona un Rol',
-            validation: {
-                artistNameRequired: 'El nombre del artista es requerido',
-                usernameRequired: 'El nombre de usuario es requerido',
-                emailRequired: 'El correo electrónico es requerido',
-                invalidEmail: 'Correo electrónico inválido',
-                passwordRequired: 'La contraseña es requerida',
-                passwordMin: 'La contraseña debe tener al menos 6 caracteres',
-                roleRequired: 'Se requiere al menos un rol'
-            }
-        }
-    }
-  }
-}
+          title: 'Agregar Artista',
+          username: 'Nombre de Usuario',
+          password: 'Contraseña',
+          bio: 'Bio',
+          role: {
+            role: 'Rol',
+            dj: 'DJ',
+            producer: 'Productor'
+          },
+          selectRole: 'Seleccionar Rol',
+          validation: {
+              artistNameRequired: 'El nombre del artista es requerido',
+              usernameRequired: 'El nombre de usuario es requerido',
+              emailRequired: 'El correo electrónico es requerido',
+              invalidEmail: 'Correo electrónico inválido',
+              passwordRequired: 'La contraseña es requerida',
+              passwordMin: 'La contraseña debe tener al menos 6 caracteres',
+              roleRequired: 'Se requiere al menos un rol',
 
-i18n.use(initReactI18next).init({
-  resources,
+            },
+        }
+      }
+
+    }
+  },
   lng: 'en', // idioma por defecto
   interpolation: {
     escapeValue: false // React ya se encarga de esto

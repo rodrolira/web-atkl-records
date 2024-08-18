@@ -95,6 +95,7 @@ export const AdminAuthProvider = ({ children }) => {
 
     return (
         <AdminAuthContext.Provider
+            data-testid="admin-auth-provider"
             value={{
                 signup,
                 signin,

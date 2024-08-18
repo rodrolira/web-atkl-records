@@ -56,17 +56,12 @@ const AddArtistForm = ({ onArtistAdded }) => {
     useEffect(() => {
         const fetchRoles = async () => {
             try {
-                const response = await getRolesRequest()
-                if (response && response.data) {
-                    setRoles(response.data)
-                } else {
-                    console.error('Unexpected response format:', response)
-                }
+                const roles = await getRolesRequest()
+                setRoles(roles)
             } catch (error) {
                 console.error('Error fetching roles:', error)
             }
         }
-
         fetchRoles()
     }, [])
 
@@ -161,7 +156,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                         {({ isSubmitting, setFieldValue, values }) => (
                             <Form>
                                 <Stack spacing={2} margin={2}>
-                                    {renderField('artist_name', 'artistName')}
+                                    {renderField('artist_name', 'artist_name')}
                                     {renderField('username', 'username')}
                                     {renderField('email', 'email')}
                                     {renderField('password', 'password', 'password', 'current-password')}
@@ -214,7 +209,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                                         ))}
                                     </Stack>
                                     {error && <div className='text-red-500'>{error}</div>}
-                                    <Button type='submit' color='success' disabled={isSubmitting} variant='contained' className='mx-auto flex justify-center'>
+                                    <Button type='submit' colorClass='bg-[#24db13] text-[#122e0f]' disabled={isSubmitting} variant='contained' className='mx-auto flex justify-center'>
                                         {t('submit')}
                                     </Button>
                                 </Stack>

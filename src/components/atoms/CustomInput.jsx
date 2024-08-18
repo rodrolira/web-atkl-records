@@ -5,7 +5,6 @@ import {
     IconButton,
     InputAdornment,
     InputBase,
-    Paper,
     Typography,
 } from '@mui/material'
 import { colors } from '../theme'
@@ -56,7 +55,9 @@ const CustomInput = React.forwardRef(
                         inputRef={ref}
                         sx={{
                             bgcolor: colors.input[500],
+                            color: 'black',
                             p: 1,
+                            paddingX: 2,
                             borderRadius: '5px',
                         }}
                         endAdornment={
