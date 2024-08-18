@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // components/ReleaseCard.js
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
@@ -9,7 +10,7 @@ import {
     faYoutube,
     faSoundcloud,
 } from '@fortawesome/free-brands-svg-icons'
-import { faEdit, fas, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useAdminAuth } from '../../../contexts/AdminAuthContext'
 import Button from '../../atoms/Button'
 import Modal from '../../atoms/Modal'
@@ -17,6 +18,7 @@ import EditReleaseModal from './EditReleaseModal'
 import { useReleases } from '../../../contexts/ReleaseContext'
 import { getReleaseRequest } from '../../../api/releases'
 import { Link } from 'react-router-dom'
+import { Icon } from '@iconify/react'
 
 const ReleaseCard = ({ release, artist }) => {
     const [currentRelease, setCurrentRelease] = useState(release)
@@ -120,71 +122,81 @@ const ReleaseCard = ({ release, artist }) => {
 
                 <div className='flex justify-center space-x-4 my-4'>
                     {currentRelease.bandcamp_link && (
-                        <a
-                            href={currentRelease.bandcamp_link}
+                        <Link
+                            to={currentRelease.bandcamp_link}
                             target='_blank'
                             rel='noopener noreferrer'
                             className='text-gray-400 hover:text-teal-600'
                         >
                             <FontAwesomeIcon icon={faBandcamp} size='2x' />
-                        </a>
+                        </Link>
                     )}
                     {currentRelease.spotify_link && (
-                        <a
-                            href={currentRelease.spotify_link}
+                        <Link
+                            to={currentRelease.spotify_link}
                             target='_blank'
                             rel='noopener noreferrer'
                             className='text-gray-400 hover:text-green-400'
                         >
                             <FontAwesomeIcon icon={faSpotify} size='2x' />
-                        </a>
+                        </Link>
                     )}
                     {currentRelease.apple_music_link && (
-                        <a
-                            href={currentRelease.apple_music_link}
+                        <Link
+                            to={currentRelease.apple_music_link}
                             target='_blank'
                             rel='noopener noreferrer'
                             className='text-gray-400 hover:text-purple-500'
                         >
                             <FontAwesomeIcon icon={faApple} size='2x' />
-                        </a>
+                        </Link>
                     )}
                     {currentRelease.youtube_link && (
-                        <a
-                            href={currentRelease.youtube_link}
+                        <Link
+                            to={currentRelease.youtube_link}
                             target='_blank'
                             rel='noopener noreferrer'
                             className='text-gray-400 hover:text-red-500'
                         >
                             <FontAwesomeIcon icon={faYoutube} size='2x' />
-                        </a>
+                        </Link>
                     )}
                     {currentRelease.soundcloud_link && (
-                        <a
-                            href={currentRelease.soundcloud_link}
+                        <Link
+                            to={currentRelease.soundcloud_link}
                             target='_blank'
                             rel='noopener noreferrer'
                             className='text-gray-400 hover:text-orange-500'
                         >
                             <FontAwesomeIcon icon={faSoundcloud} size='2x' className='hover:text-orange-500' />
-                        </a>
+                        </Link>
+                    )}
+                    {currentRelease.beatport_link && (
+                        <Link
+                            to={currentRelease.beatport_link}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='text-gray-400 hover:text-green-500'
+                        >
+                            <Icon icon="simple-icons:beatport" width="2em" height="2em" />
+                        </Link>
                     )}
                 </div>
                 <div className='my-2'>
-                {currentRelease.bandcamp_link && (
+                    {currentRelease.bandcamp_link && (
                         <Button href={currentRelease.bandcamp_link} className="mb-4" colorClass="bg-green-500 hover:bg-green-600 text-black">
-                        <p className='font-semibold'>Comprar</p>
-                    </Button>
+                            <p className='font-semibold'>Comprar</p>
+                        </Button>
+                    )}
+                </div>
+                {showEditModal && (
+                    <Modal onClose={closeEditModal}>
+                        <EditReleaseModal
+                            id={currentRelease.id}
+                            onClose={closeEditModal}
+                        />
+                    </Modal>
                 )}
-            </div>
-            {showEditModal && (
-                <Modal onClose={closeEditModal}>
-                    <EditReleaseModal
-                        id={currentRelease.id}
-                        onClose={closeEditModal}
-                    />
-                </Modal>
-            )}
             </div>
         </>
     )

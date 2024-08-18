@@ -1,14 +1,11 @@
-import React, { lazy, Suspense } from 'react' // Importa lazy y Suspense
-import { Box } from '@mui/material'
+import React from 'react'
+import { Box, Unstable_Grid2 as Grid } from '@mui/material'
 import MainLayout from '../../layouts/MainLayout'
 import AdminSignin from '../templates/AdminSignin'
-import Grid from '@mui/material/Unstable_Grid2/Grid2'
 
 const AdminLoginForm = () => {
   return (
     <MainLayout>
-      {' '}
-      {/* Agrega el MainLayout alrededor del Login */}
       <Box
         sx={{
           width: {
@@ -30,8 +27,6 @@ const AdminLoginForm = () => {
           alignItems='center'
         >
           <AdminSignin />
-
-          {/* Reemplaza el formulario por el componente Login */}
         </Grid>
         {/* GRID SYSTEM END */}
       </Box>

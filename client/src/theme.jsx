@@ -28,7 +28,7 @@ export const colors = {
     200: '#a7aeb5',
     300: '#7b8591',
     400: '#4f5d6c',
-    500: '#233447',
+    500: '#122e0f',
     600: '#1c2a39',
     700: '#151f2b',
     800: '#0e151c',
@@ -54,7 +54,7 @@ export const theme = createTheme({
       main: colors.green[500]
     },
     background: {
-      default: '#1f1d2c'
+      default: '#122e0f'
     }
   },
   typography: {

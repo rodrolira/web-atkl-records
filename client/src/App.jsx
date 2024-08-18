@@ -6,24 +6,24 @@ import { AuthProvider } from './contexts/AuthContext'
 import { GenreProvider } from './contexts/GenreContext'
 import { ReleaseProvider } from './contexts/ReleaseContext'
 import { ArtistProvider } from './contexts/ArtistContext'
-// import { LanguageProvider } from './contexts/LanguageContext'
+import './i18n'
 
 const App = () => {
     return (
         <div data-testid="app">
-            <AdminAuthProvider data-testid="admin-auth-provider">
-                <AuthProvider data-testid="auth-provider">
+            <AdminAuthProvider >
+                <AuthProvider>
+                    <ArtistProvider>
                         <ReleaseProvider data-testid="release-provider">
                     <GenreProvider data-testid="genre-provider">
-                            <ArtistProvider data-testid="artist-provider">
                                 {/* <LanguageProvider > */}
                                     <Layout data-testid="layout">
                                         <AppRouter data-testid="app-router" />
                                     </Layout>
                                 {/* </LanguageProvider> */}
-                            </ArtistProvider>
                     </GenreProvider>
                         </ReleaseProvider>
+                    </ArtistProvider>
                 </AuthProvider>
             </AdminAuthProvider>
             {/* </AdminAuthProvider> */}

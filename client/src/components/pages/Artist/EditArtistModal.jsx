@@ -105,7 +105,7 @@ function EditArtistModal({ id, onClose }) {
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
-                {({ isSubmitting, setFieldValue, values }) => (
+                {({ isSubmitting }) => (
                     <Form className='w-full bg-white shadow-md rounded px-8 pt-2 pb-2 mb-4 text-center'>
                         <h2 className='text-2xl mb-4 font-bold'>Edit Artist</h2>
                         <div className='mb-4'>

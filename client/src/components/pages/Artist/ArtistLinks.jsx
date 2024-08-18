@@ -12,6 +12,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 import { Link } from 'react-router-dom'
 import { PropTypes } from 'prop-types'
+import { Icon } from '@iconify/react'
 
 const ArtistLinks = ({ artist }) => (
     <div className='flex space-x-4 text-2xl justify-center py-2'>
@@ -92,7 +93,11 @@ const ArtistLinks = ({ artist }) => (
                 <FontAwesomeIcon icon={faSpotify} />
             </Link>
         )}
-
+        {artist.beatport_link && (
+            <Link to={artist.beatport_link} target='_blank' rel='noopener noreferrer' aria-label='View Beatport Profile' className='text-gray-400 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 flex items-center justify-center'>
+                <Icon icon="simple-icons:beatport" width="1em" height="1em" className='text-gray-400 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400' />
+            </Link>
+        )}
     </div>
 )
 

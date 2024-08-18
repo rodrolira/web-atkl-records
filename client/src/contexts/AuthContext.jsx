@@ -82,6 +82,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider
+            data-testid="auth-provider"
             value={{
                 signup,
                 signin,

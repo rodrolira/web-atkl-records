@@ -16,8 +16,8 @@ export const useArtists = () => {
     const context = useContext(ArtistContext)
 
     if (!context) {
-        console.log('useArtist must be used within an ArtistProvider')
-        throw new Error('useArtist must be used within an ArtistProvider')
+        console.log('useArtists must be used within an ArtistProvider')
+        throw new Error('useArtists must be used within an ArtistProvider')
     }
     return context
 }
@@ -76,6 +76,7 @@ export const ArtistProvider = ({ children }) => {
 
     return (
         <ArtistContext.Provider
+            data-testid="artist-provider"
             value={{
                 artists,
                 setArtists,

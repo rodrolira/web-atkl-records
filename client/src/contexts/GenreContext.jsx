@@ -30,6 +30,7 @@ export const GenreProvider = ({ children }) => {
     // Retorna el proveedor del contexto con los valores disponibles
     return (
         <GenreContext.Provider
+            data-testid="genre-provider"
             value={{
                 genres,
                 fetchGenres

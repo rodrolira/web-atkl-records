@@ -1,9 +1,8 @@
 import React from 'react'
 import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBandcamp, faInstagram, faSoundcloud, faYoutube } from '@fortawesome/free-brands-svg-icons'
 import { Link } from 'react-router-dom'
+import SocialMediaIcons from '../atoms/SocialMediaIcons' // Extraído a un componente separado
 
 const SITEMAP = {
     en: [
@@ -97,33 +96,12 @@ function Footer({ isAdminLogin }) {
                         className='mb-4 text-center font-normal text-white md:mb-0'
                     >
                         &copy; {currentYear}{' '}
-                        <a href='https://material-tailwind.com/'>
+                        <Link to='https://material-tailwind.com/'>
                             ATKL Records
-                        </a>
+                        </Link>
                         . {t('All Rights Reserved.')}
                     </Typography>
-                    <div className='flex gap-4 text-white sm:justify-center px-4'>
-                        <Link to='https://www.instagram.com/atklrecords/' target='_blank' rel='noopener noreferrer'>
-                            <i>
-                                <FontAwesomeIcon icon={faInstagram} size='2x' />
-                            </i>
-                        </Link>
-                        <Link to='https://soundcloud.com/atklrecords' target='_blank' rel='noopener noreferrer'>
-                            <i>
-                                <FontAwesomeIcon icon={faSoundcloud} size='2x' />
-                            </i>
-                        </Link>
-                        <Link to='https://www.bandcamp.com/atklrecords' target='_blank' rel='noopener noreferrer'>
-                            <i>
-                                <FontAwesomeIcon icon={faBandcamp} size='2x' />
-                            </i>
-                        </Link>
-                        <Link to='https://www.youtube.com/channel/UC-9-kyTW8ZkZNDHQyHvryaw' target='_blank' rel='noopener noreferrer'>
-                            <i>
-                                <FontAwesomeIcon icon={faYoutube} size='2x' />
-                            </i>
-                        </Link>
-                    </div>
+                    <SocialMediaIcons />
                 </div>
             </div>
         </footer>

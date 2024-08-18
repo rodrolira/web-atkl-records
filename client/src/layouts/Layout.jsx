@@ -4,7 +4,7 @@ import '../App.css'
 
 const Layout = ({ children }) => {
     return (
-        <div className='flex'>
+        <div className='flex' data-testid="layout">
             <div className='layout'>
                 <BrowserRouter>
                     {children}

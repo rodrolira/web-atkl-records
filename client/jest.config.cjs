@@ -12,7 +12,9 @@ module.exports = {
   },
   transformIgnorePatterns: [
     '/node_modules/(?!@mui/material).+\\.js$',
-    '/node_modules/(?!@mui/material).+\\.jsx$'
+    '/node_modules/(?!@mui/material).+\\.jsx$',
+    '/node_modules/(?!@mui/material/Unstable_Grid2).+\\.js$'
+
   ],
   moduleDirectories: ['./node_modules', 'src'],
   setupFilesAfterEnv: ['<rootDir>/src/jest-setup.js'],
