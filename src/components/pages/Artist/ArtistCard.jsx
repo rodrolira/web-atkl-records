@@ -69,9 +69,9 @@ const ArtistCard = ({ artist }) => {
     return (
         <>
             <div className='bg-black max-w-sm border border-gray-200 rounded-lg shadow dark:border-purple-500 relative'>
-                <div className='w-full rounded-t-lg overflow-hidden relative'>
+                <div className='w-full rounded-t-lg relative'>
 
-                    <Link to={`/artists/${currentArtist.id}`} className='block relative'>
+                    <Link to={`/artists/${currentArtist.id}`} className='block relative z-0'>
                         <img
                             className='rounded-t-lg'
                             src={`http://localhost:3000/${currentArtist.image}`}
@@ -79,22 +79,21 @@ const ArtistCard = ({ artist }) => {
                         />
                     </Link>
 
-                    {adminAuthenticated && (
-                        <div className='absolute top-2 right-2 flex space-x-2'>
+                    {!!adminAuthenticated && (
+                        <div className='absolute right-2 flex z-10 space-x-2'>
                             <Button
                                 aria-label='Edit Artist'
-                                className='text-yellow-400 hover:text-yellow-500 text-xl'
                                 onClick={openEditModal}
+                                className= '!w-auto !inline'
                             >
-                                <FontAwesomeIcon icon={faEdit} />
+                                <FontAwesomeIcon icon={faEdit} className='text-yellow-400 hover:text-yellow-500 text-xl' />
                             </Button>
 
                             <Button
                                 onClick={handleDelete}
                                 aria-label='Delete Artist'
-                                className='text-red-400 hover:text-red-500 text-xl'
                             >
-                                <FontAwesomeIcon icon={faTrash} />
+                                <FontAwesomeIcon icon={faTrash} className='text-red-400 hover:text-red-500 text-xl' />
                             </Button>
                         </div>
                     )}
@@ -129,6 +128,10 @@ ArtistCard.propTypes = {
         id: PropTypes.number.isRequired,
         artist_name: PropTypes.string.isRequired,
         image: PropTypes.string,
+        username: PropTypes.string,
+        password: PropTypes.string,
+        email: PropTypes.string,
+        bio: PropTypes.string,
         Roles: PropTypes.arrayOf(PropTypes.shape({
             id: PropTypes.number,
             label: PropTypes.string,
