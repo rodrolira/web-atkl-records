@@ -61,8 +61,8 @@ const ArtistCard = ({ artist }) => {
         fetchArtist()
     }
 
-        // Concatenar roles con '/'
-        const rolesText = currentArtist.Roles && currentArtist.Roles.length > 0
+    // Concatenar roles con '/'
+    const rolesText = currentArtist.Roles && currentArtist.Roles.length > 0
         ? currentArtist.Roles.map(role => role.label).join(' / ')
         : 'No roles assigned'
 
@@ -79,12 +79,12 @@ const ArtistCard = ({ artist }) => {
                         />
                     </Link>
 
-                    {!!adminAuthenticated && (
+                    {adminAuthenticated && (
                         <div className='absolute right-2 flex z-10 space-x-2'>
                             <Button
                                 aria-label='Edit Artist'
                                 onClick={openEditModal}
-                                className= '!w-auto !inline'
+                                className='!w-auto !inline'
                             >
                                 <FontAwesomeIcon icon={faEdit} className='text-yellow-400 hover:text-yellow-500 text-xl' />
                             </Button>
@@ -106,7 +106,7 @@ const ArtistCard = ({ artist }) => {
                 </Link>
                 {/* Mostrar los roles */}
                 <div className='mb-2 text-xl font-bold tracking-tight text-white text-center'>
-                {rolesText}
+                    {rolesText}
                 </div>
 
                 <ArtistLinks artist={currentArtist} />
