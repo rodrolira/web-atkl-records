@@ -56,12 +56,17 @@ const AddArtistForm = ({ onArtistAdded }) => {
     useEffect(() => {
         const fetchRoles = async () => {
             try {
-                const roles = await getRolesRequest()
-                setRoles(roles)
+                const response = await getRolesRequest()
+                if (response && response.data) {
+                    setRoles(response.data)
+                } else {
+                    console.error('Unexpected response format:', response)
+                }
             } catch (error) {
                 console.error('Error fetching roles:', error)
             }
         }
+
         fetchRoles()
     }, [])
 
@@ -70,7 +75,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
             {({ field, form }) => (
                 <TextField
                     {...field}
-                    label={t(label)}
+                    label={t(`addArtist.label.${label}`)}
                     variant='outlined'
                     type={type}
                     autoComplete={autoComplete}
