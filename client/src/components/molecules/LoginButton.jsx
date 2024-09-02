@@ -7,7 +7,7 @@ const LoginButton = () => {
   const { language } = useLanguage()
 
   return (
-    <div className='sm:h-full lg:h-[60%] xl:h-auto'>
+    <div className='sm:h-full lg:h-[60%] xl:h-auto hidden md:block'>
       <Button
         href='/login'
         colorClass='bg-[#24db13] text-[#122e0f]'

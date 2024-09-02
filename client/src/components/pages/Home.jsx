@@ -27,28 +27,28 @@ function Home() {
     return (
         <div id="home" className="home">
             <Navbar />
-            <div className="parallax-container flex">
-                <div className="parallax-content flex w-full">
+            <div className="w-full parallax-container flex relative h-screen overflow-hidden">
+                <div className="w-full absolute parallax-content inset-0 bg-gradient-to-b from-transparent to-[#122e0f] backdrop-blur-md">
                     {/* Contenido del encabezado aquí */}
-                    <div className="container mx-auto my-24">
+                    <div className="container h-full">
                         <section
                             id="main"
-                            className="main h-full flex flex-col"
+                            className="main h-full w-full flex flex-col justify-end"
                         >
-                            <div className="logo-main flex items-center h-full w-full">
+                            <div className="logo-main flex items-center md:h-full w-full">
                                 <img
                                     alt="main"
-                                    className="h-full mx-auto"
+                                    className="md:h-96 mt-0 lg:mt-0 mx-auto md:mt-80 h-36"
                                     src="/img/main.png"
                                 />
                             </div>
-                            <div className="text-center text-white flex flex-col">
-                                <h1 className="title-main font-extrabold text-5xl">
+                            <div className="text-center mx-auto w-full text-white flex flex-col lg:mb-24">
+                                <h1 className="font-extrabold mx-auto text-center lg:text-5xl text-xl">
                                     {language === 'en'
                                         ? 'HARD TECHNO IS LIFE'
                                         : 'HARD TECHNO IS LIFE'}
                                 </h1>
-                                <h2 className="text-3xl">
+                                <h2 className="text-lg lg:text-3xl ">
                                     {language === 'en'
                                         ? 'LABEL'
                                         : 'SELLO DISCOGRÁFICO'}

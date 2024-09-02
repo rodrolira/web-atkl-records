@@ -49,10 +49,10 @@ describe('AddArtistForm', () => {
         render(<AddArtistForm />)
         fireEvent.click(screen.getByText('addArtist.title'))
 
-        fireEvent.change(screen.getByLabelText('artist_name'), { target: { value: 'Test Artist' } })
-        fireEvent.change(screen.getByLabelText('username'), { target: { value: 'testuser' } })
-        fireEvent.change(screen.getByLabelText('email'), { target: { value: 'test@example.com' } })
-        fireEvent.change(screen.getByLabelText('password'), { target: { value: 'password123' } })
+        fireEvent.change(screen.getByLabelText('addArtist.label.artist_name'), { target: { value: 'Test Artist' } })
+        fireEvent.change(screen.getByLabelText('addArtist.label.username'), { target: { value: 'testuser' } })
+        fireEvent.change(screen.getByLabelText('addArtist.label.email'), { target: { value: 'test@example.com' } })
+        fireEvent.change(screen.getByLabelText('addArtist.label.password'), { target: { value: 'password123' } })
 
         fireEvent.click(screen.getByText('submit'))
 

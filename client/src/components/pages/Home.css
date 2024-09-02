@@ -17,3 +17,32 @@
     background-attachment: fixed;
 
 }
+
+
+/* Estilos responsivos */
+@media (max-width: 640px) {
+    .parallax-container {
+        height: 50vh; /* Ajusta la altura para pantallas pequeñas */
+    }
+
+    .parallax-content {
+        backdrop-filter: blur(5px); /* Menos desenfoque en pantallas pequeñas */
+    }
+
+    .container {
+        margin: 0 10px; /* Margen reducido en pantallas pequeñas */
+    }
+
+    .title-main {
+        font-size: 2xl; /* Tamaño de fuente más pequeño en pantallas pequeñas */
+    }
+
+    .text-3xl {
+        font-size: 2xl; /* Tamaño de fuente más pequeño en pantallas pequeñas */
+    }
+
+    .home {
+        width: 100%;
+    }
+
+}
