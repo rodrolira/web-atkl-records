@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
 import LoginButton from './LoginButton'
 import LanguageMenu from './LanguageMenu'
 import DemoButton from './DemoButton'
@@ -15,7 +14,6 @@ import AdminLogoutButton from './AdminLogoutButton'
 // import { Button } from 'flowbite-react'
 
 function NavbarMenu() {
-    const location = useLocation()
     const { language } = useLanguage()
     const { isAuthenticated: userAuthenticated } = useAuth()
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
