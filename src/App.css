@@ -39,6 +39,12 @@ body, html {
   }
 }
 
-
+/* Estilos responsivos */
+@media (max-width: 640px) {
+  .App,
+  .layout{
+      width: 100%;
+  }
+}
 
 
