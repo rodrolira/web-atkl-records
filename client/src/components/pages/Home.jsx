@@ -25,8 +25,9 @@ function Home() {
     }, [location])
 
     return (
-        <div id="home" className="home">
+        <>
             <Navbar />
+            <div id="home" className="home">
             <div className="w-full parallax-container flex relative h-screen overflow-hidden">
                 <div className="w-full absolute parallax-content inset-0 bg-gradient-to-b from-transparent to-[#122e0f] backdrop-blur-md">
                     {/* Contenido del encabezado aquí */}
@@ -65,6 +66,7 @@ function Home() {
             <DemosSection />
             <ContactSection />
         </div>
+        </>
     )
 }
 
