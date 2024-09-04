@@ -1,21 +1,16 @@
 import React from 'react'
-import LoginButton from './LoginButton'
 import LanguageMenu from './LanguageMenu'
 import DemoButton from './DemoButton'
 import NavbarLinks from './NavbarLinks'
 import { useLanguage } from '../../contexts/LanguageContext'
-import { useAuth } from '../../contexts/AuthContext'
 import { useAdminAuth } from '../../contexts/AdminAuthContext'
-import LogoutButton from './LogoutButton'
 import Button from '../atoms/Button'
 import AddArtistButton from './AddArtistButton'
 import AddReleaseButton from './AddReleaseButton'
 import AdminLogoutButton from './AdminLogoutButton'
-// import { Button } from 'flowbite-react'
 
 function NavbarMenu() {
     const { language } = useLanguage()
-    const { isAuthenticated: userAuthenticated } = useAuth()
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
 
     return (
@@ -26,7 +21,7 @@ function NavbarMenu() {
                         className='py-2 text-sm  flex text-white dark:text-white sm:font-normal'
                         aria-labelledby='dropdownHoverButton'
                     >
-                        {adminAuthenticated && !userAuthenticated && (
+                        {adminAuthenticated && (
                             <>
                                 <li className='mx-1'>
                                     <AddArtistButton className='!capitalize'>
@@ -43,7 +38,7 @@ function NavbarMenu() {
                                     </AddReleaseButton>
                                 </li>
                                 <li>
-                                    <Button href='/admin' className='mx-auto flex justify-center' colorClass='bg-[#22581d] text-white' >
+                                    <Button href='/admin' className='mx-auto flex justify-center' colorClass='bg-[#22581d] text-white'>
                                         {language === 'en'
                                             ? 'Admin Dashboard'
                                             : 'Panel de Administrador'}
@@ -51,24 +46,16 @@ function NavbarMenu() {
                                 </li>
                             </>
                         )}
-                        {userAuthenticated && (
+                        {!adminAuthenticated && (
                             <li>
-                                <Button
-                                    color='blue'
-                                    href="/profile "// Usa user.id para la ruta del perfil
-                                >
-                                    {language === 'en' ? 'Profile' : 'Perfil'}
-                                </Button>
+                                <DemoButton />
                             </li>
                         )}
-                        {!adminAuthenticated && <DemoButton />}
-                        {!adminAuthenticated && !userAuthenticated && (
-                            <LoginButton />
-                        )}
                         <LanguageMenu />
-                        {userAuthenticated && <LogoutButton />}
-                        {adminAuthenticated && !userAuthenticated && (
-                            <AdminLogoutButton />
+                        {adminAuthenticated && (
+                            <li>
+                                <AdminLogoutButton />
+                            </li>
                         )}
                     </ul>
                 </div>
