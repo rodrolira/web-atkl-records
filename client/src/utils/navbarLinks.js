@@ -3,7 +3,7 @@ const links = [
         to: '/',
         text_en: 'Home',
         text_es: 'Inicio',
-        id: 'home',
+        id: 'main',
         authRequired: false,
     },
     {
