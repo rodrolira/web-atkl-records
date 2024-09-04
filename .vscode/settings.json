@@ -36,5 +36,10 @@
         "revealWithFocus": "test-results",
         "clearOnRun": "none"
     },
-    "jest.rootPath": "../client/src"
+    "jest.rootPath": "../client/src",
+    "cSpell.enableFiletypes": [
+        "!css",
+        "!javascript",
+        "!javascriptreact"
+    ]
 }
