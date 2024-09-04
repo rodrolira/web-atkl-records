@@ -9,14 +9,13 @@ import ArtistDetails from './ArtistDetails'
 import ArtistReleases from './ArtistReleases'
 import ArtistBio from './ArtistBio'
 import { useAdminAuth } from '../../../contexts/AdminAuthContext'
-import { useAuth } from '../../../contexts/AuthContext'
+
 
 function ArtistPage() {
     const { id } = useParams()
     const { artist, error } = useArtistData(id) // Usando el hook personalizado
     const [showEditModal, setShowEditModal] = useState(false)
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
-    const { user, isAuthenticated: userAuthenticated } = useAuth()
 
     if (error) {
         return <div>Error al obtener los datos del artista</div>
@@ -29,7 +28,6 @@ function ArtistPage() {
     const openEditModal = () => setShowEditModal(true)
     const closeEditModal = () => setShowEditModal(false)
 
-    const isUserArtistOwner = userAuthenticated && user.id === artist.userId
 
     return (
         <>
@@ -39,7 +37,6 @@ function ArtistPage() {
                     <ArtistDetails
                         artist={artist}
                         adminAuthenticated={adminAuthenticated}
-                        userAuthenticated={isUserArtistOwner}
                         openEditModal={openEditModal}
                     />
                     <div className="w-2/3 p-4 text-white text-center">
