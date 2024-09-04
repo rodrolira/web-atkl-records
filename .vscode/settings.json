@@ -40,6 +40,7 @@
     "cSpell.enableFiletypes": [
         "!css",
         "!javascript",
-        "!javascriptreact"
+        "!javascriptreact",
+        "!json"
     ]
 }
