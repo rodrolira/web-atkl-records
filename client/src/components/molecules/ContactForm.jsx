@@ -34,10 +34,10 @@ const ContactForm = () => {
   return (
     <div>
       {formSubmitted && <div className="text-green-500">{t('form_sent_success')}</div>}
-      <div className="max-w-md mx-auto text-white rounded px-8 pt-6 pb-8 mb-4">
+      <div className="max-w-md mx-auto rounded px-8 pt-6 pb-8 mb-4">
         <h2 className="text-2xl font-bold mb-4 text-center">{t('subscribe')}</h2>
         <p className="text-center mb-4">{t('subscribe_message')}</p>
-        <form onSubmit={handleSubmit} className="text-white">
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-sm font-bold mb-2" htmlFor="name">
               {t('name')}
