@@ -39,7 +39,7 @@ function Home() {
                             <div className="logo-main flex items-center md:h-full w-full">
                                 <img
                                     alt="main"
-                                    className="md:h-96 mt-0 lg:mt-0 mx-auto md:mt-80 h-36"
+                                    className="md:h-96 mt-0 mx-auto md:mt-80 h-36"
                                     src="/img/main.png"
                                 />
                             </div>

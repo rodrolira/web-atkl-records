@@ -31,7 +31,6 @@
     "@mui/material": "^5.16.7",
     "@nanostores/react": "^0.7.3",
     "@neiderruiz/translate-files": "^1.1.6",
-    "@testing-library/jest-dom": "^6.4.8",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vercel/analytics": "^1.2.2",
@@ -67,7 +66,7 @@
     "react-country-flag": "^3.1.0",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.51.3",
-    "react-i18next": "^14.1.3",
+    "react-i18next": "^15.0.1",
     "react-icons": "^5.2.1",
     "react-router-dom": "^6.22.3",
     "react-select": "^5.8.0",
@@ -89,6 +88,7 @@
     "@babel/preset-react": "^7.24.7",
     "@iconify/react": "^5.0.2",
     "@testing-library/dom": "^10.1.0",
+    "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.0",
     "@types/js-cookie": "^3.0.6",
     "@types/papaparse": "^5.3.14",
@@ -126,9 +126,14 @@
     "extends": "./node_modules/standard/eslintrc.json"
   },
   "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.js"
+    ],
+    "testEnvironment": "jsdom",
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest",
       "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.mjs$": "babel-jest",
       "^.+\\.css$": "jest-transform-stub",
       "^.+\\.(jpg|jpeg|png|gif|webp|svg)$": "jest-transform-stub"
     },
@@ -144,7 +149,11 @@
       "/node_modules/",
       "/node_modules/(?!@mui/material).+\\.js$",
       "/node_modules/(?!@mui/material).+\\.jsx$",
-      "/node_modules/(?!@mui/material/Unstable_Grid2).+\\.js$"
-    ]
+      "/node_modules/(?!@mui/material/Unstable_Grid2).+\\.js$",
+      "/node_modules/(?!@mui/material)"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    }
   }
 }

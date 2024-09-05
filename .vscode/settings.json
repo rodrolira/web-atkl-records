@@ -42,5 +42,8 @@
         "!javascript",
         "!javascriptreact",
         "!json"
+    ],
+    "conventionalCommits.scopes": [
+        "test"
     ]
 }

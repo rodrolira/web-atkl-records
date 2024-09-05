@@ -64,6 +64,7 @@ const AddArtistForm = ({ onArtistAdded }) => {
                 }
             } catch (error) {
                 console.error('Error fetching roles:', error)
+                setError('Error fetching roles'); // Manejo de error adicional
             }
         }
 

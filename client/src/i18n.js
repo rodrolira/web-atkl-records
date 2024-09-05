@@ -206,6 +206,7 @@ i18n.use(initReactI18next).init({
       }
     },
     lng: 'en', // idioma por defecto
+    fallbackLng: 'en',
     interpolation: {
       escapeValue: false // React ya se encarga de esto
     }

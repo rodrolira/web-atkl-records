@@ -3,8 +3,28 @@
 import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import AddArtistForm from './AddArtistForm'
+import { I18nextProvider } from 'react-i18next';
+import i18n from 'i18next';
 import axios from 'axios'
 jest.mock('axios')
+
+
+// Configura i18next para las pruebas
+i18n.init({
+    lng: 'en', // o el idioma que necesites
+    resources: {
+        en: {
+            translation: {
+                // Agrega aquí las traducciones necesarias para tus pruebas
+                'addArtist.title': 'Add Artist',
+                'addArtist.validation.artistNameRequired': 'Artist name is required',
+                'addArtist.validation.usernameRequired': 'Username is required',
+                'addArtist.validation.emailRequired': 'Email is required',
+                'addArtist.validation.passwordRequired': 'Password is required',
+            },
+        },
+    },
+});
 
 // Mock de useArtists
 jest.mock('../../../contexts/ArtistContext', () => ({
@@ -15,7 +35,11 @@ jest.mock('../../../contexts/ArtistContext', () => ({
 
 describe('AddArtistForm', () => {
     it('renders the form', () => {
-        render(<AddArtistForm />)
+        render(
+            <I18nextProvider i18n={i18n}>
+                <AddArtistForm />
+            </I18nextProvider>
+        )
         expect(screen.getByText('addArtist.title')).toBeInTheDocument()
     })
 
