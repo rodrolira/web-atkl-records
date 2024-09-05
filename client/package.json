@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "homepage": "https://rodrolira.github.io/web-atkl-records",
   "type": "module",
-  "main": "index.html",
+  "main": "main.jsx",
   "scripts": {
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "dev": "vite",
@@ -72,6 +72,7 @@
     "react-router-dom": "^6.22.3",
     "react-select": "^5.8.0",
     "reactflow": "^11.11.4",
+    "semver": "^7.6.3",
     "serve": "^14.2.3",
     "tw-elements-react": "^1.0.0-alpha2",
     "uuid": "^9.0.1",
@@ -84,7 +85,7 @@
     "@babel/plugin-transform-class-properties": "^7.24.7",
     "@babel/plugin-transform-private-property-in-object": "^7.24.7",
     "@babel/plugin-transform-runtime": "^7.24.7",
-    "@babel/preset-env": "^7.25.3",
+    "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.24.7",
     "@iconify/react": "^5.0.2",
     "@testing-library/dom": "^10.1.0",
@@ -123,5 +124,27 @@
   },
   "eslintConfig": {
     "extends": "./node_modules/standard/eslintrc.json"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest",
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.css$": "jest-transform-stub",
+      "^.+\\.(jpg|jpeg|png|gif|webp|svg)$": "jest-transform-stub"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "ts",
+      "tsx",
+      "json",
+      "node"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/",
+      "/node_modules/(?!@mui/material).+\\.js$",
+      "/node_modules/(?!@mui/material).+\\.jsx$",
+      "/node_modules/(?!@mui/material/Unstable_Grid2).+\\.js$"
+    ]
   }
 }
