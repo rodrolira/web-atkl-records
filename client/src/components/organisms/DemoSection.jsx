@@ -9,7 +9,7 @@ function DemosSection () {
         <Title>Demos</Title>
         <div className='iframe-container h-full sm:h-[20%]'>
           <iframe
-            className='mx-auto'
+            className='mx-auto w-3/4'
             width='600'
             height='650'
             style={{ border: '0' }} // Usar estilo en su lugar

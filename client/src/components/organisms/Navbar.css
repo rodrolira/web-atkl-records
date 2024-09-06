@@ -1,20 +1,81 @@
+/* Mobile-first styles */
 .navbar-wrapper {
     backdrop-filter: blur(10px);
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
-    background-color: rgba(18, 46, 15, 0.8); /* Verde oscuro con opacidad */
-    border-bottom: 2px solid #22581d; /* Línea inferior verde */
+    background-color: rgba(18, 46, 15, 0.8); /* Verde oscuro translúcido */
+    border-bottom: 2px solid #22581d;
+    height: 16vh; /* Altura para móviles pequeños */
 }
-.navbar-logo {
-    color: #8bd685; /* Un verde más claro si es necesario */
+
+.navbar-logo-wrapper {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 20%;
+}
+
+.navbar-menu-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.navbar-wrapper .flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.navbar-logo img {
+    width: 50%; /* Tamaño del logo en móviles */
 }
 
 .navbar-menu {
-    color: white;
+    display: flex;
+    justify-content: space-around;
 }
 
 .navbar-menu a {
-    color: #8bd685; /* Cambia el color del texto del menú */
+    color: #8bd685; /* Verde claro */
+    padding: 0 10px;
+    text-decoration: none;
+}
+
+/* Styles for medium devices (min-width: 768px) */
+@media only screen and (min-width: 768px) {
+    .navbar-wrapper {
+        height: 10vh; /* Altura para tablets */
+        padding: 0 8px; /* Ajusta los márgenes laterales */
+    }
+
+    .navbar-logo img {
+        width: 40%; /* Tamaño del logo en tablets */
+    }
+
+    .navbar-menu a {
+        padding: 0 15px;
+    }
+}
+
+/* Styles for large devices (min-width: 992px) */
+@media only screen and (min-width: 992px) {
+    .navbar-wrapper {
+        height: 15vh; /* Altura para desktops */
+    }
+
+    .navbar-logo img {
+        width: 30%; /* Tamaño del logo en desktops */
+    }
+
+    .navbar-menu-wrapper {
+        justify-content: flex-end; /* Mueve el menú a la derecha */
+    }
+
+    .navbar-logo-wrapper {
+        justify-content: flex-start; /* Mueve el logo a la izquierda */
+        margin-left: 12px;
+    }
 }

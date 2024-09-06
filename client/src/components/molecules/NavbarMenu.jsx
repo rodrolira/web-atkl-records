@@ -14,7 +14,7 @@ function NavbarMenu() {
     const { isAuthenticated: adminAuthenticated } = useAdminAuth()
 
     return (
-        <div className='md:flex lg:block md:flex-row-reverse md:justify-around md:items-center w-full'>
+        <div className='md:flex lg:block hidden md:flex-row-reverse md:justify-around md:items-center w-full'>
             <div className='flex items-center justify-end h-[50%]'>
                 <div className='z-10 flex divide-y rounded-lg text-center '>
                     <ul
