@@ -1,11 +1,6 @@
-import express from 'express';
 import nodemailer from 'nodemailer';
 
-const router = express.Router();
-
-router.post('/submit-form', async (req, res) => {
-    const { name, email, description } = req.body;
-
+const sendEmail = async (email, name, description) => {
     try {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -24,11 +19,11 @@ router.post('/submit-form', async (req, res) => {
 
         const info = await transporter.sendMail(mailOptions);
         console.log('Email sent:', info.response);
-        res.status(200).json({message: 'Form submitted successfully'});
+        return 'Email sent successfully';
     } catch (error) {
         console.error('Error sending email:', error);
-        res.status(500).json({message: 'Error sending email'});
+        throw new Error('Error sending email');
     }
-});
+};
 
-export default router;
+export default sendEmail;
